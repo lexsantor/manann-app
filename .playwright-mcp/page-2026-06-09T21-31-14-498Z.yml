@@ -1,0 +1,8 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - button "Cambiar tema" [ref=e4]: Claro
+    - paragraph [ref=e5]: PR-1 · pipeline vivo
+    - heading "Manann" [level=1] [ref=e6]
+    - paragraph [ref=e7]: El sistema conoce la ruta. Tú no remas.
+    - generic [ref=e9]: ● Conectado a Neon · 2026-06-09T21:31:11.395Z
+  - alert [ref=e10]
