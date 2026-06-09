@@ -11,10 +11,9 @@ async function pingNeon(): Promise<{ ok: boolean; detail: string }> {
     const rows = (await sql`select now() as ts`) as { ts: string }[];
     return { ok: true, detail: new Date(rows[0].ts).toISOString() };
   } catch (error: unknown) {
-    return {
-      ok: false,
-      detail: error instanceof Error ? error.message : "error desconocido",
-    };
+    // Detalle solo en el log del servidor; nunca al cliente anónimo.
+    console.error("[neon] ping falló:", error);
+    return { ok: false, detail: "sin conexión" };
   }
 }
 

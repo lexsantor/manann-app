@@ -52,3 +52,5 @@ learnings-global-projects.md
 compass_artifact_*.md
 # drizzle local cache
 /drizzle/.cache
+
+.vercel
