@@ -52,5 +52,8 @@ learnings-global-projects.md
 compass_artifact_*.md
 # drizzle local cache
 /drizzle/.cache
+# playwright / screenshots (artefactos locales, no van al repo)
+/.playwright-mcp/
+/*.png
 
 .vercel
