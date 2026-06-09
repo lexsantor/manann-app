@@ -42,6 +42,7 @@ export function Footer() {
               <Link
                 key={i.href}
                 href={i.href}
+                prefetch={false}
                 className="font-sans text-sm text-muted-foreground transition-opacity hover:opacity-75"
               >
                 {i.name}
@@ -53,6 +54,7 @@ export function Footer() {
               <Link
                 key={i.href}
                 href={i.href}
+                prefetch={false}
                 className="font-sans text-xs text-ink-subtle transition-opacity hover:opacity-75"
               >
                 {i.name}

@@ -99,6 +99,11 @@ export function ExpedienteCardDemo() {
           </span>
         </div>
       </div>
+
+      {/* Honestidad: la tarjeta es ilustrativa. */}
+      <p className="mt-3 text-center font-mono text-xs text-ink-subtle">
+        Ejemplo ilustrativo · la extracción real ocurre dentro del ERP
+      </p>
     </div>
   );
 }

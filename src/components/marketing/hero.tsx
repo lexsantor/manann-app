@@ -29,6 +29,7 @@ export function Hero() {
             </Link>
             <Link
               href="/login"
+              prefetch={false}
               className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
             >
               Entrar al ERP

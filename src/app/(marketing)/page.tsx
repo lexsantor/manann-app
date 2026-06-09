@@ -79,6 +79,7 @@ export default function HomePage() {
           <div className="mt-8 flex justify-center">
             <Link
               href="/login"
+              prefetch={false}
               className={cn(buttonVariants({ variant: "primary", size: "hero" }))}
             >
               Ver la demo en vivo

@@ -33,6 +33,7 @@ export function TopNav() {
             <Link
               key={l.href}
               href={l.href}
+              prefetch={false}
               className="font-sans text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               {l.label}
@@ -44,6 +45,7 @@ export function TopNav() {
           <ThemeToggle />
           <Link
             href="/login"
+            prefetch={false}
             className={cn(
               buttonVariants({ variant: "secondary", size: "sm" }),
               "hidden sm:inline-flex",
@@ -86,6 +88,7 @@ export function TopNav() {
           ))}
           <Link
             href="/login"
+            prefetch={false}
             onClick={() => setOpen(false)}
             className="block py-2.5 font-sans text-sm font-medium text-primary"
           >
