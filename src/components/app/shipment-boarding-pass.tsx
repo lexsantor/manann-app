@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { MoveRight } from "lucide-react";
 
 import { type ShipmentListItem } from "@/lib/erp";
@@ -88,12 +87,11 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
         {/* ── Foto de destino ──────────────────────────────────── */}
         <div className="relative h-[140px] overflow-hidden rounded-t-xl">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={imgUrl}
             alt={podCity}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
 
@@ -128,12 +126,8 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
           </div>
         </div>
 
-        {/* ── Perforación ──────────────────────────────────────── */}
-        <div className="relative flex items-center">
-          <div className="absolute -left-[10px] h-5 w-5 rounded-full border border-border bg-background" />
-          <div className="mx-5 h-px flex-1 border-t border-dashed border-border/70" />
-          <div className="absolute -right-[10px] h-5 w-5 rounded-full border border-border bg-background" />
-        </div>
+        {/* ── Divisor ──────────────────────────────────────────── */}
+        <div className="mx-4 border-t border-dashed border-border/70" />
 
         {/* ── Info del expediente ───────────────────────────────── */}
         <div className="px-4 pb-3.5 pt-2.5">
