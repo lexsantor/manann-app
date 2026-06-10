@@ -15,6 +15,13 @@
       "when": 1781085886244,
       "tag": "0001_swift_the_hand",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781091747963,
+      "tag": "0002_handy_polaris",
+      "breakpoints": true
     }
   ]
 }

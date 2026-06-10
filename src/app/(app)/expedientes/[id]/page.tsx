@@ -19,6 +19,7 @@ import { StatusPill } from "@/components/app/status-pill";
 import { PriorityPill } from "@/components/app/priority-pill";
 import { TrackingTimeline } from "@/components/app/tracking-timeline";
 import { DocumentUpload } from "@/components/app/document-upload";
+import { AiExtractionPanel } from "@/components/app/ai-extraction-panel";
 import {
   MODE,
   PARTY_ROLE,
@@ -315,27 +316,33 @@ function Documents({
   return (
     <Panel title="Documentos" icon={FileText}>
       {documents.length > 0 ? (
-        <div className="space-y-2">
+        <div className="space-y-3">
           {documents.map((d) => (
-            <div
-              key={d.id}
-              className="flex items-center justify-between gap-2 rounded-md border border-border bg-background px-3 py-2"
-            >
-              <div className="flex min-w-0 items-center gap-2">
-                <Icon icon={FileText} size={15} className="shrink-0 text-muted-foreground" />
-                <div className="min-w-0">
-                  <p className="truncate font-mono text-xs text-foreground">
-                    {d.filename}
-                  </p>
-                  <p className="text-[11px] text-muted-foreground">
-                    {DOC_TYPE[d.type] ?? d.type}
-                  </p>
+            <div key={d.id}>
+              <div className="flex items-center justify-between gap-2 rounded-md border border-border bg-background px-3 py-2">
+                <div className="flex min-w-0 items-center gap-2">
+                  <Icon icon={FileText} size={15} className="shrink-0 text-muted-foreground" />
+                  <div className="min-w-0">
+                    <p className="truncate font-mono text-xs text-foreground">
+                      {d.filename}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">
+                      {DOC_TYPE[d.type] ?? d.type}
+                    </p>
+                  </div>
                 </div>
+                {d.aiConfidence && (
+                  <span className="inline-flex shrink-0 items-center gap-1 rounded-sm bg-accent-soft px-1.5 py-0.5 font-mono text-[10px] text-accent">
+                    <Icon icon={Sparkles} size={11} /> IA · {Number(d.aiConfidence).toFixed(2)}
+                  </span>
+                )}
               </div>
-              {d.aiConfidence && (
-                <span className="inline-flex shrink-0 items-center gap-1 rounded-sm bg-accent-soft px-1.5 py-0.5 font-mono text-[10px] text-accent">
-                  <Icon icon={Sparkles} size={11} /> IA · {Number(d.aiConfidence).toFixed(2)}
-                </span>
+              {d.blobUrl && (
+                <AiExtractionPanel
+                  documentId={d.id}
+                  status={d.status}
+                  extraction={d.extraction}
+                />
               )}
             </div>
           ))}

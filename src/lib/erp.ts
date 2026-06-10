@@ -4,7 +4,7 @@ import { cache } from "react";
 import { and, desc, eq, asc } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, shipment } from "@/db/schema";
+import { member, shipment, document } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string };
@@ -70,6 +70,18 @@ export async function shipmentBelongsToOrg(
     columns: { id: true },
   });
   return Boolean(row);
+}
+
+// Documento + su expediente, solo si el expediente es de la org (ownership).
+export async function getOwnedDocument(orgId: string, documentId: string) {
+  const doc = await db.query.document.findFirst({
+    where: eq(document.id, documentId),
+    with: {
+      shipment: { columns: { id: true, organizationId: true } },
+    },
+  });
+  if (!doc || doc.shipment.organizationId !== orgId) return null;
+  return doc;
 }
 
 // KPIs del dashboard, derivados de la lista (volumen pequeño en el demo).

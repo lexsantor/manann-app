@@ -8,6 +8,7 @@ import {
   integer,
   numeric,
   timestamp,
+  jsonb,
   index,
   unique,
 } from "drizzle-orm/pg-core";
@@ -180,6 +181,8 @@ export const document = pgTable(
     mimeType: text("mime_type"),
     sizeBytes: integer("size_bytes"),
     aiConfidence: numeric("ai_confidence", { precision: 4, scale: 3 }), // 0-1 global
+    // Propuesta de la IA (campos + confianza) entre extracción y confirmación.
+    extraction: jsonb("extraction"),
     uploadedBy: text("uploaded_by").references(() => user.id, {
       onDelete: "set null",
     }),
