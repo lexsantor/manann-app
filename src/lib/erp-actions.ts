@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
+import { del } from "@vercel/blob";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
@@ -260,6 +261,27 @@ export async function applyExtraction(documentId: string): Promise<void> {
     .set({ status: "confirmed" })
     .where(eq(document.id, documentId));
   revalidatePath(`/expedientes/${sid}`);
+}
+
+// Elimina el documento (registro DB + blob). Solo en estados pre-confirmación.
+export async function deleteDocument(documentId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(documentId)) throw new Error("Documento inválido");
+
+  const doc = await getOwnedDocument(ctx.org.id, documentId);
+  if (!doc) throw new Error("No autorizado");
+
+  if (doc.blobUrl) {
+    try {
+      await del(doc.blobUrl);
+    } catch {
+      // No-fatal: el registro DB se borra igualmente
+    }
+  }
+
+  await db.delete(document).where(eq(document.id, documentId));
+  revalidatePath(`/expedientes/${doc.shipmentId}`);
 }
 
 // Descartar la propuesta: vuelve a estado uploaded.

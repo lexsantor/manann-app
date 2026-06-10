@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useTransition, type CSSProperties } from "react";
-import { Sparkles, Loader2, Check, X, AlertCircle } from "lucide-react";
+import { Sparkles, Loader2, Check, X, AlertCircle, Trash2 } from "lucide-react";
 
 import { Icon } from "@/components/icon";
 import {
   extractDocument,
   applyExtraction,
   discardExtraction,
+  deleteDocument,
 } from "@/lib/erp-actions";
 import {
   FIELD_LABELS,
@@ -65,19 +66,30 @@ export function AiExtractionPanel({
     if (status === "uploaded" || status === "error") {
       return (
         <div className="shrink-0 space-y-1">
-          <button
-            type="button"
-            onClick={() => run(() => extractDocument(documentId))}
-            disabled={pending}
-            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition hover:brightness-110 disabled:opacity-60"
-          >
-            <Icon
-              icon={pending ? Loader2 : Sparkles}
-              size={13}
-              className={cn(pending && "animate-spin")}
-            />
-            {pending ? "Leyendo…" : "Extraer con IA"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => run(() => extractDocument(documentId))}
+              disabled={pending}
+              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition hover:brightness-110 disabled:opacity-60"
+            >
+              <Icon
+                icon={pending ? Loader2 : Sparkles}
+                size={13}
+                className={cn(pending && "animate-spin")}
+              />
+              {pending ? "Leyendo…" : "Extraer con IA"}
+            </button>
+            <button
+              type="button"
+              onClick={() => run(() => deleteDocument(documentId))}
+              disabled={pending}
+              className="inline-flex items-center gap-1.5 rounded-md border border-destructive px-3 py-1.5 text-sm font-medium text-destructive transition hover:bg-destructive/5 disabled:opacity-60"
+            >
+              <Icon icon={Trash2} size={13} />
+              Eliminar
+            </button>
+          </div>
           {(error || status === "error") && (
             <p className="flex items-center gap-1 text-xs text-destructive">
               <Icon icon={AlertCircle} size={11} />
