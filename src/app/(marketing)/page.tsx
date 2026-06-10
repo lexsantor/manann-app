@@ -8,9 +8,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Manann — El sistema conoce la ruta. Tú no remas.",
+  title: "Manann — El sistema conoce la ruta. Tú mantienes el rumbo.",
   description:
-    "ERP transitario de próxima generación. Arrastra un Bill of Lading y el expediente se rellena solo con IA. La máquina propone, el humano confirma.",
+    "ERP transitario con IA documental. Arrastra un Bill of Lading y el expediente se rellena solo. La IA propone, el humano confirma.",
 };
 
 const STEPS = [

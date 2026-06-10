@@ -18,7 +18,7 @@ Plan de construcción en 9 PRs atómicos. Orden estricto. Cada PR cierra **funci
 
 ## PR-2 · Landing — HOME (4-6 h) — el punto de partida
 **Meta:** la cara pública que abre la demo. Estática, sin auth.
-- Ruta pública `/` (grupo `(marketing)`). Hero con el tagline ("El sistema conoce la ruta. Tú no remas."), el pitch del momento wow, y CTA al login/demo.
+- Ruta pública `/` (grupo `(marketing)`). Hero con el tagline ("El sistema conoce la ruta. Tú mantienes el rumbo."), el pitch del momento wow, y CTA al login/demo.
 - Estética grado Linear/Notion siguiendo `MANANN-DESIGN.md` (hero CTA = pill; resto in-app = 10px). Tema dual con toggle.
 - Top-nav + footer reutilizables (servirán al resto de páginas de landing en PR-9).
 - **Cierre:** `/` desplegada, deslumbra en 30s, da paso al login.

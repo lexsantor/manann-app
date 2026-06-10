@@ -49,6 +49,8 @@ ruvector.db
 # source research / personal cross-project docs
 *.pdf
 learnings-global-projects.md
+# brand book interno (no al repo público)
+MANANN-brandbook.md
 compass_artifact_*.md
 # drizzle local cache
 /drizzle/.cache

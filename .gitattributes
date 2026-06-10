@@ -1,0 +1,10 @@
+* text=auto eol=lf
+
+# Binarios (no normalizar EOL)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.pdf binary
+*.ico binary
