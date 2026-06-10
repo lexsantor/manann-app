@@ -18,6 +18,7 @@ import { Icon } from "@/components/icon";
 import { StatusPill } from "@/components/app/status-pill";
 import { PriorityPill } from "@/components/app/priority-pill";
 import { TrackingTimeline } from "@/components/app/tracking-timeline";
+import { RouteMap } from "@/components/app/route-map";
 import { DocumentUpload } from "@/components/app/document-upload";
 import { AiExtractionPanel } from "@/components/app/ai-extraction-panel";
 import {
@@ -111,6 +112,11 @@ export default async function ExpedienteDetailPage({
 
         <div className="space-y-5">
           <Panel title="Tracking" icon={MapPinned}>
+            <RouteMap pol={s.pol} pod={s.pod} events={s.trackingEvents} />
+            <p className="mb-4 mt-2 flex items-center gap-1.5 text-[11px] text-ink-subtle">
+              <span className="size-1.5 rounded-full bg-muted-foreground" />
+              Simulación · el tracking en vivo (ShipsGo) se conecta en producción
+            </p>
             <TrackingTimeline events={s.trackingEvents} />
           </Panel>
           <Documents documents={s.documents} shipmentId={s.id} />
