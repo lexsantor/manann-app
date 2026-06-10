@@ -56,6 +56,44 @@ export async function sendMagicLinkEmail({
   }
 }
 
+// Destinatario interno de los mensajes del formulario de contacto.
+const CONTACT_TO = "lexsantor@gmail.com";
+
+interface SendContactEmailParams {
+  name: string;
+  email: string;
+  message: string;
+}
+
+export async function sendContactEmail({
+  name,
+  email,
+  message,
+}: SendContactEmailParams): Promise<void> {
+  if (process.env.NODE_ENV !== "production") {
+    // eslint-disable-next-line no-console
+    console.log(`\n[dev] Contacto de ${name} <${email}>:\n${message}\n`);
+  }
+  if (!resend) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("RESEND_API_KEY no está configurada");
+    }
+    return;
+  }
+
+  const { error } = await resend.emails.send({
+    from,
+    to: CONTACT_TO,
+    replyTo: email,
+    subject: `Contacto Manann — ${name}`,
+    text: `De: ${name} <${email}>\n\n${message}`,
+  });
+
+  if (error) {
+    throw new Error(`Resend no pudo enviar el mensaje: ${error.message}`);
+  }
+}
+
 function magicLinkHtml(url: string): string {
   return `
     <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:${INK}">
