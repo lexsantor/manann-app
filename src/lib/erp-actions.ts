@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
@@ -66,6 +67,42 @@ export async function recordUploadedDocument(
   });
 
   revalidatePath(`/expedientes/${input.shipmentId}`);
+}
+
+// ─── Nuevo expediente desde cero (borrador a rellenar con un BL) ────────────
+
+// Crea un expediente vacío en estado borrador y redirige a su detalle, donde
+// el usuario arrastra el BL y la IA lo rellena (el wow desde cero).
+export async function createDraftShipment(): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  // Referencia única por org: EXP-{año}-{secuencial}.
+  const year = new Date().getFullYear();
+  const existing = await db
+    .select({ ref: shipment.reference })
+    .from(shipment)
+    .where(eq(shipment.organizationId, ctx.org.id));
+  const max = existing.reduce((m, r) => {
+    const n = Number(r.ref.match(/(\d+)$/)?.[1] ?? 0);
+    return n > m ? n : m;
+  }, 0);
+  const reference = `EXP-${year}-${String(max + 1).padStart(4, "0")}`;
+
+  const [row] = await db
+    .insert(shipment)
+    .values({
+      organizationId: ctx.org.id,
+      reference,
+      status: "borrador",
+      mode: "maritimo",
+      priority: "med",
+      createdBy: ctx.user.id,
+    })
+    .returning({ id: shipment.id });
+
+  revalidatePath("/expedientes");
+  redirect(`/expedientes/${row.id}`); // lanza NEXT_REDIRECT (no envolver en try)
 }
 
 // ─── Extracción IA (el momento wow) ─────────────────────────────────────────
@@ -159,6 +196,12 @@ export async function applyExtraction(documentId: string): Promise<void> {
   const eta = parseDate(val(ex.eta));
   if (etd) upd.etd = etd;
   if (eta) upd.eta = eta;
+  // Un borrador recién creado pasa a confirmado al incorporar el BL.
+  const [cur] = await db
+    .select({ status: shipment.status })
+    .from(shipment)
+    .where(eq(shipment.id, sid));
+  if (cur?.status === "borrador") upd.status = "confirmado";
   if (Object.keys(upd).length) {
     await db.update(shipment).set(upd).where(eq(shipment.id, sid));
   }

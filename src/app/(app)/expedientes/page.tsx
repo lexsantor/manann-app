@@ -1,8 +1,12 @@
 import Link from "next/link";
+import { Plus } from "lucide-react";
 
 import { getOrgContext, listShipments } from "@/lib/erp";
+import { createDraftShipment } from "@/lib/erp-actions";
 import { ShipmentRow } from "@/components/app/shipment-row";
 import { KeyboardListNav } from "@/components/app/keyboard-list-nav";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/icon";
 import { STATUS } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +49,11 @@ export default async function ExpedientesPage({
             {all.length} en total · navega con ↑ ↓ y abre con Enter
           </p>
         </div>
+        <form action={createDraftShipment}>
+          <Button type="submit" size="sm">
+            <Icon icon={Plus} size={16} /> Nuevo expediente
+          </Button>
+        </form>
       </header>
 
       {/* filtro por estado (URL como estado) */}
