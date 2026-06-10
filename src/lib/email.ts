@@ -32,7 +32,6 @@ export async function sendMagicLinkEmail({
   // Fallback de desarrollo: imprime el enlace para poder probar sin entrega real
   // (Resend sin dominio verificado solo entrega al email de la cuenta).
   if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
     console.log(`\n[dev] Magic link para ${to}:\n${url}\n`);
   }
 
@@ -71,7 +70,6 @@ export async function sendContactEmail({
   message,
 }: SendContactEmailParams): Promise<void> {
   if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
     console.log(`\n[dev] Contacto de ${name} <${email}>:\n${message}\n`);
   }
   if (!resend) {

@@ -1,7 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 
 import { Icon } from "@/components/icon";
-import { cn } from "@/lib/utils";
 
 interface KpiCardProps {
   label: string;
