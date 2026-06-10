@@ -55,9 +55,9 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
         <Link
           href="/dashboard"
           onClick={() => setOpen(false)}
-          className="font-display text-xl font-medium tracking-tight text-foreground"
+          aria-label="Manann"
         >
-          Manann
+          <Logo className="h-7" />
         </Link>
       </div>
 

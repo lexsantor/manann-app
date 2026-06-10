@@ -3,7 +3,7 @@ import { FileStack, Ship, Landmark, CheckCircle2, ArrowRight } from "lucide-reac
 
 import { getOrgContext, listShipments, computeStats } from "@/lib/erp";
 import { KpiCard } from "@/components/app/kpi-card";
-import { ShipmentRow } from "@/components/app/shipment-row";
+import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
 import { DemoResetButton } from "@/components/app/demo-reset-button";
 import { Icon } from "@/components/icon";
 
@@ -68,9 +68,9 @@ export default async function DashboardPage() {
         </div>
 
         {active.length > 0 ? (
-          <div className="space-y-2">
+          <div className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-3 sm:-mx-6 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {active.map((s) => (
-              <ShipmentRow key={s.id} s={s} />
+              <ShipmentBoardingPass key={s.id} s={s} />
             ))}
           </div>
         ) : (
