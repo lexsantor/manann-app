@@ -103,6 +103,23 @@ export function portLabel(code: string | null): string {
   return city ? `${city} · ${code}` : code;
 }
 
+// Coordenadas [lat, lng] de los puertos del demo (para el mapa de tracking).
+export const PORT_COORDS: Record<string, [number, number]> = {
+  ESBCN: [41.35, 2.16],
+  ESVLC: [39.44, -0.32],
+  ESALG: [36.13, -5.44],
+  ESVNG: [41.21, 1.73],
+  NLRTM: [51.95, 4.14],
+  CNSHA: [30.63, 122.07],
+  USNYC: [40.69, -74.04],
+  DEHAM: [53.54, 9.97],
+  MXMEX: [19.44, -99.07],
+};
+
+export function portCoords(code: string | null): [number, number] | null {
+  return code ? (PORT_COORDS[code] ?? null) : null;
+}
+
 // ─── Formateadores ──────────────────────────────────────────────────────────
 const dateFmt = new Intl.DateTimeFormat("es-ES", {
   day: "2-digit",
