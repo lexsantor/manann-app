@@ -59,3 +59,5 @@ compass_artifact_*.md
 /*.png
 
 .vercel
+
+.env*
