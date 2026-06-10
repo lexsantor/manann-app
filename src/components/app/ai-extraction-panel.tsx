@@ -20,9 +20,16 @@ interface Props {
   documentId: string;
   status: string;
   extraction: unknown;
+  /** Compact mode: renders an inline button/chip for the filename row. */
+  compact?: boolean;
 }
 
-export function AiExtractionPanel({ documentId, status, extraction }: Props) {
+export function AiExtractionPanel({
+  documentId,
+  status,
+  extraction,
+  compact = false,
+}: Props) {
   const [pending, start] = useTransition();
   const [error, setError] = useState("");
 
@@ -37,56 +44,57 @@ export function AiExtractionPanel({ documentId, status, extraction }: Props) {
     });
   }
 
-  if (status === "processing") {
-    return (
-      <div className="mt-3 flex items-center gap-3 rounded-md border border-accent bg-accent-soft px-4 py-3.5">
-        <Icon icon={Loader2} size={20} className="shrink-0 animate-spin text-accent" />
-        <div>
-          <p className="text-sm font-medium text-accent">Leyendo el documento…</p>
-          <p className="mt-0.5 text-xs text-muted-foreground">
-            La IA está analizando el Bill of Lading
-          </p>
+  // ── Compact mode: inline chip/button for the filename row ──────────────────
+
+  if (compact) {
+    if (status === "processing") {
+      return (
+        <span className="inline-flex shrink-0 items-center gap-1.5 text-xs text-accent">
+          <Icon icon={Loader2} size={13} className="animate-spin" />
+          Leyendo…
+        </span>
+      );
+    }
+    if (status === "confirmed") {
+      return (
+        <span className="inline-flex shrink-0 items-center gap-1.5 text-xs text-success">
+          <Icon icon={Check} size={13} /> Incorporado
+        </span>
+      );
+    }
+    if (status === "uploaded" || status === "error") {
+      return (
+        <div className="shrink-0 space-y-1">
+          <button
+            type="button"
+            onClick={() => run(() => extractDocument(documentId))}
+            disabled={pending}
+            className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition hover:brightness-110 disabled:opacity-60"
+          >
+            <Icon
+              icon={pending ? Loader2 : Sparkles}
+              size={13}
+              className={cn(pending && "animate-spin")}
+            />
+            {pending ? "Leyendo…" : "Extraer con IA"}
+          </button>
+          {(error || status === "error") && (
+            <p className="flex items-center gap-1 text-xs text-destructive">
+              <Icon icon={AlertCircle} size={11} />
+              {error || "Falló. Reinténtalo."}
+            </p>
+          )}
         </div>
-      </div>
-    );
+      );
+    }
+    // "extracted" — compact renders nothing; the full panel below handles it
+    return null;
   }
 
-  if (status === "confirmed") {
-    return (
-      <div className="mt-3 flex items-center gap-2.5 rounded-md border border-border bg-secondary/[0.04] px-4 py-3">
-        <Icon icon={Check} size={18} className="shrink-0 text-success" />
-        <p className="text-sm font-medium text-success">Incorporado al expediente</p>
-      </div>
-    );
-  }
+  // ── Full mode: expanded extraction result (only used when status=extracted) ─
 
-  if (status === "uploaded" || status === "error") {
-    return (
-      <div className="mt-3 space-y-2">
-        <button
-          type="button"
-          onClick={() => run(() => extractDocument(documentId))}
-          disabled={pending}
-          className="flex w-full items-center justify-center gap-2.5 rounded-md bg-accent px-4 py-3 text-sm font-semibold text-accent-foreground transition hover:brightness-105 disabled:opacity-60"
-        >
-          <Icon
-            icon={pending ? Loader2 : Sparkles}
-            size={16}
-            className={cn(pending && "animate-spin")}
-          />
-          {pending ? "Leyendo el documento…" : "Extraer datos con IA"}
-        </button>
-        {(error || status === "error") && (
-          <p className="flex items-center gap-1.5 text-sm text-destructive">
-            <Icon icon={AlertCircle} size={14} />
-            {error || "La última extracción falló. Reinténtalo."}
-          </p>
-        )}
-      </div>
-    );
-  }
+  if (status !== "extracted") return null;
 
-  // status === "extracted" → propuesta de la IA
   const ex = extraction as BlExtraction | null;
   if (!ex) return null;
   const fields = FIELD_LABELS.map((f) => ({ ...f, ...ex[f.key] })).filter(
@@ -94,7 +102,7 @@ export function AiExtractionPanel({ documentId, status, extraction }: Props) {
   );
 
   return (
-    <div className="mt-3 rounded-md border border-accent bg-accent-soft p-4">
+    <div className="mt-2 rounded-md border border-accent bg-accent-soft p-4">
       <div className="mb-4 flex items-center gap-2.5">
         <Icon icon={Sparkles} size={16} className="shrink-0 text-accent" />
         <div>

@@ -347,43 +347,56 @@ function Documents({
 }) {
   return (
     <Panel title="Documentos" icon={FileText}>
-      {documents.length > 0 ? (
-        <div className="space-y-3">
-          {documents.map((d) => (
-            <div key={d.id}>
-              <div className="flex items-center justify-between gap-2 rounded-md border border-border bg-background px-3 py-2">
-                <div className="flex min-w-0 items-center gap-2">
-                  <Icon icon={FileText} size={15} className="shrink-0 text-muted-foreground" />
-                  <div className="min-w-0">
-                    <p className="truncate font-mono text-xs text-foreground">
-                      {d.filename}
+      {/* Upload zone — lo primero, visible siempre */}
+      <DocumentUpload shipmentId={shipmentId} />
+
+      {/* Lista de documentos — aparece debajo al subir el primero */}
+      {documents.length > 0 && (
+        <div className="mt-3 space-y-2">
+          {documents.map((d) => {
+            const dot = d.filename.lastIndexOf(".");
+            const base = dot > 0 ? d.filename.slice(0, dot) : d.filename;
+            const ext = dot > 0 ? d.filename.slice(dot) : "";
+            return (
+              <div key={d.id}>
+                {/* Fila horizontal: nombre de archivo + CTA inline */}
+                <div className="flex items-center gap-3 rounded-md border border-border bg-background px-3 py-2.5">
+                  <Icon
+                    icon={FileText}
+                    size={15}
+                    className="shrink-0 text-muted-foreground"
+                  />
+                  <div className="min-w-0 flex-1">
+                    <p className="flex min-w-0 items-baseline font-mono text-xs text-foreground">
+                      <span className="truncate">{base}</span>
+                      <span className="shrink-0">{ext}</span>
                     </p>
                     <p className="text-[11px] text-muted-foreground">
                       {DOC_TYPE[d.type] ?? d.type}
                     </p>
                   </div>
+                  {d.blobUrl && (
+                    <AiExtractionPanel
+                      documentId={d.id}
+                      status={d.status}
+                      extraction={d.extraction}
+                      compact
+                    />
+                  )}
                 </div>
-                {d.aiConfidence && (
-                  <span className="inline-flex shrink-0 items-center gap-1 rounded-sm bg-accent-soft px-1.5 py-0.5 font-mono text-[10px] text-accent">
-                    <Icon icon={Sparkles} size={11} /> IA · {Number(d.aiConfidence).toFixed(2)}
-                  </span>
+                {/* Panel de extracción expandido — solo cuando hay propuesta */}
+                {d.blobUrl && d.status === "extracted" && (
+                  <AiExtractionPanel
+                    documentId={d.id}
+                    status={d.status}
+                    extraction={d.extraction}
+                  />
                 )}
               </div>
-              {d.blobUrl && (
-                <AiExtractionPanel
-                  documentId={d.id}
-                  status={d.status}
-                  extraction={d.extraction}
-                />
-              )}
-            </div>
-          ))}
+            );
+          })}
         </div>
-      ) : (
-        <p className="text-sm text-muted-foreground">Sin documentos.</p>
       )}
-
-      <DocumentUpload shipmentId={shipmentId} />
     </Panel>
   );
 }
