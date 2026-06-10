@@ -259,6 +259,14 @@ async function seedShipments(orgId: string, createdBy: string | undefined) {
     console.log(`· la org ya tiene ${existing.length} expedientes — no re-seedeo`);
     return;
   }
+  await insertShipments(orgId, createdBy);
+}
+
+// Inserta los 5 expedientes demo (sin comprobar si ya existen).
+export async function insertShipments(
+  orgId: string,
+  createdBy: string | undefined,
+) {
   for (const s of SHIPMENTS) {
     const [row] = await db
       .insert(shipment)
@@ -343,12 +351,26 @@ async function seed() {
   await seedShipments(org.id, owner);
 }
 
-seed()
-  .then(() => {
-    console.log("Seed completado.");
-    process.exit(0);
-  })
-  .catch((err) => {
-    console.error("Seed falló:", err);
-    process.exit(1);
-  });
+// Reset de demo: borra TODOS los expedientes de la org (cascade) y re-siembra
+// los 5 originales. Lo usa la acción de reset del panel.
+export async function reseedDemo(
+  orgId: string,
+  createdBy: string | undefined,
+) {
+  await db.delete(shipment).where(eq(shipment.organizationId, orgId));
+  await insertShipments(orgId, createdBy);
+}
+
+// Solo auto-ejecuta el seed cuando se corre directamente (bun run src/db/seed.ts),
+// no cuando se importa (la acción de reset importa reseedDemo).
+if ((import.meta as unknown as { main?: boolean }).main) {
+  seed()
+    .then(() => {
+      console.log("Seed completado.");
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error("Seed falló:", err);
+      process.exit(1);
+    });
+}
