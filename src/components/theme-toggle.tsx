@@ -2,10 +2,15 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
+
+import { Icon } from "@/components/icon";
 
 /**
  * Toggle de tema (pill — una de las tres excepciones rounded-full del sistema).
- * Placeholder textual en PR-1; en PR-2 usará el wrapper <Icon> de Lucide.
+ * Muestra el icono del modo ACTIVO: luna en oscuro, sol en claro.
+ * Todo lo dependiente del tema se gatea con `mounted` para evitar mismatch de
+ * hidratación (el servidor no conoce el tema resuelto).
  */
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -19,10 +24,21 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label="Cambiar tema"
-      className="rounded-full border border-border bg-card px-4 py-1.5 font-sans text-sm text-muted-foreground transition-colors hover:text-foreground"
+      aria-label={
+        mounted
+          ? isDark
+            ? "Cambiar a modo claro"
+            : "Cambiar a modo oscuro"
+          : "Cambiar tema"
+      }
+      title={mounted ? (isDark ? "Modo oscuro" : "Modo claro") : undefined}
+      className="inline-flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-surface-2"
     >
-      {mounted ? (isDark ? "Claro" : "Oscuro") : "Tema"}
+      {mounted ? (
+        <Icon icon={isDark ? Moon : Sun} size={17} />
+      ) : (
+        <span className="size-[17px]" />
+      )}
     </button>
   );
 }

@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { Logo } from "@/components/logo";
 
 const NAV = [
-  { name: "Cómo funciona", href: "/#como-funciona" },
-  { name: "El expediente", href: "/#demo" },
+  { name: "Cómo funciona", href: "/como-funciona" },
+  { name: "El expediente", href: "/el-expediente" },
   { name: "Nosotros", href: "/nosotros" },
   { name: "Contacto", href: "/contacto" },
 ];
@@ -18,12 +19,7 @@ export function Footer() {
       <div className="mx-auto flex max-w-[1080px] flex-col gap-10 px-5 py-16 sm:px-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-sm space-y-3">
-            <Link
-              href="/"
-              className="font-display text-2xl font-medium tracking-tight text-foreground"
-            >
-              Manann
-            </Link>
+            <Link href="/" aria-label="Manann"><Logo className="h-8" /></Link>
             <p className="font-sans text-sm text-ink-subtle">
               El sistema conoce la ruta. Tú mantienes el rumbo. ERP
               transitario con IA documental.

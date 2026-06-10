@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Logo } from "@/components/logo";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -120,12 +121,7 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
 
       {/* Móvil: barra superior */}
       <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur-md lg:hidden">
-        <Link
-          href="/dashboard"
-          className="font-display text-xl font-medium tracking-tight text-foreground"
-        >
-          Manann
-        </Link>
+        <Link href="/dashboard" aria-label="Manann"><Logo /></Link>
         <button
           type="button"
           onClick={() => setOpen(true)}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Logo } from "@/components/logo";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
@@ -10,8 +11,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
-  { label: "Cómo funciona", href: "/#como-funciona" },
-  { label: "El expediente", href: "/#demo" },
+  { label: "Cómo funciona", href: "/como-funciona" },
+  { label: "El expediente", href: "/el-expediente" },
   { label: "Nosotros", href: "/nosotros" },
 ];
 
@@ -21,12 +22,7 @@ export function TopNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-[1080px] items-center justify-between px-5 sm:px-6">
-        <Link
-          href="/"
-          className="font-display text-xl font-medium tracking-tight text-foreground"
-        >
-          Manann
-        </Link>
+        <Link href="/" aria-label="Manann — inicio"><Logo /></Link>
 
         <nav className="hidden items-center gap-7 md:flex">
           {LINKS.map((l) => (

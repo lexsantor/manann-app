@@ -231,3 +231,8 @@ h1, h2, h3, .font-display {
 @media (prefers-reduced-motion: reduce) {
   *, body { transition: none !important; animation: none !important; }
 }
+
+/* Logo conmutado por tema (sin flash: ambos en el DOM, CSS los muestra). */
+.logo-light-mode { display: none; }
+[data-theme="light"] .logo-dark-mode { display: none; }
+[data-theme="light"] .logo-light-mode { display: block; }
