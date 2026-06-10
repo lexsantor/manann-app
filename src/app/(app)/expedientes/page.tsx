@@ -93,6 +93,7 @@ function FilterChip({
     <Link
       href={href}
       prefetch={false}
+      aria-current={active ? "page" : undefined}
       className={cn(
         "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition-colors",
         active

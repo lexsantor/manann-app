@@ -10,6 +10,7 @@ import {
   MapPinned,
   FileText,
   Sparkles,
+  type LucideIcon,
 } from "lucide-react";
 
 import { getOrgContext, getShipmentDetail, type ShipmentDetail } from "@/lib/erp";
@@ -29,12 +30,18 @@ import {
 } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export default async function ExpedienteDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  // Validar formato antes de tocar la DB (id malformado → 404 limpio, no 500).
+  if (!UUID_RE.test(id)) notFound();
+
   const ctx = await getOrgContext();
   if (!ctx?.org) notFound();
 
@@ -119,7 +126,7 @@ function Panel({
   children,
 }: {
   title: string;
-  icon: typeof FileText;
+  icon: LucideIcon;
   children: React.ReactNode;
 }) {
   return (
@@ -150,7 +157,7 @@ function Fact({
         {label}
       </dt>
       <dd className={cn("mt-0.5 text-sm text-foreground", mono && "font-mono")}>
-        {value || "—"}
+        {value ?? "—"}
       </dd>
     </div>
   );
@@ -244,30 +251,49 @@ function Containers({
 function Charges({ charges }: { charges: ShipmentDetail["charges"] }) {
   const total = charges.reduce((sum, c) => sum + Number(c.amount), 0);
   const currency = charges[0]?.currency ?? "EUR";
+  // Solo sumamos a un total si todos los cargos comparten divisa.
+  const mixedCurrency = new Set(charges.map((c) => c.currency)).size > 1;
+
   return (
     <Panel title="Cargos" icon={Receipt}>
       {charges.length > 0 ? (
         <div className="divide-y divide-border">
-          {charges.map((c) => (
-            <div key={c.id} className="flex items-center justify-between gap-3 py-2 first:pt-0">
-              <div className="min-w-0">
-                <p className="text-sm text-foreground">
-                  {c.description || CHARGE_TYPE[c.type] || c.type}
-                </p>
-                <p className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
-                  {CHARGE_TYPE[c.type] ?? c.type}
-                  {c.payableBy ? ` · paga ${PARTY_ROLE[c.payableBy] ?? c.payableBy}` : ""}
-                </p>
+          {charges.map((c) => {
+            const typeLabel = CHARGE_TYPE[c.type] ?? c.type;
+            // Sub-etiqueta sin duplicar: el tipo solo si hay descripción propia.
+            const sub = [
+              c.description ? typeLabel : null,
+              c.payableBy
+                ? `paga ${PARTY_ROLE[c.payableBy] ?? c.payableBy}`
+                : null,
+            ]
+              .filter(Boolean)
+              .join(" · ");
+            return (
+              <div
+                key={c.id}
+                className="flex items-center justify-between gap-3 py-2 first:pt-0"
+              >
+                <div className="min-w-0">
+                  <p className="text-sm text-foreground">
+                    {c.description || typeLabel}
+                  </p>
+                  {sub && (
+                    <p className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
+                      {sub}
+                    </p>
+                  )}
+                </div>
+                <span className="shrink-0 font-mono text-sm text-foreground">
+                  {formatMoney(c.amount, c.currency)}
+                </span>
               </div>
-              <span className="shrink-0 font-mono text-sm text-foreground">
-                {formatMoney(c.amount, c.currency)}
-              </span>
-            </div>
-          ))}
+            );
+          })}
           <div className="flex items-center justify-between pt-3">
             <span className="text-sm font-medium text-foreground">Total</span>
             <span className="font-mono text-sm font-medium text-foreground">
-              {formatMoney(String(total), currency)}
+              {mixedCurrency ? "Varias divisas" : formatMoney(String(total), currency)}
             </span>
           </div>
         </div>

@@ -132,6 +132,7 @@
   --color-surface-2: hsl(var(--surface-2));
   --color-surface-3: hsl(var(--surface-3));
   --color-ink-subtle: hsl(var(--ink-subtle));
+  --color-hairline-strong: hsl(var(--hairline-strong));
   --color-priority-low: hsl(var(--priority-low));
   --color-priority-med: hsl(var(--priority-med));
   --color-priority-high: hsl(var(--priority-high));
