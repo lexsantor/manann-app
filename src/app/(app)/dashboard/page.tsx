@@ -27,8 +27,9 @@ export default async function DashboardPage() {
   }
 
   const shipments = await listShipments(ctx.org.id);
-  const stats = computeStats(shipments);
-  const active = shipments.filter((s) => !TERMINAL.has(s.status));
+  const confirmed = shipments.filter((s) => s.status !== "borrador");
+  const stats = computeStats(confirmed);
+  const active = confirmed.filter((s) => !TERMINAL.has(s.status));
 
   return (
     <div className="space-y-8">
