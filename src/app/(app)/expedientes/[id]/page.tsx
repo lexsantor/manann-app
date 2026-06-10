@@ -131,9 +131,10 @@ export default async function ExpedienteDetailPage({
             </p>
             <TrackingTimeline events={s.trackingEvents} />
           </Panel>
-          <Documents documents={s.documents} shipmentId={s.id} />
         </div>
       </div>
+
+      <Documents documents={s.documents} shipmentId={s.id} />
     </div>
   );
 }
