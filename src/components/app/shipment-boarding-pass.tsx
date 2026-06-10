@@ -97,32 +97,35 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
           {/* Códigos de puerto */}
           <div className="absolute bottom-0 left-0 right-0 px-4 pb-2.5">
-            <div className="flex items-end gap-2">
+            <div className="flex items-center gap-2">
               <div className="flex-1">
-                <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white/45">
+                <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white">
                   Origen
                 </p>
                 <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">
                   {pol3}
                 </p>
+                <p className="mt-0.5 font-mono text-[9px] text-white/80">
+                  {polCity}
+                </p>
               </div>
               <Icon
                 icon={MoveRight}
                 size={14}
-                className="mb-1.5 shrink-0 text-white/30"
+                className="shrink-0 text-white/40"
               />
               <div className="flex-1 text-right">
-                <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white/45">
+                <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white">
                   Destino
                 </p>
                 <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">
                   {pod3}
                 </p>
+                <p className="mt-0.5 font-mono text-[9px] text-white/80">
+                  {podCity}
+                </p>
               </div>
             </div>
-            <p className="mt-0.5 font-mono text-[9px] text-white/45">
-              {polCity} · {podCity}
-            </p>
           </div>
         </div>
 
