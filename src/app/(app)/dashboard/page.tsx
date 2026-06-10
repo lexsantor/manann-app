@@ -4,6 +4,7 @@ import { FileStack, Ship, Landmark, CheckCircle2, ArrowRight } from "lucide-reac
 import { getOrgContext, listShipments, computeStats } from "@/lib/erp";
 import { KpiCard } from "@/components/app/kpi-card";
 import { ShipmentRow } from "@/components/app/shipment-row";
+import { DemoResetButton } from "@/components/app/demo-reset-button";
 import { Icon } from "@/components/icon";
 
 const TERMINAL = new Set(["entregado", "cerrado"]);
@@ -79,6 +80,13 @@ export default async function DashboardPage() {
           </div>
         )}
       </section>
+
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5">
+        <p className="text-xs text-ink-subtle">
+          Entorno de demostración con datos simulados.
+        </p>
+        <DemoResetButton />
+      </div>
     </div>
   );
 }
