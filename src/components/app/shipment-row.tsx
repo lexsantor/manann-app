@@ -16,7 +16,7 @@ export function ShipmentRow({ s }: { s: ShipmentListItem }) {
       href={`/expedientes/${s.id}`}
       prefetch={false}
       data-shipment-row
-      className="group grid grid-cols-1 gap-3 rounded-md border border-border bg-card px-4 py-3 transition-colors hover:bg-surface-2 hover:border-[hsl(var(--hairline-strong))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[180px_1fr_auto] sm:items-center sm:gap-4"
+      className="group grid grid-cols-1 gap-3 rounded-md border border-border bg-card px-4 py-3 transition-colors hover:bg-surface-2 hover:border-hairline-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[180px_1fr_auto] sm:items-center sm:gap-4"
     >
       {/* referencia + consignatario */}
       <div className="min-w-0">

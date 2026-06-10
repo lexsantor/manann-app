@@ -15,6 +15,8 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// Cubre todas las rutas del grupo (app). El guardia real sigue en su layout;
+// esto es el corte optimista en el edge (defensa en profundidad).
 export const config = {
-  matcher: ["/dashboard/:path*"],
+  matcher: ["/dashboard/:path*", "/expedientes/:path*"],
 };

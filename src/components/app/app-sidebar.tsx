@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -35,6 +35,16 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
+  // Escape cierra el drawer móvil (WCAG 2.1.1 / 2.4.3).
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 
@@ -50,7 +60,7 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
         </Link>
       </div>
 
-      <nav className="flex-1 space-y-1 px-3 py-2">
+      <nav aria-label="Navegación principal" className="flex-1 space-y-1 px-3 py-2">
         {NAV.map((item) => {
           const active = isActive(item.href);
           return (
