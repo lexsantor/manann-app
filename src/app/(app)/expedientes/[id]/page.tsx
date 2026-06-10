@@ -102,11 +102,23 @@ export default async function ExpedienteDetailPage({
         </dl>
       </div>
 
+      {/* Borrador: guía al wow desde cero */}
+      {s.status === "borrador" && (
+        <div className="flex items-start gap-2.5 rounded-md border border-accent bg-accent-soft px-4 py-3">
+          <Icon icon={Sparkles} size={16} className="mt-0.5 shrink-0 text-accent" />
+          <p className="text-sm leading-relaxed text-foreground">
+            Expediente en borrador. Arrastra el Bill of Lading en{" "}
+            <strong className="font-medium">Documentos</strong> y la IA rellenará
+            naviera, puertos, partes, contenedor y mercancía. Tú confirmas.
+          </p>
+        </div>
+      )}
+
       {/* cuerpo en dos columnas */}
       <div className="grid gap-5 lg:grid-cols-3">
         <div className="space-y-5 lg:col-span-2">
           <Parties parties={s.parties} />
-          <Containers containers={s.containers} cargo={s.cargoLines} />
+          <Containers containers={s.containers} cargo={s.cargoLines} mode={s.mode} />
           <Charges charges={s.charges} />
         </div>
 
@@ -176,6 +188,16 @@ function Parties({ parties }: { parties: ShipmentDetail["parties"] }) {
   const sorted = [...parties].sort(
     (a, b) => order.indexOf(a.role) - order.indexOf(b.role),
   );
+  if (!parties.length) {
+    return (
+      <Panel title="Partes" icon={Users}>
+        <p className="text-sm text-muted-foreground">
+          Aún sin partes — se rellenan al confirmar la extracción del BL.
+        </p>
+      </Panel>
+    );
+  }
+
   return (
     <Panel title="Partes" icon={Users}>
       <div className="grid gap-3 sm:grid-cols-2">
@@ -199,9 +221,11 @@ function Parties({ parties }: { parties: ShipmentDetail["parties"] }) {
 function Containers({
   containers,
   cargo,
+  mode,
 }: {
   containers: ShipmentDetail["containers"];
   cargo: ShipmentDetail["cargoLines"];
+  mode: string;
 }) {
   return (
     <Panel title="Contenedores y mercancía" icon={ContainerIcon}>
@@ -230,7 +254,9 @@ function Containers({
         </div>
       ) : (
         <p className="text-sm text-muted-foreground">
-          Carga aérea — sin contenedor.
+          {mode === "aereo"
+            ? "Carga aérea — sin contenedor."
+            : "Sin contenedores todavía."}
         </p>
       )}
 
