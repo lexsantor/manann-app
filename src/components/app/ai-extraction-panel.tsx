@@ -13,6 +13,7 @@ import {
 import {
   FIELD_LABELS,
   LOW_CONFIDENCE,
+  overallConfidence,
   type BlExtraction,
 } from "@/lib/bl-extraction";
 import { cn } from "@/lib/utils";
@@ -101,6 +102,31 @@ export function AiExtractionPanel({
     }
     // "extracted" — compact renders nothing; the full panel below handles it
     return null;
+  }
+
+  // ── Confirmed mode: success card with extraction metrics ─────────────────
+
+  if (status === "confirmed" && extraction) {
+    const ex = extraction as BlExtraction;
+    const filled = Object.values(ex).filter((f) => f.value != null).length;
+    const conf = Math.round(overallConfidence(ex) * 100);
+    return (
+      <div className="mt-2 rounded-md border border-success/30 bg-success/10 px-4 py-3">
+        <div className="flex items-center gap-2.5">
+          <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-success/20">
+            <Icon icon={Check} size={13} className="text-success" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-success">
+              Datos incorporados al expediente
+            </p>
+            <p className="mt-0.5 font-mono text-xs text-muted-foreground">
+              {filled} campos completados automáticamente · confianza {conf}%
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   // ── Full mode: expanded extraction result (only used when status=extracted) ─

@@ -32,16 +32,16 @@ type SeedShipment = {
   status: "borrador" | "confirmado" | "en_transito" | "en_aduana" | "entregado" | "cerrado";
   mode: "maritimo" | "aereo" | "terrestre" | "ferroviario" | "multimodal";
   priority: "low" | "med" | "high" | "urgent";
-  pol: string;
-  pod: string;
-  carrier: string;
+  pol: string | null;
+  pod: string | null;
+  carrier: string | null;
   vessel?: string;
   voyage?: string;
-  blNumber: string;
-  incoterm: string;
-  freightTerms: string;
-  etd: string;
-  eta: string;
+  blNumber: string | null;
+  incoterm: string | null;
+  freightTerms: string | null;
+  etd: string | null;
+  eta: string | null;
   parties: { role: "shipper" | "consignee" | "notify"; name: string; taxId?: string; city?: string; country: string }[];
   containers: { containerNumber: string; sealNumber?: string; isoType: string; tareKg: number; grossWeightKg: number }[];
   cargo: { description: string; hsCode: string; packages: number; packageType: string; grossWeightKg: number; volumeCbm: string }[];
@@ -226,6 +226,28 @@ const SHIPMENTS: SeedShipment[] = [
     ],
     document: { type: "bl", filename: "AWB-IBERIA-EXP0052.pdf", status: "extracted", aiConfidence: "0.880" },
   },
+  // Expediente protagonista de la demo: borrador en espera del BL.
+  // Perfecto punto de entrada para el momento "wow" en vivo.
+  {
+    reference: "EXP-2026-0054",
+    status: "borrador",
+    mode: "maritimo",
+    priority: "med",
+    pol: "ESVLC",
+    pod: "DEHAM",
+    carrier: null,
+    blNumber: null,
+    incoterm: "FOB",
+    freightTerms: "prepaid",
+    etd: "2026-07-15",
+    eta: "2026-07-28",
+    parties: [],
+    containers: [],
+    cargo: [],
+    tracking: [],
+    charges: [],
+    // Sin documento — el usuario arrastra el BL y la IA rellena todo.
+  },
 ];
 
 async function ensureUsers() {
@@ -284,8 +306,8 @@ export async function insertShipments(
         blNumber: s.blNumber,
         incoterm: s.incoterm,
         freightTerms: s.freightTerms,
-        etd: new Date(s.etd),
-        eta: new Date(s.eta),
+        etd: s.etd ? new Date(s.etd) : null,
+        eta: s.eta ? new Date(s.eta) : null,
         createdBy: createdBy ?? null,
       })
       .returning({ id: shipment.id });

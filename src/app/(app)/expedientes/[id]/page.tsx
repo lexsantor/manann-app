@@ -384,8 +384,8 @@ function Documents({
                     />
                   )}
                 </div>
-                {/* Panel de extracción expandido — solo cuando hay propuesta */}
-                {d.blobUrl && d.status === "extracted" && (
+                {/* Panel expandido — propuesta pendiente o tarjeta de confirmación */}
+                {d.blobUrl && (d.status === "extracted" || d.status === "confirmed") && (
                   <AiExtractionPanel
                     documentId={d.id}
                     status={d.status}
