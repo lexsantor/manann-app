@@ -27,7 +27,7 @@ const STEPS = [
   {
     icon: CheckCircle2,
     title: "Tú confirmas",
-    body: "Revisas lo que la máquina propone, corriges lo dudoso, y el expediente queda creado.",
+    body: "Revisas lo que la IA propone, corriges lo dudoso, y el expediente queda creado.",
   },
 ];
 
