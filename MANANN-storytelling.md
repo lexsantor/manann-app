@@ -1,5 +1,7 @@
 # Manann — Storytelling de marca
 
+> **Nota:** la guía verbal completa y autoritativa es el *Brand Book de storytelling y verbal identity* (interno, fuera del repo → `MANANN-brandbook.md`, gitignored). Donde haya conflicto, manda el brand book. El mensaje central es **«El sistema conoce la ruta. Tú mantienes el rumbo.»** (no «Tú no remas»).
+
 ## El mito (la semilla)
 
 En la mitología celta-irlandesa, **Manannán mac Lir** es el dios del mar. Hijo de Lir (el océano mismo), Manannán no *lucha* contra el mar: lo gobierna. Cruza los océanos en **Scuabtuinne**, "el Barredor de Olas", un barco que **navega sin velas y va solo a donde su dueño quiere ir**. Monta a **Aenbarr**, un caballo que galopa sobre el agua como si fuera tierra firme. Y cuando quiere proteger sus tierras, las envuelve en una **niebla** (el *féth fíada*) que las vuelve invisibles a quien no debe encontrarlas.
@@ -10,7 +12,7 @@ Manannán es el guía de las travesías. El que conoce todas las rutas. El que l
 
 Esa es, exactamente, la promesa del producto:
 
-> **El sistema conoce la ruta. Tú no remas.**
+> **El sistema conoce la ruta. Tú mantienes el rumbo.**
 
 Donde los ERPs transitarios actuales obligan al operario a teclear, copiar, reintroducir y vigilar cada dato a mano —remar contra el mar—, Manann hace que el expediente **navegue solo**: el Bill of Lading se lee, los datos se extraen, el expediente se rellena, el envío se sigue. El humano marca el rumbo y confirma; la máquina hace la travesía.
 
@@ -48,7 +50,7 @@ Cuatro principios. La voz es la de un buen capitán: sabe más que tú, pero no 
 
 ## Frases de marca (banco de mensajes)
 
-- **Tagline principal:** *El sistema conoce la ruta. Tú no remas.*
+- **Tagline principal:** *El sistema conoce la ruta. Tú mantienes el rumbo.*
 - **Alternativas:** *Navega sin velas.* / *La travesía, sin el tecleo.* / *De documento a expediente, sin escalas.*
 - **Apertura de demo (la que cuentas en la sala):** *"Manannán mac Lir cruzaba los océanos en un barco que no necesitaba velas y llegaba solo a su destino. Esto hace lo mismo con vuestros expedientes."*
 - **Una línea para escépticos:** *"La IA no decide nada. Lee el documento, rellena el expediente, y tú lo confirmas. Como un buen administrativo que ya ha hecho el 90% del trabajo cuando llegas."*

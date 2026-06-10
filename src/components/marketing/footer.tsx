@@ -25,8 +25,8 @@ export function Footer() {
               Manann
             </Link>
             <p className="font-sans text-sm text-ink-subtle">
-              El sistema conoce la ruta. Tú no remas. ERP transitario de próxima
-              generación.
+              El sistema conoce la ruta. Tú mantienes el rumbo. ERP
+              transitario con IA documental.
             </p>
           </div>
           {/* Etiqueta de honestidad — neutra a propósito (el ámbar es solo-IA). */}

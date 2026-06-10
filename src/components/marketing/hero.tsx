@@ -13,7 +13,7 @@ export function Hero() {
         <div>
           <p className="eyebrow">ERP transitario · IA documental</p>
           <h1 className="mt-5 font-display text-5xl font-medium leading-[1.04] tracking-tight sm:text-6xl lg:text-[4.5rem]">
-            El sistema conoce la ruta. Tú no remas.
+            El sistema conoce la ruta. Tú mantienes el rumbo.
           </h1>
           <p className="mt-6 max-w-lg font-sans text-lg leading-relaxed text-muted-foreground">
             Arrastra un Bill of Lading. El expediente se rellena solo. Donde los
@@ -36,7 +36,7 @@ export function Hero() {
             </Link>
           </div>
           <p className="mt-5 font-mono text-xs text-ink-subtle">
-            La IA propone · el humano confirma · nunca azul corporativo
+            La IA propone · el humano confirma · el mando es tuyo
           </p>
         </div>
 

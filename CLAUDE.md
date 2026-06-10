@@ -1,10 +1,10 @@
 # CLAUDE.md — Manann
 
-> Lee este archivo al inicio de cada sesión. Para el plan de construcción paso a paso, lee `BUILD-PLAN.md`. Para el sistema de diseño, `MANANN-DESIGN.md` + `colors.prompt.md`. Para la voz de marca, `MANANN-storytelling.md`.
+> Lee este archivo al inicio de cada sesión. Para el plan de construcción paso a paso, lee `BUILD-PLAN.md`. Para el sistema de diseño, `MANANN-DESIGN.md` + `colors.prompt.md`. Para la voz de marca, `MANANN-brandbook.md` (guía verbal AUTORITATIVA, interna/gitignored) y `MANANN-storytelling.md`. Al arrancar, lee también `learnings-global-projects.md` (aprendizajes de otros proyectos, gitignored) y aplica sus patrones.
 
 ## Qué es Manann
 
-Una **demo** de un ERP transitario (freight forwarder) de próxima generación. El objetivo NO es vender un producto: es **demostrar a stakeholders lo obsoletos que están los ERPs actuales del sector** (Visual Trans, CargoWise, ClickAndCargo, Bytemaster). Construida en solitario, en free tier, coste 0 €.
+Una **demo** de un ERP transitario (freight forwarder) con IA documental. El objetivo NO es vender un producto: es **demostrar a stakeholders lo obsoletos que están los ERPs actuales del sector** (Visual Trans, CargoWise, ClickAndCargo, Bytemaster). Construida en solitario, en free tier, coste 0 €.
 
 **El momento "wow"** (el corazón de todo): el usuario arrastra un Bill of Lading en PDF y el expediente de envío **se rellena solo** mediante IA. Donde la competencia obliga a teclear 40 campos a mano, Manann lee el documento y el humano solo confirma.
 
@@ -39,6 +39,17 @@ El proyecto tiene dos partes: una **landing de demo** (5 páginas, escaparate p�
 4. **Contraste:** cada par texto/UI está verificado WCAG 2.1 AA en `MANANN-DESIGN.md`. Tras cualquier cambio de color, re-verifica (4.5:1 texto / 3:1 UI+grande) antes de commitear.
 5. **Voz:** español (España), lenguaje real del transitario (BL, contenedor, puerto, ETA, expediente). La IA propone/extrae; el humano confirma. Errores responsables, sin drama.
 6. **Honestidad en la demo:** lo mockeado se etiqueta visualmente ("Simulación — integración real en producción"). Nunca afirmar que una integración simulada es real.
+
+## Voz y copy (resumen operativo del brand book)
+
+> Guía completa y autoritativa: `MANANN-brandbook.md` (interna). Donde haya conflicto, manda el brand book.
+
+- **Mensaje central (congelado):** «El sistema conoce la ruta. Tú mantienes el rumbo.» Nunca variantes tipo «Tú no remas» (sugiere pasividad y rompe la regla del mando).
+- **El mando es sagrado:** ninguna frase, en ningún sitio, sugiere que el sistema le quita el control a la persona. El sistema **prepara/propone**; la persona **confirma**.
+- **Tono por contexto** (la voz no cambia; el tono sí): marketing = seguro con épica contenida (metáfora náutica permitida); onboarding = cálido, «a bordo»; UI / errores / legal / formularios = literal, claro, sin drama, **sin metáfora**. Cuanto más cerca de ejecutar una tarea, menos metáfora.
+- **Palabras prohibidas** (el «azul corporativo» verbal): «de nueva/próxima generación», «next-gen», «visibilidad de extremo a extremo / end-to-end», «líder del sector», «optimiza tu cadena de suministro», «potenciado por IA» vacío, «sin fricciones» de muletilla, «revoluciona/transforma/disruptivo», «all-in-one/todo en uno», «seamless/fluido» de relleno. Test del competidor: si la frase cabría en la web de un rival sin cambiar nada, reescríbela.
+- **Claim + dato:** ninguna afirmación de valor sin su proof point (minutos ahorrados, pasos automatizados, errores reducidos, puntos de confirmación humana conservados).
+- **Mito al servicio de la función:** la metáfora vive en marca/relato, jamás en UI operativa. Si un nombre náutico obliga a traducir mentalmente, se cae.
 
 ## Guardarraíles de comportamiento (preferencia del owner)
 

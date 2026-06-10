@@ -3,9 +3,9 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Manann — ERP transitario de nueva generación",
+  title: "Manann — ERP transitario con IA documental",
   description:
-    "El sistema conoce la ruta. Tú no remas. Demo de un ERP transitario con extracción documental por IA.",
+    "El sistema conoce la ruta. Tú mantienes el rumbo. Demo de un ERP transitario con extracción documental por IA.",
 };
 
 export default function RootLayout({
