@@ -122,7 +122,6 @@ export async function extractDocument(documentId: string): Promise<void> {
     .update(document)
     .set({ status: "processing" })
     .where(eq(document.id, documentId));
-  revalidatePath(`/expedientes/${doc.shipmentId}`);
 
   try {
     const res = await fetch(doc.blobUrl);
