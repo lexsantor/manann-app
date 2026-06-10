@@ -18,6 +18,7 @@ import { Icon } from "@/components/icon";
 import { StatusPill } from "@/components/app/status-pill";
 import { PriorityPill } from "@/components/app/priority-pill";
 import { TrackingTimeline } from "@/components/app/tracking-timeline";
+import { DocumentUpload } from "@/components/app/document-upload";
 import {
   MODE,
   PARTY_ROLE,
@@ -111,7 +112,7 @@ export default async function ExpedienteDetailPage({
           <Panel title="Tracking" icon={MapPinned}>
             <TrackingTimeline events={s.trackingEvents} />
           </Panel>
-          <Documents documents={s.documents} />
+          <Documents documents={s.documents} shipmentId={s.id} />
         </div>
       </div>
     </div>
@@ -304,7 +305,13 @@ function Charges({ charges }: { charges: ShipmentDetail["charges"] }) {
   );
 }
 
-function Documents({ documents }: { documents: ShipmentDetail["documents"] }) {
+function Documents({
+  documents,
+  shipmentId,
+}: {
+  documents: ShipmentDetail["documents"];
+  shipmentId: string;
+}) {
   return (
     <Panel title="Documentos" icon={FileText}>
       {documents.length > 0 ? (
@@ -336,6 +343,8 @@ function Documents({ documents }: { documents: ShipmentDetail["documents"] }) {
       ) : (
         <p className="text-sm text-muted-foreground">Sin documentos.</p>
       )}
+
+      <DocumentUpload shipmentId={shipmentId} />
     </Panel>
   );
 }

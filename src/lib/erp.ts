@@ -59,6 +59,19 @@ export type ShipmentDetail = NonNullable<
   Awaited<ReturnType<typeof getShipmentDetail>>
 >;
 
+// ¿Este expediente pertenece a esta org? (chequeo de ownership barato para
+// autorizar subidas/acciones sin traer el detalle completo).
+export async function shipmentBelongsToOrg(
+  orgId: string,
+  shipmentId: string,
+): Promise<boolean> {
+  const row = await db.query.shipment.findFirst({
+    where: and(eq(shipment.id, shipmentId), eq(shipment.organizationId, orgId)),
+    columns: { id: true },
+  });
+  return Boolean(row);
+}
+
 // KPIs del dashboard, derivados de la lista (volumen pequeño en el demo).
 export type DashboardStats = {
   total: number;
