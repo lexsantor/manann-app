@@ -1,17 +1,6 @@
-// Esquema Drizzle de Manann.
-//
-// PR-3: tablas de Better Auth (user, session, account, verification).
-//   IDs `text` (default de la librería) — no fight con la convención de la lib.
-//   El dominio transitario (organization, shipment, party, container,
-//   cargo_line, document, tracking_event, charge) se modela en PR-4 y
-//   referenciará user.id.
-import {
-  pgTable,
-  text,
-  timestamp,
-  boolean,
-  index,
-} from "drizzle-orm/pg-core";
+// Tablas de Better Auth (user, session, account, verification).
+// IDs `text` (default de la librería). El dominio (domain.ts) referencia user.id.
+import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
