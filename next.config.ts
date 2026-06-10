@@ -10,7 +10,7 @@ const csp = [
   `script-src 'self' 'unsafe-inline'${isProd ? "" : " 'unsafe-eval'"}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
-  "img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://*.vercel-storage.com https://picsum.photos https://fastly.picsum.photos",
+  "img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://*.vercel-storage.com",
   `connect-src 'self' https://vercel.com https://*.vercel-storage.com${isProd ? "" : " ws: http://localhost:*"}`,
   "frame-ancestors 'none'",
   "base-uri 'self'",

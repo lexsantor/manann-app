@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { MoveRight } from "lucide-react";
 
 import { type ShipmentListItem } from "@/lib/erp";
@@ -87,11 +88,12 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
         {/* ── Foto de destino ──────────────────────────────────── */}
         <div className="relative h-[140px] overflow-hidden rounded-t-xl">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={imgUrl}
             alt={podCity}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
 
