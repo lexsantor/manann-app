@@ -68,7 +68,7 @@ export default async function DashboardPage() {
         </div>
 
         {active.length > 0 ? (
-          <div className="-mx-4 flex gap-4 overflow-x-auto px-4 pb-3 sm:-mx-6 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {active.map((s) => (
               <ShipmentBoardingPass key={s.id} s={s} />
             ))}
