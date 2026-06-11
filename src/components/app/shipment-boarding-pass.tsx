@@ -160,13 +160,13 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
               {s.blNumber && (
                 <div className="min-w-0">
                   <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">BL</p>
-                  <p className="mt-0.5 truncate font-sans text-[14px] text-foreground">{s.blNumber}</p>
+                  <p className="mt-0.5 truncate font-sans text-base text-foreground">{s.blNumber}</p>
                 </div>
               )}
               {consignee && (
                 <div className="min-w-0">
                   <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Consignatario</p>
-                  <p className="mt-0.5 truncate font-sans text-[14px] text-foreground">{consignee}</p>
+                  <p className="mt-0.5 truncate font-sans text-base text-foreground">{consignee}</p>
                 </div>
               )}
             </div>
@@ -183,7 +183,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             <div className="mt-1.5 flex items-start justify-between">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
-                <p className="mt-0.5 font-sans text-[14px] text-foreground">{formatDate(s.etd)}</p>
+                <p className="mt-0.5 font-sans text-base text-foreground">{formatDate(s.etd)}</p>
               </div>
               <div className="text-right">
                 <div className="flex items-center justify-end gap-1.5">
@@ -194,7 +194,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
                     </span>
                   )}
                 </div>
-                <p className={cn("mt-0.5 font-sans text-[14px]", etaOverdue ? "text-accent" : "text-foreground")}>
+                <p className={cn("mt-0.5 font-sans text-base", etaOverdue ? "text-accent" : "text-foreground")}>
                   {formatDate(s.eta)}
                 </p>
               </div>
