@@ -17,7 +17,7 @@ export default async function AppLayout({
     <div className="min-h-dvh bg-background">
       <AppSidebar userEmail={ctx.user.email} orgName={ctx.org?.name ?? "—"} />
       <div className="lg:pl-60">
-        <main className="mx-auto w-full max-w-[1100px] px-5 py-8 sm:px-8">
+        <main id="main-content" className="mx-auto w-full max-w-[1100px] px-5 py-8 sm:px-8">
           {children}
         </main>
       </div>

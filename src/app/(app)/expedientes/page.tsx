@@ -73,8 +73,14 @@ export default async function ExpedientesPage({
 
       {visible.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {visible.map((s) => (
-            <ShipmentBoardingPass key={s.id} s={s} />
+          {visible.map((s, i) => (
+            <div
+              key={s.id}
+              className="card-stagger"
+              style={{ "--i": Math.min(i, 5) } as React.CSSProperties}
+            >
+              <ShipmentBoardingPass s={s} />
+            </div>
           ))}
         </div>
       ) : (

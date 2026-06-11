@@ -69,8 +69,14 @@ export default async function DashboardPage() {
 
         {active.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {active.map((s) => (
-              <ShipmentBoardingPass key={s.id} s={s} />
+            {active.map((s, i) => (
+              <div
+                key={s.id}
+                className="card-stagger"
+                style={{ "--i": Math.min(i, 5) } as React.CSSProperties}
+              >
+                <ShipmentBoardingPass s={s} />
+              </div>
             ))}
           </div>
         ) : (

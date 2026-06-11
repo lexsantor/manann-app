@@ -102,14 +102,11 @@ export default function ComoFuncionaPage() {
 
       {/* Garantías */}
       <section className="border-t border-border py-16">
-        <div className="grid gap-5 sm:grid-cols-3">
+        <div className="grid gap-px bg-border sm:grid-cols-3">
           {GUARANTEES.map((g) => (
-            <div
-              key={g.title}
-              className="rounded-lg border border-border bg-card p-6"
-            >
-              <Icon icon={g.icon} size={22} className="text-muted-foreground" />
-              <h3 className="mt-4 font-display text-lg font-medium tracking-tight text-foreground">
+            <div key={g.title} className="bg-background px-8 py-8 first:pl-0 last:pr-0 sm:py-10">
+              <Icon icon={g.icon} size={20} className="text-primary" />
+              <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
                 {g.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

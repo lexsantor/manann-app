@@ -113,16 +113,16 @@ export default async function ExpedienteDetailPage({
           </div>
           <div className="relative p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Origen</p>
-            <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground">{pol3}</p>
-            <p className="mt-1.5 font-mono text-xs text-muted-foreground">{polCity}</p>
+            <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>{pol3}</p>
+            <p className="mt-1.5 font-mono text-xs text-muted-foreground ai-reveal" style={{ "--i": 1 } as React.CSSProperties}>{polCity}</p>
             <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-1/2 rounded-full bg-card px-0.5">
               <Icon icon={MoveRight} size={12} className="text-muted-foreground/40" />
             </div>
           </div>
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Destino</p>
-            <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground">{pod3}</p>
-            <p className="mt-1.5 font-mono text-xs text-muted-foreground">{podCity}</p>
+            <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground ai-reveal" style={{ "--i": 2 } as React.CSSProperties}>{pod3}</p>
+            <p className="mt-1.5 font-mono text-xs text-muted-foreground ai-reveal" style={{ "--i": 3 } as React.CSSProperties}>{podCity}</p>
           </div>
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Expediente</p>
@@ -142,21 +142,21 @@ export default async function ExpedienteDetailPage({
         <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">BL</p>
-            <p className="mt-1.5 font-mono text-sm text-foreground">{s.blNumber ?? "—"}</p>
+            <p className="mt-1.5 font-mono text-sm text-foreground ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>{s.blNumber ?? "—"}</p>
           </div>
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Incoterm</p>
-            <p className="mt-1.5 font-sans text-sm text-foreground">{s.incoterm ?? "—"}</p>
+            <p className="mt-1.5 font-sans text-sm text-foreground ai-reveal" style={{ "--i": 1 } as React.CSSProperties}>{s.incoterm ?? "—"}</p>
           </div>
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Condiciones</p>
-            <p className="mt-1.5 font-sans text-sm uppercase text-foreground">{s.freightTerms ?? "—"}</p>
+            <p className="mt-1.5 font-sans text-sm uppercase text-foreground ai-reveal" style={{ "--i": 2 } as React.CSSProperties}>{s.freightTerms ?? "—"}</p>
           </div>
           <div className="p-5">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1">
                 <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
-                <p className="mt-1.5 font-sans text-sm text-foreground">{formatDate(s.etd)}</p>
+                <p className="mt-1.5 font-sans text-sm text-foreground ai-reveal" style={{ "--i": 3 } as React.CSSProperties}>{formatDate(s.etd)}</p>
               </div>
               <Icon icon={MoveRight} size={13} className="mt-4 shrink-0 text-muted-foreground/30" />
               <div className="flex-1 text-right">
@@ -168,7 +168,7 @@ export default async function ExpedienteDetailPage({
                     </span>
                   )}
                 </div>
-                <p className={cn("mt-1.5 font-sans text-sm", etaOverdue ? "text-accent" : "text-foreground")}>
+                <p className={cn("mt-1.5 font-sans text-sm ai-reveal", etaOverdue ? "text-accent" : "text-foreground")} style={{ "--i": 4 } as React.CSSProperties}>
                   {formatDate(s.eta)}
                 </p>
               </div>
@@ -190,7 +190,7 @@ export default async function ExpedienteDetailPage({
           </div>
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Naviera</p>
-            <div className="mt-2">
+            <div className="mt-2 ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>
               {s.carrier
                 ? <CarrierBadge carrier={s.carrier} />
                 : <span className="font-sans text-sm text-muted-foreground">—</span>}
@@ -289,8 +289,8 @@ function Parties({ parties }: { parties: ShipmentDetail["parties"] }) {
   return (
     <Panel title="Partes" icon={Users}>
       <div className="grid gap-3 sm:grid-cols-2">
-        {sorted.map((p) => (
-          <div key={p.id} className="rounded-md border border-border/60 bg-surface-2/40 p-3 transition-colors hover:bg-surface-2">
+        {sorted.map((p, idx) => (
+          <div key={p.id} className="rounded-md border border-border/60 bg-surface-2/40 p-3 transition-colors hover:bg-surface-2 ai-reveal" style={{ "--i": idx } as React.CSSProperties}>
             <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
               {PARTY_ROLE[p.role] ?? p.role}
             </p>
@@ -319,10 +319,11 @@ function Containers({
     <Panel title="Contenedores y mercancía" icon={ContainerIcon}>
       {containers.length > 0 ? (
         <div className="space-y-2">
-          {containers.map((c) => (
+          {containers.map((c, idx) => (
             <div
               key={c.id}
-              className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border/60 bg-surface-2/40 px-3 py-2.5 transition-colors hover:bg-surface-2"
+              className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border/60 bg-surface-2/40 px-3 py-2.5 transition-colors hover:bg-surface-2 ai-reveal"
+              style={{ "--i": idx } as React.CSSProperties}
             >
               <div className="flex items-center gap-2">
                 <Icon icon={ContainerIcon} size={15} className="text-muted-foreground" />

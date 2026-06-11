@@ -167,7 +167,6 @@ body {
   background-image:
     radial-gradient(900px 500px at 78% -10%, hsl(var(--mesh-1)), transparent 60%),
     radial-gradient(700px 600px at 0% 100%, hsl(var(--mesh-2)), transparent 55%);
-  background-attachment: fixed;
   /* theme cross-fade: fog rolling in, not a hard flip */
   transition: background-color 400ms var(--ease-standard), color 400ms var(--ease-standard);
 }
@@ -184,7 +183,7 @@ h1, h2, h3, .font-display {
 /* eyebrow utility (mono, uppercase, positive tracking) */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px; font-weight: 500;
+  font-size: 12px; font-weight: 500;
   letter-spacing: 0.16em; text-transform: uppercase;
   color: hsl(var(--primary));
 }
@@ -212,6 +211,27 @@ h1, h2, h3, .font-display {
 .ai-reveal {
   animation: ai-rise 240ms var(--ease-out) backwards;
   animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* Card stagger — entrada de grids de tarjetas. Limitar --i a 5 desde JS. */
+.card-stagger {
+  animation: ai-rise 360ms var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* Hero stagger — entrada más lenta y suave para el hero de marketing. */
+.hero-enter {
+  animation: ai-rise 600ms var(--ease-out) backwards;
+  animation-delay: calc(var(--i, 0) * 80ms);
+}
+
+/* Orbe ambiental del hero — pulso suave. */
+@keyframes ambient-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%       { opacity: 0.75; transform: scale(1.07); }
+}
+.ambient-orb {
+  animation: ambient-pulse 7s ease-in-out infinite;
 }
 
 /* status pill / ai badge color helpers */

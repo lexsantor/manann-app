@@ -8,8 +8,6 @@ import {
   LayoutDashboard,
   Package,
   MapPin,
-  Menu,
-  X,
   type LucideIcon,
 } from "lucide-react";
 
@@ -92,7 +90,7 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
           >
             <Icon icon={item.icon} size={18} />
             {item.label}
-            <span className="ml-auto rounded-full border border-border px-1.5 py-0.5 font-mono text-[10px] text-ink-subtle">
+            <span className="ml-auto rounded-md border border-border px-1.5 py-0.5 font-mono text-[10px] text-ink-subtle">
               pronto
             </span>
           </span>
@@ -120,38 +118,62 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
       </aside>
 
       {/* Móvil: barra superior */}
-      <header className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur-md lg:hidden">
-        <Link href="/dashboard" aria-label="Manann"><Logo /></Link>
+      <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur-md lg:hidden">
+        <Link href="/dashboard" aria-label="Manann" onClick={() => setOpen(false)}>
+          <Logo />
+        </Link>
         <button
           type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Abrir menú"
-          className="text-muted-foreground transition-colors hover:text-foreground"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={open}
+          className="relative h-8 w-8 text-muted-foreground transition-colors hover:text-foreground"
         >
-          <Icon icon={Menu} />
+          <span
+            className={cn(
+              "absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 rounded-full bg-current transition-all duration-200 ease-out",
+              open ? "-translate-y-px rotate-45" : "-translate-y-[6px]",
+            )}
+          />
+          <span
+            className={cn(
+              "absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 -translate-y-px rounded-full bg-current transition-all duration-200 ease-out",
+              open ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100",
+            )}
+          />
+          <span
+            className={cn(
+              "absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 rounded-full bg-current transition-all duration-200 ease-out",
+              open ? "-translate-y-px -rotate-45" : "translate-y-[4px]",
+            )}
+          />
         </button>
       </header>
 
-      {/* Móvil: drawer */}
-      {open && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div
-            className="absolute inset-0 bg-background/70 backdrop-blur-sm"
-            onClick={() => setOpen(false)}
-          />
-          <aside className="absolute inset-y-0 left-0 w-64 border-r border-border bg-card">
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              aria-label="Cerrar menú"
-              className="absolute right-3 top-4 text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <Icon icon={X} />
-            </button>
-            {Content}
-          </aside>
-        </div>
-      )}
+      {/* Móvil: drawer — siempre montado para que la transición funcione */}
+      <div
+        aria-hidden={!open}
+        className={cn(
+          "fixed inset-x-0 bottom-0 top-14 z-40 lg:hidden",
+          open ? "pointer-events-auto visible" : "pointer-events-none invisible",
+        )}
+      >
+        <div
+          className={cn(
+            "absolute inset-0 bg-background/70 backdrop-blur-sm transition-opacity duration-300 ease-out",
+            open ? "opacity-100" : "opacity-0",
+          )}
+          onClick={() => setOpen(false)}
+        />
+        <aside
+          className={cn(
+            "absolute inset-y-0 left-0 w-64 border-r border-border bg-card transition-transform duration-300 ease-out",
+            open ? "translate-x-0" : "-translate-x-full",
+          )}
+        >
+          {Content}
+        </aside>
+      </div>
     </>
   );
 }

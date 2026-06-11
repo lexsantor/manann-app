@@ -92,7 +92,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
     <Link
       href={`/expedientes/${s.id}`}
       prefetch={false}
-      className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]"
+      className="group block rounded-xl transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]"
     >
       <article className="relative w-full rounded-xl border border-border bg-card shadow-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
 
@@ -107,7 +107,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
 
           {/* Códigos de puerto */}
-          <div className="absolute bottom-0 left-0 right-0 px-4 pb-2.5">
+          <div className="absolute bottom-0 left-0 right-0 px-4 pb-2.5 transition-transform duration-700 group-hover:-translate-y-1">
             <div className="flex items-center gap-2">
               <div className="flex-1">
                 <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white">
