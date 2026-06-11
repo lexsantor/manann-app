@@ -11,11 +11,13 @@ import {
   CalendarDays,
   ClipboardList,
   Users,
+  Building2,
 } from "lucide-react";
 
 import { Icon } from "@/components/icon";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { FadeUp, StaggerGrid, StaggerItem } from "@/components/marketing/motion";
 
 export const metadata: Metadata = {
   title: "Cómo funciona — Manann",
@@ -88,117 +90,134 @@ const ONGOING = [
     title: "Equipo y asignación",
     body: "Asigna cada expediente a un agente. Filtra los tuyos, recibe notificación al ser asignado y mantén visible quién lleva cada envío.",
   },
+  {
+    icon: Building2,
+    title: "Contactos y documentos",
+    body: "Todos los BLs, facturas y certificados en un solo lugar. El directorio de navieras, agentes e importadores se construye solo, expediente a expediente.",
+  },
 ];
 
 export default function ComoFuncionaPage() {
   return (
     <div className="mx-auto max-w-[1080px] px-5 sm:px-6">
       <section className="pb-12 pt-16 sm:pt-24">
-        <p className="eyebrow">Cómo funciona</p>
-        <h1 className="mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-          Tres pasos. El data-entry manual desaparece.
-        </h1>
-        <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
-          Donde los ERP del sector te obligan a teclear, copiar y reintroducir
-          cada dato del documento, Manann lo lee y lo propone. Tú solo confirmas.
-        </p>
+        <FadeUp>
+          <p className="eyebrow">Cómo funciona</p>
+          <h1 className="mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            Tres pasos. El data-entry manual desaparece.
+          </h1>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            Donde los ERP del sector te obligan a teclear, copiar y reintroducir
+            cada dato del documento, Manann lo lee y lo propone. Tú solo confirmas.
+          </p>
+        </FadeUp>
       </section>
 
       {/* Los tres pasos en detalle */}
       <section className="space-y-px">
         {STEPS.map((s, i) => (
-          <div
-            key={s.title}
-            className="grid gap-6 border-t border-border py-12 lg:grid-cols-[auto_1fr] lg:gap-12"
-          >
-            <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-3">
-              <span className="flex size-11 items-center justify-center rounded-md border border-border text-primary">
-                <Icon icon={s.icon} size={22} />
-              </span>
-              <span className="font-mono text-sm text-muted-foreground">
-                0{i + 1}
-              </span>
+          <FadeUp key={s.title} delay={i * 0.08}>
+            <div className="grid gap-6 border-t border-border py-12 lg:grid-cols-[auto_1fr] lg:gap-12">
+              <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-3">
+                <span className="flex size-11 items-center justify-center rounded-md border border-border text-primary">
+                  <Icon icon={s.icon} size={22} />
+                </span>
+                <span className="font-mono text-sm text-muted-foreground">
+                  0{i + 1}
+                </span>
+              </div>
+              <div className="max-w-2xl">
+                <h2 className="font-display text-2xl font-medium tracking-tight text-foreground">
+                  {s.title}
+                </h2>
+                <p className="mt-2 text-lg text-foreground">{s.lead}</p>
+                <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
+                  {s.body}
+                </p>
+              </div>
             </div>
-            <div className="max-w-2xl">
-              <h2 className="font-display text-2xl font-medium tracking-tight text-foreground">
-                {s.title}
-              </h2>
-              <p className="mt-2 text-lg text-foreground">{s.lead}</p>
-              <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
-                {s.body}
-              </p>
-            </div>
-          </div>
+          </FadeUp>
         ))}
       </section>
 
       {/* Garantías */}
       <section className="border-t border-border py-16">
-        <div className="grid gap-px bg-border sm:grid-cols-3">
+        <FadeUp>
+          <p className="eyebrow sr-only">Garantías</p>
+        </FadeUp>
+        <StaggerGrid className="grid gap-6 sm:grid-cols-3">
           {GUARANTEES.map((g) => (
-            <div key={g.title} className="bg-background px-8 py-8 first:pl-0 last:pr-0 sm:py-10">
-              <Icon icon={g.icon} size={20} className="text-primary" />
-              <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
-                {g.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {g.body}
-              </p>
-            </div>
+            <StaggerItem key={g.title}>
+              <div className="rounded-lg border border-border bg-card p-6 transition-colors hover:bg-surface-2">
+                <Icon icon={g.icon} size={20} className="text-primary" />
+                <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
+                  {g.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {g.body}
+                </p>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       </section>
 
       {/* Después de la confirmación */}
       <section className="border-t border-border py-16">
-        <p className="eyebrow">Después de la confirmación</p>
-        <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-          El sistema sigue trabajando contigo.
-        </h2>
-        <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
-          Los tres pasos crean el expediente. A partir de ahí, Manann mantiene
-          el contexto sin que tengas que pedirlo.
-        </p>
-        <div className="mt-10 grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
+        <FadeUp>
+          <p className="eyebrow">Después de la confirmación</p>
+          <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+            El sistema sigue trabajando contigo.
+          </h2>
+          <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
+            Los tres pasos crean el expediente. A partir de ahí, Manann mantiene
+            el contexto sin que tengas que pedirlo.
+          </p>
+        </FadeUp>
+        <StaggerGrid className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {ONGOING.map((o) => (
-            <div key={o.title} className="bg-background py-8 pr-8">
-              <Icon icon={o.icon} size={20} className="text-primary" />
-              <h3 className="mt-4 font-display font-medium tracking-tight text-foreground">
-                {o.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {o.body}
-              </p>
-            </div>
+            <StaggerItem key={o.title}>
+              <div className="rounded-lg border border-border bg-card p-6 transition-colors hover:bg-surface-2">
+                <Icon icon={o.icon} size={20} className="text-primary" />
+                <h3 className="mt-4 font-display font-medium tracking-tight text-foreground">
+                  {o.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {o.body}
+                </p>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       </section>
 
       {/* CTA */}
       <section className="border-t border-border py-20 text-center">
-        <h2 className="mx-auto max-w-2xl font-display text-3xl font-medium tracking-tight text-foreground">
-          Míralo con un documento de verdad.
-        </h2>
-        <p className="mx-auto mt-4 max-w-md text-muted-foreground">
-          Entra en la demo, arrastra un Bill of Lading y observa cómo se rellena
-          el expediente.
-        </p>
-        <div className="mt-7 flex flex-wrap justify-center gap-3">
-          <Link
-            href="/login"
-            prefetch={false}
-            className={cn(buttonVariants({ variant: "primary", size: "hero" }))}
-          >
-            Ver la demo en vivo
-          </Link>
-          <Link
-            href="/el-expediente"
-            prefetch={false}
-            className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
-          >
-            Qué es un expediente
-          </Link>
-        </div>
+        <FadeUp>
+          <h2 className="mx-auto max-w-2xl font-display text-3xl font-medium tracking-tight text-foreground">
+            Míralo con un documento de verdad.
+          </h2>
+          <p className="mx-auto mt-4 max-w-md text-muted-foreground">
+            Entra en la demo, arrastra un Bill of Lading y observa cómo se rellena
+            el expediente.
+          </p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/login"
+              prefetch={false}
+              className={cn(buttonVariants({ variant: "primary", size: "hero" }))}
+            >
+              Ver la demo en vivo
+            </Link>
+            <Link
+              href="/el-expediente"
+              prefetch={false}
+              className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
+            >
+              Qué es un expediente
+            </Link>
+          </div>
+        </FadeUp>
       </section>
     </div>
   );

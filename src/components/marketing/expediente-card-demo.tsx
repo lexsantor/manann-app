@@ -30,7 +30,7 @@ function FieldCell({ field, index }: { field: Field; index: number }) {
   return (
     <div
       className={cn(
-        "ai-reveal relative rounded-sm border px-3.5 py-2.5",
+        "ai-reveal rounded-sm border px-3.5 py-2.5",
         !isAi && "border-border bg-background",
         // .border-accent (globals) = borde ámbar a 0.32 → campo extraído por IA
         isAi && !low && "border-accent bg-background",
@@ -39,17 +39,19 @@ function FieldCell({ field, index }: { field: Field; index: number }) {
       )}
       style={{ "--i": index } as CSSProperties}
     >
-      <p className="font-sans text-[12px] uppercase tracking-wide text-muted-foreground">
-        {field.label}
-      </p>
-      <p className={cn("mt-0.5 text-sm text-foreground", field.mono && "font-mono")}>
+      <div className="flex items-start justify-between gap-2">
+        <p className="font-sans text-[11px] uppercase tracking-wide text-muted-foreground">
+          {field.label}
+        </p>
+        {isAi && (
+          <span className="shrink-0 inline-flex items-center rounded-sm bg-accent-soft px-1.5 py-0.5 font-mono text-[10px] text-accent leading-none">
+            {low ? "revisar" : `IA · ${field.ai!.toFixed(2)}`}
+          </span>
+        )}
+      </div>
+      <p className={cn("mt-1 text-sm text-foreground", field.mono && "font-mono")}>
         {field.value}
       </p>
-      {isAi && (
-        <span className="absolute right-2 top-2 inline-flex items-center rounded-sm bg-accent-soft px-1.5 py-0.5 font-mono text-[10px] text-accent">
-          {low ? "revisar" : `IA · ${field.ai!.toFixed(2)}`}
-        </span>
-      )}
     </div>
   );
 }

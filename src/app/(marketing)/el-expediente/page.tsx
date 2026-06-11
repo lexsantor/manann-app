@@ -8,12 +8,14 @@ import {
   CalendarDays,
   ClipboardList,
   Users,
+  Building2,
 } from "lucide-react";
 
 import { Icon } from "@/components/icon";
 import { ExpedienteCardDemo } from "@/components/marketing/expediente-card-demo";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { FadeUp, StaggerGrid, StaggerItem } from "@/components/marketing/motion";
 
 export const metadata: Metadata = {
   title: "El expediente — Manann",
@@ -65,6 +67,11 @@ const LIVE = [
     title: "Responsable asignado",
     body: "Cada expediente tiene un agente a cargo. El responsable recibe aviso al ser asignado y puede filtrar sus expedientes con un clic.",
   },
+  {
+    icon: Building2,
+    title: "Directorio de contactos",
+    body: "Exportadores, importadores, navieras y agentes se registran automáticamente. Sin alta manual: cada expediente construye el directorio del equipo.",
+  },
 ];
 
 export default function ElExpedientePage() {
@@ -72,7 +79,7 @@ export default function ElExpedientePage() {
     <div className="mx-auto max-w-[1080px] px-5 sm:px-6">
       {/* Hero */}
       <section className="grid items-center gap-12 pb-12 pt-16 lg:grid-cols-[1fr_1fr] lg:gap-16 sm:pt-24">
-        <div>
+        <FadeUp>
           <p className="eyebrow">El expediente</p>
           <h1 className="mt-5 font-display text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl">
             El corazón de tu trabajo, sin el tecleo.
@@ -83,78 +90,83 @@ export default function ElExpedientePage() {
             Manann no lo rellenas campo a campo — lo lee la IA del documento y tú
             confirmas.
           </p>
-        </div>
-        <ExpedienteCardDemo />
+        </FadeUp>
+        <FadeUp delay={0.1}>
+          <ExpedienteCardDemo />
+        </FadeUp>
       </section>
 
       {/* Convenciones */}
       <section className="border-t border-border py-16">
-        <p className="eyebrow">Cómo leerlo</p>
-        <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-          Verás siempre quién propuso cada dato.
-        </h2>
-        <div className="mt-10 grid gap-5 sm:grid-cols-3">
+        <FadeUp>
+          <p className="eyebrow">Cómo leerlo</p>
+          <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+            Verás siempre quién propuso cada dato.
+          </h2>
+        </FadeUp>
+        <StaggerGrid className="mt-10 grid gap-6 sm:grid-cols-3">
           {NOTES.map((n) => (
-            <div
-              key={n.title}
-              className="rounded-lg border border-border bg-card p-6"
-            >
-              <Icon icon={n.icon} size={22} className="text-accent" />
-              <h3 className="mt-4 font-display text-lg font-medium tracking-tight text-foreground">
-                {n.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {n.body}
-              </p>
-            </div>
+            <StaggerItem key={n.title}>
+              <div className="rounded-lg border border-border bg-card p-6 transition-colors hover:bg-surface-2">
+                <Icon icon={n.icon} size={22} className="text-accent" />
+                <h3 className="mt-4 font-display text-lg font-medium tracking-tight text-foreground">
+                  {n.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {n.body}
+                </p>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGrid>
       </section>
 
       {/* Ciclo de vida: creación */}
       <section className="border-t border-border py-16">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <div>
-            <p className="eyebrow">El ciclo</p>
-            <h2 className="mt-4 font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-              De documento a expediente confirmado.
-            </h2>
+        <FadeUp>
+          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+            <div>
+              <p className="eyebrow">El ciclo</p>
+              <h2 className="mt-4 font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+                De documento a expediente confirmado.
+              </h2>
+            </div>
+            <ol className="space-y-4 text-[16px] leading-relaxed text-muted-foreground">
+              <li>
+                <strong className="font-medium text-foreground">Subido.</strong>{" "}
+                El BL llega al expediente como documento, listo para leerse.
+              </li>
+              <li>
+                <strong className="font-medium text-foreground">Leído.</strong> La
+                IA extrae los campos y los propone en ámbar, con su confianza.
+              </li>
+              <li>
+                <strong className="font-medium text-foreground">
+                  Confirmado.
+                </strong>{" "}
+                Revisas, corriges lo dudoso y vuelcas los datos al expediente.
+              </li>
+            </ol>
           </div>
-          <ol className="space-y-4 text-[16px] leading-relaxed text-muted-foreground">
-            <li>
-              <strong className="font-medium text-foreground">Subido.</strong>{" "}
-              El BL llega al expediente como documento, listo para leerse.
-            </li>
-            <li>
-              <strong className="font-medium text-foreground">Leído.</strong> La
-              IA extrae los campos y los propone en ámbar, con su confianza.
-            </li>
-            <li>
-              <strong className="font-medium text-foreground">
-                Confirmado.
-              </strong>{" "}
-              Revisas, corriges lo dudoso y vuelcas los datos al expediente.
-            </li>
-          </ol>
-        </div>
+        </FadeUp>
       </section>
 
       {/* En ruta: vida del expediente */}
       <section className="border-t border-border py-16">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <div>
-            <p className="eyebrow">En ruta</p>
-            <h2 className="mt-4 font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-              El expediente sigue vivo después de la confirmación.
-            </h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-              Crear el expediente es el primer paso. Manann acompaña el envío
-              hasta la entrega.
-            </p>
-          </div>
-          <div className="grid gap-8 sm:grid-cols-2">
-            {LIVE.map((l) => (
-              <div key={l.title}>
+        <FadeUp>
+          <p className="eyebrow">En ruta</p>
+          <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+            El expediente sigue vivo después de la confirmación.
+          </h2>
+          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+            Crear el expediente es el primer paso. Manann acompaña el envío
+            hasta la entrega.
+          </p>
+        </FadeUp>
+        <StaggerGrid className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {LIVE.map((l) => (
+            <StaggerItem key={l.title}>
+              <div className="rounded-lg border border-border bg-card p-6 transition-colors hover:bg-surface-2">
                 <span className="flex size-9 items-center justify-center rounded-md border border-border text-primary">
                   <Icon icon={l.icon} size={18} />
                 </span>
@@ -165,32 +177,34 @@ export default function ElExpedientePage() {
                   {l.body}
                 </p>
               </div>
-            ))}
-          </div>
-        </div>
+            </StaggerItem>
+          ))}
+        </StaggerGrid>
       </section>
 
       {/* CTA */}
       <section className="border-t border-border py-20 text-center">
-        <h2 className="mx-auto max-w-2xl font-display text-3xl font-medium tracking-tight text-foreground">
-          El sistema conoce la ruta. Tú mantienes el rumbo.
-        </h2>
-        <div className="mt-7 flex flex-wrap justify-center gap-3">
-          <Link
-            href="/login"
-            prefetch={false}
-            className={cn(buttonVariants({ variant: "primary", size: "hero" }))}
-          >
-            Ver la demo en vivo
-          </Link>
-          <Link
-            href="/como-funciona"
-            prefetch={false}
-            className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
-          >
-            Cómo funciona
-          </Link>
-        </div>
+        <FadeUp>
+          <h2 className="mx-auto max-w-2xl font-display text-3xl font-medium tracking-tight text-foreground">
+            El sistema conoce la ruta. Tú mantienes el rumbo.
+          </h2>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/login"
+              prefetch={false}
+              className={cn(buttonVariants({ variant: "primary", size: "hero" }))}
+            >
+              Ver la demo en vivo
+            </Link>
+            <Link
+              href="/como-funciona"
+              prefetch={false}
+              className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
+            >
+              Cómo funciona
+            </Link>
+          </div>
+        </FadeUp>
       </section>
     </div>
   );

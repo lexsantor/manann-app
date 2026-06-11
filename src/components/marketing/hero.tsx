@@ -8,14 +8,8 @@ import { ExpedienteCardDemo } from "./expediente-card-demo";
 
 export function Hero() {
   return (
-    <section className="relative mx-auto max-w-[1080px] overflow-hidden px-5 pb-16 pt-16 sm:px-6 sm:pt-24 lg:pt-28">
-      {/* Orbe ambiental — pulso suave, decorativo */}
-      <div
-        aria-hidden
-        className="ambient-orb pointer-events-none absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,hsl(var(--primary)/0.12),transparent_70%)]"
-      />
-
-      <div className="relative grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+    <section className="mx-auto max-w-[1080px] px-5 pb-16 pt-16 sm:px-6 sm:pt-24 lg:pt-28">
+      <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
         <div>
           <p
             className="eyebrow hero-enter"
