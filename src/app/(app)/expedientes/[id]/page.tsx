@@ -25,7 +25,6 @@ import { PdfViewer } from "@/components/app/pdf-viewer";
 import { HsCodeSuggest } from "@/components/app/hs-code-suggest";
 import {
   MODE,
-  STATUS,
   PARTY_ROLE,
   CHARGE_TYPE,
   DOC_TYPE,
@@ -58,49 +57,6 @@ function CarrierBadge({ carrier }: { carrier: string }) {
   );
 }
 
-// ─── Gradientes semánticos ───────────────────────────────────────────────────
-
-const NEUTRAL_GRAD = "linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted) / 0.15) 100%)";
-
-function semanticGrad(end: string): { background: string } {
-  return { background: `linear-gradient(135deg, hsl(var(--card)) 0%, ${end} 100%)` };
-}
-
-function statusGradient(status: string): string {
-  const tone = STATUS[status]?.tone ?? "neutral";
-  if (tone === "active") return "hsl(var(--accent) / 0.10)";
-  if (tone === "done")   return "hsl(var(--success) / 0.10)";
-  return "hsl(var(--muted) / 0.25)";
-}
-
-function priorityGradient(priority: string): string {
-  const map: Record<string, string> = {
-    low:    "hsl(var(--priority-low) / 0.10)",
-    med:    "hsl(var(--priority-med) / 0.10)",
-    high:   "hsl(var(--priority-high) / 0.12)",
-    urgent: "hsl(var(--priority-urgent) / 0.14)",
-  };
-  return map[priority] ?? "hsl(var(--muted) / 0.25)";
-}
-
-const CARRIER_GRAD: Record<string, string> = {
-  MSC:           "hsl(199 89% 48% / 0.09)",
-  MAERSK:        "hsl(221 83% 53% / 0.09)",
-  "CMA CGM":     "hsl(0 84% 60% / 0.09)",
-  "HAPAG-LLOYD": "hsl(25 95% 53% / 0.09)",
-  COSCO:         "hsl(350 89% 60% / 0.09)",
-  EVERGREEN:     "hsl(152 76% 36% / 0.09)",
-  YANG_MING:     "hsl(271 91% 65% / 0.09)",
-};
-function carrierGradient(carrier: string): string {
-  return CARRIER_GRAD[carrier.toUpperCase()] ?? "hsl(var(--muted) / 0.25)";
-}
-
-function co2Gradient(kg: number): string {
-  if (kg < 500)  return "hsl(var(--success) / 0.10)";
-  if (kg < 2000) return "hsl(38 92% 50% / 0.10)";
-  return "hsl(0 84% 60% / 0.10)";
-}
 
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -143,29 +99,32 @@ export default async function ExpedienteDetailPage({
       </Link>
 
       {/* ── Cabecera bento ──────────────────────────────────────────── */}
-      <div className="rounded-xl border border-border bg-card p-3 shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
 
         {/* Fila 1: imagen · origen · destino · expediente */}
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <div className="overflow-hidden rounded-lg border border-border">
+        <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
+          <div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={portImageUrl(s.pod ?? "")}
               alt={podCity}
-              className="h-full min-h-[140px] w-full object-cover"
+              className="h-full min-h-[160px] w-full object-cover"
             />
           </div>
-          <div className="rounded-lg border border-border p-4">
+          <div className="relative p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Origen</p>
             <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground">{pol3}</p>
             <p className="mt-1.5 font-mono text-xs text-muted-foreground">{polCity}</p>
+            <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-1/2 rounded-full bg-card px-0.5">
+              <Icon icon={MoveRight} size={12} className="text-muted-foreground/40" />
+            </div>
           </div>
-          <div className="rounded-lg border border-border p-4">
+          <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Destino</p>
             <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground">{pod3}</p>
             <p className="mt-1.5 font-mono text-xs text-muted-foreground">{podCity}</p>
           </div>
-          <div className="rounded-lg border border-border p-4">
+          <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Expediente</p>
             <h1 className="mt-1 font-display text-xl font-medium tracking-tight text-foreground">{s.reference}</h1>
             <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
@@ -177,23 +136,23 @@ export default async function ExpedienteDetailPage({
           </div>
         </div>
 
-        <div className="my-3 border-t border-dashed border-border/70" />
+        <div className="border-t border-dashed border-border/70" />
 
         {/* Fila 2: BL · Incoterm · Condiciones · ETD→ETA */}
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <div className="rounded-lg border border-border p-4" style={{ background: NEUTRAL_GRAD }}>
+        <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
+          <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">BL</p>
             <p className="mt-1.5 font-mono text-sm text-foreground">{s.blNumber ?? "—"}</p>
           </div>
-          <div className="rounded-lg border border-border p-4" style={{ background: NEUTRAL_GRAD }}>
+          <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Incoterm</p>
             <p className="mt-1.5 font-sans text-sm text-foreground">{s.incoterm ?? "—"}</p>
           </div>
-          <div className="rounded-lg border border-border p-4" style={{ background: NEUTRAL_GRAD }}>
+          <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Condiciones</p>
-            <p className="mt-1.5 font-sans text-sm text-foreground">{s.freightTerms ?? "—"}</p>
+            <p className="mt-1.5 font-sans text-sm uppercase text-foreground">{s.freightTerms ?? "—"}</p>
           </div>
-          <div className="rounded-lg border border-border p-4" style={{ background: NEUTRAL_GRAD }}>
+          <div className="p-5">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1">
                 <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
@@ -217,22 +176,19 @@ export default async function ExpedienteDetailPage({
           </div>
         </div>
 
-        <div className="my-3 border-t border-dashed border-border/70" />
+        <div className="border-t border-dashed border-border/70" />
 
         {/* Fila 3: Estado · Prioridad · Naviera · CO₂ */}
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-          <div className="rounded-lg border border-border p-4" style={semanticGrad(statusGradient(s.status))}>
+        <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
+          <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Estado</p>
             <div className="mt-2"><StatusPill status={s.status} /></div>
           </div>
-          <div className="rounded-lg border border-border p-4" style={semanticGrad(priorityGradient(s.priority))}>
+          <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Prioridad</p>
             <div className="mt-2"><PriorityPill priority={s.priority} /></div>
           </div>
-          <div
-            className="rounded-lg border border-border p-4"
-            style={s.carrier ? semanticGrad(carrierGradient(s.carrier)) : { background: NEUTRAL_GRAD }}
-          >
+          <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Naviera</p>
             <div className="mt-2">
               {s.carrier
@@ -240,10 +196,7 @@ export default async function ExpedienteDetailPage({
                 : <span className="font-sans text-sm text-muted-foreground">—</span>}
             </div>
           </div>
-          <div
-            className="rounded-lg border border-border p-4"
-            style={co2 ? semanticGrad(co2Gradient(co2.kg)) : { background: NEUTRAL_GRAD }}
-          >
+          <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">CO₂ estimado</p>
             {co2 ? (
               <>
