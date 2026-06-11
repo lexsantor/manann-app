@@ -153,3 +153,54 @@ export function formatWeight(kg: number | null): string {
   if (kg == null) return "—";
   return `${new Intl.NumberFormat("es-ES").format(kg)} kg`;
 }
+
+// ─── CO₂ footprint estimado ──────────────────────────────────────────────────
+// Factores de emisión kg CO₂e / t·km — GLEC Framework v3 (valores medios)
+const CO2_FACTOR: Record<string, number> = {
+  maritimo:    0.010,
+  aereo:       0.602,
+  terrestre:   0.096,
+  ferroviario: 0.028,
+  multimodal:  0.020,
+};
+
+function haversineKm(
+  [lat1, lng1]: [number, number],
+  [lat2, lng2]: [number, number],
+): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLng = ((lng2 - lng1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+export type Co2Estimate = {
+  kg: number;
+  distanceKm: number;
+  weightTonnes: number;
+};
+
+export function estimateCo2(
+  pol: string | null,
+  pod: string | null,
+  mode: string,
+  totalWeightKg: number,
+): Co2Estimate | null {
+  const c1 = portCoords(pol);
+  const c2 = portCoords(pod);
+  if (!c1 || !c2 || totalWeightKg <= 0) return null;
+  const distanceKm = haversineKm(c1, c2);
+  const factor = CO2_FACTOR[mode] ?? CO2_FACTOR.maritimo;
+  const weightTonnes = totalWeightKg / 1000;
+  return { kg: distanceKm * weightTonnes * factor, distanceKm, weightTonnes };
+}
+
+export function formatCo2(e: Co2Estimate): string {
+  if (e.kg >= 1000) return `${(e.kg / 1000).toFixed(1)} t CO₂e`;
+  return `${Math.round(e.kg)} kg CO₂e`;
+}

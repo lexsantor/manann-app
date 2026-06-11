@@ -32,6 +32,8 @@ import {
   formatDate,
   formatMoney,
   formatWeight,
+  estimateCo2,
+  formatCo2,
 } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 
@@ -54,6 +56,8 @@ export default async function ExpedienteDetailPage({
   if (!s) notFound();
 
   const mode = MODE[s.mode] ?? MODE.maritimo;
+  const totalWeightKg = s.cargoLines.reduce((sum, l) => sum + (l.grossWeightKg ?? 0), 0);
+  const co2 = estimateCo2(s.pol, s.pod, s.mode, totalWeightKg);
   const etaOverdue =
     s.eta &&
     new Date(s.eta) < new Date() &&
@@ -110,6 +114,20 @@ export default async function ExpedienteDetailPage({
           <Fact label="Condiciones" value={s.freightTerms} />
           <Fact label="ETD" value={formatDate(s.etd)} mono />
           <Fact label="ETA" value={formatDate(s.eta)} mono />
+          {co2 && (
+            <div>
+              <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">
+                CO₂ estimado
+              </dt>
+              <dd className="mt-0.5 text-sm text-foreground">
+                {formatCo2(co2)}
+                <span className="ml-1.5 text-[10px] text-muted-foreground">
+                  · {Math.round(co2.distanceKm).toLocaleString("es-ES")} km
+                </span>
+              </dd>
+              <p className="mt-0.5 text-[10px] text-ink-subtle">GLEC · estimación</p>
+            </div>
+          )}
         </dl>
       </div>
 
