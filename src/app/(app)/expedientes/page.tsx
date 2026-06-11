@@ -3,8 +3,7 @@ import { Plus } from "lucide-react";
 
 import { getOrgContext, listShipments } from "@/lib/erp";
 import { createDraftShipment } from "@/lib/erp-actions";
-import { ShipmentRow } from "@/components/app/shipment-row";
-import { KeyboardListNav } from "@/components/app/keyboard-list-nav";
+import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/icon";
 import { STATUS } from "@/lib/erp-format";
@@ -46,7 +45,7 @@ export default async function ExpedientesPage({
             Expedientes
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {all.length} en total · navega con ↑ ↓ y abre con Enter
+            {all.length} expediente{all.length !== 1 ? "s" : ""}
           </p>
         </div>
         <form action={createDraftShipment}>
@@ -73,11 +72,11 @@ export default async function ExpedientesPage({
       </div>
 
       {visible.length > 0 ? (
-        <KeyboardListNav>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {visible.map((s) => (
-            <ShipmentRow key={s.id} s={s} />
+            <ShipmentBoardingPass key={s.id} s={s} />
           ))}
-        </KeyboardListNav>
+        </div>
       ) : (
         <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
           <p className="text-sm text-muted-foreground">
