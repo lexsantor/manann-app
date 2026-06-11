@@ -116,7 +116,7 @@ export default async function ExpedienteDetailPage({
           <Fact label="ETA" value={formatDate(s.eta)} mono />
           {co2 && (
             <div>
-              <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">
+              <dt className="text-[12px] uppercase tracking-wide text-muted-foreground">
                 CO₂ estimado
               </dt>
               <dd className="mt-0.5 text-sm text-foreground">
@@ -155,7 +155,7 @@ export default async function ExpedienteDetailPage({
         <div className="space-y-5">
           <Panel title="Tracking" icon={MapPinned}>
             <RouteMap pol={s.pol} pod={s.pod} events={s.trackingEvents} />
-            <p className="mb-4 mt-2 flex items-center gap-1.5 text-[11px] text-ink-subtle">
+            <p className="mb-4 mt-2 flex items-center gap-1.5 text-[12px] text-ink-subtle">
               <span className="size-1.5 rounded-full bg-muted-foreground" />
               Simulación · el tracking en vivo (ShipsGo) se conecta en producción
             </p>
@@ -202,7 +202,7 @@ function Fact({
 }) {
   return (
     <div>
-      <dt className="text-[11px] uppercase tracking-wide text-muted-foreground">
+      <dt className="text-[12px] uppercase tracking-wide text-muted-foreground">
         {label}
       </dt>
       <dd className={cn("mt-0.5 text-sm text-foreground", mono && "font-mono")}>
@@ -232,7 +232,7 @@ function Parties({ parties }: { parties: ShipmentDetail["parties"] }) {
       <div className="grid gap-3 sm:grid-cols-2">
         {sorted.map((p) => (
           <div key={p.id} className="rounded-md border border-border bg-background p-3">
-            <p className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
+            <p className="font-mono text-[12px] uppercase tracking-wide text-muted-foreground">
               {PARTY_ROLE[p.role] ?? p.role}
             </p>
             <p className="mt-0.5 text-sm font-medium text-foreground">{p.name}</p>
@@ -343,7 +343,7 @@ function Charges({ charges }: { charges: ShipmentDetail["charges"] }) {
                     {c.description || typeLabel}
                   </p>
                   {sub && (
-                    <p className="font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
+                    <p className="font-mono text-[12px] uppercase tracking-wide text-muted-foreground">
                       {sub}
                     </p>
                   )}
@@ -401,7 +401,7 @@ function Documents({
                       <span className="truncate">{base}</span>
                       <span className="shrink-0">{ext}</span>
                     </p>
-                    <p className="text-[11px] text-muted-foreground">
+                    <p className="text-[12px] text-muted-foreground">
                       {DOC_TYPE[d.type] ?? d.type}
                     </p>
                   </div>

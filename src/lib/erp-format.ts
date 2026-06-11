@@ -90,11 +90,14 @@ export const PORTS: Record<string, string> = {
   ESVLC: "València",
   ESALG: "Algeciras",
   ESVNG: "Vilanova",
+  ESVGO: "Vigo",
   NLRTM: "Rotterdam",
   CNSHA: "Shanghái",
+  CNNGB: "Ningbo-Zhoushan",
   USNYC: "Nueva York",
   DEHAM: "Hamburgo",
   MXMEX: "Ciudad de México",
+  HKHKG: "Hong Kong",
 };
 
 export function portLabel(code: string | null): string {
@@ -109,11 +112,14 @@ export const PORT_COORDS: Record<string, [number, number]> = {
   ESVLC: [39.44, -0.32],
   ESALG: [36.13, -5.44],
   ESVNG: [41.21, 1.73],
+  ESVGO: [42.24, -8.72],
   NLRTM: [51.95, 4.14],
   CNSHA: [30.63, 122.07],
+  CNNGB: [29.87, 121.55],
   USNYC: [40.69, -74.04],
   DEHAM: [53.54, 9.97],
   MXMEX: [19.44, -99.07],
+  HKHKG: [22.28, 114.17],
 };
 
 export function portCoords(code: string | null): [number, number] | null {

@@ -103,7 +103,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             alt={podCity}
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
 
           {/* Códigos de puerto */}
           <div className="absolute bottom-0 left-0 right-0 px-4 pb-2.5">
@@ -115,7 +115,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
                 <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">
                   {pol3}
                 </p>
-                <p className="mt-0.5 font-mono text-[9px] text-white/80">
+                <p className="mt-0.5 font-mono text-[10px] text-white/80">
                   {polCity}
                 </p>
               </div>
@@ -131,7 +131,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
                 <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">
                   {pod3}
                 </p>
-                <p className="mt-0.5 font-mono text-[9px] text-white/80">
+                <p className="mt-0.5 font-mono text-[10px] text-white/80">
                   {podCity}
                 </p>
               </div>
@@ -147,7 +147,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
           {/* Referencia + naviera */}
           <div className="flex items-center justify-between gap-2">
-            <p className="font-mono text-[11px] tracking-wide text-muted-foreground">
+            <p className="font-mono text-[12px] tracking-wide text-muted-foreground">
               {s.reference}
             </p>
             {s.carrier && <CarrierBadge carrier={s.carrier} />}
@@ -156,16 +156,16 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
           {/* ETD / ETA con divisor vertical */}
           <div className="mt-2.5 flex divide-x divide-border border-t border-border pt-2.5">
             <div className="flex-1 pr-3">
-              <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
+              <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
                 ETD
               </p>
-              <p className="mt-0.5 font-mono text-sm text-foreground">
+              <p className="mt-0.5 font-sans text-sm text-foreground">
                 {formatDate(s.etd)}
               </p>
             </div>
             <div className="flex-1 pl-3">
               <div className="flex items-center gap-1.5">
-                <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
+                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
                   ETA
                 </p>
                 {etaOverdue && (
@@ -174,7 +174,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
                   </span>
                 )}
               </div>
-              <p className={cn("mt-0.5 font-mono text-sm", etaOverdue ? "text-accent" : "text-foreground")}>
+              <p className={cn("mt-0.5 font-sans text-sm", etaOverdue ? "text-accent" : "text-foreground")}>
                 {formatDate(s.eta)}
               </p>
             </div>
@@ -182,6 +182,10 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
           {/* Barra de progreso del trayecto */}
           <div className="mt-2.5 border-t border-border pt-2.5">
+            <div className="mb-1.5 flex items-center justify-between">
+              <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETD</span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETA</span>
+            </div>
             <div className="relative h-1 overflow-hidden rounded-full bg-surface-2">
               <div
                 className="absolute inset-y-0 left-0 rounded-full bg-primary"

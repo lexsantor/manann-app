@@ -1,14 +1,18 @@
 const PORT_IMAGES: Record<string, string> = {
-  ESBCN: "/images/barcelona.png",
-  NLRTM: "/images/rotterdam.png",
-  CNSHA: "/images/Shanghai.png",
-  ESVLC: "/images/valencia.png",
-  MXMEX: "/images/ciudad-mexico.png",
-  USNYC: "/images/new_york.png",
-  DEHAM: "/images/hamburgo.png",
+  ESBCN: "/images/barcelona.webp",
+  NLRTM: "/images/rotterdam.webp",
+  CNSHA: "/images/Shanghai.webp",
+  ESVLC: "/images/valencia.webp",
+  MXMEX: "/images/ciudad-mexico.webp",
+  USNYC: "/images/new-york.webp",
+  DEHAM: "/images/hamburgo.webp",
+  ESALG: "/images/algeciras.webp",
+  HKHKG: "/images/hong-kong.webp",
+  CNNGB: "/images/ningbo-zhoushan.webp",
+  ESVGO: "/images/vigo.webp",
 };
 
-const FALLBACK = "/images/barcelona.png";
+const FALLBACK = "/images/barcelona.webp";
 
 export function portImageUrl(locode: string): string {
   return PORT_IMAGES[locode] ?? FALLBACK;

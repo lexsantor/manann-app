@@ -39,7 +39,7 @@ function FieldCell({ field, index }: { field: Field; index: number }) {
       )}
       style={{ "--i": index } as CSSProperties}
     >
-      <p className="font-sans text-[11px] uppercase tracking-wide text-muted-foreground">
+      <p className="font-sans text-[12px] uppercase tracking-wide text-muted-foreground">
         {field.label}
       </p>
       <p className={cn("mt-0.5 text-sm text-foreground", field.mono && "font-mono")}>

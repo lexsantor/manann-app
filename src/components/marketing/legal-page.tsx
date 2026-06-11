@@ -39,7 +39,7 @@ export function LegalPage({ eyebrow, title, sections }: LegalPageProps) {
             <h2 className="font-display text-lg font-medium tracking-tight text-foreground">
               {s.heading}
             </h2>
-            <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+            <p className="mt-2 text-[16px] leading-relaxed text-muted-foreground">
               {s.body}
             </p>
           </section>

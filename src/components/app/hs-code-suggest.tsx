@@ -76,7 +76,7 @@ export function HsCodeSuggest({ cargoLineId }: HsCodeSuggestProps) {
         <Icon icon={Sparkles} size={11} className="mt-0.5 shrink-0 text-accent" />
         <div className="min-w-0 flex-1">
           <p className="font-mono text-xs font-semibold text-accent">{suggestion.code}</p>
-          <p className="mt-0.5 text-[11px] leading-snug text-muted-foreground">
+          <p className="mt-0.5 text-[12px] leading-snug text-muted-foreground">
             {suggestion.justification}
           </p>
         </div>

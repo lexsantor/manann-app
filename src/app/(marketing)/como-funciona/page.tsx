@@ -92,7 +92,7 @@ export default function ComoFuncionaPage() {
                 {s.title}
               </h2>
               <p className="mt-2 text-lg text-foreground">{s.lead}</p>
-              <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+              <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
                 {s.body}
               </p>
             </div>

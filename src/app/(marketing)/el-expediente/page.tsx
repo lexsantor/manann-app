@@ -83,7 +83,7 @@ export default function ElExpedientePage() {
               De documento a expediente confirmado.
             </h2>
           </div>
-          <ol className="space-y-4 text-[15px] leading-relaxed text-muted-foreground">
+          <ol className="space-y-4 text-[16px] leading-relaxed text-muted-foreground">
             <li>
               <strong className="font-medium text-foreground">Subido.</strong>{" "}
               El BL llega al expediente como documento, listo para leerse.
