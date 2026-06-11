@@ -1,7 +1,7 @@
 // Capa de datos del ERP. REGLA ANTI-IDOR: toda query se filtra por la org del
 // usuario; nunca se confía en un id del cliente sin comprobar ownership.
 import { cache } from "react";
-import { and, desc, eq, asc } from "drizzle-orm";
+import { and, desc, eq, asc, or, ilike } from "drizzle-orm";
 
 import { db } from "@/db";
 import { member, shipment, document } from "@/db/schema";
@@ -30,9 +30,19 @@ export async function getActiveOrg(userId: string): Promise<ActiveOrg | null> {
 }
 
 // Lista de expedientes de una org, con sus partes (para derivar consignatario).
-export async function listShipments(orgId: string) {
+export async function listShipments(orgId: string, q?: string) {
+  const search = q
+    ? or(
+        ilike(shipment.reference, `%${q}%`),
+        ilike(shipment.carrier, `%${q}%`),
+        ilike(shipment.pol, `%${q}%`),
+        ilike(shipment.pod, `%${q}%`),
+        ilike(shipment.blNumber, `%${q}%`),
+      )
+    : undefined;
+
   return db.query.shipment.findMany({
-    where: eq(shipment.organizationId, orgId),
+    where: search ? and(eq(shipment.organizationId, orgId), search) : eq(shipment.organizationId, orgId),
     with: { parties: true },
     orderBy: [desc(shipment.createdAt)],
   });

@@ -23,6 +23,10 @@ import { DocumentUpload } from "@/components/app/document-upload";
 import { AiExtractionPanel } from "@/components/app/ai-extraction-panel";
 import { PdfViewer } from "@/components/app/pdf-viewer";
 import { HsCodeSuggest } from "@/components/app/hs-code-suggest";
+import { StatusTimeline } from "@/components/app/status-timeline";
+import { DemoTour } from "@/components/app/demo-tour";
+import { PrintButton } from "@/components/app/print-button";
+import { NotesPanel } from "@/components/app/notes-panel";
 import {
   MODE,
   PARTY_ROLE,
@@ -90,13 +94,19 @@ export default async function ExpedienteDetailPage({
 
   return (
     <div className="space-y-5">
-      <Link
-        href="/expedientes"
-        prefetch={false}
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-      >
-        <Icon icon={ArrowLeft} size={15} /> Expedientes
-      </Link>
+      <div className="flex items-center justify-between print:hidden">
+        <Link
+          href="/expedientes"
+          prefetch={false}
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+        >
+          <Icon icon={ArrowLeft} size={15} /> Expedientes
+        </Link>
+        <div className="flex items-center gap-2">
+          <DemoTour />
+          <PrintButton />
+        </div>
+      </div>
 
       {/* ── Cabecera bento ──────────────────────────────────────────── */}
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
@@ -208,6 +218,9 @@ export default async function ExpedienteDetailPage({
             )}
           </div>
         </div>
+
+        <div className="border-t border-dashed border-border/70" />
+        <StatusTimeline status={s.status} />
       </div>
 
       {/* Borrador: guía al wow desde cero */}
@@ -240,6 +253,7 @@ export default async function ExpedienteDetailPage({
             </p>
             <TrackingTimeline events={s.trackingEvents} />
           </Panel>
+          <NotesPanel shipmentId={s.id} initialNotes={s.notes ?? null} />
         </div>
       </div>
     </div>

@@ -252,6 +252,25 @@ h1, h2, h3, .font-display {
   *, body { transition: none !important; animation: none !important; }
 }
 
+/* ============================================================
+   PRINT
+   Oculta chrome del ERP; deja solo el contenido del expediente.
+   ============================================================ */
+@media print {
+  nav, aside { display: none !important; }
+  .lg\:pl-60 { padding-left: 0 !important; }
+  body {
+    background: white !important;
+    background-image: none !important;
+    color: black !important;
+  }
+  .bg-card, .bg-background, .bg-surface-2\/40 {
+    background: white !important;
+    box-shadow: none !important;
+  }
+  .border-border { border-color: #e5e5e5 !important; }
+}
+
 /* Logo conmutado por tema (sin flash: ambos en el DOM, CSS los muestra). */
 .logo-light-mode { display: none; }
 [data-theme="light"] .logo-dark-mode { display: none; }

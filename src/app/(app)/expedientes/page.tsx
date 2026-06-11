@@ -4,6 +4,7 @@ import { Plus } from "lucide-react";
 import { getOrgContext, listShipments } from "@/lib/erp";
 import { createDraftShipment } from "@/lib/erp-actions";
 import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
+import { SearchInput } from "@/components/app/search-input";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/icon";
 import { STATUS } from "@/lib/erp-format";
@@ -14,9 +15,9 @@ export const metadata = { title: "Expedientes — Manann" };
 export default async function ExpedientesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ estado?: string }>;
+  searchParams: Promise<{ estado?: string; q?: string }>;
 }) {
-  const { estado } = await searchParams;
+  const { estado, q } = await searchParams;
   const ctx = await getOrgContext();
 
   if (!ctx?.org) {
@@ -27,7 +28,7 @@ export default async function ExpedientesPage({
     );
   }
 
-  const all = await listShipments(ctx.org.id);
+  const all = await listShipments(ctx.org.id, q || undefined);
   const counts = all.reduce<Record<string, number>>((acc, s) => {
     acc[s.status] = (acc[s.status] ?? 0) + 1;
     return acc;
@@ -54,6 +55,8 @@ export default async function ExpedientesPage({
           </Button>
         </form>
       </header>
+
+      <SearchInput defaultValue={q} estado={estado} />
 
       {/* filtro por estado (URL como estado) */}
       <div className="flex flex-wrap gap-2">

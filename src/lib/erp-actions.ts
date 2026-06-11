@@ -331,6 +331,19 @@ export async function suggestHsCode(
   return { code: clean, justification: object.justification };
 }
 
+export async function saveNotes(shipmentId: string, notes: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Expediente inválido");
+  const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
+  if (!owned) throw new Error("No autorizado");
+  await db
+    .update(shipment)
+    .set({ notes: notes.trim() || null })
+    .where(eq(shipment.id, shipmentId));
+  revalidatePath(`/expedientes/${shipmentId}`);
+}
+
 export async function applyHsCode(
   cargoLineId: string,
   hsCode: string,

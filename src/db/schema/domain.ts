@@ -86,6 +86,7 @@ export const shipment = pgTable(
     freightTerms: text("freight_terms"), // prepaid / collect
     etd: timestamp("etd"),
     eta: timestamp("eta"),
+    notes: text("notes"),
     createdBy: text("created_by").references(() => user.id, {
       onDelete: "set null",
     }),
