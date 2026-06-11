@@ -234,7 +234,7 @@ export default async function ExpedienteDetailPage({
         <div className="space-y-5">
           <Panel title="Tracking" icon={MapPinned}>
             <RouteMap pol={s.pol} pod={s.pod} events={s.trackingEvents} />
-            <p className="mb-4 mt-2 flex items-center gap-1.5 text-[12px] text-ink-subtle">
+            <p className="mb-4 mt-2 flex items-center gap-1.5 text-xs text-ink-subtle">
               <span className="size-1.5 rounded-full bg-muted-foreground" />
               Simulación · el tracking en vivo (ShipsGo) se conecta en producción
             </p>
@@ -258,7 +258,7 @@ function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-lg border border-border bg-gradient-to-br from-card to-muted/5 p-5">
+    <section className="rounded-xl border border-border bg-card p-5">
       <div className="mb-4 flex items-center gap-2">
         <Icon icon={icon} size={16} className="text-muted-foreground" />
         <h2 className="font-display text-base font-medium tracking-tight text-foreground">
@@ -290,8 +290,8 @@ function Parties({ parties }: { parties: ShipmentDetail["parties"] }) {
     <Panel title="Partes" icon={Users}>
       <div className="grid gap-3 sm:grid-cols-2">
         {sorted.map((p) => (
-          <div key={p.id} className="rounded-md border border-border bg-background p-3">
-            <p className="font-mono text-[12px] uppercase tracking-wide text-muted-foreground">
+          <div key={p.id} className="rounded-md border border-border/60 bg-surface-2/40 p-3 transition-colors hover:bg-surface-2">
+            <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
               {PARTY_ROLE[p.role] ?? p.role}
             </p>
             <p className="mt-0.5 text-sm font-medium text-foreground">{p.name}</p>
@@ -322,7 +322,7 @@ function Containers({
           {containers.map((c) => (
             <div
               key={c.id}
-              className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border bg-background px-3 py-2.5"
+              className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-border/60 bg-surface-2/40 px-3 py-2.5 transition-colors hover:bg-surface-2"
             >
               <div className="flex items-center gap-2">
                 <Icon icon={ContainerIcon} size={15} className="text-muted-foreground" />
@@ -402,7 +402,7 @@ function Charges({ charges }: { charges: ShipmentDetail["charges"] }) {
                     {c.description || typeLabel}
                   </p>
                   {sub && (
-                    <p className="font-mono text-[12px] uppercase tracking-wide text-muted-foreground">
+                    <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
                       {sub}
                     </p>
                   )}
@@ -449,7 +449,7 @@ function Documents({
             return (
               <div key={d.id}>
                 {/* Fila horizontal: nombre de archivo + CTA inline */}
-                <div className="flex items-center gap-3 rounded-md border border-border bg-background px-3 py-2.5">
+                <div className="flex items-center gap-3 rounded-md border border-border/60 bg-surface-2/40 px-3 py-2.5 transition-colors hover:bg-surface-2">
                   <Icon
                     icon={FileText}
                     size={15}
@@ -460,7 +460,7 @@ function Documents({
                       <span className="truncate">{base}</span>
                       <span className="shrink-0">{ext}</span>
                     </p>
-                    <p className="text-[12px] text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       {DOC_TYPE[d.type] ?? d.type}
                     </p>
                   </div>
