@@ -15,21 +15,21 @@
 
 ## Tier 1 — Quick wins (S · ≤2 días)
 
-- [ ] **Timeline de estado visual** (5 etapas: Abierto → Documentación → Pre-alert → En tránsito → Entregado) — barra de progreso sobre el campo `status` existente; distinto del timeline de eventos de tracking que ya existe
-- [ ] **Tour overlay modo demo** — guía interactiva de 4-5 pasos que señala los momentos clave para presentaciones ante stakeholders; flag en `localStorage`
-- [ ] **Exportar expediente a PDF** — botón en cabecera del detalle; output con todos los campos, contenedores, partes y sello Manann
-- [ ] **Búsqueda full-text en expedientes** — completar los filtros existentes (solo status hoy) con `<input>` que filtra por referencia, naviera, POL, POD, partes
-- [ ] **Campo de notas internas** — columna `notes text` en `shipments` + textarea con autoguardado (debounce 800ms → Server Action)
+- [x] **Timeline de estado visual** (5 etapas: Abierto → Documentación → Pre-alert → En tránsito → Entregado) — barra de progreso sobre el campo `status` existente; distinto del timeline de eventos de tracking que ya existe
+- [x] **Tour overlay modo demo** — guía interactiva de 4-5 pasos que señala los momentos clave para presentaciones ante stakeholders; flag en `localStorage`
+- [x] **Exportar expediente a PDF** — botón en cabecera del detalle; output con todos los campos, contenedores, partes y sello Manann
+- [x] **Búsqueda full-text en expedientes** — completar los filtros existentes (solo status hoy) con `<input>` que filtra por referencia, naviera, POL, POD, partes
+- [x] **Campo de notas internas** — columna `notes text` en `shipments` + textarea con autoguardado (debounce 800ms → Server Action)
 
 ---
 
 ## Tier 2 — UX diferenciadora (M · 2–4 días)
 
-- [ ] **Edición inline de campos extraídos** — click en un campo del panel de extracción lo convierte en `<input>` editable; guardar con Enter actualiza el expediente; materializa "la IA propone, el humano confirma"
-- [ ] **Dashboard analítica: gráficas** — completar los 4 KPIs existentes con bar chart (expedientes por semana/mes) y donut (distribución por estado); con `recharts` o shadcn charts
-- [ ] **⌘K command palette global** — abrir con ⌘K/Ctrl+K; buscar expedientes, navegar a secciones, cambiar tema; con `cmdk` (ya en shadcn)
-- [ ] **Notificaciones in-app** — icono campana en sidebar; tabla `notifications(user_id, message, read, created_at)` + dropdown con actividad reciente
-- [ ] **Vista Kanban de expedientes** — toggle Lista/Tablero en la lista; columnas por estado con tarjetas; complementa la vista de boarding passes
+- [x] **Edición inline de campos extraídos** — click en un campo del panel de extracción lo convierte en `<input>` editable; guardar con Enter actualiza el expediente; materializa "la IA propone, el humano confirma"
+- [x] **Dashboard analítica: gráficas** — completar los 4 KPIs existentes con bar chart (expedientes por semana/mes) y donut (distribución por estado); con `recharts` o shadcn charts
+- [x] **⌘K command palette global** — abrir con ⌘K/Ctrl+K; buscar expedientes, navegar a secciones, cambiar tema; con `cmdk` (ya en shadcn)
+- [x] **Notificaciones in-app** — icono campana en sidebar; tabla `notifications(user_id, message, read, created_at)` + dropdown con actividad reciente
+- [x] **Vista Kanban de expedientes** — toggle Lista/Tablero en la lista; columnas por estado con tarjetas; complementa la vista de boarding passes
 
 ---
 

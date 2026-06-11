@@ -113,28 +113,33 @@ export default async function ExpedienteDetailPage({
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
 
         {/* Fila 1: imagen · origen · destino · expediente */}
-        <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
-          <div>
+        <div className="flex flex-col lg:grid lg:grid-cols-4">
+          {/* Imagen: ancho completo en mobile, primera columna en desktop */}
+          <div className="border-b border-border lg:border-b-0 lg:border-r lg:border-border">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={portImageUrl(s.pod ?? "")}
               alt={podCity}
-              className="h-full min-h-[160px] w-full object-cover"
+              className="h-48 w-full object-cover lg:h-full lg:min-h-[160px]"
             />
           </div>
-          <div className="relative p-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Origen</p>
-            <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>{pol3}</p>
-            <p className="mt-1.5 font-mono text-xs text-muted-foreground ai-reveal" style={{ "--i": 1 } as React.CSSProperties}>{polCity}</p>
-            <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-1/2 rounded-full bg-card px-0.5">
-              <Icon icon={MoveRight} size={12} className="text-muted-foreground/40" />
+          {/* Origen + Destino: 2 col en mobile, display:contents en desktop */}
+          <div className="grid grid-cols-2 border-b border-border lg:contents">
+            <div className="relative border-r border-border p-5">
+              <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Origen</p>
+              <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>{pol3}</p>
+              <p className="mt-1.5 font-mono text-xs text-muted-foreground ai-reveal" style={{ "--i": 1 } as React.CSSProperties}>{polCity}</p>
+              <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-1/2 rounded-full bg-card px-0.5">
+                <Icon icon={MoveRight} size={12} className="text-muted-foreground/40" />
+              </div>
+            </div>
+            <div className="p-5 lg:border-r lg:border-border">
+              <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Destino</p>
+              <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground ai-reveal" style={{ "--i": 2 } as React.CSSProperties}>{pod3}</p>
+              <p className="mt-1.5 font-mono text-xs text-muted-foreground ai-reveal" style={{ "--i": 3 } as React.CSSProperties}>{podCity}</p>
             </div>
           </div>
-          <div className="p-5">
-            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Destino</p>
-            <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground ai-reveal" style={{ "--i": 2 } as React.CSSProperties}>{pod3}</p>
-            <p className="mt-1.5 font-mono text-xs text-muted-foreground ai-reveal" style={{ "--i": 3 } as React.CSSProperties}>{podCity}</p>
-          </div>
+          {/* Expediente: ancho completo en mobile, última columna en desktop */}
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Expediente</p>
             <h1 className="mt-1 font-display text-xl font-medium tracking-tight text-foreground">{s.reference}</h1>
@@ -150,26 +155,26 @@ export default async function ExpedienteDetailPage({
         <div className="border-t border-dashed border-border/70" />
 
         {/* Fila 2: BL · Incoterm · Condiciones · ETD→ETA */}
-        <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4">
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">BL</p>
             <div className="mt-1.5 ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>
               <InlineField shipmentId={s.id} field="blNumber" value={s.blNumber} mono />
             </div>
           </div>
-          <div className="p-5">
+          <div className="border-l border-border p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Incoterm</p>
             <div className="mt-1.5 ai-reveal" style={{ "--i": 1 } as React.CSSProperties}>
               <InlineField shipmentId={s.id} field="incoterm" value={s.incoterm} />
             </div>
           </div>
-          <div className="p-5">
+          <div className="p-5 lg:border-l lg:border-border">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Condiciones</p>
             <div className="mt-1.5 ai-reveal" style={{ "--i": 2 } as React.CSSProperties}>
               <InlineField shipmentId={s.id} field="freightTerms" value={s.freightTerms} />
             </div>
           </div>
-          <div className="p-5">
+          <div className="border-l border-border p-5">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1">
                 <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
@@ -196,22 +201,22 @@ export default async function ExpedienteDetailPage({
         <div className="border-t border-dashed border-border/70" />
 
         {/* Fila 3: Estado · Prioridad · Naviera · CO₂ */}
-        <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4">
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Estado</p>
             <div className="mt-2"><StatusPill status={s.status} /></div>
           </div>
-          <div className="p-5">
+          <div className="border-l border-border p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Prioridad</p>
             <div className="mt-2"><PriorityPill priority={s.priority} /></div>
           </div>
-          <div className="p-5">
+          <div className="p-5 lg:border-l lg:border-border">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Naviera</p>
             <div className="mt-2 ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>
               <InlineField shipmentId={s.id} field="carrier" value={s.carrier} />
             </div>
           </div>
-          <div className="p-5">
+          <div className="border-l border-border p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">CO₂ estimado</p>
             {co2 ? (
               <>

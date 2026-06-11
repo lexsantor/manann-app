@@ -1,7 +1,5 @@
 # Manann — Storytelling de marca
 
-> **Nota:** la guía verbal completa y autoritativa es el *Brand Book de storytelling y verbal identity* (interno, fuera del repo → `MANANN-brandbook.md`, gitignored). Donde haya conflicto, manda el brand book. El mensaje central es **«El sistema conoce la ruta. Tú mantienes el rumbo.»** (no «Tú no remas»).
-
 ## El mito (la semilla)
 
 En la mitología celta-irlandesa, **Manannán mac Lir** es el dios del mar. Hijo de Lir (el océano mismo), Manannán no *lucha* contra el mar: lo gobierna. Cruza los océanos en **Scuabtuinne**, "el Barredor de Olas", un barco que **navega sin velas y va solo a donde su dueño quiere ir**. Monta a **Aenbarr**, un caballo que galopa sobre el agua como si fuera tierra firme. Y cuando quiere proteger sus tierras, las envuelve en una **niebla** (el *féth fíada*) que las vuelve invisibles a quien no debe encontrarlas.
@@ -12,7 +10,7 @@ Manannán es el guía de las travesías. El que conoce todas las rutas. El que l
 
 Esa es, exactamente, la promesa del producto:
 
-> **El sistema conoce la ruta. Tú mantienes el rumbo.**
+> **El sistema conoce la ruta. Tú no remas.**
 
 Donde los ERPs transitarios actuales obligan al operario a teclear, copiar, reintroducir y vigilar cada dato a mano —remar contra el mar—, Manann hace que el expediente **navegue solo**: el Bill of Lading se lee, los datos se extraen, el expediente se rellena, el envío se sigue. El humano marca el rumbo y confirma; la máquina hace la travesía.
 
@@ -26,9 +24,11 @@ Donde los ERPs transitarios actuales obligan al operario a teclear, copiar, rein
 
 **Para quién:** transitarios y operadores logísticos de tamaño pequeño-medio que mueven tráfico internacional multimodal y están atrapados en software que parece de hace veinte años.
 
-**El enemigo (lo que combatimos):** no un competidor concreto, sino una *condición* del sector — el data-entry manual, las pantallas saturadas, la curva de aprendizaje de semanas, la IA como adorno. El tecleo que erosiona márgenes que ya son de un solo dígito.
+**El enemigo (lo que combatimos):** no un competidor concreto, ni la *ausencia* de IA (cuatro de los seis líderes del sector ya la marketean). Lo que combatimos es la **IA periférica y enterrada**: capacidades de IA añadidas al borde (productos sueltos, copilotos, OCR de facturas, IA de compliance) en vez de un flujo nativo de extremo a extremo; productos escondidos tras muros de venta (sin precio, sin poder probarlos); complejidad que exige academias y certificaciones para usar el propio software; y una modernización que el sector logra por adquisición, no por reinvención. El resultado: una experiencia rota para el transitario pequeño-mediano, donde el tecleo manual sigue erosionando márgenes de un solo dígito.
 
-**La diferencia en una frase:** *Mientras los demás te hacen rellenar el formulario, Manann lo rellena por ti y tú lo confirmas.*
+> Nota de posicionamiento: el negocio incumbente funciona comercialmente (CargoWise domina y atrinchera). Manann no dice "el sector está obsoleto" a secas — dice que la *experiencia y el acceso* están rotos para quien no es enterprise global. Ver `MANANN-COMPETITIVE.md` para el análisis completo de los seis competidores.
+
+**La diferencia en una frase:** *Otros añaden IA al borde —un copiloto, un OCR de facturas— sobre un ERP de hace años. En Manann la IA es el flujo entero: arrastras el documento y el expediente se rellena solo. Tú confirmas.*
 
 ## La gran decisión visual: por qué NO somos azules
 
@@ -50,10 +50,11 @@ Cuatro principios. La voz es la de un buen capitán: sabe más que tú, pero no 
 
 ## Frases de marca (banco de mensajes)
 
-- **Tagline principal:** *El sistema conoce la ruta. Tú mantienes el rumbo.*
+- **Tagline principal:** *El sistema conoce la ruta. Tú no remas.*
 - **Alternativas:** *Navega sin velas.* / *La travesía, sin el tecleo.* / *De documento a expediente, sin escalas.*
 - **Apertura de demo (la que cuentas en la sala):** *"Manannán mac Lir cruzaba los océanos en un barco que no necesitaba velas y llegaba solo a su destino. Esto hace lo mismo con vuestros expedientes."*
 - **Una línea para escépticos:** *"La IA no decide nada. Lee el documento, rellena el expediente, y tú lo confirmas. Como un buen administrativo que ya ha hecho el 90% del trabajo cuando llegas."*
+- **Para el escéptico informado ("Visual Trans también tiene IA"):** *"Cierto, la tienen. Como un producto aparte que pides por separado y ves en una demo de ventas. Aquí no es un módulo: es el gesto de arrastrar un PDF. Pruébalo tú ahora, sin que te lo enseñe un comercial. Esa es la diferencia."*
 
 ## El glifo
 
