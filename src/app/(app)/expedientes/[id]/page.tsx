@@ -25,6 +25,7 @@ import { PdfViewer } from "@/components/app/pdf-viewer";
 import { HsCodeSuggest } from "@/components/app/hs-code-suggest";
 import {
   MODE,
+  STATUS,
   PARTY_ROLE,
   CHARGE_TYPE,
   DOC_TYPE,
@@ -55,6 +56,50 @@ function CarrierBadge({ carrier }: { carrier: string }) {
       {carrier}
     </span>
   );
+}
+
+// ─── Gradientes semánticos ───────────────────────────────────────────────────
+
+const NEUTRAL_GRAD = "linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted) / 0.15) 100%)";
+
+function semanticGrad(end: string): { background: string } {
+  return { background: `linear-gradient(135deg, hsl(var(--card)) 0%, ${end} 100%)` };
+}
+
+function statusGradient(status: string): string {
+  const tone = STATUS[status]?.tone ?? "neutral";
+  if (tone === "active") return "hsl(var(--accent) / 0.10)";
+  if (tone === "done")   return "hsl(var(--success) / 0.10)";
+  return "hsl(var(--muted) / 0.25)";
+}
+
+function priorityGradient(priority: string): string {
+  const map: Record<string, string> = {
+    low:    "hsl(var(--priority-low) / 0.10)",
+    med:    "hsl(var(--priority-med) / 0.10)",
+    high:   "hsl(var(--priority-high) / 0.12)",
+    urgent: "hsl(var(--priority-urgent) / 0.14)",
+  };
+  return map[priority] ?? "hsl(var(--muted) / 0.25)";
+}
+
+const CARRIER_GRAD: Record<string, string> = {
+  MSC:           "hsl(199 89% 48% / 0.09)",
+  MAERSK:        "hsl(221 83% 53% / 0.09)",
+  "CMA CGM":     "hsl(0 84% 60% / 0.09)",
+  "HAPAG-LLOYD": "hsl(25 95% 53% / 0.09)",
+  COSCO:         "hsl(350 89% 60% / 0.09)",
+  EVERGREEN:     "hsl(152 76% 36% / 0.09)",
+  YANG_MING:     "hsl(271 91% 65% / 0.09)",
+};
+function carrierGradient(carrier: string): string {
+  return CARRIER_GRAD[carrier.toUpperCase()] ?? "hsl(var(--muted) / 0.25)";
+}
+
+function co2Gradient(kg: number): string {
+  if (kg < 500)  return "hsl(var(--success) / 0.10)";
+  if (kg < 2000) return "hsl(38 92% 50% / 0.10)";
+  return "hsl(0 84% 60% / 0.10)";
 }
 
 const UUID_RE =
@@ -97,89 +142,119 @@ export default async function ExpedienteDetailPage({
         <Icon icon={ArrowLeft} size={15} /> Expedientes
       </Link>
 
-      {/* ── Cabecera ────────────────────────────────────────────────── */}
-      <div className="rounded-xl border border-border bg-card shadow-sm">
+      {/* ── Cabecera bento ──────────────────────────────────────────── */}
+      <div className="rounded-xl border border-border bg-card p-3 shadow-sm">
 
-        {/* Ruta + foto */}
-        <div className="grid items-start gap-6 p-6 lg:grid-cols-[1fr_240px]">
-
-          {/* Izquierda: ruta + referencia + modo */}
-          <div>
-            <div className="flex items-center gap-5">
-              <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Origen</p>
-                <p className="font-display text-5xl font-bold leading-none tracking-tighter text-foreground">{pol3}</p>
-                <p className="mt-1 font-mono text-xs text-muted-foreground">{polCity}</p>
-              </div>
-              <Icon icon={MoveRight} size={18} className="mt-3 shrink-0 text-muted-foreground/30" />
-              <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Destino</p>
-                <p className="font-display text-5xl font-bold leading-none tracking-tighter text-foreground">{pod3}</p>
-                <p className="mt-1 font-mono text-xs text-muted-foreground">{podCity}</p>
-              </div>
-            </div>
-
-            <div className="mt-5">
-              <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Expediente</p>
-              <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">{s.reference}</h1>
-            </div>
-
-            <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
-              <Icon icon={mode.icon} size={14} />
-              <span>{mode.label}</span>
-              {s.vessel && <><span>·</span><span>{s.vessel}</span></>}
-              {s.voyage && <span className="text-ink-subtle">({s.voyage})</span>}
-            </div>
-          </div>
-
-          {/* Derecha: foto como frame en su ratio natural */}
+        {/* Fila 1: imagen · origen · destino · expediente */}
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           <div className="overflow-hidden rounded-lg border border-border">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={portImageUrl(s.pod ?? "")}
               alt={podCity}
-              className="w-full object-cover"
-              style={{ aspectRatio: "4/3" }}
+              className="h-full min-h-[140px] w-full object-cover"
             />
+          </div>
+          <div className="rounded-lg border border-border p-4">
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Origen</p>
+            <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground">{pol3}</p>
+            <p className="mt-1.5 font-mono text-xs text-muted-foreground">{polCity}</p>
+          </div>
+          <div className="rounded-lg border border-border p-4">
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Destino</p>
+            <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground">{pod3}</p>
+            <p className="mt-1.5 font-mono text-xs text-muted-foreground">{podCity}</p>
+          </div>
+          <div className="rounded-lg border border-border p-4">
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Expediente</p>
+            <h1 className="mt-1 font-display text-xl font-medium tracking-tight text-foreground">{s.reference}</h1>
+            <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+              <Icon icon={mode.icon} size={12} />
+              <span>{mode.label}</span>
+              {s.vessel && <><span>·</span><span className="truncate">{s.vessel}</span></>}
+              {s.voyage && <span className="shrink-0 text-ink-subtle">({s.voyage})</span>}
+            </div>
           </div>
         </div>
 
-        {/* Badges etiquetados */}
-        <div className="flex flex-wrap items-end gap-5 border-t border-dashed border-border/70 px-6 py-4">
-          <LabeledBadge label="Estado"><StatusPill status={s.status} /></LabeledBadge>
-          <LabeledBadge label="Prioridad"><PriorityPill priority={s.priority} /></LabeledBadge>
-          {s.carrier && (
-            <LabeledBadge label="Naviera"><CarrierBadge carrier={s.carrier} /></LabeledBadge>
-          )}
-          {etaOverdue && (
-            <LabeledBadge label="Alerta">
-              <span className="inline-flex items-center rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
-                ETA vencida
-              </span>
-            </LabeledBadge>
-          )}
+        <div className="my-3 border-t border-dashed border-border/70" />
+
+        {/* Fila 2: BL · Incoterm · Condiciones · ETD→ETA */}
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="rounded-lg border border-border p-4" style={{ background: NEUTRAL_GRAD }}>
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">BL</p>
+            <p className="mt-1.5 font-mono text-sm text-foreground">{s.blNumber ?? "—"}</p>
+          </div>
+          <div className="rounded-lg border border-border p-4" style={{ background: NEUTRAL_GRAD }}>
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Incoterm</p>
+            <p className="mt-1.5 font-sans text-sm text-foreground">{s.incoterm ?? "—"}</p>
+          </div>
+          <div className="rounded-lg border border-border p-4" style={{ background: NEUTRAL_GRAD }}>
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Condiciones</p>
+            <p className="mt-1.5 font-sans text-sm text-foreground">{s.freightTerms ?? "—"}</p>
+          </div>
+          <div className="rounded-lg border border-border p-4" style={{ background: NEUTRAL_GRAD }}>
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex-1">
+                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
+                <p className="mt-1.5 font-sans text-sm text-foreground">{formatDate(s.etd)}</p>
+              </div>
+              <Icon icon={MoveRight} size={13} className="mt-4 shrink-0 text-muted-foreground/30" />
+              <div className="flex-1 text-right">
+                <div className="flex items-center justify-end gap-1">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETA</p>
+                  {etaOverdue && (
+                    <span className="rounded-sm bg-accent/15 px-1 py-0.5 font-mono text-[8px] font-semibold uppercase tracking-wide text-accent">
+                      Vencida
+                    </span>
+                  )}
+                </div>
+                <p className={cn("mt-1.5 font-sans text-sm", etaOverdue ? "text-accent" : "text-foreground")}>
+                  {formatDate(s.eta)}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Facts */}
-        <dl className="grid grid-cols-2 gap-x-4 gap-y-4 border-t border-border px-6 py-5 sm:grid-cols-3 lg:grid-cols-6">
-          <Fact label="BL nº" value={s.blNumber} mono />
-          <Fact label="Incoterm" value={s.incoterm} />
-          <Fact label="Condiciones" value={s.freightTerms} />
-          <Fact label="ETD" value={formatDate(s.etd)} />
-          <Fact label="ETA" value={formatDate(s.eta)} />
-          {co2 && (
-            <div>
-              <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">CO₂ estimado</dt>
-              <dd className="mt-0.5 font-sans text-sm text-foreground">
-                {formatCo2(co2)}
-                <span className="ml-1.5 text-[10px] text-muted-foreground">
-                  · {Math.round(co2.distanceKm).toLocaleString("es-ES")} km
-                </span>
-              </dd>
-              <p className="mt-0.5 text-[10px] text-ink-subtle">GLEC · estimación</p>
+        <div className="my-3 border-t border-dashed border-border/70" />
+
+        {/* Fila 3: Estado · Prioridad · Naviera · CO₂ */}
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="rounded-lg border border-border p-4" style={semanticGrad(statusGradient(s.status))}>
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Estado</p>
+            <div className="mt-2"><StatusPill status={s.status} /></div>
+          </div>
+          <div className="rounded-lg border border-border p-4" style={semanticGrad(priorityGradient(s.priority))}>
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Prioridad</p>
+            <div className="mt-2"><PriorityPill priority={s.priority} /></div>
+          </div>
+          <div
+            className="rounded-lg border border-border p-4"
+            style={s.carrier ? semanticGrad(carrierGradient(s.carrier)) : { background: NEUTRAL_GRAD }}
+          >
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Naviera</p>
+            <div className="mt-2">
+              {s.carrier
+                ? <CarrierBadge carrier={s.carrier} />
+                : <span className="font-sans text-sm text-muted-foreground">—</span>}
             </div>
-          )}
-        </dl>
+          </div>
+          <div
+            className="rounded-lg border border-border p-4"
+            style={co2 ? semanticGrad(co2Gradient(co2.kg)) : { background: NEUTRAL_GRAD }}
+          >
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">CO₂ estimado</p>
+            {co2 ? (
+              <>
+                <p className="mt-1.5 font-sans text-sm font-medium text-foreground">{formatCo2(co2)}</p>
+                <p className="mt-0.5 text-[10px] text-ink-subtle">{Math.round(co2.distanceKm).toLocaleString("es-ES")} km · GLEC</p>
+              </>
+            ) : (
+              <p className="mt-1.5 font-sans text-sm text-muted-foreground">—</p>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Borrador: guía al wow desde cero */}
@@ -220,15 +295,6 @@ export default async function ExpedienteDetailPage({
 
 // ─── Bloques ────────────────────────────────────────────────────────────────
 
-function LabeledBadge({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">{label}</p>
-      {children}
-    </div>
-  );
-}
-
 function Panel({
   title,
   icon,
@@ -251,26 +317,6 @@ function Panel({
   );
 }
 
-function Fact({
-  label,
-  value,
-  mono,
-}: {
-  label: string;
-  value: string | null;
-  mono?: boolean;
-}) {
-  return (
-    <div>
-      <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-        {label}
-      </dt>
-      <dd className={cn("mt-0.5 text-sm text-foreground", mono ? "font-mono" : "font-sans")}>
-        {value ?? "—"}
-      </dd>
-    </div>
-  );
-}
 
 function Parties({ parties }: { parties: ShipmentDetail["parties"] }) {
   const order = ["shipper", "consignee", "notify"];
