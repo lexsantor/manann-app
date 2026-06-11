@@ -153,15 +153,21 @@ export default async function ExpedienteDetailPage({
         <div className="grid grid-cols-2 divide-x divide-border lg:grid-cols-4">
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">BL</p>
-            <p className="mt-1.5 font-mono text-sm text-foreground ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>{s.blNumber ?? "—"}</p>
+            <div className="mt-1.5 ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>
+              <InlineField shipmentId={s.id} field="blNumber" value={s.blNumber} mono />
+            </div>
           </div>
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Incoterm</p>
-            <p className="mt-1.5 font-sans text-sm text-foreground ai-reveal" style={{ "--i": 1 } as React.CSSProperties}>{s.incoterm ?? "—"}</p>
+            <div className="mt-1.5 ai-reveal" style={{ "--i": 1 } as React.CSSProperties}>
+              <InlineField shipmentId={s.id} field="incoterm" value={s.incoterm} />
+            </div>
           </div>
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Condiciones</p>
-            <p className="mt-1.5 font-sans text-sm uppercase text-foreground ai-reveal" style={{ "--i": 2 } as React.CSSProperties}>{s.freightTerms ?? "—"}</p>
+            <div className="mt-1.5 ai-reveal" style={{ "--i": 2 } as React.CSSProperties}>
+              <InlineField shipmentId={s.id} field="freightTerms" value={s.freightTerms} />
+            </div>
           </div>
           <div className="p-5">
             <div className="flex items-start justify-between gap-2">
@@ -202,9 +208,7 @@ export default async function ExpedienteDetailPage({
           <div className="p-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Naviera</p>
             <div className="mt-2 ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>
-              {s.carrier
-                ? <CarrierBadge carrier={s.carrier} />
-                : <span className="font-sans text-sm text-muted-foreground">—</span>}
+              <InlineField shipmentId={s.id} field="carrier" value={s.carrier} />
             </div>
           </div>
           <div className="p-5">

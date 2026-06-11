@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, isNull } from "drizzle-orm";
 import { del } from "@vercel/blob";
 import { z } from "zod";
 import { generateObject } from "ai";
@@ -442,7 +442,7 @@ export async function markNotificationsRead(): Promise<void> {
   await db
     .update(notification)
     .set({ read: new Date() })
-    .where(and(eq(notification.organizationId, ctx.org.id), eq(notification.read, null as unknown as Date)));
+    .where(and(eq(notification.organizationId, ctx.org.id), isNull(notification.read)));
 }
 
 async function createNotification(
