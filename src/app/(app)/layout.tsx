@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { getOrgContext } from "@/lib/erp";
 import { AppSidebar } from "@/components/app/app-sidebar";
+import { CommandPalette } from "@/components/app/command-palette";
 
 // Guardia real de sesión (server-side). El middleware solo hace el chequeo
 // optimista de cookie; aquí validamos la sesión y cargamos la org del usuario.

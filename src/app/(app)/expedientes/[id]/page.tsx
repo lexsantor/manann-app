@@ -27,6 +27,7 @@ import { StatusTimeline } from "@/components/app/status-timeline";
 import { DemoTour } from "@/components/app/demo-tour";
 import { PrintButton } from "@/components/app/print-button";
 import { NotesPanel } from "@/components/app/notes-panel";
+import { InlineField } from "@/components/app/inline-field";
 import {
   MODE,
   PARTY_ROLE,

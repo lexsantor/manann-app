@@ -2,18 +2,19 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { del } from "@vercel/blob";
 import { z } from "zod";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification } from "@/db/schema";
 import {
   getOrgContext,
   shipmentBelongsToOrg,
   getOwnedDocument,
+  listShipments,
 } from "@/lib/erp";
 import {
   blExtractionSchema,
@@ -153,6 +154,9 @@ export async function extractDocument(documentId: string): Promise<void> {
         aiConfidence: conf.toFixed(3),
       })
       .where(eq(document.id, documentId));
+
+    const [s] = await db.select({ id: shipment.id, reference: shipment.reference, organizationId: shipment.organizationId }).from(shipment).where(eq(shipment.id, doc.shipmentId));
+    if (s) await createNotification(s.organizationId, `IA extrajo el BL del expediente ${s.reference}`, s.id, s.reference);
   } catch (error) {
     console.error("Extracción IA falló:", error);
     await db
@@ -261,6 +265,10 @@ export async function applyExtraction(documentId: string): Promise<void> {
     .update(document)
     .set({ status: "confirmed" })
     .where(eq(document.id, documentId));
+
+  const [sRow] = await db.select({ reference: shipment.reference, organizationId: shipment.organizationId }).from(shipment).where(eq(shipment.id, sid));
+  if (sRow) await createNotification(sRow.organizationId, `Datos del BL incorporados al expediente ${sRow.reference}`, sid, sRow.reference);
+
   revalidatePath(`/expedientes/${sid}`);
 }
 
@@ -364,4 +372,89 @@ export async function applyHsCode(
 
   await db.update(cargoLine).set({ hsCode }).where(eq(cargoLine.id, cargoLineId));
   revalidatePath(`/expedientes/${line.shipmentId}`);
+}
+
+// ─── updateShipmentField ─────────────────────────────────────────────────────
+
+const EDITABLE_FIELDS = new Set([
+  "carrier", "vessel", "voyage", "blNumber", "pol", "pod",
+  "incoterm", "freightTerms",
+]);
+
+export async function updateShipmentField(
+  shipmentId: string,
+  field: string,
+  value: string,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Expediente inválido");
+  if (!EDITABLE_FIELDS.has(field)) throw new Error("Campo no editable");
+  const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
+  if (!owned) throw new Error("No autorizado");
+  await db.update(shipment).set({ [field]: value || null }).where(eq(shipment.id, shipmentId));
+  revalidatePath(`/expedientes/${shipmentId}`);
+}
+
+// ─── searchShipmentsForPalette ────────────────────────────────────────────────
+
+export async function searchShipmentsForPalette(
+  q: string,
+): Promise<{ id: string; reference: string; pol: string | null; pod: string | null; status: string }[]> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) return [];
+  const all = await listShipments(ctx.org.id, q || undefined);
+  return all.slice(0, 8).map((s) => ({
+    id: s.id,
+    reference: s.reference,
+    pol: s.pol,
+    pod: s.pod,
+    status: s.status,
+  }));
+}
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+
+export async function getNotifications(): Promise<
+  { id: string; message: string; read: boolean; createdAt: Date; shipmentId: string | null; shipmentReference: string | null }[]
+> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) return [];
+  const rows = await db
+    .select()
+    .from(notification)
+    .where(eq(notification.organizationId, ctx.org.id))
+    .orderBy(desc(notification.createdAt))
+    .limit(20);
+  return rows.map((r) => ({
+    id: r.id,
+    message: r.message,
+    read: r.read !== null,
+    createdAt: r.createdAt,
+    shipmentId: r.shipmentId,
+    shipmentReference: r.shipmentReference,
+  }));
+}
+
+export async function markNotificationsRead(): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) return;
+  await db
+    .update(notification)
+    .set({ read: new Date() })
+    .where(and(eq(notification.organizationId, ctx.org.id), eq(notification.read, null as unknown as Date)));
+}
+
+async function createNotification(
+  orgId: string,
+  message: string,
+  shipmentId?: string,
+  shipmentReference?: string,
+) {
+  await db.insert(notification).values({
+    organizationId: orgId,
+    message,
+    shipmentId: shipmentId ?? null,
+    shipmentReference: shipmentReference ?? null,
+  });
 }

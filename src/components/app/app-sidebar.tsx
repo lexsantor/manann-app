@@ -14,6 +14,7 @@ import {
 import { Icon } from "@/components/icon";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LogoutButton } from "./logout-button";
+import { NotificationsBell } from "./notifications-bell";
 import { cn } from "@/lib/utils";
 
 const NAV: { label: string; href: string; icon: LucideIcon }[] = [
@@ -104,6 +105,7 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
         </div>
         <div className="flex items-center justify-between gap-2 px-1">
           <ThemeToggle />
+          <NotificationsBell />
           <LogoutButton />
         </div>
       </div>

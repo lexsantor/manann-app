@@ -309,3 +309,22 @@ export const chargeRelations = relations(charge, ({ one }) => ({
     references: [shipment.id],
   }),
 }));
+
+// ─── Notificaciones in-app ────────────────────────────────────────────
+
+export const notification = pgTable(
+  "notification",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    userId: text("user_id").references(() => user.id, { onDelete: "cascade" }),
+    message: text("message").notNull(),
+    shipmentId: uuid("shipment_id").references(() => shipment.id, { onDelete: "cascade" }),
+    shipmentReference: text("shipment_reference"),
+    read: timestamp("read"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("notification_org_idx").on(t.organizationId)],
+);

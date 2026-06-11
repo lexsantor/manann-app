@@ -275,3 +275,78 @@ h1, h2, h3, .font-display {
 .logo-light-mode { display: none; }
 [data-theme="light"] .logo-dark-mode { display: none; }
 [data-theme="light"] .logo-light-mode { display: block; }
+
+/* ============================================================
+   CMDK — Command Palette overlay
+   ============================================================ */
+[cmdk-overlay] {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: hsl(var(--background) / 0.7);
+  backdrop-filter: blur(4px);
+  animation: ai-rise 150ms var(--ease-out) backwards;
+}
+
+[cmdk-dialog] {
+  position: fixed;
+  left: 50%;
+  top: 20%;
+  z-index: 61;
+  width: min(560px, calc(100vw - 2rem));
+  translate: -50% 0;
+  border-radius: var(--radius-lg);
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  box-shadow: 0 24px 48px hsl(0 0% 0% / 0.3);
+  animation: ai-rise 200ms var(--ease-out) backwards;
+  overflow: hidden;
+}
+
+[cmdk-input] {
+  width: 100%;
+  background: transparent;
+  outline: none;
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+}
+
+[cmdk-group-heading] {
+  padding: 0.25rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+
+[cmdk-item] {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: hsl(var(--foreground));
+  transition: background 120ms;
+}
+[cmdk-item][aria-selected="true"],
+[cmdk-item]:hover {
+  background: hsl(var(--surface-2));
+}
+
+[cmdk-empty] {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+[cmdk-separator] {
+  height: 1px;
+  margin: 0.25rem 0;
+  background: hsl(var(--border));
+}

@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, LayoutGrid, Rows3 } from "lucide-react";
+import { Icon } from "@/components/icon";
 
 import { getOrgContext, listShipments } from "@/lib/erp";
 import { createDraftShipment } from "@/lib/erp-actions";
 import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
 import { SearchInput } from "@/components/app/search-input";
+import { KanbanBoard } from "@/components/app/kanban-board";
 import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/icon";
 import { STATUS } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 
@@ -15,9 +16,9 @@ export const metadata = { title: "Expedientes — Manann" };
 export default async function ExpedientesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ estado?: string; q?: string }>;
+  searchParams: Promise<{ estado?: string; q?: string; vista?: string }>;
 }) {
-  const { estado, q } = await searchParams;
+  const { estado, q, vista } = await searchParams;
   const ctx = await getOrgContext();
 
   if (!ctx?.org) {
@@ -34,6 +35,7 @@ export default async function ExpedientesPage({
     return acc;
   }, {});
   const visible = estado ? all.filter((s) => s.status === estado) : all;
+  const isKanban = vista === "kanban";
 
   // Solo chips para estados presentes en los datos.
   const chips = Object.keys(STATUS).filter((k) => counts[k]);
@@ -74,7 +76,39 @@ export default async function ExpedientesPage({
         ))}
       </div>
 
-      {visible.length > 0 ? (
+      {/* Vista toggle */}
+      <div className="flex items-center gap-1.5 self-end">
+        <Link
+          href={estado ? `/expedientes?estado=${estado}${q ? `&q=${q}` : ""}` : `/expedientes${q ? `?q=${q}` : ""}`}
+          prefetch={false}
+          aria-label="Vista lista"
+          className={cn(
+            "flex h-7 w-7 items-center justify-center rounded-md border transition-colors",
+            !isKanban
+              ? "border-primary/40 bg-primary/10 text-foreground"
+              : "border-border bg-card text-muted-foreground hover:text-foreground",
+          )}
+        >
+          <Icon icon={Rows3} size={14} />
+        </Link>
+        <Link
+          href={`/expedientes?vista=kanban${estado ? `&estado=${estado}` : ""}${q ? `&q=${q}` : ""}`}
+          prefetch={false}
+          aria-label="Vista kanban"
+          className={cn(
+            "flex h-7 w-7 items-center justify-center rounded-md border transition-colors",
+            isKanban
+              ? "border-primary/40 bg-primary/10 text-foreground"
+              : "border-border bg-card text-muted-foreground hover:text-foreground",
+          )}
+        >
+          <Icon icon={LayoutGrid} size={14} />
+        </Link>
+      </div>
+
+      {isKanban ? (
+        <KanbanBoard shipments={visible} />
+      ) : visible.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {visible.map((s, i) => (
             <div
