@@ -115,12 +115,12 @@ export default async function ExpedienteDetailPage({
         {/* Fila 1: imagen · origen · destino · expediente */}
         <div className="flex flex-col lg:grid lg:grid-cols-4">
           {/* Imagen: ancho completo en mobile, primera columna en desktop */}
-          <div className="border-b border-border lg:border-b-0 lg:border-r lg:border-border">
+          <div className="flex min-h-[192px] flex-col border-b border-border lg:min-h-[160px] lg:border-b-0 lg:border-r lg:border-border">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={portImageUrl(s.pod ?? "")}
               alt={podCity}
-              className="h-48 w-full object-cover lg:h-full lg:min-h-[160px]"
+              className="min-h-0 w-full flex-1 object-cover"
             />
           </div>
           {/* Origen + Destino: 2 col en mobile, display:contents en desktop */}
