@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { del } from "@vercel/blob";
+import { z } from "zod";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
@@ -295,4 +296,59 @@ export async function discardExtraction(documentId: string): Promise<void> {
     .set({ status: "uploaded", extraction: null, aiConfidence: null })
     .where(eq(document.id, documentId));
   revalidatePath(`/expedientes/${doc.shipmentId}`);
+}
+
+// ─── HS code AI suggestion ───────────────────────────────────────────────────
+
+const hsSchema = z.object({
+  code: z.string().describe("Código HS de 6 dígitos (solo números, sin puntos)"),
+  justification: z.string().describe("Justificación breve en español, máx. 80 caracteres"),
+});
+
+export async function suggestHsCode(
+  cargoLineId: string,
+): Promise<{ code: string; justification: string }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(cargoLineId)) throw new Error("Línea inválida");
+
+  const [line] = await db
+    .select({ id: cargoLine.id, description: cargoLine.description, shipmentId: cargoLine.shipmentId })
+    .from(cargoLine)
+    .where(eq(cargoLine.id, cargoLineId));
+  if (!line) throw new Error("Línea no encontrada");
+
+  const owned = await shipmentBelongsToOrg(ctx.org.id, line.shipmentId);
+  if (!owned) throw new Error("No autorizado");
+
+  const { object } = await generateObject({
+    model: google("gemini-2.5-flash"),
+    schema: hsSchema,
+    prompt: `Eres experto en clasificación arancelaria internacional (Sistema Armonizado). Propón el código HS de 6 dígitos más apropiado para la siguiente mercancía.\n\nMercancía: "${line.description}"\n\nDevuelve el código HS de 6 dígitos (sin puntos) y una justificación breve en español.`,
+  });
+
+  const clean = object.code.replace(/\D/g, "").slice(0, 6);
+  return { code: clean, justification: object.justification };
+}
+
+export async function applyHsCode(
+  cargoLineId: string,
+  hsCode: string,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(cargoLineId)) throw new Error("Línea inválida");
+  if (!/^\d{4,6}$/.test(hsCode)) throw new Error("Código HS inválido");
+
+  const [line] = await db
+    .select({ shipmentId: cargoLine.shipmentId })
+    .from(cargoLine)
+    .where(eq(cargoLine.id, cargoLineId));
+  if (!line) throw new Error("Línea no encontrada");
+
+  const owned = await shipmentBelongsToOrg(ctx.org.id, line.shipmentId);
+  if (!owned) throw new Error("No autorizado");
+
+  await db.update(cargoLine).set({ hsCode }).where(eq(cargoLine.id, cargoLineId));
+  revalidatePath(`/expedientes/${line.shipmentId}`);
 }

@@ -22,6 +22,7 @@ import { RouteMap } from "@/components/app/route-map";
 import { DocumentUpload } from "@/components/app/document-upload";
 import { AiExtractionPanel } from "@/components/app/ai-extraction-panel";
 import { PdfViewer } from "@/components/app/pdf-viewer";
+import { HsCodeSuggest } from "@/components/app/hs-code-suggest";
 import {
   MODE,
   PARTY_ROLE,
@@ -283,6 +284,7 @@ function Containers({
                   {line.grossWeightKg ? ` · ${formatWeight(line.grossWeightKg)}` : ""}
                   {line.volumeCbm ? ` · ${line.volumeCbm} m³` : ""}
                 </p>
+                {!line.hsCode && <HsCodeSuggest cargoLineId={line.id} />}
               </div>
             </div>
           ))}
