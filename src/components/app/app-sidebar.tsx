@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Package,
+  CalendarDays,
   MapPin,
   type LucideIcon,
 } from "lucide-react";
@@ -20,6 +21,7 @@ import { cn } from "@/lib/utils";
 const NAV: { label: string; href: string; icon: LucideIcon }[] = [
   { label: "Panel", href: "/dashboard", icon: LayoutDashboard },
   { label: "Expedientes", href: "/expedientes", icon: Package },
+  { label: "Calendario", href: "/calendar", icon: CalendarDays },
 ];
 
 const SOON: { label: string; icon: LucideIcon }[] = [

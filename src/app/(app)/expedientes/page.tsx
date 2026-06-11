@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Plus, LayoutGrid, Rows3 } from "lucide-react";
 import { Icon } from "@/components/icon";
 
-import { getOrgContext, listShipments } from "@/lib/erp";
+import { getOrgContext, listShipments, getActiveMemberId } from "@/lib/erp";
 import { createDraftShipment } from "@/lib/erp-actions";
 import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
 import { SearchInput } from "@/components/app/search-input";
@@ -16,9 +16,9 @@ export const metadata = { title: "Expedientes — Manann" };
 export default async function ExpedientesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ estado?: string; q?: string; vista?: string }>;
+  searchParams: Promise<{ estado?: string; q?: string; vista?: string; mis?: string }>;
 }) {
-  const { estado, q, vista } = await searchParams;
+  const { estado, q, vista, mis } = await searchParams;
   const ctx = await getOrgContext();
 
   if (!ctx?.org) {
@@ -29,7 +29,8 @@ export default async function ExpedientesPage({
     );
   }
 
-  const all = await listShipments(ctx.org.id, q || undefined);
+  const myMemberId = mis === "1" ? await getActiveMemberId(ctx.org.id, ctx.user.id) : null;
+  const all = await listShipments(ctx.org.id, q || undefined, myMemberId ?? undefined);
   const counts = all.reduce<Record<string, number>>((acc, s) => {
     acc[s.status] = (acc[s.status] ?? 0) + 1;
     return acc;
@@ -62,13 +63,16 @@ export default async function ExpedientesPage({
 
       {/* filtro por estado (URL como estado) */}
       <div className="flex flex-wrap gap-2">
-        <FilterChip href="/expedientes" active={!estado}>
+        <FilterChip href="/expedientes" active={!estado && !mis}>
           Todos <Count n={all.length} />
+        </FilterChip>
+        <FilterChip href="/expedientes?mis=1" active={mis === "1"}>
+          Mis expedientes
         </FilterChip>
         {chips.map((k) => (
           <FilterChip
             key={k}
-            href={`/expedientes?estado=${k}`}
+            href={`/expedientes?estado=${k}${mis === "1" ? "&mis=1" : ""}`}
             active={estado === k}
           >
             {STATUS[k].label} <Count n={counts[k]} />

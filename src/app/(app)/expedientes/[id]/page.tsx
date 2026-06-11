@@ -13,7 +13,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { getOrgContext, getShipmentDetail, type ShipmentDetail } from "@/lib/erp";
+import {
+  getOrgContext,
+  getShipmentDetail,
+  getShipmentActivity,
+  getOrgMembers,
+  getTrackingSubscriptions,
+  type ShipmentDetail,
+} from "@/lib/erp";
 import { Icon } from "@/components/icon";
 import { StatusPill } from "@/components/app/status-pill";
 import { PriorityPill } from "@/components/app/priority-pill";
@@ -28,6 +35,10 @@ import { DemoTour } from "@/components/app/demo-tour";
 import { PrintButton } from "@/components/app/print-button";
 import { NotesPanel } from "@/components/app/notes-panel";
 import { InlineField } from "@/components/app/inline-field";
+import { AiSummaryPanel } from "@/components/app/ai-summary-panel";
+import { ActivityPanel } from "@/components/app/activity-panel";
+import { AssigneeSelect } from "@/components/app/assignee-select";
+import { ShipsGoPanel } from "@/components/app/shipsgo-panel";
 import {
   MODE,
   PARTY_ROLE,
@@ -78,7 +89,12 @@ export default async function ExpedienteDetailPage({
   const ctx = await getOrgContext();
   if (!ctx?.org) notFound();
 
-  const s = await getShipmentDetail(ctx.org.id, id);
+  const [s, activity, members, trackingSubs] = await Promise.all([
+    getShipmentDetail(ctx.org.id, id),
+    getShipmentActivity(ctx.org.id, id),
+    getOrgMembers(ctx.org.id),
+    getTrackingSubscriptions(ctx.org.id, id),
+  ]);
   if (!s) notFound();
 
   const mode = MODE[s.mode] ?? MODE.maritimo;
@@ -104,6 +120,11 @@ export default async function ExpedienteDetailPage({
           <Icon icon={ArrowLeft} size={15} /> Expedientes
         </Link>
         <div className="flex items-center gap-2">
+          <AssigneeSelect
+            shipmentId={s.id}
+            assignedTo={s.assignedTo ?? null}
+            members={members}
+          />
           <DemoTour />
           <PrintButton />
         </div>
@@ -233,6 +254,14 @@ export default async function ExpedienteDetailPage({
         <StatusTimeline status={s.status} />
       </div>
 
+      {/* Resumen ejecutivo IA (3.2) */}
+      <AiSummaryPanel
+        shipmentId={s.id}
+        initialSummary={s.aiSummary ?? null}
+        initialSummaryAt={s.aiSummaryAt ?? null}
+        canGenerate={s.status !== "borrador"}
+      />
+
       {/* Borrador: guía al wow desde cero */}
       {s.status === "borrador" && (
         <div className="flex items-start gap-2.5 rounded-md border border-accent bg-accent-soft px-4 py-3">
@@ -257,13 +286,28 @@ export default async function ExpedienteDetailPage({
         <div className="space-y-5">
           <Panel title="Tracking" icon={MapPinned}>
             <RouteMap pol={s.pol} pod={s.pod} events={s.trackingEvents} />
-            <p className="mb-4 mt-2 flex items-center gap-1.5 text-xs text-ink-subtle">
-              <span className="size-1.5 rounded-full bg-muted-foreground" />
-              Simulación · el tracking en vivo (ShipsGo) se conecta en producción
-            </p>
+            <ShipsGoPanel
+              shipmentId={s.id}
+              subscriptions={trackingSubs}
+              hasRealEvents={s.trackingEvents.some((e) => e.source === "shipsgo")}
+            />
             <TrackingTimeline events={s.trackingEvents} />
           </Panel>
           <NotesPanel shipmentId={s.id} initialNotes={s.notes ?? null} />
+          <Panel title="Actividad" icon={FileText}>
+            <ActivityPanel
+              changes={activity.map((c) => ({
+                id: c.id,
+                entity: c.entity,
+                field: c.field,
+                oldValue: c.oldValue,
+                newValue: c.newValue,
+                source: c.source,
+                changedAt: c.changedAt,
+                changedByInitials: null,
+              }))}
+            />
+          </Panel>
         </div>
       </div>
     </div>

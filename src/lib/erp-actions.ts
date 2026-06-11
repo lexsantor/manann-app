@@ -2,19 +2,24 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq, desc, and, isNull } from "drizzle-orm";
+import { eq, desc, and, isNull, max } from "drizzle-orm";
 import { del } from "@vercel/blob";
 import { z } from "zod";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, fieldChange, trackingSubscription } from "@/db/schema";
+import { logChanges } from "@/lib/audit";
+import { generateSummary, buildContext } from "@/lib/ai/summarize";
+import { subscribeContainer, fetchContainerEvents, mapEventCode } from "@/lib/tracking/shipsgo";
+import { generateText } from "ai";
 import {
   getOrgContext,
   shipmentBelongsToOrg,
   getOwnedDocument,
   listShipments,
+  getActiveMemberId,
 } from "@/lib/erp";
 import {
   blExtractionSchema,
@@ -345,10 +350,25 @@ export async function saveNotes(shipmentId: string, notes: string): Promise<void
   if (!UUID_RE.test(shipmentId)) throw new Error("Expediente inválido");
   const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
   if (!owned) throw new Error("No autorizado");
-  await db
-    .update(shipment)
-    .set({ notes: notes.trim() || null })
-    .where(eq(shipment.id, shipmentId));
+  const current = await db.query.shipment.findFirst({
+    where: eq(shipment.id, shipmentId),
+    columns: { notes: true },
+  });
+  const newNotes = notes.trim() || null;
+  await db.transaction(async (tx) => {
+    await tx.update(shipment).set({ notes: newNotes }).where(eq(shipment.id, shipmentId));
+    const memberId = await getActiveMemberId(ctx.org!.id, ctx.user.id);
+    await logChanges(tx, [{
+      shipmentId,
+      entity: "shipment",
+      entityId: shipmentId,
+      field: "notes",
+      oldValue: current?.notes ?? null,
+      newValue: newNotes,
+      changedBy: memberId,
+      source: "user",
+    }]);
+  });
   revalidatePath(`/expedientes/${shipmentId}`);
 }
 
@@ -370,7 +390,24 @@ export async function applyHsCode(
   const owned = await shipmentBelongsToOrg(ctx.org.id, line.shipmentId);
   if (!owned) throw new Error("No autorizado");
 
-  await db.update(cargoLine).set({ hsCode }).where(eq(cargoLine.id, cargoLineId));
+  const currentLine = await db.query.cargoLine.findFirst({
+    where: eq(cargoLine.id, cargoLineId),
+    columns: { hsCode: true },
+  });
+  await db.transaction(async (tx) => {
+    await tx.update(cargoLine).set({ hsCode }).where(eq(cargoLine.id, cargoLineId));
+    const memberId = await getActiveMemberId(ctx.org!.id, ctx.user.id);
+    await logChanges(tx, [{
+      shipmentId: line.shipmentId,
+      entity: "cargo_line",
+      entityId: cargoLineId,
+      field: "hsCode",
+      oldValue: currentLine?.hsCode ?? null,
+      newValue: hsCode,
+      changedBy: memberId,
+      source: "user",
+    }]);
+  });
   revalidatePath(`/expedientes/${line.shipmentId}`);
 }
 
@@ -392,7 +429,26 @@ export async function updateShipmentField(
   if (!EDITABLE_FIELDS.has(field)) throw new Error("Campo no editable");
   const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
   if (!owned) throw new Error("No autorizado");
-  await db.update(shipment).set({ [field]: value || null }).where(eq(shipment.id, shipmentId));
+  const current = await db.query.shipment.findFirst({
+    where: eq(shipment.id, shipmentId),
+    columns: { [field]: true } as Record<string, boolean>,
+  });
+  const oldValue = current ? String((current as Record<string, unknown>)[field] ?? "") : null;
+  const newValue = value || null;
+  await db.transaction(async (tx) => {
+    await tx.update(shipment).set({ [field]: newValue }).where(eq(shipment.id, shipmentId));
+    const memberId = await getActiveMemberId(ctx.org!.id, ctx.user.id);
+    await logChanges(tx, [{
+      shipmentId,
+      entity: "shipment",
+      entityId: shipmentId,
+      field,
+      oldValue: oldValue !== "" ? oldValue : null,
+      newValue,
+      changedBy: memberId,
+      source: "user",
+    }]);
+  });
   revalidatePath(`/expedientes/${shipmentId}`);
 }
 
@@ -457,4 +513,220 @@ async function createNotification(
     shipmentId: shipmentId ?? null,
     shipmentReference: shipmentReference ?? null,
   });
+}
+
+// ─── 3.2 Resumen ejecutivo IA ─────────────────────────────────────────────────
+
+export async function generateAiSummary(
+  shipmentId: string,
+): Promise<{ summary?: string; error?: string }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) return { error: "No autorizado" };
+  if (!UUID_RE.test(shipmentId)) return { error: "Expediente inválido" };
+
+  const s = await db.query.shipment.findFirst({
+    where: and(eq(shipment.id, shipmentId), eq(shipment.organizationId, ctx.org.id)),
+    with: {
+      parties: { columns: { role: true, name: true } },
+      containers: { columns: { containerNumber: true, isoType: true } },
+      cargoLines: { columns: { description: true, packages: true, grossWeightKg: true } },
+      trackingEvents: { orderBy: (t) => [desc(t.occurredAt)], limit: 10 },
+      charges: { columns: { type: true, amount: true, currency: true } },
+    },
+  });
+  if (!s) return { error: "Expediente no encontrado" };
+
+  const ctx2 = {
+    reference: s.reference,
+    status: s.status,
+    pol: s.pol,
+    pod: s.pod,
+    carrier: s.carrier,
+    vessel: s.vessel,
+    blNumber: s.blNumber,
+    incoterm: s.incoterm,
+    etd: s.etd?.toISOString().slice(0, 10) ?? null,
+    eta: s.eta?.toISOString().slice(0, 10) ?? null,
+    priority: s.priority,
+    parties: s.parties,
+    containers: s.containers,
+    cargoLines: s.cargoLines,
+    trackingEvents: s.trackingEvents.map((e) => ({
+      type: e.type,
+      location: e.location,
+      description: e.description,
+      occurredAt: e.occurredAt.toISOString().slice(0, 10),
+    })),
+    charges: s.charges.map((c) => ({ type: c.type, amount: String(c.amount), currency: c.currency })),
+    notes: s.notes,
+  };
+
+  try {
+    const summary = await generateSummary(ctx2);
+    if (!summary) return {};
+
+    await db
+      .update(shipment)
+      .set({ aiSummary: summary, aiSummaryAt: new Date() })
+      .where(eq(shipment.id, shipmentId));
+
+    revalidatePath(`/expedientes/${shipmentId}`);
+    return { summary };
+  } catch {
+    return { error: "Error al conectar con la IA. Inténtalo de nuevo." };
+  }
+}
+
+// ─── 3.5 Asignar expediente a agente ─────────────────────────────────────────
+
+export async function assignShipment(
+  shipmentId: string,
+  memberId: string | null,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Expediente inválido");
+  if (memberId !== null && !UUID_RE.test(memberId)) throw new Error("Miembro inválido");
+
+  const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
+  if (!owned) throw new Error("No autorizado");
+
+  const current = await db.query.shipment.findFirst({
+    where: eq(shipment.id, shipmentId),
+    columns: { assignedTo: true, reference: true },
+  });
+
+  const actorMemberId = await getActiveMemberId(ctx.org.id, ctx.user.id);
+
+  await db.transaction(async (tx) => {
+    await tx.update(shipment).set({ assignedTo: memberId }).where(eq(shipment.id, shipmentId));
+    await logChanges(tx, [{
+      shipmentId,
+      entity: "shipment",
+      entityId: shipmentId,
+      field: "assignedTo",
+      oldValue: current?.assignedTo ?? null,
+      newValue: memberId,
+      changedBy: actorMemberId,
+      source: "user",
+    }]);
+  });
+
+  // Notificar al asignado (no si se autoasigna)
+  if (memberId && memberId !== actorMemberId) {
+    const assignedMember = await db.query.member.findFirst({
+      where: eq((await import("@/db/schema")).member.id, memberId),
+      with: { user: { columns: { id: true } } },
+    });
+    if (assignedMember?.user) {
+      await db.insert(notification).values({
+        organizationId: ctx.org.id,
+        userId: assignedMember.user.id,
+        message: `Te han asignado el expediente ${current?.reference ?? shipmentId}`,
+        shipmentId,
+        shipmentReference: current?.reference ?? null,
+      });
+    }
+  }
+
+  revalidatePath(`/expedientes/${shipmentId}`);
+  revalidatePath("/expedientes");
+}
+
+// ─── 3.1 ShipsGo — vincular contenedor real ──────────────────────────────────
+
+export async function subscribeContainerTracking(
+  shipmentId: string,
+  containerNumber: string,
+  shippingLine: string,
+): Promise<{ error?: string }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) return { error: "No autorizado" };
+  if (!UUID_RE.test(shipmentId)) return { error: "Expediente inválido" };
+
+  const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
+  if (!owned) return { error: "No autorizado" };
+
+  const result = await subscribeContainer(containerNumber.trim().toUpperCase(), shippingLine.trim());
+  if ("error" in result) return { error: result.error };
+
+  await db.insert(trackingSubscription).values({
+    shipmentId,
+    containerNumber: containerNumber.trim().toUpperCase(),
+    shippingLine: shippingLine.trim(),
+    externalId: result.requestId,
+    status: "active",
+  });
+
+  const memberId = await getActiveMemberId(ctx.org.id, ctx.user.id);
+  await logChanges(db, [{
+    shipmentId,
+    entity: "shipment",
+    entityId: shipmentId,
+    field: "tracking",
+    oldValue: null,
+    newValue: `ShipsGo: ${containerNumber.trim().toUpperCase()}`,
+    changedBy: memberId,
+    source: "system",
+  }]);
+
+  revalidatePath(`/expedientes/${shipmentId}`);
+  return {};
+}
+
+// Sync de eventos desde ShipsGo (llamado en el Server Component si stale >30 min)
+export async function syncTrackingEvents(shipmentId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) return;
+
+  const subs = await db
+    .select()
+    .from(trackingSubscription)
+    .where(and(eq(trackingSubscription.shipmentId, shipmentId), eq(trackingSubscription.status, "active")));
+
+  for (const sub of subs) {
+    if (!sub.externalId) continue;
+
+    // Solo si stale > 30 min
+    const lastSync = sub.lastSyncedAt ? new Date(sub.lastSyncedAt).getTime() : 0;
+    if (Date.now() - lastSync < 30 * 60 * 1000) continue;
+
+    const result = await fetchContainerEvents(sub.externalId);
+    if ("error" in result) continue;
+
+    // Insertar solo eventos nuevos (dedup por occurredAt + type)
+    const existing = await db.query.trackingEvent.findMany({
+      where: eq((await import("@/db/schema")).trackingEvent.shipmentId, shipmentId),
+      columns: { occurredAt: true, type: true, source: true },
+    });
+    const existingKeys = new Set(existing.map((e) => `${e.occurredAt?.toISOString()}|${e.type}`));
+
+    const toInsert = result.events.filter((e) => {
+      const key = `${new Date(e.occurredAt).toISOString()}|${mapEventCode(e.eventCode)}`;
+      return !existingKeys.has(key);
+    });
+
+    if (toInsert.length > 0) {
+      const { trackingEvent } = await import("@/db/schema");
+      await db.insert(trackingEvent).values(
+        toInsert.map((e) => ({
+          shipmentId,
+          type: mapEventCode(e.eventCode) as "booking" | "gate_in" | "cargado" | "salida" | "en_transito" | "llegada" | "descargado" | "aduana" | "entregado",
+          location: e.location || null,
+          description: e.description || e.eventCode,
+          vessel: e.vessel ?? null,
+          source: "shipsgo" as const,
+          occurredAt: new Date(e.occurredAt),
+        })),
+      );
+    }
+
+    const newStatus = result.status === "finished" ? "finished" : "active";
+    await db
+      .update(trackingSubscription)
+      .set({ lastSyncedAt: new Date(), status: newStatus })
+      .where(eq(trackingSubscription.id, sub.id));
+  }
+
+  revalidatePath(`/expedientes/${shipmentId}`);
 }

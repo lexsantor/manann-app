@@ -87,6 +87,11 @@ export const shipment = pgTable(
     etd: timestamp("etd"),
     eta: timestamp("eta"),
     notes: text("notes"),
+    // 3.2 — resumen ejecutivo IA
+    aiSummary: text("ai_summary"),
+    aiSummaryAt: timestamp("ai_summary_at"),
+    // 3.5 — agente asignado (FK a member, no a user: es un rol en la org)
+    assignedTo: uuid("assigned_to"),
     createdBy: text("created_by").references(() => user.id, {
       onDelete: "set null",
     }),
@@ -309,6 +314,50 @@ export const chargeRelations = relations(charge, ({ one }) => ({
     references: [shipment.id],
   }),
 }));
+
+
+// ─── Historial de cambios / auditoría (3.3) ─────────────────────────────────
+
+export const fieldChange = pgTable(
+  "field_change",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    shipmentId: uuid("shipment_id")
+      .notNull()
+      .references(() => shipment.id, { onDelete: "cascade" }),
+    entity: text("entity").notNull(), // 'shipment'|'container'|'cargo_line'|'document'|'charge'
+    entityId: uuid("entity_id").notNull(),
+    field: text("field").notNull(),
+    oldValue: text("old_value"),
+    newValue: text("new_value"),
+    changedBy: uuid("changed_by").references(() => member.id, {
+      onDelete: "set null",
+    }),
+    source: text("source").notNull().default("user"), // 'user'|'ai'|'system'
+    changedAt: timestamp("changed_at").defaultNow().notNull(),
+  },
+  (t) => [index("field_change_shipment_idx").on(t.shipmentId, t.changedAt)],
+);
+
+// ─── Suscripciones de tracking ShipsGo (3.1) ─────────────────────────────────
+
+export const trackingSubscription = pgTable(
+  "tracking_subscription",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    shipmentId: uuid("shipment_id")
+      .notNull()
+      .references(() => shipment.id, { onDelete: "cascade" }),
+    provider: text("provider").notNull().default("shipsgo"),
+    externalId: text("external_id"), // request/container id en ShipsGo
+    containerNumber: text("container_number").notNull(),
+    shippingLine: text("shipping_line").notNull(),
+    status: text("status").notNull().default("active"), // 'active'|'finished'|'error'
+    lastSyncedAt: timestamp("last_synced_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("tracking_sub_shipment_idx").on(t.shipmentId)],
+);
 
 // ─── Notificaciones in-app ────────────────────────────────────────────
 

@@ -1,10 +1,10 @@
 // Capa de datos del ERP. REGLA ANTI-IDOR: toda query se filtra por la org del
 // usuario; nunca se confía en un id del cliente sin comprobar ownership.
 import { cache } from "react";
-import { and, desc, eq, asc, or, ilike } from "drizzle-orm";
+import { and, desc, eq, asc, or, ilike, gte, lt } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, shipment, document } from "@/db/schema";
+import { member, shipment, document, fieldChange, trackingSubscription } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string };
@@ -30,7 +30,11 @@ export async function getActiveOrg(userId: string): Promise<ActiveOrg | null> {
 }
 
 // Lista de expedientes de una org, con sus partes (para derivar consignatario).
-export async function listShipments(orgId: string, q?: string) {
+export async function listShipments(
+  orgId: string,
+  q?: string,
+  assignedToMemberId?: string,
+) {
   const search = q
     ? or(
         ilike(shipment.reference, `%${q}%`),
@@ -41,8 +45,14 @@ export async function listShipments(orgId: string, q?: string) {
       )
     : undefined;
 
+  const filters = [
+    eq(shipment.organizationId, orgId),
+    ...(search ? [search] : []),
+    ...(assignedToMemberId ? [eq(shipment.assignedTo, assignedToMemberId)] : []),
+  ];
+
   return db.query.shipment.findMany({
-    where: search ? and(eq(shipment.organizationId, orgId), search) : eq(shipment.organizationId, orgId),
+    where: and(...(filters as [typeof filters[0], ...typeof filters])),
     with: { parties: true },
     orderBy: [desc(shipment.createdAt)],
   });
@@ -113,6 +123,91 @@ export function computeStats(items: ShipmentListItem[]): DashboardStats {
     entregados: porEstado["entregado"] ?? 0,
     porEstado,
   };
+}
+
+// Historial de cambios del expediente (3.3)
+export async function getShipmentActivity(orgId: string, shipmentId: string) {
+  // Confirmar ownership antes de exponer historial.
+  const owned = await shipmentBelongsToOrg(orgId, shipmentId);
+  if (!owned) return [];
+
+  return db
+    .select({
+      id: fieldChange.id,
+      entity: fieldChange.entity,
+      field: fieldChange.field,
+      oldValue: fieldChange.oldValue,
+      newValue: fieldChange.newValue,
+      source: fieldChange.source,
+      changedAt: fieldChange.changedAt,
+      changedBy: fieldChange.changedBy,
+    })
+    .from(fieldChange)
+    .where(eq(fieldChange.shipmentId, shipmentId))
+    .orderBy(desc(fieldChange.changedAt))
+    .limit(200);
+}
+
+// Miembros de la org para el selector de asignado (3.5)
+export async function getOrgMembers(orgId: string) {
+  const rows = await db.query.member.findMany({
+    where: eq(member.organizationId, orgId),
+    with: { user: { columns: { id: true, name: true, email: true } } },
+  });
+  return rows.map((m) => ({
+    id: m.id,
+    userId: m.userId,
+    name: m.user?.name ?? m.user?.email ?? "Usuario",
+    email: m.user?.email ?? "",
+    initials: ((m.user?.name ?? m.user?.email ?? "?")
+      .split(/\s+/)
+      .map((w: string) => w[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2)),
+  }));
+}
+
+// member.id del usuario activo en la org (para auditoría)
+export async function getActiveMemberId(orgId: string, userId: string): Promise<string | null> {
+  const m = await db.query.member.findFirst({
+    where: and(eq(member.organizationId, orgId), eq(member.userId, userId)),
+    columns: { id: true },
+  });
+  return m?.id ?? null;
+}
+
+// Suscripciones de tracking del expediente (3.1)
+export async function getTrackingSubscriptions(orgId: string, shipmentId: string) {
+  const owned = await shipmentBelongsToOrg(orgId, shipmentId);
+  if (!owned) return [];
+  return db
+    .select()
+    .from(trackingSubscription)
+    .where(eq(trackingSubscription.shipmentId, shipmentId));
+}
+
+// Expedientes con ETA dentro de un mes (para calendario 3.4)
+export async function getCalendarShipments(orgId: string, year: number, month: number) {
+  const start = new Date(year, month - 1, 1);
+  const end = new Date(year, month, 1);
+  return db.query.shipment.findMany({
+    where: and(
+      eq(shipment.organizationId, orgId),
+      gte(shipment.eta, start),
+      lt(shipment.eta, end),
+    ),
+    columns: {
+      id: true,
+      reference: true,
+      status: true,
+      pol: true,
+      pod: true,
+      carrier: true,
+      eta: true,
+    },
+    orderBy: [asc(shipment.eta)],
+  });
 }
 
 // Reexport de utilidades de orden por si una vista las necesita.
