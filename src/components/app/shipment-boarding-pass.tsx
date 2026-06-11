@@ -156,7 +156,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
           {/* BL + consignatario */}
           {(s.blNumber || consignee) && (
-            <div className="mt-2 grid grid-cols-2 gap-3 border-t border-border pt-2">
+            <div className="mt-2 space-y-2 border-t border-border pt-2">
               {s.blNumber && (
                 <div className="min-w-0">
                   <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">BL</p>
@@ -164,7 +164,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
                 </div>
               )}
               {consignee && (
-                <div className="min-w-0 text-right">
+                <div className="min-w-0">
                   <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Consignatario</p>
                   <p className="mt-0.5 truncate text-[12px] text-foreground">{consignee}</p>
                 </div>
