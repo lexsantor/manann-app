@@ -97,81 +97,79 @@ export default async function ExpedienteDetailPage({
         <Icon icon={ArrowLeft} size={15} /> Expedientes
       </Link>
 
-      {/* ── Cabecera boarding pass ──────────────────────────────────── */}
-      <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+      {/* ── Cabecera ────────────────────────────────────────────────── */}
+      <div className="rounded-xl border border-border bg-card shadow-sm">
 
-        {/* Foto de destino */}
-        <div className="relative h-[180px]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={portImageUrl(s.pod ?? "")}
-            alt={podCity}
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 px-6 pb-3">
-            <div className="flex items-center gap-2">
-              <div className="flex-1">
-                <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white">Origen</p>
-                <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">{pol3}</p>
-                <p className="mt-0.5 font-mono text-[10px] text-white/80">{polCity}</p>
+        {/* Ruta + foto */}
+        <div className="grid items-start gap-6 p-6 lg:grid-cols-[1fr_240px]">
+
+          {/* Izquierda: ruta + referencia + modo */}
+          <div>
+            <div className="flex items-center gap-5">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Origen</p>
+                <p className="font-display text-5xl font-bold leading-none tracking-tighter text-foreground">{pol3}</p>
+                <p className="mt-1 font-mono text-xs text-muted-foreground">{polCity}</p>
               </div>
-              <Icon icon={MoveRight} size={14} className="shrink-0 text-white/40" />
-              <div className="flex-1 text-right">
-                <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white">Destino</p>
-                <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">{pod3}</p>
-                <p className="mt-0.5 font-mono text-[10px] text-white/80">{podCity}</p>
+              <Icon icon={MoveRight} size={18} className="mt-3 shrink-0 text-muted-foreground/30" />
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Destino</p>
+                <p className="font-display text-5xl font-bold leading-none tracking-tighter text-foreground">{pod3}</p>
+                <p className="mt-1 font-mono text-xs text-muted-foreground">{podCity}</p>
               </div>
             </div>
+
+            <div className="mt-5">
+              <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Expediente</p>
+              <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">{s.reference}</h1>
+            </div>
+
+            <div className="mt-1.5 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+              <Icon icon={mode.icon} size={14} />
+              <span>{mode.label}</span>
+              {s.vessel && <><span>·</span><span>{s.vessel}</span></>}
+              {s.voyage && <span className="text-ink-subtle">({s.voyage})</span>}
+            </div>
+          </div>
+
+          {/* Derecha: foto como frame en su ratio natural */}
+          <div className="overflow-hidden rounded-lg border border-border">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={portImageUrl(s.pod ?? "")}
+              alt={podCity}
+              className="w-full object-cover"
+              style={{ aspectRatio: "4/3" }}
+            />
           </div>
         </div>
 
-        {/* Divisor */}
-        <div className="mx-6 border-t border-dashed border-border/70" />
+        {/* Badges etiquetados */}
+        <div className="flex flex-wrap items-end gap-5 border-t border-dashed border-border/70 px-6 py-4">
+          <LabeledBadge label="Estado"><StatusPill status={s.status} /></LabeledBadge>
+          <LabeledBadge label="Prioridad"><PriorityPill priority={s.priority} /></LabeledBadge>
+          {s.carrier && (
+            <LabeledBadge label="Naviera"><CarrierBadge carrier={s.carrier} /></LabeledBadge>
+          )}
+          {etaOverdue && (
+            <LabeledBadge label="Alerta">
+              <span className="inline-flex items-center rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
+                ETA vencida
+              </span>
+            </LabeledBadge>
+          )}
+        </div>
 
-        {/* Info */}
-        <div className="px-6 pb-5 pt-4">
-
-          {/* Referencia + naviera + estado */}
-          <div className="flex flex-wrap items-start justify-between gap-3">
+        {/* Facts */}
+        <dl className="grid grid-cols-2 gap-x-4 gap-y-4 border-t border-border px-6 py-5 sm:grid-cols-3 lg:grid-cols-6">
+          <Fact label="BL nº" value={s.blNumber} mono />
+          <Fact label="Incoterm" value={s.incoterm} />
+          <Fact label="Condiciones" value={s.freightTerms} />
+          <Fact label="ETD" value={formatDate(s.etd)} />
+          <Fact label="ETA" value={formatDate(s.eta)} />
+          {co2 && (
             <div>
-              <p className="font-mono text-xs text-muted-foreground">Expediente</p>
-              <h1 className="font-display text-3xl font-medium tracking-tight text-foreground">
-                {s.reference}
-              </h1>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <StatusPill status={s.status} />
-              <PriorityPill priority={s.priority} />
-              {etaOverdue && (
-                <span className="inline-flex items-center rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
-                  ETA vencida
-                </span>
-              )}
-              {s.carrier && <CarrierBadge carrier={s.carrier} />}
-            </div>
-          </div>
-
-          {/* Modo + buque */}
-          <div className="mt-2 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
-            <Icon icon={mode.icon} size={15} />
-            <span>{mode.label}</span>
-            {s.vessel && <><span>·</span><span>{s.vessel}</span></>}
-            {s.voyage && <span>({s.voyage})</span>}
-          </div>
-
-          {/* Hechos clave */}
-          <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4 border-t border-border pt-4 sm:grid-cols-3 lg:grid-cols-5">
-            <Fact label="BL nº" value={s.blNumber} mono />
-            <Fact label="Incoterm" value={s.incoterm} />
-            <Fact label="Condiciones" value={s.freightTerms} />
-            <Fact label="ETD" value={formatDate(s.etd)} />
-            <Fact label="ETA" value={formatDate(s.eta)} />
-            {co2 && (
-              <div>
-                <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-                  CO₂ estimado
-              </dt>
+              <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">CO₂ estimado</dt>
               <dd className="mt-0.5 font-sans text-sm text-foreground">
                 {formatCo2(co2)}
                 <span className="ml-1.5 text-[10px] text-muted-foreground">
@@ -181,8 +179,7 @@ export default async function ExpedienteDetailPage({
               <p className="mt-0.5 text-[10px] text-ink-subtle">GLEC · estimación</p>
             </div>
           )}
-          </dl>
-        </div>
+        </dl>
       </div>
 
       {/* Borrador: guía al wow desde cero */}
@@ -223,6 +220,15 @@ export default async function ExpedienteDetailPage({
 
 // ─── Bloques ────────────────────────────────────────────────────────────────
 
+function LabeledBadge({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">{label}</p>
+      {children}
+    </div>
+  );
+}
+
 function Panel({
   title,
   icon,
@@ -233,7 +239,7 @@ function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-lg border border-border bg-card p-5">
+    <section className="rounded-lg border border-border bg-gradient-to-br from-card to-muted/5 p-5">
       <div className="mb-4 flex items-center gap-2">
         <Icon icon={icon} size={16} className="text-muted-foreground" />
         <h2 className="font-display text-base font-medium tracking-tight text-foreground">
