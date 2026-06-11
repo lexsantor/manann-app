@@ -148,7 +148,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
           {/* Referencia + naviera */}
           <div className="flex items-center justify-between gap-2">
-            <p className="font-mono text-[12px] tracking-wide text-muted-foreground">
+            <p className="font-mono text-xs tracking-wide text-muted-foreground">
               {s.reference}
             </p>
             {s.carrier && <CarrierBadge carrier={s.carrier} />}
