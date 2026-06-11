@@ -35,7 +35,27 @@ import {
   estimateCo2,
   formatCo2,
 } from "@/lib/erp-format";
+import { portImageUrl } from "@/lib/port-images";
 import { cn } from "@/lib/utils";
+
+const CARRIER_COLORS: Record<string, string> = {
+  MSC:          "bg-sky-500/10 text-sky-600 dark:text-sky-400",
+  MAERSK:       "bg-blue-600/10 text-blue-700 dark:text-blue-400",
+  "CMA CGM":    "bg-red-500/10 text-red-600 dark:text-red-400",
+  "HAPAG-LLOYD":"bg-orange-500/10 text-orange-600 dark:text-orange-400",
+  COSCO:        "bg-rose-500/10 text-rose-600 dark:text-rose-400",
+  EVERGREEN:    "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+  YANG_MING:    "bg-purple-500/10 text-purple-600 dark:text-purple-400",
+};
+
+function CarrierBadge({ carrier }: { carrier: string }) {
+  const cls = CARRIER_COLORS[carrier.toUpperCase()] ?? "bg-muted text-muted-foreground";
+  return (
+    <span className={cn("rounded px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide", cls)}>
+      {carrier}
+    </span>
+  );
+}
 
 const UUID_RE =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -58,6 +78,10 @@ export default async function ExpedienteDetailPage({
   const mode = MODE[s.mode] ?? MODE.maritimo;
   const totalWeightKg = s.cargoLines.reduce((sum, l) => sum + (l.grossWeightKg ?? 0), 0);
   const co2 = estimateCo2(s.pol, s.pod, s.mode, totalWeightKg);
+  const pol3    = s.pol?.slice(-3) ?? "???";
+  const pod3    = s.pod?.slice(-3) ?? "???";
+  const polCity = portLabel(s.pol).split(" · ")[0];
+  const podCity = portLabel(s.pod).split(" · ")[0];
   const etaOverdue =
     s.eta &&
     new Date(s.eta) < new Date() &&
@@ -73,53 +97,82 @@ export default async function ExpedienteDetailPage({
         <Icon icon={ArrowLeft} size={15} /> Expedientes
       </Link>
 
-      {/* Panel cabecera del expediente (rounded-xl) */}
-      <div className="rounded-xl border border-border bg-card p-5 shadow-sm sm:p-6">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <p className="font-mono text-xs text-muted-foreground">Expediente</p>
-            <h1 className="font-display text-3xl font-medium tracking-tight text-foreground">
-              {s.reference}
-            </h1>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            <StatusPill status={s.status} />
-            <PriorityPill priority={s.priority} />
-            {etaOverdue && (
-              <span className="inline-flex items-center rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
-                ETA vencida
-              </span>
-            )}
+      {/* ── Cabecera boarding pass ──────────────────────────────────── */}
+      <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+
+        {/* Foto de destino */}
+        <div className="relative h-[180px]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={portImageUrl(s.pod ?? "")}
+            alt={podCity}
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 px-6 pb-3">
+            <div className="flex items-center gap-2">
+              <div className="flex-1">
+                <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white">Origen</p>
+                <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">{pol3}</p>
+                <p className="mt-0.5 font-mono text-[10px] text-white/80">{polCity}</p>
+              </div>
+              <Icon icon={MoveRight} size={14} className="shrink-0 text-white/40" />
+              <div className="flex-1 text-right">
+                <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white">Destino</p>
+                <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">{pod3}</p>
+                <p className="mt-0.5 font-mono text-[10px] text-white/80">{podCity}</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* ruta */}
-        <div className="mt-5 flex flex-wrap items-center gap-2 text-sm text-foreground">
-          <Icon icon={mode.icon} size={18} className="text-muted-foreground" />
-          <span className="font-medium">{portLabel(s.pol)}</span>
-          <Icon icon={MoveRight} size={16} className="text-ink-subtle" />
-          <span className="font-medium">{portLabel(s.pod)}</span>
-          <span className="text-muted-foreground">
-            · {mode.label}
-            {s.carrier ? ` · ${s.carrier}` : ""}
-            {s.vessel ? ` · ${s.vessel}` : ""}
-            {s.voyage ? ` (${s.voyage})` : ""}
-          </span>
-        </div>
+        {/* Divisor */}
+        <div className="mx-6 border-t border-dashed border-border/70" />
 
-        {/* hechos clave */}
-        <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-4 border-t border-border pt-5 sm:grid-cols-3 lg:grid-cols-5">
-          <Fact label="BL nº" value={s.blNumber} mono />
-          <Fact label="Incoterm" value={s.incoterm} />
-          <Fact label="Condiciones" value={s.freightTerms} />
-          <Fact label="ETD" value={formatDate(s.etd)} mono />
-          <Fact label="ETA" value={formatDate(s.eta)} mono />
-          {co2 && (
+        {/* Info */}
+        <div className="px-6 pb-5 pt-4">
+
+          {/* Referencia + naviera + estado */}
+          <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <dt className="text-[12px] uppercase tracking-wide text-muted-foreground">
-                CO₂ estimado
+              <p className="font-mono text-xs text-muted-foreground">Expediente</p>
+              <h1 className="font-display text-3xl font-medium tracking-tight text-foreground">
+                {s.reference}
+              </h1>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <StatusPill status={s.status} />
+              <PriorityPill priority={s.priority} />
+              {etaOverdue && (
+                <span className="inline-flex items-center rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
+                  ETA vencida
+                </span>
+              )}
+              {s.carrier && <CarrierBadge carrier={s.carrier} />}
+            </div>
+          </div>
+
+          {/* Modo + buque */}
+          <div className="mt-2 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+            <Icon icon={mode.icon} size={15} />
+            <span>{mode.label}</span>
+            {s.vessel && <><span>·</span><span>{s.vessel}</span></>}
+            {s.voyage && <span>({s.voyage})</span>}
+          </div>
+
+          {/* Hechos clave */}
+          <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-4 border-t border-border pt-4 sm:grid-cols-3 lg:grid-cols-5">
+            <Fact label="BL nº" value={s.blNumber} mono />
+            <Fact label="Incoterm" value={s.incoterm} />
+            <Fact label="Condiciones" value={s.freightTerms} />
+            <Fact label="ETD" value={formatDate(s.etd)} />
+            <Fact label="ETA" value={formatDate(s.eta)} />
+            {co2 && (
+              <div>
+                <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+                  CO₂ estimado
               </dt>
-              <dd className="mt-0.5 text-sm text-foreground">
+              <dd className="mt-0.5 font-sans text-sm text-foreground">
                 {formatCo2(co2)}
                 <span className="ml-1.5 text-[10px] text-muted-foreground">
                   · {Math.round(co2.distanceKm).toLocaleString("es-ES")} km
@@ -128,7 +181,8 @@ export default async function ExpedienteDetailPage({
               <p className="mt-0.5 text-[10px] text-ink-subtle">GLEC · estimación</p>
             </div>
           )}
-        </dl>
+          </dl>
+        </div>
       </div>
 
       {/* Borrador: guía al wow desde cero */}
@@ -202,10 +256,10 @@ function Fact({
 }) {
   return (
     <div>
-      <dt className="text-[12px] uppercase tracking-wide text-muted-foreground">
+      <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
         {label}
       </dt>
-      <dd className={cn("mt-0.5 text-sm text-foreground", mono && "font-mono")}>
+      <dd className={cn("mt-0.5 text-sm text-foreground", mono ? "font-mono" : "font-sans")}>
         {value ?? "—"}
       </dd>
     </div>
