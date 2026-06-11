@@ -21,6 +21,7 @@ import { TrackingTimeline } from "@/components/app/tracking-timeline";
 import { RouteMap } from "@/components/app/route-map";
 import { DocumentUpload } from "@/components/app/document-upload";
 import { AiExtractionPanel } from "@/components/app/ai-extraction-panel";
+import { PdfViewer } from "@/components/app/pdf-viewer";
 import {
   MODE,
   PARTY_ROLE,
@@ -52,6 +53,10 @@ export default async function ExpedienteDetailPage({
   if (!s) notFound();
 
   const mode = MODE[s.mode] ?? MODE.maritimo;
+  const etaOverdue =
+    s.eta &&
+    new Date(s.eta) < new Date() &&
+    ["confirmado", "en_transito", "en_aduana"].includes(s.status);
 
   return (
     <div className="space-y-5">
@@ -72,9 +77,14 @@ export default async function ExpedienteDetailPage({
               {s.reference}
             </h1>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <StatusPill status={s.status} />
             <PriorityPill priority={s.priority} />
+            {etaOverdue && (
+              <span className="inline-flex items-center rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
+                ETA vencida
+              </span>
+            )}
           </div>
         </div>
 
@@ -384,6 +394,10 @@ function Documents({
                     />
                   )}
                 </div>
+                {/* Vista previa inline del PDF */}
+                {d.blobUrl && (
+                  <PdfViewer url={d.blobUrl} filename={d.filename} />
+                )}
                 {/* Panel expandido — propuesta pendiente o tarjeta de confirmación */}
                 {d.blobUrl && (d.status === "extracted" || d.status === "confirmed") && (
                   <AiExtractionPanel

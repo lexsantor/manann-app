@@ -58,6 +58,15 @@ function journeyProgress(s: ShipmentListItem): number {
   }
 }
 
+// ─── ETA vencida ─────────────────────────────────────────────────────────────
+
+const ETA_ACTIVE = ["confirmado", "en_transito", "en_aduana"];
+
+function isEtaOverdue(eta: Date | null, status: string): boolean {
+  if (!eta || !ETA_ACTIVE.includes(status)) return false;
+  return eta < new Date();
+}
+
 // ─── Ciudad sin código LOCODE ────────────────────────────────────────────────
 
 function cityOnly(locode: string | null): string {
@@ -69,13 +78,14 @@ function cityOnly(locode: string | null): string {
 // ─── Boarding pass card ──────────────────────────────────────────────────────
 
 export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
-  const pol3     = s.pol?.slice(-3) ?? "???";
-  const pod3     = s.pod?.slice(-3) ?? "???";
-  const polCity  = cityOnly(s.pol);
-  const podCity  = cityOnly(s.pod);
-  const imgUrl   = portImageUrl(s.pod ?? "");
-  const progress = journeyProgress(s);
-  const mode     = MODE[s.mode] ?? MODE.maritimo;
+  const pol3      = s.pol?.slice(-3) ?? "???";
+  const pod3      = s.pod?.slice(-3) ?? "???";
+  const polCity   = cityOnly(s.pol);
+  const podCity   = cityOnly(s.pod);
+  const imgUrl    = portImageUrl(s.pod ?? "");
+  const progress  = journeyProgress(s);
+  const mode      = MODE[s.mode] ?? MODE.maritimo;
+  const etaOverdue = isEtaOverdue(s.eta, s.status);
 
   return (
     <Link
@@ -154,10 +164,17 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
               </p>
             </div>
             <div className="flex-1 pl-3">
-              <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
-                ETA
-              </p>
-              <p className="mt-0.5 font-mono text-sm text-foreground">
+              <div className="flex items-center gap-1.5">
+                <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
+                  ETA
+                </p>
+                {etaOverdue && (
+                  <span className="rounded-sm bg-accent/15 px-1 py-0.5 font-mono text-[8px] font-semibold uppercase tracking-wide text-accent">
+                    Vencida
+                  </span>
+                )}
+              </div>
+              <p className={cn("mt-0.5 font-mono text-sm", etaOverdue ? "text-accent" : "text-foreground")}>
                 {formatDate(s.eta)}
               </p>
             </div>
