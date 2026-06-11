@@ -96,6 +96,8 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
             </span>
           </span>
         ))}
+
+        <NotificationsBell />
       </nav>
 
       <div className="border-t border-border p-3">
@@ -105,7 +107,6 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
         </div>
         <div className="flex items-center justify-between gap-2 px-1">
           <ThemeToggle />
-          <NotificationsBell />
           <LogoutButton />
         </div>
       </div>

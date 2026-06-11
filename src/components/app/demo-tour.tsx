@@ -68,10 +68,10 @@ export function DemoTour() {
       {current && (
         <>
           <div
-            className="fixed inset-0 z-[100] bg-background/50 backdrop-blur-[2px]"
+            className="fixed inset-0 z-[1100] bg-background/50 backdrop-blur-[2px]"
             onClick={close}
           />
-          <div className="fixed bottom-6 right-6 z-[101] w-[calc(100vw-3rem)] max-w-sm rounded-xl border border-border bg-card shadow-xl">
+          <div className="fixed bottom-6 right-6 z-[1101] w-[calc(100vw-3rem)] max-w-sm rounded-xl border border-border bg-card shadow-xl">
             <div className="flex items-center justify-between px-5 pt-4">
               <span className="font-mono text-xs text-muted-foreground">
                 {(step ?? 0) + 1} / {STEPS.length}

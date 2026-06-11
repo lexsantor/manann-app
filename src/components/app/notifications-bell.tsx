@@ -38,7 +38,6 @@ export function NotificationsBell() {
     });
   }, [open, unread]);
 
-  // Close on outside click
   useEffect(() => {
     if (!open) return;
     function onMouseDown(e: MouseEvent) {
@@ -63,19 +62,24 @@ export function NotificationsBell() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label="Notificaciones"
-        className="relative flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+        className={cn(
+          "flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+          open
+            ? "bg-surface-2 text-foreground"
+            : "text-muted-foreground hover:bg-surface-2/60 hover:text-foreground",
+        )}
       >
-        <Icon icon={Bell} size={16} />
+        <Icon icon={Bell} size={18} />
+        <span>Notificaciones</span>
         {unread > 0 && (
-          <span className="absolute right-1 top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-primary text-[9px] font-bold text-primary-foreground">
+          <span className="ml-auto flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 font-mono text-[9px] font-bold text-primary-foreground">
             {unread > 9 ? "9+" : unread}
           </span>
         )}
       </button>
 
       {open && (
-        <div className="absolute right-0 top-10 z-50 w-72 rounded-xl border border-border bg-card shadow-lg">
+        <div className="absolute left-full top-0 z-50 ml-2 w-72 rounded-xl border border-border bg-card shadow-lg">
           <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
             <p className="text-sm font-medium text-foreground">Notificaciones</p>
             {notifs.length > 0 && (
@@ -101,7 +105,7 @@ export function NotificationsBell() {
                     <Icon icon={Package} size={12} className="text-muted-foreground" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs text-foreground leading-relaxed">{n.message}</p>
+                    <p className="text-xs leading-relaxed text-foreground">{n.message}</p>
                     <p className="mt-0.5 font-mono text-[10px] text-muted-foreground">
                       {relativeTime(n.createdAt)}
                       {n.shipmentReference && ` · ${n.shipmentReference}`}
