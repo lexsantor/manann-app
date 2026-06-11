@@ -86,6 +86,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
   const progress  = journeyProgress(s);
   const mode      = MODE[s.mode] ?? MODE.maritimo;
   const etaOverdue = isEtaOverdue(s.eta, s.status);
+  const consignee = s.parties.find((p) => p.role === "consignee")?.name ?? null;
 
   return (
     <Link
@@ -153,44 +154,50 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             {s.carrier && <CarrierBadge carrier={s.carrier} />}
           </div>
 
-          {/* ETD / ETA con divisor vertical */}
-          <div className="mt-2.5 flex divide-x divide-border border-t border-border pt-2.5">
-            <div className="flex-1 pr-3">
-              <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-                ETD
-              </p>
-              <p className="mt-0.5 font-sans text-sm text-foreground">
-                {formatDate(s.etd)}
-              </p>
+          {/* BL + consignatario */}
+          {(s.blNumber || consignee) && (
+            <div className="mt-2 grid grid-cols-2 gap-3 border-t border-border pt-2">
+              {s.blNumber && (
+                <div className="min-w-0">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">BL</p>
+                  <p className="mt-0.5 truncate font-mono text-[12px] text-foreground">{s.blNumber}</p>
+                </div>
+              )}
+              {consignee && (
+                <div className="min-w-0 text-right">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Consignatario</p>
+                  <p className="mt-0.5 truncate text-[12px] text-foreground">{consignee}</p>
+                </div>
+              )}
             </div>
-            <div className="flex-1 pl-3">
-              <div className="flex items-center gap-1.5">
-                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-                  ETA
-                </p>
-                {etaOverdue && (
-                  <span className="rounded-sm bg-accent/15 px-1 py-0.5 font-mono text-[8px] font-semibold uppercase tracking-wide text-accent">
-                    Vencida
-                  </span>
-                )}
-              </div>
-              <p className={cn("mt-0.5 font-sans text-sm", etaOverdue ? "text-accent" : "text-foreground")}>
-                {formatDate(s.eta)}
-              </p>
-            </div>
-          </div>
+          )}
 
-          {/* Barra de progreso del trayecto */}
+          {/* Progreso + fechas integradas */}
           <div className="mt-2.5 border-t border-border pt-2.5">
-            <div className="mb-1.5 flex items-center justify-between">
-              <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETD</span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETA</span>
-            </div>
-            <div className="relative h-1 overflow-hidden rounded-full bg-surface-2">
+            <div className="relative h-1.5 overflow-hidden rounded-full bg-surface-2">
               <div
                 className="absolute inset-y-0 left-0 rounded-full bg-primary"
                 style={{ width: `${progress}%` }}
               />
+            </div>
+            <div className="mt-1.5 flex items-start justify-between">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
+                <p className="mt-0.5 font-sans text-sm text-foreground">{formatDate(s.etd)}</p>
+              </div>
+              <div className="text-right">
+                <div className="flex items-center justify-end gap-1.5">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETA</p>
+                  {etaOverdue && (
+                    <span className="rounded-sm bg-accent/15 px-1 py-0.5 font-mono text-[8px] font-semibold uppercase tracking-wide text-accent">
+                      Vencida
+                    </span>
+                  )}
+                </div>
+                <p className={cn("mt-0.5 font-sans text-sm", etaOverdue ? "text-accent" : "text-foreground")}>
+                  {formatDate(s.eta)}
+                </p>
+              </div>
             </div>
           </div>
 
