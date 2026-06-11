@@ -8,7 +8,10 @@ import {
   LayoutDashboard,
   Package,
   CalendarDays,
-  MapPin,
+  Building2,
+  FolderOpen,
+  Receipt,
+  Tag,
   type LucideIcon,
 } from "lucide-react";
 
@@ -22,10 +25,13 @@ const NAV: { label: string; href: string; icon: LucideIcon }[] = [
   { label: "Panel", href: "/dashboard", icon: LayoutDashboard },
   { label: "Expedientes", href: "/expedientes", icon: Package },
   { label: "Calendario", href: "/calendar", icon: CalendarDays },
+  { label: "Contactos", href: "/contactos", icon: Building2 },
+  { label: "Documentos", href: "/documentos", icon: FolderOpen },
 ];
 
 const SOON: { label: string; icon: LucideIcon }[] = [
-  { label: "Tracking", icon: MapPin },
+  { label: "Facturación", icon: Receipt },
+  { label: "Tarifas", icon: Tag },
 ];
 
 interface AppSidebarProps {

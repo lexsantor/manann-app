@@ -1,10 +1,10 @@
 // Capa de datos del ERP. REGLA ANTI-IDOR: toda query se filtra por la org del
 // usuario; nunca se confía en un id del cliente sin comprobar ownership.
 import { cache } from "react";
-import { and, desc, eq, asc, or, ilike, gte, lt } from "drizzle-orm";
+import { and, count, desc, eq, asc, or, ilike, gte, lt } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, shipment, document, fieldChange, trackingSubscription } from "@/db/schema";
+import { member, party, shipment, document, fieldChange, trackingSubscription } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string };
@@ -212,3 +212,51 @@ export async function getCalendarShipments(orgId: string, year: number, month: n
 
 // Reexport de utilidades de orden por si una vista las necesita.
 export { asc };
+
+// ─── Documentos ──────────────────────────────────────────────────────────────
+
+export async function listDocuments(orgId: string) {
+  return db
+    .select({
+      id: document.id,
+      filename: document.filename,
+      type: document.type,
+      status: document.status,
+      sizeBytes: document.sizeBytes,
+      blobUrl: document.blobUrl,
+      aiConfidence: document.aiConfidence,
+      createdAt: document.createdAt,
+      shipmentId: document.shipmentId,
+      reference: shipment.reference,
+      shipmentStatus: shipment.status,
+      pol: shipment.pol,
+      pod: shipment.pod,
+    })
+    .from(document)
+    .innerJoin(shipment, eq(document.shipmentId, shipment.id))
+    .where(eq(shipment.organizationId, orgId))
+    .orderBy(desc(document.createdAt));
+}
+
+// ─── Contactos ───────────────────────────────────────────────────────────────
+
+export async function listContacts(orgId: string) {
+  const rows = await db
+    .select({
+      name: party.name,
+      role: party.role,
+      taxId: party.taxId,
+      city: party.city,
+      country: party.country,
+      expedientes: count(party.id),
+    })
+    .from(party)
+    .innerJoin(shipment, eq(party.shipmentId, shipment.id))
+    .where(eq(shipment.organizationId, orgId))
+    .groupBy(party.name, party.role, party.taxId, party.city, party.country)
+    .orderBy(desc(count(party.id)));
+  return rows;
+}
+
+export type ContactItem = Awaited<ReturnType<typeof listContacts>>[number];
+export type DocumentItem = Awaited<ReturnType<typeof listDocuments>>[number];
