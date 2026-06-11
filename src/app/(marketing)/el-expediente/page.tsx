@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FileText, Sparkles, UserCheck } from "lucide-react";
+import {
+  FileText,
+  Sparkles,
+  UserCheck,
+  Satellite,
+  CalendarDays,
+  ClipboardList,
+  Users,
+} from "lucide-react";
 
 import { Icon } from "@/components/icon";
 import { ExpedienteCardDemo } from "@/components/marketing/expediente-card-demo";
@@ -31,9 +39,38 @@ const NOTES = [
   },
 ];
 
+const LIVE = [
+  {
+    icon: Satellite,
+    title: "Tracking en tiempo real",
+    body: "Vincula el número de contenedor y ShipsGo devuelve posición del buque, puerto de escala y eventos de ruta. El expediente sabe dónde está el envío.",
+  },
+  {
+    icon: Sparkles,
+    title: "Resumen ejecutivo",
+    body: "La IA lee el estado actual — puertos, ETA, partes, incidencias — y redacta un briefing en lenguaje de jefe de tráfico. Sin abrir cada panel.",
+  },
+  {
+    icon: CalendarDays,
+    title: "ETA en el calendario",
+    body: "La fecha de llegada va directamente a la vista mensual compartida. Un golpe de ojo y sabes qué semana se acumula trabajo en el equipo.",
+  },
+  {
+    icon: ClipboardList,
+    title: "Auditoría de cambios",
+    body: "Cada modificación queda registrada: quién actuó, cuándo y desde dónde (humano, IA o sistema). La trazabilidad no es opcional, es el comportamiento por defecto.",
+  },
+  {
+    icon: Users,
+    title: "Responsable asignado",
+    body: "Cada expediente tiene un agente a cargo. El responsable recibe aviso al ser asignado y puede filtrar sus expedientes con un clic.",
+  },
+];
+
 export default function ElExpedientePage() {
   return (
     <div className="mx-auto max-w-[1080px] px-5 sm:px-6">
+      {/* Hero */}
       <section className="grid items-center gap-12 pb-12 pt-16 lg:grid-cols-[1fr_1fr] lg:gap-16 sm:pt-24">
         <div>
           <p className="eyebrow">El expediente</p>
@@ -74,7 +111,7 @@ export default function ElExpedientePage() {
         </div>
       </section>
 
-      {/* Ciclo de vida */}
+      {/* Ciclo de vida: creación */}
       <section className="border-t border-border py-16">
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
           <div>
@@ -99,6 +136,37 @@ export default function ElExpedientePage() {
               Revisas, corriges lo dudoso y vuelcas los datos al expediente.
             </li>
           </ol>
+        </div>
+      </section>
+
+      {/* En ruta: vida del expediente */}
+      <section className="border-t border-border py-16">
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <div>
+            <p className="eyebrow">En ruta</p>
+            <h2 className="mt-4 font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+              El expediente sigue vivo después de la confirmación.
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+              Crear el expediente es el primer paso. Manann acompaña el envío
+              hasta la entrega.
+            </p>
+          </div>
+          <div className="grid gap-8 sm:grid-cols-2">
+            {LIVE.map((l) => (
+              <div key={l.title}>
+                <span className="flex size-9 items-center justify-center rounded-md border border-border text-primary">
+                  <Icon icon={l.icon} size={18} />
+                </span>
+                <h3 className="mt-4 font-display font-medium tracking-tight text-foreground">
+                  {l.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {l.body}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -7,6 +7,10 @@ import {
   Clock,
   ShieldCheck,
   Sparkles,
+  Satellite,
+  CalendarDays,
+  ClipboardList,
+  Users,
 } from "lucide-react";
 
 import { Icon } from "@/components/icon";
@@ -55,6 +59,34 @@ const GUARANTEES = [
     icon: ShieldCheck,
     title: "El mando es tuyo",
     body: "Manann no reserva, no reenruta ni firma nada por su cuenta. Prepara, ordena y avisa. La decisión, siempre del lado humano.",
+  },
+];
+
+const ONGOING = [
+  {
+    icon: Satellite,
+    title: "Tracking en ruta",
+    body: "Vincula el contenedor ISO 6346 y ShipsGo devuelve la posición exacta, el buque activo y cada evento de ruta hasta el puerto de destino.",
+  },
+  {
+    icon: Sparkles,
+    title: "Resumen ejecutivo por IA",
+    body: "La IA lee el estado del expediente y redacta un briefing en lenguaje transitario. Lo que necesitas saber antes de cada llamada, sin abrir cada panel.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Calendario de ETAs",
+    body: "Todos los expedientes con fecha de llegada en una vista mensual. Detecta picos de operativa y expedientes sin ETA asignada de un vistazo.",
+  },
+  {
+    icon: ClipboardList,
+    title: "Trazabilidad completa",
+    body: "Cada cambio de campo queda registrado con quién lo hizo, cuándo y si fue el humano, la IA o el sistema. Sin lagunas.",
+  },
+  {
+    icon: Users,
+    title: "Equipo y asignación",
+    body: "Asigna cada expediente a un agente. Filtra los tuyos, recibe notificación al ser asignado y mantén visible quién lleva cada envío.",
   },
 ];
 
@@ -111,6 +143,31 @@ export default function ComoFuncionaPage() {
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {g.body}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Después de la confirmación */}
+      <section className="border-t border-border py-16">
+        <p className="eyebrow">Después de la confirmación</p>
+        <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+          El sistema sigue trabajando contigo.
+        </h2>
+        <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
+          Los tres pasos crean el expediente. A partir de ahí, Manann mantiene
+          el contexto sin que tengas que pedirlo.
+        </p>
+        <div className="mt-10 grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
+          {ONGOING.map((o) => (
+            <div key={o.title} className="bg-background py-8 pr-8">
+              <Icon icon={o.icon} size={20} className="text-primary" />
+              <h3 className="mt-4 font-display font-medium tracking-tight text-foreground">
+                {o.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {o.body}
               </p>
             </div>
           ))}

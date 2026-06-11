@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Upload, ScanText, CheckCircle2 } from "lucide-react";
+import {
+  Upload,
+  ScanText,
+  CheckCircle2,
+  Sparkles,
+  CalendarDays,
+  Satellite,
+  ClipboardList,
+  Users,
+} from "lucide-react";
 
 import { Hero } from "@/components/marketing/hero";
 import { Icon } from "@/components/icon";
@@ -31,11 +40,45 @@ const STEPS = [
   },
 ];
 
+const FEATURES = [
+  {
+    icon: ScanText,
+    title: "Extracción documental",
+    body: "Un BL rellena el expediente entero. Naviera, buque, puertos, contenedor, partes y mercancía — con nivel de confianza por cada campo.",
+  },
+  {
+    icon: Sparkles,
+    title: "Resumen ejecutivo",
+    body: "La IA lee el estado actual del envío y redacta un briefing en lenguaje transitario. Lo que necesitas saber antes de la llamada, sin abrir cada panel.",
+  },
+  {
+    icon: Satellite,
+    title: "Tracking en vivo",
+    body: "Vincula el número de contenedor ISO 6346 y recibe la posición del buque, el puerto de escala y cada evento de ruta directamente de ShipsGo.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Calendario de ETAs",
+    body: "Vista mensual de todas las llegadas previstas. Detecta a golpe de ojo qué semana se acumula operativa y qué envíos aún no tienen fecha.",
+  },
+  {
+    icon: ClipboardList,
+    title: "Trazabilidad de cambios",
+    body: "Cada modificación de campo queda registrada: quién actuó, cuándo y si fue el humano, la IA o el sistema. Sin huecos en el historial.",
+  },
+  {
+    icon: Users,
+    title: "Equipo y asignación",
+    body: "Cada expediente tiene un responsable. Filtra los tuyos con un clic y recibe aviso en cuanto te asignan uno nuevo.",
+  },
+];
+
 export default function HomePage() {
   return (
     <>
       <Hero />
 
+      {/* Los tres pasos */}
       <section id="como-funciona" className="scroll-mt-20 border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-24">
           <p className="eyebrow">Cómo funciona</p>
@@ -68,6 +111,35 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Sistema completo */}
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-24">
+          <p className="eyebrow">De la entrada a la entrega</p>
+          <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight sm:text-4xl">
+            La extracción es la entrada. El resto, también.
+          </h2>
+          <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
+            Manann no termina cuando se crea el expediente. Acompaña el envío
+            hasta la entrega: tracking, resúmenes, avisos de ETA y trazabilidad
+            de cada acción.
+          </p>
+          <div className="mt-12 grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map((f) => (
+              <div key={f.title} className="bg-background p-8">
+                <Icon icon={f.icon} size={22} className="text-primary" />
+                <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
+                  {f.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {f.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
       <section className="border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-20 text-center sm:px-6 sm:py-28">
           <h2 className="mx-auto max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
