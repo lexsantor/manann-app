@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Satellite, AlertTriangle, CheckCircle, Plus, X } from "lucide-react";
+import { Satellite, AlertTriangle, CheckCircle, X } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { subscribeContainerTracking } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";

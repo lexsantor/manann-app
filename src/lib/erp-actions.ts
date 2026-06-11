@@ -2,18 +2,17 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq, desc, and, isNull, max } from "drizzle-orm";
+import { eq, desc, and, isNull } from "drizzle-orm";
 import { del } from "@vercel/blob";
 import { z } from "zod";
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, fieldChange, trackingSubscription } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
-import { generateSummary, buildContext } from "@/lib/ai/summarize";
+import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode } from "@/lib/tracking/shipsgo";
-import { generateText } from "ai";
 import {
   getOrgContext,
   shipmentBelongsToOrg,
