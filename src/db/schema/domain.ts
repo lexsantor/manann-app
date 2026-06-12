@@ -7,6 +7,7 @@ import {
   text,
   integer,
   numeric,
+  boolean,
   timestamp,
   date,
   jsonb,
@@ -29,6 +30,7 @@ import {
   chargeType,
   chargeDirection,
   invoiceStatus,
+  rateUnit,
 } from "./enums";
 
 // ─── Tenant ───────────────────────────────────────────────────────────────
@@ -436,4 +438,31 @@ export const notification = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [index("notification_org_idx").on(t.organizationId)],
+);
+
+// ─── Catálogo de tarifas ──────────────────────────────────────────────────────
+
+export const rate = pgTable(
+  "rate",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    concept: text("concept").notNull(),
+    serviceType: chargeType("service_type").notNull(),
+    unit: rateUnit("unit").notNull(),
+    basePrice: numeric("base_price", { precision: 12, scale: 2 }).notNull(),
+    currency: text("currency").notNull().default("EUR"),
+    validFrom: date("valid_from"),
+    validTo: date("valid_to"),
+    notes: text("notes"),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (t) => [index("rate_org_idx").on(t.organizationId)],
 );

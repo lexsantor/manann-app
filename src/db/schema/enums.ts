@@ -95,3 +95,12 @@ export const invoiceStatus = pgEnum("invoice_status", [
   "vencida",
   "anulada",
 ]);
+
+export const rateUnit = pgEnum("rate_unit", [
+  "contenedor",
+  "bl",
+  "kg",
+  "cbm",
+  "unidad",
+  "plano",
+]);

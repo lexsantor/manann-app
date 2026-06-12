@@ -9,7 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode } from "@/lib/tracking/shipsgo";
@@ -920,6 +920,78 @@ export async function updateInvoiceStatus(
 }
 
 // ─── Enviar factura por email ─────────────────────────────────────────────────
+
+// ─── Tarifas ─────────────────────────────────────────────────────────────────
+
+const rateSchema = z.object({
+  concept: z.string().min(1).max(200),
+  serviceType: z.enum(["flete", "aduana", "manipulacion", "seguro", "documentacion", "almacenaje", "otro"]),
+  unit: z.enum(["contenedor", "bl", "kg", "cbm", "unidad", "plano"]),
+  basePrice: z.string().regex(/^\d+(\.\d{1,2})?$/, "Precio inválido"),
+  currency: z.string().length(3).default("EUR"),
+  validFrom: z.string().nullable().optional(),
+  validTo: z.string().nullable().optional(),
+  notes: z.string().max(500).nullable().optional(),
+});
+
+export type RateInput = z.infer<typeof rateSchema>;
+
+export async function createRate(input: RateInput): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  const data = rateSchema.parse(input);
+  await db.insert(rate).values({
+    organizationId: ctx.org.id,
+    concept: data.concept,
+    serviceType: data.serviceType,
+    unit: data.unit,
+    basePrice: data.basePrice,
+    currency: data.currency,
+    validFrom: data.validFrom ?? null,
+    validTo: data.validTo ?? null,
+    notes: data.notes ?? null,
+    active: true,
+  });
+  revalidatePath("/tarifas");
+}
+
+export async function updateRate(rateId: string, input: RateInput): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  const row = await db.query.rate.findFirst({ where: eq(rate.id, rateId), columns: { organizationId: true } });
+  if (!row || row.organizationId !== ctx.org.id) throw new Error("No autorizado");
+  const data = rateSchema.parse(input);
+  await db.update(rate).set({
+    concept: data.concept,
+    serviceType: data.serviceType,
+    unit: data.unit,
+    basePrice: data.basePrice,
+    currency: data.currency,
+    validFrom: data.validFrom ?? null,
+    validTo: data.validTo ?? null,
+    notes: data.notes ?? null,
+    updatedAt: new Date(),
+  }).where(eq(rate.id, rateId));
+  revalidatePath("/tarifas");
+}
+
+export async function toggleRateActive(rateId: string, active: boolean): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  const row = await db.query.rate.findFirst({ where: eq(rate.id, rateId), columns: { organizationId: true } });
+  if (!row || row.organizationId !== ctx.org.id) throw new Error("No autorizado");
+  await db.update(rate).set({ active, updatedAt: new Date() }).where(eq(rate.id, rateId));
+  revalidatePath("/tarifas");
+}
+
+export async function deleteRate(rateId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  const row = await db.query.rate.findFirst({ where: eq(rate.id, rateId), columns: { organizationId: true } });
+  if (!row || row.organizationId !== ctx.org.id) throw new Error("No autorizado");
+  await db.delete(rate).where(eq(rate.id, rateId));
+  revalidatePath("/tarifas");
+}
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

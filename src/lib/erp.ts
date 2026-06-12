@@ -4,7 +4,7 @@ import { cache } from "react";
 import { and, count, desc, eq, asc, or, ilike, gte, lt } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, party, shipment, document, fieldChange, trackingSubscription, invoice } from "@/db/schema";
+import { member, party, shipment, document, fieldChange, trackingSubscription, invoice, rate } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string };
@@ -320,3 +320,15 @@ export async function getInvoiceDetail(orgId: string, invoiceId: string) {
 
 export type InvoiceItem = Awaited<ReturnType<typeof listInvoices>>[number];
 export type InvoiceDetail = NonNullable<Awaited<ReturnType<typeof getInvoiceDetail>>>;
+
+// ─── Tarifas ──────────────────────────────────────────────────────────────────
+
+export async function listRates(orgId: string) {
+  return db
+    .select()
+    .from(rate)
+    .where(eq(rate.organizationId, orgId))
+    .orderBy(desc(rate.createdAt));
+}
+
+export type RateItem = Awaited<ReturnType<typeof listRates>>[number];

@@ -70,7 +70,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Facturación", href: "/facturas", icon: Receipt },
       { label: "Gastos", icon: CreditCard, soon: true },
-      { label: "Tarifas", icon: Tag, soon: true },
+      { label: "Tarifas", href: "/tarifas", icon: Tag },
     ],
   },
   {
