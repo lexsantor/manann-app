@@ -74,10 +74,77 @@ const FEATURES = [
   },
 ];
 
+const PROBLEMS = [
+  {
+    title: "Sistemas fragmentados",
+    body: "El envío en un portal, la aduana en otro, las finanzas en una hoja de cálculo. El contexto muere entre herramientas.",
+  },
+  {
+    title: "Data-entry manual sin fin",
+    body: "Los mismos datos, seis portales distintos. Documentos por email. Horas perdidas cada día en tareas que una máquina haría en segundos.",
+  },
+  {
+    title: "Sin visibilidad real",
+    body: "Los clientes llaman para saber dónde está su mercancía. También lo hacen tus propios operativos. Nadie tiene el cuadro completo.",
+  },
+  {
+    title: "Legacy y cautividad",
+    body: "ERPs on-prem sin features nuevas desde 2014. Integraciones que cuestan 200.000€. Migrar parece imposible; quedarse, inevitable.",
+  },
+];
+
 export default function HomePage() {
   return (
     <>
       <Hero />
+
+      {/* El problema */}
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
+          <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
+            {/* Manifesto */}
+            <FadeUp>
+              <p className="eyebrow">Por qué existe Manann</p>
+              <h2 className="mt-5 font-display text-4xl font-medium leading-[1.05] tracking-tight sm:text-5xl">
+                Logistics runs the world.{" "}
+                <span className="text-muted-foreground/50">
+                  Its software runs on 1998.
+                </span>
+              </h2>
+              <p className="mt-7 max-w-md text-base leading-relaxed text-muted-foreground">
+                Los transitarios mueven el comercio global. A cambio, operan con
+                herramientas que sus abuelos reconocerían. El sector exige
+                entregas al nivel de Amazon. El software lleva dos décadas sin
+                acompañarle.
+              </p>
+              <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
+                Hemos visto este patrón romperse, cada día, durante años.
+              </p>
+            </FadeUp>
+
+            {/* Pain points */}
+            <div className="divide-y divide-border">
+              {PROBLEMS.map((p, i) => (
+                <FadeUp key={p.title} delay={i * 0.08}>
+                  <div className="py-6 first:pt-0 last:pb-0">
+                    <div className="flex items-baseline gap-3">
+                      <span className="shrink-0 font-mono text-[11px] text-muted-foreground/40">
+                        0{i + 1}
+                      </span>
+                      <h3 className="font-display text-lg font-medium tracking-tight text-foreground">
+                        {p.title}
+                      </h3>
+                    </div>
+                    <p className="mt-2 pl-6 text-sm leading-relaxed text-muted-foreground">
+                      {p.body}
+                    </p>
+                  </div>
+                </FadeUp>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Los tres pasos */}
       <section id="como-funciona" className="scroll-mt-20 border-t border-border bg-surface-2">
