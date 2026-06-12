@@ -4,7 +4,7 @@ import { cache } from "react";
 import { and, count, desc, eq, asc, or, ilike, gte, lt } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, party, shipment, document, fieldChange, trackingSubscription, invoice, rate } from "@/db/schema";
+import { member, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string };
@@ -332,3 +332,33 @@ export async function listRates(orgId: string) {
 }
 
 export type RateItem = Awaited<ReturnType<typeof listRates>>[number];
+
+// ─── Cotizaciones ─────────────────────────────────────────────────────────────
+
+export async function listQuotations(orgId: string) {
+  return db
+    .select()
+    .from(quotation)
+    .where(eq(quotation.organizationId, orgId))
+    .orderBy(desc(quotation.createdAt));
+}
+
+export async function countOrgQuotations(orgId: string): Promise<number> {
+  const [row] = await db
+    .select({ n: count() })
+    .from(quotation)
+    .where(eq(quotation.organizationId, orgId));
+  return row?.n ?? 0;
+}
+
+export async function getQuotationDetail(orgId: string, quotationId: string) {
+  const row = await db.query.quotation.findFirst({
+    where: eq(quotation.id, quotationId),
+    with: { lines: { orderBy: (l, { asc }) => [asc(l.sortOrder)] } },
+  });
+  if (!row || row.organizationId !== orgId) return null;
+  return row;
+}
+
+export type QuotationItem = Awaited<ReturnType<typeof listQuotations>>[number];
+export type QuotationDetail = NonNullable<Awaited<ReturnType<typeof getQuotationDetail>>>;

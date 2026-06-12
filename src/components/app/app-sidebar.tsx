@@ -62,7 +62,7 @@ const NAV_GROUPS: NavGroup[] = [
     section: "Comercial",
     items: [
       { label: "Contactos", href: "/contactos", icon: Building2 },
-      { label: "Cotizaciones", icon: FileText, soon: true },
+      { label: "Cotizaciones", href: "/cotizaciones", icon: FileText },
     ],
   },
   {

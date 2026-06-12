@@ -104,3 +104,11 @@ export const rateUnit = pgEnum("rate_unit", [
   "unidad",
   "plano",
 ]);
+
+export const quotationStatus = pgEnum("quotation_status", [
+  "borrador",
+  "enviada",
+  "aceptada",
+  "rechazada",
+  "expirada",
+]);

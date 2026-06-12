@@ -31,6 +31,7 @@ import {
   chargeDirection,
   invoiceStatus,
   rateUnit,
+  quotationStatus,
 } from "./enums";
 
 // ─── Tenant ───────────────────────────────────────────────────────────────
@@ -466,3 +467,53 @@ export const rate = pgTable(
   },
   (t) => [index("rate_org_idx").on(t.organizationId)],
 );
+
+// ─── Cotizaciones ─────────────────────────────────────────────────────────────
+
+export const quotation = pgTable(
+  "quotation",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    reference: text("reference").notNull(),
+    clientName: text("client_name").notNull().default(""),
+    clientEmail: text("client_email"),
+    status: quotationStatus("status").notNull().default("borrador"),
+    validUntil: date("valid_until"),
+    currency: text("currency").notNull().default("EUR"),
+    subtotal: numeric("subtotal", { precision: 12, scale: 2 }).notNull().default("0"),
+    taxRate: text("tax_rate").notNull().default("21"),
+    total: numeric("total", { precision: 12, scale: 2 }).notNull().default("0"),
+    notes: text("notes"),
+    shipmentId: uuid("shipment_id").references(() => shipment.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (t) => [index("quotation_org_idx").on(t.organizationId)],
+);
+
+export const quotationLine = pgTable("quotation_line", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  quotationId: uuid("quotation_id")
+    .notNull()
+    .references(() => quotation.id, { onDelete: "cascade" }),
+  concept: text("concept").notNull(),
+  unit: rateUnit("unit").notNull().default("plano"),
+  quantity: text("quantity").notNull().default("1"),
+  unitPrice: text("unit_price").notNull().default("0"),
+  subtotal: text("subtotal").notNull().default("0"),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
+
+export const quotationRelations = relations(quotation, ({ many }) => ({
+  lines: many(quotationLine),
+}));
+
+export const quotationLineRelations = relations(quotationLine, ({ one }) => ({
+  quotation: one(quotation, { fields: [quotationLine.quotationId], references: [quotation.id] }),
+}));

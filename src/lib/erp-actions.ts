@@ -9,7 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode } from "@/lib/tracking/shipsgo";
@@ -20,8 +20,10 @@ import {
   listShipments,
   getActiveMemberId,
   getInvoiceDetail,
+  countOrgQuotations,
+  getQuotationDetail,
 } from "@/lib/erp";
-import { sendInvoiceEmail } from "@/lib/email";
+import { sendInvoiceEmail, sendQuotationEmail } from "@/lib/email";
 import {
   blExtractionSchema,
   EXTRACTION_PROMPT,
@@ -991,6 +993,196 @@ export async function deleteRate(rateId: string): Promise<void> {
   if (!row || row.organizationId !== ctx.org.id) throw new Error("No autorizado");
   await db.delete(rate).where(eq(rate.id, rateId));
   revalidatePath("/tarifas");
+}
+
+// ─── Cotizaciones ────────────────────────────────────────────────────────────
+
+const quotationLineSchema = z.object({
+  concept: z.string().min(1).max(200),
+  unit: z.enum(["contenedor", "bl", "kg", "cbm", "unidad", "plano"]),
+  quantity: z.string(),
+  unitPrice: z.string(),
+});
+
+const createQuotationSchema = z.object({
+  clientName: z.string().min(1).max(200),
+  clientEmail: z.string().email().nullable().optional(),
+  validUntil: z.string().nullable().optional(),
+  taxRate: z.enum(["21", "10", "4", "0"]).default("21"),
+  currency: z.string().length(3).default("EUR"),
+  notes: z.string().max(1000).nullable().optional(),
+  lines: z.array(quotationLineSchema).min(1),
+});
+
+export type CreateQuotationInput = z.infer<typeof createQuotationSchema>;
+
+export async function createQuotation(
+  input: CreateQuotationInput,
+): Promise<{ quotationId: string; reference: string }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  const data = createQuotationSchema.parse(input);
+
+  const year = new Date().getFullYear();
+  const seq = (await countOrgQuotations(ctx.org.id)) + 1;
+  const reference = `COT-${year}-${String(seq).padStart(3, "0")}`;
+
+  const subtotal = data.lines.reduce(
+    (s, l) => s + Number(l.quantity) * Number(l.unitPrice),
+    0,
+  );
+  const taxAmount = subtotal * (Number(data.taxRate) / 100);
+  const total = subtotal + taxAmount;
+
+  const [quot] = await db
+    .insert(quotation)
+    .values({
+      organizationId: ctx.org.id,
+      reference,
+      clientName: data.clientName,
+      clientEmail: data.clientEmail ?? null,
+      validUntil: data.validUntil ?? null,
+      taxRate: data.taxRate,
+      currency: data.currency,
+      subtotal: subtotal.toFixed(2),
+      total: total.toFixed(2),
+      notes: data.notes ?? null,
+      status: "borrador",
+    })
+    .returning({ id: quotation.id });
+
+  await db.insert(quotationLine).values(
+    data.lines.map((l, i) => ({
+      quotationId: quot.id,
+      concept: l.concept,
+      unit: l.unit,
+      quantity: l.quantity,
+      unitPrice: l.unitPrice,
+      subtotal: (Number(l.quantity) * Number(l.unitPrice)).toFixed(2),
+      sortOrder: i,
+    })),
+  );
+
+  revalidatePath("/cotizaciones");
+  return { quotationId: quot.id, reference };
+}
+
+export async function updateQuotationStatus(
+  quotationId: string,
+  status: "borrador" | "enviada" | "aceptada" | "rechazada" | "expirada",
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  const row = await db.query.quotation.findFirst({
+    where: eq(quotation.id, quotationId),
+    columns: { organizationId: true },
+  });
+  if (!row || row.organizationId !== ctx.org.id) throw new Error("No autorizado");
+  await db
+    .update(quotation)
+    .set({ status, updatedAt: new Date() })
+    .where(eq(quotation.id, quotationId));
+  revalidatePath("/cotizaciones");
+  revalidatePath(`/cotizaciones/${quotationId}`);
+}
+
+export async function convertQuotationToShipment(quotationId: string): Promise<string> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const quot = await getQuotationDetail(ctx.org.id, quotationId);
+  if (!quot) throw new Error("Cotización no encontrada");
+  if (quot.shipmentId) throw new Error("Ya tiene un expediente asociado");
+
+  const year = new Date().getFullYear();
+  const existing = await db
+    .select({ ref: shipment.reference })
+    .from(shipment)
+    .where(eq(shipment.organizationId, ctx.org.id));
+  const max = existing.reduce((m, r) => {
+    const n = Number(r.ref.match(/(\d+)$/)?.[1] ?? 0);
+    return n > m ? n : m;
+  }, 0);
+  const reference = `EXP-${year}-${String(max + 1).padStart(4, "0")}`;
+
+  const [newShipment] = await db
+    .insert(shipment)
+    .values({
+      organizationId: ctx.org.id,
+      reference,
+      status: "borrador",
+      mode: "maritimo",
+      priority: "med",
+      createdBy: ctx.user.id,
+    })
+    .returning({ id: shipment.id });
+
+  // Añadir cliente como consignee si hay nombre
+  if (quot.clientName) {
+    await db.insert(party).values({
+      shipmentId: newShipment.id,
+      role: "consignee",
+      name: quot.clientName,
+    });
+  }
+
+  // Añadir líneas de cotización como cargos de ingreso
+  if (quot.lines.length > 0) {
+    await db.insert(charge).values(
+      quot.lines.map((l) => ({
+        shipmentId: newShipment.id,
+        type: "otro" as const,
+        direction: "revenue" as const,
+        description: l.concept,
+        amount: l.subtotal,
+        currency: quot.currency,
+      })),
+    );
+  }
+
+  // Vincular expediente a la cotización y marcar como aceptada
+  await db
+    .update(quotation)
+    .set({ shipmentId: newShipment.id, status: "aceptada", updatedAt: new Date() })
+    .where(eq(quotation.id, quotationId));
+
+  revalidatePath("/cotizaciones");
+  revalidatePath("/expedientes");
+  return newShipment.id;
+}
+
+export async function sendCotizacionEmail(
+  quotationId: string,
+  recipientEmail: string,
+): Promise<void> {
+  if (!EMAIL_RE.test(recipientEmail)) throw new Error("Email de destinatario inválido");
+
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const quot = await getQuotationDetail(ctx.org.id, quotationId);
+  if (!quot) throw new Error("Cotización no encontrada");
+
+  await sendQuotationEmail({
+    to: recipientEmail,
+    orgName: ctx.org.name,
+    reference: quot.reference,
+    clientName: quot.clientName || recipientEmail,
+    validUntil: quot.validUntil ?? null,
+    lines: quot.lines.map((l) => ({
+      concept: l.concept,
+      quantity: l.quantity,
+      unitPrice: l.unitPrice,
+      subtotal: l.subtotal,
+    })),
+    subtotal: quot.subtotal,
+    taxRate: quot.taxRate,
+    total: quot.total,
+    currency: quot.currency,
+    notes: quot.notes ?? null,
+  });
+
+  await updateQuotationStatus(quotationId, "enviada");
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
