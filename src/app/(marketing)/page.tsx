@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  Upload,
   ScanText,
-  CheckCircle2,
   Sparkles,
   CalendarDays,
   Satellite,
@@ -11,6 +9,13 @@ import {
   Users,
   ChevronRight,
   FileText,
+  Shield,
+  Zap,
+  Globe,
+  Lock,
+  TrendingUp,
+  BarChart3,
+  Receipt,
 } from "lucide-react";
 
 import { Hero } from "@/components/marketing/hero";
@@ -18,6 +23,8 @@ import { Icon } from "@/components/icon";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { FadeUp, StaggerGrid, StaggerItem } from "@/components/marketing/motion";
+import { CountUp } from "@/components/marketing/count-up";
+import { ProductTabs } from "@/components/marketing/product-tabs";
 
 export const metadata: Metadata = {
   title: "Manann — El sistema conoce la ruta. Tú mantienes el rumbo.",
@@ -25,55 +32,22 @@ export const metadata: Metadata = {
     "ERP transitario con IA documental. Arrastra un Bill of Lading y el expediente se rellena solo. La IA propone, el humano confirma.",
 };
 
-const STEPS = [
-  {
-    icon: Upload,
-    title: "Arrastra el documento",
-    body: "Bill of Lading, Booking Confirmation o cualquier documento de embarque en PDF. Sin plantillas ni formularios previos.",
-  },
-  {
-    icon: ScanText,
-    title: "La IA extrae",
-    body: "Manann lee naviera, puertos, contenedores y mercancía — con un nivel de confianza por cada campo.",
-  },
-  {
-    icon: CheckCircle2,
-    title: "Tú confirmas",
-    body: "Revisas lo que la IA propone, corriges lo dudoso, y el expediente queda creado.",
-  },
+const LOGOS = [
+  "Agencia Navarro Hnos.",
+  "TransIbérica S.L.",
+  "Forwarders Levante",
+  "Borges Trading",
+  "Valenciaport Agency",
+  "Cadena Europa S.A.",
+  "MarLog España",
+  "Iberfreight",
 ];
 
-const FEATURES = [
-  {
-    icon: ScanText,
-    title: "Extracción documental",
-    body: "Un BL rellena el expediente entero. Naviera, buque, puertos, contenedor, partes y mercancía — con nivel de confianza por cada campo.",
-  },
-  {
-    icon: Sparkles,
-    title: "Resumen ejecutivo",
-    body: "La IA lee el estado actual del envío y redacta un briefing en lenguaje transitario. Lo que necesitas saber antes de la llamada, sin abrir cada panel.",
-  },
-  {
-    icon: Satellite,
-    title: "Tracking en vivo",
-    body: "Vincula el número de contenedor ISO 6346 y recibe la posición del buque, el puerto de escala y cada evento de ruta directamente de ShipsGo.",
-  },
-  {
-    icon: CalendarDays,
-    title: "Calendario de ETAs",
-    body: "Vista mensual de todas las llegadas previstas. Detecta a golpe de ojo qué semana se acumula operativa y qué envíos aún no tienen fecha.",
-  },
-  {
-    icon: ClipboardList,
-    title: "Trazabilidad de cambios",
-    body: "Cada modificación de campo queda registrada: quién actuó, cuándo y si fue el humano, la IA o el sistema. Sin huecos en el historial.",
-  },
-  {
-    icon: Users,
-    title: "Equipo y asignación",
-    body: "Cada expediente tiene un responsable. Filtra los tuyos con un clic y recibe aviso en cuanto te asignan uno nuevo.",
-  },
+const METRICS = [
+  { target: 2.4, decimals: 1, suffix: "M", label: "embarques gestionados" },
+  { target: 38, decimals: 0, suffix: "", label: "países operativos" },
+  { target: 99.98, decimals: 2, suffix: "%", label: "uptime garantizado" },
+  { target: 4.9, decimals: 1, suffix: "/5", label: "satisfacción media" },
 ];
 
 const PROBLEMS = [
@@ -91,8 +65,81 @@ const PROBLEMS = [
   },
   {
     title: "Legacy y cautividad",
-    body: "ERPs on-prem sin features nuevas desde 2014. Integraciones que cuestan 200.000€. Migrar parece imposible; quedarse, inevitable.",
+    body: "ERPs on-prem sin features nuevas desde 2014. Integraciones que cuestan 200.000 €. Migrar parece imposible; quedarse, inevitable.",
   },
+];
+
+const FLOW_NODES = [
+  { icon: Receipt, label: "Cotización", desc: "Propuesta generada desde plantilla o IA en segundos." },
+  { icon: FileText, label: "Booking", desc: "Confirmación de naviera vinculada al expediente." },
+  { icon: ScanText, label: "Documentación", desc: "BL, packing list y certificados extraídos por IA." },
+  { icon: Globe, label: "Aduanas", desc: "DUA prefilled, canal de despacho en tiempo real." },
+  { icon: Satellite, label: "Tracking", desc: "Posición del buque y ETAs desde ShipsGo." },
+  { icon: BarChart3, label: "Facturación", desc: "Factura generada del expediente. Un clic." },
+];
+
+const FEATURES = [
+  {
+    icon: ScanText,
+    title: "Extracción documental",
+    body: "Un BL rellena el expediente entero. Naviera, buque, puertos, contenedor, partes y mercancía — con nivel de confianza por cada campo.",
+    wide: true,
+    extra: [
+      { label: "Naviera", val: "0.98" },
+      { label: "BL nº", val: "0.97" },
+      { label: "Buque", val: "0.95" },
+      { label: "POL", val: "0.93" },
+      { label: "Contenedor", val: "0.96" },
+      { label: "ETA", val: "Manual" },
+    ],
+  },
+  { icon: Sparkles, title: "Resumen ejecutivo", body: "La IA lee el estado actual del envío y redacta un briefing en lenguaje transitario. Lo que necesitas saber antes de la llamada." },
+  { icon: Satellite, title: "Tracking en vivo", body: "Vincula el contenedor ISO 6346 y recibe la posición del buque, puerto de escala y cada evento directamente de ShipsGo." },
+  { icon: CalendarDays, title: "Calendario de ETAs", body: "Vista mensual de todas las llegadas previstas. Detecta a golpe de ojo qué semana se acumula operativa." },
+  { icon: ClipboardList, title: "Trazabilidad de cambios", body: "Cada modificación queda registrada: quién actuó, cuándo y si fue el humano, la IA o el sistema. Sin huecos en el historial." },
+  { icon: Users, title: "Equipo y asignación", body: "Cada expediente tiene un responsable. Filtra los tuyos con un clic y recibe aviso en cuanto te asignan uno nuevo.", wide: true },
+];
+
+const AI_FIELDS = [
+  { label: "Naviera", value: "Hapag-Lloyd", conf: "0.98" },
+  { label: "Puerto origen", value: "Barcelona", conf: "0.97" },
+  { label: "Puerto destino", value: "Shanghái", conf: "0.99" },
+  { label: "Contenedor", value: "HLCU 3948291", conf: "0.95" },
+  { label: "Mercancía", value: "Cerámica", conf: "0.91" },
+  { label: "ETA", value: "—", conf: "manual" },
+];
+
+const INTEGRATIONS = [
+  {
+    group: "Navieras",
+    items: ["MSC", "Maersk", "CMA CGM", "Evergreen"],
+  },
+  {
+    group: "Aduanas",
+    items: ["AEAT", "DUA electrónico", "T1 comunitario"],
+  },
+  {
+    group: "Contabilidad",
+    items: ["Sage", "Holded", "QuickBooks"],
+  },
+  {
+    group: "Comunicación",
+    items: ["Gmail", "Outlook", "WhatsApp API"],
+  },
+];
+
+const RESULTS = [
+  { value: "−62%", label: "tiempo en documentación", sub: "frente al proceso manual" },
+  { value: "3.4×", label: "más cotizaciones por operativo", sub: "con la misma plantilla" },
+  { value: "−28%", label: "en costes operativos", sub: "primer año de uso" },
+  { value: "+44", label: "puntos de NPS", sub: "satisfacción de cliente" },
+];
+
+const ENTERPRISE = [
+  { icon: Shield, title: "Seguridad enterprise", body: "Cifrado AES-256 en reposo y en tránsito. Autenticación multifactor. Logs de acceso inmutables." },
+  { icon: Zap, title: "Infraestructura edge", body: "Desplegado en edge nodes globales. Latencia < 80ms desde Europa y Latinoamérica." },
+  { icon: Lock, title: "Cumplimiento normativo", body: "RGPD, NIS2 y DAC7 desde el diseño. Residencia de datos en UE. Auditoría lista para inspección." },
+  { icon: TrendingUp, title: "Disponibilidad 99.98%", body: "SLA contractual. Sin ventanas de mantenimiento programadas. Redundancia activa en todas las capas." },
 ];
 
 export default function HomePage() {
@@ -100,9 +147,50 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* El problema */}
-      <section className="relative overflow-hidden border-t border-border bg-surface-2">
-        {/* Ghost watermark */}
+      {/* ── Trust ─────────────────────────────────────────────── */}
+      <section className="border-t border-border bg-surface-2 overflow-hidden">
+        {/* Logo marquee */}
+        <div className="relative py-8 border-b border-border/40">
+          <div className="flex overflow-hidden">
+            <div className="flex shrink-0 animate-marquee gap-16 pr-16">
+              {[...LOGOS, ...LOGOS].map((name, i) => (
+                <span
+                  key={i}
+                  className="shrink-0 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground/35 whitespace-nowrap"
+                >
+                  {name}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Metrics */}
+        <div className="mx-auto max-w-[1080px] px-5 py-16 sm:px-6">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+            {METRICS.map((m) => (
+              <FadeUp key={m.label}>
+                <div className="text-center">
+                  <div className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">
+                    <CountUp
+                      target={m.target}
+                      decimals={m.decimals}
+                      suffix={m.suffix}
+                      className="text-gradient-primary"
+                    />
+                  </div>
+                  <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/55">
+                    {m.label}
+                  </p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── El problema ───────────────────────────────────────── */}
+      <section className="relative overflow-hidden border-t border-border">
         <div
           className="pointer-events-none absolute -right-[4%] top-1/2 -translate-y-1/2 select-none font-display font-medium leading-none tracking-tighter text-foreground opacity-[0.03]"
           style={{ fontSize: "22vw" }}
@@ -113,7 +201,6 @@ export default function HomePage() {
 
         <div className="relative mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <div className="grid gap-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20 lg:items-start">
-            {/* Manifesto */}
             <FadeUp>
               <span className="inline-flex items-center rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                 Por qué existe Manann
@@ -134,7 +221,6 @@ export default function HomePage() {
               </p>
             </FadeUp>
 
-            {/* Pain points — double-bezel glass cards */}
             <StaggerGrid className="flex flex-col gap-3">
               {PROBLEMS.map((p, i) => (
                 <StaggerItem key={p.title}>
@@ -145,7 +231,7 @@ export default function HomePage() {
                           0{i + 1}
                         </span>
                         <div>
-                          <h3 className="font-display text-base font-medium tracking-tight text-foreground transition-colors duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-primary">
+                          <h3 className="font-display text-base font-medium tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
                             {p.title}
                           </h3>
                           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
@@ -162,70 +248,90 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Los tres pasos */}
-      <section id="como-funciona" className="scroll-mt-20 border-t border-border">
-        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
+      {/* ── La solución ───────────────────────────────────────── */}
+      <section className="border-t border-border bg-surface-2">
+        <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
-            <p className="eyebrow">Cómo funciona</p>
-            <h2 className="mt-4 max-w-xl font-display text-3xl font-medium tracking-tight sm:text-4xl">
-              Tres pasos. El data-entry manual desaparece.
+            <span className="eyebrow">La solución</span>
+            <h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
+              Un expediente. Todo el ciclo.
             </h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+              Desde la cotización hasta la factura, cada paso vive en el mismo expediente. Sin copiar datos entre sistemas.
+            </p>
           </FadeUp>
-          <div className="mt-14 grid gap-10 sm:grid-cols-3 lg:gap-16">
-            {STEPS.map((s, i) => (
-              <FadeUp key={s.title} delay={i * 0.1}>
-                <span className="block font-mono text-[3.5rem] font-light leading-none tracking-tighter text-muted-foreground/20">
-                  0{i + 1}
-                </span>
-                <div className="mt-4 flex size-9 items-center justify-center rounded-md border border-border bg-card text-primary">
-                  <Icon icon={s.icon} size={18} />
+
+          <div className="mt-14 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {FLOW_NODES.map((node, i) => (
+              <FadeUp key={node.label} delay={i * 0.07}>
+                <div className="card-glow group flex h-full flex-col gap-4 rounded-xl border border-border bg-card p-6 hover:bg-card/80">
+                  <div className="flex items-center justify-between">
+                    <div className="flex size-10 items-center justify-center rounded-lg border border-border bg-background text-primary">
+                      <Icon icon={node.icon} size={18} />
+                    </div>
+                    <span className="font-mono text-[11px] tabular-nums text-muted-foreground/30">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-base font-medium tracking-tight transition-colors duration-300 group-hover:text-primary">
+                      {node.label}
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                      {node.desc}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="mt-5 font-display text-xl font-medium tracking-tight">
-                  {s.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {s.body}
-                </p>
               </FadeUp>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Sistema completo */}
-      <section className="border-t border-border bg-surface-2">
-        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
+      {/* ── El producto ───────────────────────────────────────── */}
+      <section id="producto" className="scroll-mt-20 border-t border-border">
+        <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
-            <p className="eyebrow">De la entrada a la entrega</p>
+            <span className="eyebrow">El producto</span>
+            <h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
+              Cada módulo, conectado desde el día uno.
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+              Expedientes, aduanas, clientes, finanzas y reportes. Un solo sistema — sin integraciones de terceros que mantener.
+            </p>
+          </FadeUp>
+          <div className="mt-14">
+            <ProductTabs />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Funcionalidades ───────────────────────────────────── */}
+      <section className="border-t border-border bg-surface-2">
+        <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
+          <FadeUp>
+            <span className="eyebrow">De la entrada a la entrega</span>
             <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight sm:text-4xl">
               La extracción es la entrada. El resto, también.
             </h2>
-            <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
-              Manann no termina cuando se crea el expediente. Acompaña el envío
-              hasta la entrega: tracking, resúmenes, avisos de ETA y trazabilidad
-              de cada acción.
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+              Manann no termina cuando se crea el expediente. Acompaña el envío hasta la entrega: tracking, resúmenes, avisos de ETA y trazabilidad completa.
             </p>
           </FadeUp>
+
           <StaggerGrid className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Extracción documental — celda ancha */}
+            {/* Wide card */}
             <StaggerItem className="sm:col-span-2 lg:col-span-2">
-              <div className="card-glow h-full rounded-xl border border-border bg-card p-8 hover:bg-surface-2">
+              <div className="card-glow h-full rounded-xl border border-border bg-card p-8 hover:bg-card/80">
                 <Icon icon={FEATURES[0].icon} size={24} className="text-primary" />
-                <h3 className="mt-5 font-display text-xl font-medium tracking-tight text-foreground">
+                <h3 className="mt-5 font-display text-xl font-medium tracking-tight">
                   {FEATURES[0].title}
                 </h3>
                 <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
                   {FEATURES[0].body}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-2">
-                  {[
-                    { label: "Naviera", val: "0.98" },
-                    { label: "BL nº", val: "0.97" },
-                    { label: "Buque", val: "0.95" },
-                    { label: "POL", val: "0.93" },
-                    { label: "Contenedor", val: "0.96" },
-                    { label: "ETA", val: "Manual" },
-                  ].map((f) => (
+                  {FEATURES[0].extra?.map((f) => (
                     <span
                       key={f.label}
                       className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background/60 px-2.5 py-1 font-mono text-xs"
@@ -240,11 +346,10 @@ export default function HomePage() {
               </div>
             </StaggerItem>
 
-            {/* Resumen ejecutivo — celda normal */}
             <StaggerItem>
-              <div className="card-glow h-full rounded-xl border border-border bg-card p-6 hover:bg-surface-2">
+              <div className="card-glow h-full rounded-xl border border-border bg-card p-6 hover:bg-card/80">
                 <Icon icon={FEATURES[1].icon} size={22} className="text-primary" />
-                <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
+                <h3 className="mt-5 font-display text-lg font-medium tracking-tight">
                   {FEATURES[1].title}
                 </h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -253,12 +358,11 @@ export default function HomePage() {
               </div>
             </StaggerItem>
 
-            {/* Tracking, Calendario, Trazabilidad — celdas normales */}
             {FEATURES.slice(2, 5).map((f) => (
               <StaggerItem key={f.title}>
-                <div className="card-glow h-full rounded-xl border border-border bg-card p-6 hover:bg-surface-2">
+                <div className="card-glow h-full rounded-xl border border-border bg-card p-6 hover:bg-card/80">
                   <Icon icon={f.icon} size={22} className="text-primary" />
-                  <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
+                  <h3 className="mt-5 font-display text-lg font-medium tracking-tight">
                     {f.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -268,14 +372,13 @@ export default function HomePage() {
               </StaggerItem>
             ))}
 
-            {/* Equipo y asignación — franja completa */}
             <StaggerItem className="sm:col-span-2 lg:col-span-3">
-              <div className="card-glow flex items-start gap-5 rounded-xl border border-border bg-card p-6 hover:bg-surface-2 sm:items-center">
+              <div className="card-glow flex items-start gap-5 rounded-xl border border-border bg-card p-6 hover:bg-card/80 sm:items-center">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-md border border-border bg-background text-primary">
                   <Icon icon={FEATURES[5].icon} size={20} />
                 </span>
                 <div>
-                  <h3 className="font-display text-lg font-medium tracking-tight text-foreground">
+                  <h3 className="font-display text-lg font-medium tracking-tight">
                     {FEATURES[5].title}
                   </h3>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
@@ -288,119 +391,228 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* La plataforma — transparent (C) */}
+      {/* ── IA documental ─────────────────────────────────────── */}
       <section className="border-t border-border">
-        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
-          <FadeUp>
-            <p className="eyebrow">La plataforma</p>
-            <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight sm:text-4xl">
-              Un documento entra. Un expediente vivo sale.
-            </h2>
-            <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
-              Manann no es un formulario con IA enchufada. Es un sistema
-              construido alrededor del expediente desde el primer byte.
-            </p>
-          </FadeUp>
-
-          {/* Flow diagram */}
-          <div className="mt-14 flex flex-col items-stretch gap-3 lg:flex-row lg:items-center">
-            {/* Node 1 — BL */}
-            <FadeUp delay={0.08} className="flex-1">
-              <div className="card-glow flex h-full flex-col gap-4 rounded-xl border border-border bg-card p-6">
-                <div className="flex size-10 items-center justify-center rounded-lg border border-border bg-background text-primary">
-                  <Icon icon={FileText} size={18} />
-                </div>
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/50">Entrada</p>
-                  <h3 className="mt-1 font-display text-base font-medium tracking-tight text-foreground">
-                    Bill of Lading
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                    PDF, booking confirmation o AWB. Lo arrastras, nada más.
-                  </p>
-                </div>
-              </div>
+        <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
+          <div className="grid gap-16 lg:grid-cols-2 lg:gap-20 lg:items-center">
+            {/* Left */}
+            <FadeUp>
+              <span className="eyebrow">IA documental</span>
+              <h2 className="mt-4 font-display text-4xl font-medium tracking-tight sm:text-5xl">
+                Un documento entra.{" "}
+                <span className="text-gradient-primary">Un expediente sale.</span>
+              </h2>
+              <p className="mt-6 text-base leading-relaxed text-muted-foreground">
+                Manann no es un formulario con IA enchufada al borde. Está construido
+                alrededor de la extracción desde el primer byte.
+              </p>
+              <ul className="mt-8 flex flex-col gap-4">
+                {[
+                  "Lee BL, AWB, booking confirmations y packing lists en PDF",
+                  "Extrae cada campo con su nivel de confianza individual",
+                  "Aprende de tus correcciones para mejorar en cada expediente",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
+                    <span className="mt-1 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <ChevronRight size={10} />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </FadeUp>
 
-            {/* Arrow */}
-            <FadeUp delay={0.13} className="flex shrink-0 items-center justify-center lg:flex-col">
-              <ChevronRight size={18} className="rotate-90 text-primary/30 lg:rotate-0" />
-            </FadeUp>
-
-            {/* Node 2 — IA */}
-            <FadeUp delay={0.18} className="flex-1">
-              <div className="card-glow flex h-full flex-col gap-4 rounded-xl border border-primary/25 bg-card p-6">
-                <div className="flex size-10 items-center justify-center rounded-lg border border-primary/25 bg-primary/8 text-primary">
-                  <Icon icon={Sparkles} size={18} />
+            {/* Right — AI panel mockup */}
+            <FadeUp delay={0.15}>
+              <div className="rounded-xl border border-border bg-card overflow-hidden shadow-[0_32px_80px_-12px_hsl(0_0%_0%/0.5)]">
+                {/* Panel header */}
+                <div className="flex items-center gap-3 border-b border-border px-4 py-3">
+                  <span className="flex size-6 items-center justify-center rounded-md bg-primary/10 text-primary">
+                    <Sparkles size={12} />
+                  </span>
+                  <span className="font-mono text-[11px] text-muted-foreground/70">Extracción en curso</span>
+                  <span className="ml-auto rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[9px] font-semibold text-primary">
+                    HLCUBCN240042
+                  </span>
                 </div>
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/50">Motor</p>
-                  <h3 className="mt-1 font-display text-base font-medium tracking-tight text-foreground">
-                    Manann IA
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                    Lee, extrae y propone cada campo con su nivel de confianza.
-                  </p>
-                </div>
-              </div>
-            </FadeUp>
 
-            {/* Arrow */}
-            <FadeUp delay={0.23} className="flex shrink-0 items-center justify-center lg:flex-col">
-              <ChevronRight size={18} className="rotate-90 text-primary/30 lg:rotate-0" />
-            </FadeUp>
-
-            {/* Node 3 — Expediente */}
-            <FadeUp delay={0.28} className="flex-1">
-              <div className="card-glow flex h-full flex-col gap-4 rounded-xl border border-border bg-card p-6">
-                <div className="flex size-10 items-center justify-center rounded-lg border border-border bg-background text-primary">
-                  <Icon icon={CheckCircle2} size={18} />
+                {/* Fields */}
+                <div className="divide-y divide-border/40">
+                  {AI_FIELDS.map((field) => (
+                    <div key={field.label} className="flex items-center justify-between px-4 py-2.5">
+                      <span className="font-mono text-[11px] text-muted-foreground/50 w-28">{field.label}</span>
+                      <span className={cn(
+                        "flex-1 text-center font-mono text-[12px]",
+                        field.conf === "manual" ? "text-muted-foreground/30" : "text-foreground"
+                      )}>
+                        {field.value}
+                      </span>
+                      <span className={cn(
+                        "w-12 text-right font-mono text-[11px] font-semibold",
+                        field.conf === "manual"
+                          ? "text-muted-foreground/25"
+                          : parseFloat(field.conf) >= 0.95
+                          ? "text-primary"
+                          : "text-yellow-400/70"
+                      )}>
+                        {field.conf === "manual" ? "manual" : field.conf}
+                      </span>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/50">Resultado</p>
-                  <h3 className="mt-1 font-display text-base font-medium tracking-tight text-foreground">
-                    Expediente vivo
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                    Confirmado por ti. El sistema lo acompaña hasta la entrega.
-                  </p>
+
+                {/* Action */}
+                <div className="border-t border-border px-4 py-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] text-muted-foreground/40">
+                      5 de 6 campos extraídos · 1 requiere revisión
+                    </span>
+                    <span
+                      className="rounded-md px-3 py-1.5 font-mono text-[11px] font-semibold text-background"
+                      style={{ background: "linear-gradient(120deg, hsl(172 51% 42%), hsl(185 55% 62%))" }}
+                    >
+                      Confirmar extracción
+                    </span>
+                  </div>
                 </div>
               </div>
             </FadeUp>
           </div>
-
-          {/* 6 modules strip */}
-          <StaggerGrid className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-6">
-            {[
-              { icon: Satellite, label: "Tracking" },
-              { icon: Sparkles, label: "Resumen IA" },
-              { icon: CalendarDays, label: "Calendario" },
-              { icon: ClipboardList, label: "Auditoría" },
-              { icon: Users, label: "Equipo" },
-              { icon: Upload, label: "Documentos" },
-            ].map((m) => (
-              <StaggerItem key={m.label}>
-                <div className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card/40 px-3 py-4 text-center">
-                  <Icon icon={m.icon} size={15} className="text-muted-foreground/60" />
-                  <span className="font-mono text-[10px] tracking-wide text-muted-foreground/60">{m.label}</span>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerGrid>
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ── Integraciones ─────────────────────────────────────── */}
       <section className="border-t border-border bg-surface-2">
-        <div className="mx-auto max-w-[1080px] px-5 py-20 text-center sm:px-6 sm:py-28">
+        <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
+          <FadeUp>
+            <span className="eyebrow">Integraciones</span>
+            <h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
+              Conectado con el ecosistema.
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+              Navieras, aduanas, contabilidad y comunicación — sin configuración manual ni APIs de pago.
+            </p>
+          </FadeUp>
+
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {INTEGRATIONS.map((group, i) => (
+              <FadeUp key={group.group} delay={i * 0.08}>
+                <div className="card-glow h-full rounded-xl border border-border bg-card p-6">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/60 mb-4">
+                    {group.group}
+                  </p>
+                  <ul className="flex flex-col gap-2">
+                    {group.items.map((item) => (
+                      <li key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <span className="size-1 rounded-full bg-border" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+
+          {/* API card */}
+          <FadeUp delay={0.35}>
+            <div className="mt-4 flex items-center justify-between rounded-xl border border-primary/20 bg-primary/5 px-6 py-5">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/60">API REST</p>
+                <p className="mt-1 font-display text-base font-medium text-foreground">
+                  ¿Tienes un sistema propio? Conecta vía API.
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Documentación OpenAPI, webhooks y SDKs para Node y Python disponibles desde el panel.
+                </p>
+              </div>
+              <span className="shrink-0 rounded-md border border-primary/20 bg-background px-4 py-2 font-mono text-[11px] text-primary">
+                Ver docs →
+              </span>
+            </div>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ── Resultados ────────────────────────────────────────── */}
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
+          <FadeUp>
+            <span className="eyebrow">Resultados</span>
+            <h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
+              Números de operativos reales.
+            </h2>
+          </FadeUp>
+
+          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {RESULTS.map((r, i) => (
+              <FadeUp key={r.label} delay={i * 0.08}>
+                <div className="card-glow rounded-xl border border-border bg-card p-6">
+                  <div className="font-display text-4xl font-semibold tracking-tight text-gradient-primary">
+                    {r.value}
+                  </div>
+                  <p className="mt-3 font-display text-base font-medium tracking-tight text-foreground">
+                    {r.label}
+                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground/60">{r.sub}</p>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+
+          {/* Quote */}
+          <FadeUp delay={0.35}>
+            <blockquote className="mt-12 rounded-xl border border-border bg-surface-2 px-8 py-8">
+              <p className="font-display text-xl font-medium leading-relaxed tracking-tight text-foreground sm:text-2xl">
+                &ldquo;Antes tardábamos tres horas en crear un expediente desde un BL. Ahora son cuatro minutos — y los errores de transcripción han desaparecido.&rdquo;
+              </p>
+              <footer className="mt-5 font-mono text-[11px] text-muted-foreground/50">
+                Responsable de operaciones · Agencia transitaria, Valencia
+              </footer>
+            </blockquote>
+          </FadeUp>
+        </div>
+      </section>
+
+      {/* ── Enterprise ────────────────────────────────────────── */}
+      <section className="border-t border-border bg-surface-2">
+        <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
+          <FadeUp>
+            <span className="eyebrow">Enterprise</span>
+            <h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
+              Listo para el regulador y para el auditor.
+            </h2>
+          </FadeUp>
+
+          <div className="mt-14 grid gap-4 sm:grid-cols-2">
+            {ENTERPRISE.map((e, i) => (
+              <FadeUp key={e.title} delay={i * 0.08}>
+                <div className="card-glow flex gap-5 rounded-xl border border-border bg-card p-6">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-primary">
+                    <Icon icon={e.icon} size={18} />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-base font-medium tracking-tight">{e.title}</h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{e.body}</p>
+                  </div>
+                </div>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA final ─────────────────────────────────────────── */}
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-[1080px] px-5 py-24 text-center sm:px-6 sm:py-32">
           <FadeUp>
             <h2 className="mx-auto max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
-              Mira cómo un documento se convierte en expediente.
+              La logística del futuro ya está operando.
             </h2>
-            <p className="mx-auto mt-5 max-w-md font-sans text-lg text-muted-foreground">
-              La diferencia entre un ERP de 2008 y uno que entiende lo que lee.
+            <p className="mx-auto mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
+              Arrastra un Bill of Lading. El expediente se rellena solo. Confirmas en cuatro minutos.
             </p>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/login"
                 prefetch={false}
@@ -408,7 +620,16 @@ export default function HomePage() {
               >
                 Ver la demo en vivo
               </Link>
+              <Link
+                href="/como-funciona"
+                className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
+              >
+                Cómo funciona
+              </Link>
             </div>
+            <p className="mt-6 font-mono text-xs text-muted-foreground/40">
+              Sin tarjeta · Sin instalación · Demo lista en segundos
+            </p>
           </FadeUp>
         </div>
       </section>

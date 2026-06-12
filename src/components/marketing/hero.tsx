@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ExpedienteCardDemo } from "./expediente-card-demo";
+import { HeroDashboard } from "./hero-dashboard";
 
 export function Hero() {
   return (
@@ -71,40 +71,13 @@ export function Hero() {
           </p>
         </div>
 
-        {/* Browser chrome — product preview */}
+        {/* Dashboard preview */}
         <div
           id="demo"
           className="mt-16 scroll-mt-24 hero-enter"
           style={{ "--i": 5 } as React.CSSProperties}
         >
-          {/* Titlebar */}
-          <div className="flex items-center gap-3 rounded-t-xl border border-b-0 border-border bg-surface-3 px-4 py-3">
-            <div className="flex shrink-0 gap-1.5">
-              <span
-                className="block size-2.5 rounded-full"
-                style={{ background: "hsl(5 72% 58% / 0.7)" }}
-              />
-              <span
-                className="block size-2.5 rounded-full"
-                style={{ background: "hsl(38 70% 56% / 0.7)" }}
-              />
-              <span
-                className="block size-2.5 rounded-full"
-                style={{ background: "hsl(140 48% 48% / 0.7)" }}
-              />
-            </div>
-            <div className="flex min-w-0 flex-1 justify-center">
-              <span className="inline-block max-w-xs truncate rounded-md border border-border/30 bg-background/50 px-4 py-1 font-mono text-[11px] tracking-tight text-muted-foreground/60">
-                app.manann.com/expedientes/EXP-2026-0042
-              </span>
-            </div>
-          </div>
-          {/* Product window */}
-          <div className="overflow-hidden rounded-b-xl border border-t-0 border-border bg-card">
-            <div className="mx-auto max-w-md px-6 pb-0 pt-6">
-              <ExpedienteCardDemo />
-            </div>
-          </div>
+          <HeroDashboard />
         </div>
       </section>
     </div>
