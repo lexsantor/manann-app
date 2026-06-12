@@ -99,49 +99,63 @@ export default function HomePage() {
       <Hero />
 
       {/* El problema */}
-      <section className="border-t border-border">
-        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
-          <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
+      <section className="relative overflow-hidden border-t border-border">
+        {/* Ghost watermark */}
+        <div
+          className="pointer-events-none absolute -right-[4%] top-1/2 -translate-y-1/2 select-none font-display font-medium leading-none tracking-tighter text-foreground opacity-[0.03]"
+          style={{ fontSize: "22vw" }}
+          aria-hidden
+        >
+          1998
+        </div>
+
+        <div className="relative mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
+          <div className="grid gap-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20 lg:items-start">
             {/* Manifesto */}
             <FadeUp>
-              <p className="eyebrow">Por qué existe Manann</p>
-              <h2 className="mt-5 font-display text-4xl font-medium leading-[1.05] tracking-tight sm:text-5xl">
-                Logistics runs the world.{" "}
-                <span className="text-muted-foreground/50">
-                  Its software runs on 1998.
+              <span className="inline-flex items-center rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                Por qué existe Manann
+              </span>
+              <h2 className="mt-6 font-display text-5xl font-medium leading-[1.03] tracking-tight sm:text-[3.25rem] lg:text-6xl">
+                La logística mueve el mundo.{" "}
+                <span className="text-foreground/30">
+                  Su software lleva 25 años parado.
                 </span>
               </h2>
-              <p className="mt-7 max-w-md text-base leading-relaxed text-muted-foreground">
+              <p className="mt-8 max-w-sm text-base leading-relaxed text-muted-foreground">
                 Los transitarios mueven el comercio global. A cambio, operan con
                 herramientas que sus abuelos reconocerían. El sector exige
-                entregas al nivel de Amazon. El software lleva dos décadas sin
-                acompañarle.
+                entregas al nivel de Amazon.
               </p>
-              <p className="mt-4 max-w-md text-base leading-relaxed text-muted-foreground">
+              <p className="mt-4 max-w-sm text-base leading-relaxed text-muted-foreground">
                 Hemos visto este patrón romperse, cada día, durante años.
               </p>
             </FadeUp>
 
-            {/* Pain points */}
-            <div className="divide-y divide-border">
+            {/* Pain points — double-bezel glass cards */}
+            <StaggerGrid className="flex flex-col gap-3">
               {PROBLEMS.map((p, i) => (
-                <FadeUp key={p.title} delay={i * 0.08}>
-                  <div className="py-6 first:pt-0 last:pb-0">
-                    <div className="flex items-baseline gap-3">
-                      <span className="shrink-0 font-mono text-[11px] text-muted-foreground/40">
-                        0{i + 1}
-                      </span>
-                      <h3 className="font-display text-lg font-medium tracking-tight text-foreground">
-                        {p.title}
-                      </h3>
+                <StaggerItem key={p.title}>
+                  <div className="group p-px rounded-xl border border-white/8 bg-white/[0.02] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-white/[0.12] hover:-translate-y-px">
+                    <div className="rounded-[calc(0.75rem-1px)] bg-surface-2 px-5 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+                      <div className="flex items-start gap-4">
+                        <span className="mt-0.5 shrink-0 font-mono text-[10px] tabular-nums text-primary/50">
+                          0{i + 1}
+                        </span>
+                        <div>
+                          <h3 className="font-display text-base font-medium tracking-tight text-foreground transition-colors duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-primary">
+                            {p.title}
+                          </h3>
+                          <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                            {p.body}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                    <p className="mt-2 pl-6 text-sm leading-relaxed text-muted-foreground">
-                      {p.body}
-                    </p>
                   </div>
-                </FadeUp>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerGrid>
           </div>
         </div>
       </section>
