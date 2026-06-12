@@ -81,41 +81,37 @@ export default function HomePage() {
 
       {/* Los tres pasos */}
       <section id="como-funciona" className="scroll-mt-20 border-t border-border bg-surface-2">
-        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-24">
+        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
           <FadeUp>
             <p className="eyebrow">Cómo funciona</p>
-            <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight sm:text-4xl">
+            <h2 className="mt-4 max-w-xl font-display text-3xl font-medium tracking-tight sm:text-4xl">
               Tres pasos. El data-entry manual desaparece.
             </h2>
           </FadeUp>
-          <StaggerGrid className="mt-12 grid gap-6 sm:grid-cols-3">
+          <div className="mt-14 grid gap-10 sm:grid-cols-3 lg:gap-16">
             {STEPS.map((s, i) => (
-              <StaggerItem key={s.title}>
-                <div className="rounded-lg border border-border bg-card p-6 transition-colors hover:bg-surface-2">
-                  <div className="flex items-center justify-between">
-                    <span className="flex size-9 items-center justify-center rounded-md border border-border text-primary">
-                      <Icon icon={s.icon} size={20} />
-                    </span>
-                    <span className="font-mono text-xs text-muted-foreground">
-                      0{i + 1}
-                    </span>
-                  </div>
-                  <h3 className="mt-5 font-display text-xl font-medium tracking-tight">
-                    {s.title}
-                  </h3>
-                  <p className="mt-2 font-sans text-sm leading-relaxed text-muted-foreground">
-                    {s.body}
-                  </p>
+              <FadeUp key={s.title} delay={i * 0.1}>
+                <span className="block font-mono text-[3.5rem] font-light leading-none tracking-tighter text-muted-foreground/20">
+                  0{i + 1}
+                </span>
+                <div className="mt-4 flex size-9 items-center justify-center rounded-md border border-border bg-card text-primary">
+                  <Icon icon={s.icon} size={18} />
                 </div>
-              </StaggerItem>
+                <h3 className="mt-5 font-display text-xl font-medium tracking-tight">
+                  {s.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {s.body}
+                </p>
+              </FadeUp>
             ))}
-          </StaggerGrid>
+          </div>
         </div>
       </section>
 
       {/* Sistema completo */}
       <section className="border-t border-border">
-        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-24">
+        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
           <FadeUp>
             <p className="eyebrow">De la entrada a la entrega</p>
             <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight sm:text-4xl">
@@ -127,10 +123,57 @@ export default function HomePage() {
               de cada acción.
             </p>
           </FadeUp>
-          <StaggerGrid className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {FEATURES.map((f) => (
+          <StaggerGrid className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Extracción documental — celda ancha */}
+            <StaggerItem className="sm:col-span-2 lg:col-span-2">
+              <div className="h-full rounded-xl border border-border bg-card p-8 transition-colors hover:bg-surface-2">
+                <Icon icon={FEATURES[0].icon} size={24} className="text-primary" />
+                <h3 className="mt-5 font-display text-xl font-medium tracking-tight text-foreground">
+                  {FEATURES[0].title}
+                </h3>
+                <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
+                  {FEATURES[0].body}
+                </p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {[
+                    { label: "Naviera", val: "0.98" },
+                    { label: "BL nº", val: "0.97" },
+                    { label: "Buque", val: "0.95" },
+                    { label: "POL", val: "0.93" },
+                    { label: "Contenedor", val: "0.96" },
+                    { label: "ETA", val: "Manual" },
+                  ].map((f) => (
+                    <span
+                      key={f.label}
+                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background/60 px-2.5 py-1 font-mono text-xs"
+                    >
+                      <span className="text-muted-foreground">{f.label}</span>
+                      <span className={f.val === "Manual" ? "text-muted-foreground/40" : "text-primary"}>
+                        {f.val}
+                      </span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </StaggerItem>
+
+            {/* Resumen ejecutivo — celda normal */}
+            <StaggerItem>
+              <div className="h-full rounded-xl border border-border bg-card p-6 transition-colors hover:bg-surface-2">
+                <Icon icon={FEATURES[1].icon} size={22} className="text-primary" />
+                <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
+                  {FEATURES[1].title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {FEATURES[1].body}
+                </p>
+              </div>
+            </StaggerItem>
+
+            {/* Tracking, Calendario, Trazabilidad — celdas normales */}
+            {FEATURES.slice(2, 5).map((f) => (
               <StaggerItem key={f.title}>
-                <div className="rounded-lg border border-border bg-card p-6 transition-colors hover:bg-surface-2">
+                <div className="h-full rounded-xl border border-border bg-card p-6 transition-colors hover:bg-surface-2">
                   <Icon icon={f.icon} size={22} className="text-primary" />
                   <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
                     {f.title}
@@ -141,6 +184,23 @@ export default function HomePage() {
                 </div>
               </StaggerItem>
             ))}
+
+            {/* Equipo y asignación — franja completa */}
+            <StaggerItem className="sm:col-span-2 lg:col-span-3">
+              <div className="flex items-start gap-5 rounded-xl border border-border bg-card p-6 transition-colors hover:bg-surface-2 sm:items-center">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-md border border-border bg-background text-primary">
+                  <Icon icon={FEATURES[5].icon} size={20} />
+                </span>
+                <div>
+                  <h3 className="font-display text-lg font-medium tracking-tight text-foreground">
+                    {FEATURES[5].title}
+                  </h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {FEATURES[5].body}
+                  </p>
+                </div>
+              </div>
+            </StaggerItem>
           </StaggerGrid>
         </div>
       </section>
