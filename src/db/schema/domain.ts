@@ -59,6 +59,7 @@ export const member = pgTable(
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
     role: memberRole("role").notNull().default("member"),
+    onboarded: boolean("onboarded").notNull().default(false),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [
@@ -516,4 +517,28 @@ export const quotationRelations = relations(quotation, ({ many }) => ({
 
 export const quotationLineRelations = relations(quotationLine, ({ one }) => ({
   quotation: one(quotation, { fields: [quotationLine.quotationId], references: [quotation.id] }),
+}));
+
+// ─── Comentarios por expediente ─────────────────────────────────────────────
+
+export const comment = pgTable(
+  "comment",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    shipmentId: uuid("shipment_id")
+      .notNull()
+      .references(() => shipment.id, { onDelete: "cascade" }),
+    authorId: uuid("author_id")
+      .notNull()
+      .references(() => member.id, { onDelete: "cascade" }),
+    body: text("body").notNull(),
+    mentions: text("mentions").array().notNull().default([]),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("comment_shipment_idx").on(t.shipmentId)],
+);
+
+export const commentRelations = relations(comment, ({ one }) => ({
+  shipment: one(shipment, { fields: [comment.shipmentId], references: [shipment.id] }),
+  author: one(member, { fields: [comment.authorId], references: [member.id] }),
 }));

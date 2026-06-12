@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<title>Manann — El sistema operativo de la logística global</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"></link>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"></link>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Instrument+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"></link>
+<link rel="stylesheet" href="manann/styles.css"></link>
+<link rel="stylesheet" href="manann/sections.css"></link>
+</head>
+<body data-motion="on" data-glow="on">
+
+<canvas id="bg-canvas"></canvas>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="logo"><span class="logo-mark"></span>Manann</a>
+    <nav class="nav-links">
+      <a href="#producto">Producto</a>
+      <a href="#funcionalidades">Funcionalidades</a>
+      <a href="#integraciones">Integraciones</a>
+      <a href="#enterprise">Enterprise</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#cta" class="nav-login">Iniciar sesión</a>
+      <a href="#cta" class="btn btn-primary">Solicitar demo</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero" data-screen-label="Hero">
+  <div class="hero-bg">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="hero-grid-bg"></div>
+  </div>
+  <div class="hero-content">
+    <span class="eyebrow" data-reveal=""><span class="pulse-dot"></span>El ERP para freight forwarders</span>
+    <h1 class="hero-title" data-reveal="" style="--d:.08s">Freight forwarding.<br></br><span class="grad-text">Reinventado.</span></h1>
+    <p class="hero-sub" data-reveal="" style="--d:.16s">Manann centraliza embarques, aduanas, documentación, finanzas y clientes en un único sistema operativo. Visibilidad total y automatización en cada operación.</p>
+    <div class="hero-ctas" data-reveal="" style="--d:.24s">
+      <a href="#cta" class="btn btn-primary">Solicitar una demo <span class="arr">→</span></a>
+      <a href="#producto" class="btn btn-ghost">Ver la plataforma</a>
+    </div>
+  </div>
+
+  <div class="hero-stage" data-reveal="" style="--d:.34s">
+    <div class="dash-wrap" id="dashWrap">
+      <div class="dash">
+        <div class="dash-chrome">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="dash-url">app.manann.io/operaciones</span>
+        </div>
+        <div class="dash-body">
+          <aside class="dash-side">
+            <div class="dash-logo"><span class="logo-mark"></span>Manann</div>
+            <a class="dsn active">Embarques</a>
+            <a class="dsn">Cotizaciones</a>
+            <a class="dsn">Aduanas</a>
+            <a class="dsn">Documentos</a>
+            <a class="dsn">Clientes</a>
+            <a class="dsn">Finanzas</a>
+            <a class="dsn">Reportes</a>
+            <div class="dash-side-foot">OP · Valencia HQ</div>
+          </aside>
+          <div class="dash-main">
+            <div class="dash-top">
+              <div>
+                <div class="dash-title">Embarques activos</div>
+                <div class="dash-sub">Actualizado hace 2 min</div>
+              </div>
+              <div class="dash-top-right">
+                <span class="dash-pill">+ Nuevo embarque</span>
+                <span class="dash-avatar">LM</span>
+              </div>
+            </div>
+            <div class="dash-kpis">
+              <div class="kpi"><div class="kpi-label">En tránsito</div><div class="kpi-value">248</div><div class="kpi-delta up">+12% vs. mes ant.</div></div>
+              <div class="kpi"><div class="kpi-label">En aduana</div><div class="kpi-value">36</div><div class="kpi-delta up">−8% tiempo medio</div></div>
+              <div class="kpi"><div class="kpi-label">Por facturar</div><div class="kpi-value">€482k</div><div class="kpi-delta up">+6% margen</div></div>
+              <div class="kpi"><div class="kpi-label">OTD</div><div class="kpi-value">96,4%</div><div class="kpi-delta up">+1,2 pts</div></div>
+            </div>
+            <div class="dash-split">
+              <div class="dash-card">
+                <div class="dash-card-head">Volumen semanal <span>TEU</span></div>
+                <div class="bars">
+                  <div class="bar" style="--h:38%;--i:0"></div>
+                  <div class="bar" style="--h:52%;--i:1"></div>
+                  <div class="bar" style="--h:44%;--i:2"></div>
+                  <div class="bar" style="--h:66%;--i:3"></div>
+                  <div class="bar" style="--h:58%;--i:4"></div>
+                  <div class="bar" style="--h:74%;--i:5"></div>
+                  <div class="bar" style="--h:62%;--i:6"></div>
+                  <div class="bar hot" style="--h:88%;--i:7"></div>
+                </div>
+                <div class="bar-labels"><span>S18</span><span>S19</span><span>S20</span><span>S21</span><span>S22</span><span>S23</span><span>S24</span><span>S25</span></div>
+              </div>
+              <div class="dash-card dash-table">
+                <div class="dt-row head"><span>Referencia</span><span>Ruta</span><span>Modo</span><span>Estado</span><span style="text-align:right">ETA</span></div>
+                <div class="dt-row"><span class="dt-ref">MNN-84213</span><span class="dt-route">Shanghái → <b>Valencia</b></span><span class="chip mode">FCL</span><span class="chip st-transit">En tránsito</span><span class="dt-eta">18 jun</span></div>
+                <div class="dt-row"><span class="dt-ref">MNN-84207</span><span class="dt-route">Ningbo → <b>Róterdam</b></span><span class="chip mode">FCL</span><span class="chip st-customs">En aduana</span><span class="dt-eta">14 jun</span></div>
+                <div class="dt-row"><span class="dt-ref">MNN-84198</span><span class="dt-route">Bogotá → <b>Madrid</b></span><span class="chip mode">Aéreo</span><span class="chip st-done">Entregado</span><span class="dt-eta">12 jun</span></div>
+                <div class="dt-row"><span class="dt-ref">MNN-84190</span><span class="dt-route">Veracruz → <b>Barcelona</b></span><span class="chip mode">LCL</span><span class="chip st-doc">Documentación</span><span class="dt-eta">21 jun</span></div>
+                <div class="dt-row"><span class="dt-ref">MNN-84185</span><span class="dt-route">Busan → <b>Hamburgo</b></span><span class="chip mode">FCL</span><span class="chip st-transit">En tránsito</span><span class="dt-eta">24 jun</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-card fc-a">
+        <div class="fc-head"><span class="fc-ref">MNN-84213</span><span class="chip st-transit">En tránsito</span></div>
+        <div class="fc-title">Estrecho de Malaca</div>
+        <div class="fc-sub">MSC Aurora V. · 14.860 TEU</div>
+        <div class="fc-bar"><div class="fc-fill"></div></div>
+        <div class="fc-meta"><span>72% del trayecto</span><span>ETA 18 jun</span></div>
+      </div>
+      <div class="float-card fc-b">
+        <div class="fc-ok">
+          <span class="fc-ok-dot">✓</span>
+          <div>
+            <div class="fc-title">DUA admitida — canal verde</div>
+            <div class="fc-sub">Aduana de Valencia · hace 4 min</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST ============ -->
+<section class="trust" data-screen-label="Confianza">
+  <div class="wrap">
+    <p class="trust-label" data-reveal="">Operadores logísticos en más de 38 países confían en Manann</p>
+    <div class="marquee" data-reveal="">
+      <div class="marquee-track">
+        <span class="wordmark">NORTRADE</span><span class="wordmark">Atlas Cargo</span><span class="wordmark">VECTORIAL</span><span class="wordmark">Meridian Freight</span><span class="wordmark">KORELINK</span><span class="wordmark">Panmar Logistics</span><span class="wordmark">Transglobal</span><span class="wordmark">IBERFREIGHT</span>
+        <span class="wordmark">NORTRADE</span><span class="wordmark">Atlas Cargo</span><span class="wordmark">VECTORIAL</span><span class="wordmark">Meridian Freight</span><span class="wordmark">KORELINK</span><span class="wordmark">Panmar Logistics</span><span class="wordmark">Transglobal</span><span class="wordmark">IBERFREIGHT</span>
+      </div>
+    </div>
+    <div class="metrics">
+      <div class="metric" data-reveal=""><div class="metric-value grad-text" data-count="2.4" data-decimals="1" data-suffix="M">0</div><div class="metric-label">Embarques gestionados</div></div>
+      <div class="metric" data-reveal="" style="--d:.08s"><div class="metric-value grad-text" data-count="38" data-suffix="">0</div><div class="metric-label">Países con operaciones</div></div>
+      <div class="metric" data-reveal="" style="--d:.16s"><div class="metric-value grad-text" data-count="99.98" data-decimals="2" data-suffix="%">0</div><div class="metric-label">Disponibilidad de plataforma</div></div>
+      <div class="metric" data-reveal="" style="--d:.24s"><div class="metric-value grad-text" data-count="4.9" data-decimals="1" data-suffix="/5">0</div><div class="metric-label">Satisfacción de clientes</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEMA ============ -->
+<section class="problem section-pad" data-screen-label="Problema">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow" data-reveal="">El problema</span>
+      <h2 class="section-title" data-reveal="" style="--d:.08s">El software heredado <span class="grad-text">frena tu operación.</span></h2>
+      <p class="section-sub" data-reveal="" style="--d:.16s">La industria mueve el mundo con herramientas de hace veinte años: sistemas desconectados, hojas de cálculo y procesos que dependen de la memoria de cada operador.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card" data-reveal=""><span class="problem-num">01</span><h3>Sistemas fragmentados</h3><p>Un ERP para finanzas, otro para tracking, correos para aduanas y Excel para todo lo demás. <span class="strike">Nada conversa entre sí.</span></p></div>
+      <div class="problem-card" data-reveal="" style="--d:.08s"><span class="problem-num">02</span><h3>Procesos manuales</h3><p>Cada BL, cada DUA y cada factura se transcribe a mano. Horas de re-tecleo que se convierten en errores y demoras.</p></div>
+      <div class="problem-card" data-reveal="" style="--d:.16s"><span class="problem-num">03</span><h3>Cero visibilidad</h3><p>El estado real de un embarque vive en la bandeja de entrada de alguien. El cliente llama; nadie tiene la respuesta a mano.</p></div>
+      <div class="problem-card" data-reveal="" style="--d:.24s"><span class="problem-num">04</span><h3>Datos atrapados</h3><p>Sin datos unificados no hay márgenes claros, ni previsión, ni decisiones. Solo intuición y cierre de mes a ciegas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOLUCIÓN ============ -->
+<section class="solution section-pad" data-screen-label="Solución">
+  <div class="wrap">
+    <div class="section-head center">
+      <span class="section-eyebrow" data-reveal="">La solución</span>
+      <h2 class="section-title" data-reveal="" style="--d:.08s">Una sola plataforma.<br></br>Toda la operación.</h2>
+      <p class="section-sub" data-reveal="" style="--d:.16s">Desde la cotización hasta la factura, cada etapa fluye en Manann sin re-teclear datos ni cambiar de sistema.</p>
+    </div>
+    <div class="flow" data-reveal="">
+      <div class="flow-track"><div class="flow-fill"></div></div>
+      <div class="flow-nodes">
+        <div class="flow-node"><div class="flow-dot" style="--d:.2s"></div><div class="flow-name">Cotización</div><p class="flow-desc">Tarifas y márgenes calculados al instante.</p></div>
+        <div class="flow-node"><div class="flow-dot" style="--d:.6s"></div><div class="flow-name">Booking</div><p class="flow-desc">Reserva confirmada con naviera o aerolínea.</p></div>
+        <div class="flow-node"><div class="flow-dot" style="--d:1s"></div><div class="flow-name">Documentación</div><p class="flow-desc">BL, packing list y certificados generados solos.</p></div>
+        <div class="flow-node"><div class="flow-dot" style="--d:1.4s"></div><div class="flow-name">Aduanas</div><p class="flow-desc">Despacho y DUA con estado en tiempo real.</p></div>
+        <div class="flow-node"><div class="flow-dot" style="--d:1.8s"></div><div class="flow-name">Tracking</div><p class="flow-desc">Posición viva del contenedor, sin llamadas.</p></div>
+        <div class="flow-node"><div class="flow-dot" style="--d:2.2s"></div><div class="flow-name">Facturación</div><p class="flow-desc">Factura emitida con el margen ya cerrado.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTO ============ -->
+<section class="product section-pad" id="producto" data-screen-label="Producto">
+  <div class="wrap">
+    <div class="section-head center">
+      <span class="section-eyebrow" data-reveal="">La plataforma</span>
+      <h2 class="section-title" data-reveal="" style="--d:.08s">Cada módulo, <span class="grad-text">una obra de ingeniería.</span></h2>
+    </div>
+    <div class="tabs" data-reveal="">
+      <button class="tab active" data-panel="pp-embarques">Embarques</button>
+      <button class="tab" data-panel="pp-aduanas">Aduanas</button>
+      <button class="tab" data-panel="pp-crm">CRM</button>
+      <button class="tab" data-panel="pp-finanzas">Finanzas</button>
+      <button class="tab" data-panel="pp-reportes">Reportes</button>
+    </div>
+    <div class="product-stage" data-reveal="" style="--d:.1s">
+
+      <div class="pp active" id="pp-embarques">
+        <div class="pp-frame">
+          <div class="pp-grid">
+            <div>
+              <h4>MNN-84213 · Shanghái → Valencia</h4>
+              <div class="timeline">
+                <div class="tl-item done"><div class="tl-dot"></div><div><div class="tl-name">Recogida en origen</div><div class="tl-meta">Shanghái · 28 may, 09:40</div></div></div>
+                <div class="tl-item done"><div class="tl-dot"></div><div><div class="tl-name">Zarpe confirmado</div><div class="tl-meta">MSC Aurora V. · 31 may, 22:15</div></div></div>
+                <div class="tl-item now"><div class="tl-dot"></div><div><div class="tl-name">En tránsito — Estrecho de Malaca</div><div class="tl-meta">72% del trayecto · velocidad 18,2 kn</div></div></div>
+                <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name">Llegada a puerto</div><div class="tl-meta">Valencia · ETA 18 jun, 06:00</div></div></div>
+                <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name">Despacho y entrega</div><div class="tl-meta">Programado · 19 jun</div></div></div>
+              </div>
+            </div>
+            <div class="map-ph"><span>mapa de tracking en vivo</span></div>
+          </div>
+          <p class="pp-note">Cada hito se actualiza solo desde las navieras y puertos conectados. El cliente lo ve en su portal, sin que nadie escriba un correo.</p>
+        </div>
+      </div>
+
+      <div class="pp" id="pp-aduanas">
+        <div class="pp-frame">
+          <div class="pp-grid">
+            <div>
+              <h4>Expediente aduanero · MNN-84207</h4>
+              <div class="doc-list">
+                <div class="doc-row"><span class="doc-name">Bill of Lading <span class="mono">MSCUNB482</span></span><span class="chip st-done">Validado</span></div>
+                <div class="doc-row"><span class="doc-name">Factura comercial <span class="mono">FC-2026-1182</span></span><span class="chip st-done">Validado</span></div>
+                <div class="doc-row"><span class="doc-name">Packing list</span><span class="chip st-done">Validado</span></div>
+                <div class="doc-row"><span class="doc-name">DUA de importación</span><span class="chip st-transit">Presentada</span></div>
+                <div class="doc-row"><span class="doc-name">Certificado de origen</span><span class="chip st-customs">Pendiente</span></div>
+              </div>
+            </div>
+            <div>
+              <h4>Despacho</h4>
+              <div class="canal-card">
+                <span class="section-eyebrow" style="margin-bottom:0">Canal asignado</span>
+                <div class="canal-big">Verde</div>
+                <div class="canal-sub">Levante autorizado · Róterdam · hace 12 min</div>
+              </div>
+              <p class="pp-note">Manann extrae los datos de cada documento, los cruza contra la partida arancelaria y presenta la declaración. Tú solo apruebas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pp" id="pp-crm">
+        <div class="pp-frame">
+          <h4>Pipeline comercial · junio 2026</h4>
+          <div class="pipeline">
+            <div>
+              <div class="pipe-col-head"><span>Prospecto</span><span>4</span></div>
+              <div class="deal"><div class="deal-name">Textiles Arroyo</div><div class="deal-meta">Import. FCL · Asia → ES</div><div class="deal-val">€86.000 est.</div></div>
+              <div class="deal"><div class="deal-name">Frutas del Sur</div><div class="deal-meta">Reefer · LATAM → EU</div><div class="deal-val">€140.000 est.</div></div>
+            </div>
+            <div>
+              <div class="pipe-col-head"><span>Cotizado</span><span>3</span></div>
+              <div class="deal"><div class="deal-name">Maquinaria Vela</div><div class="deal-meta">Project cargo · 3 embarques</div><div class="deal-val">€212.000 · vence en 4 días</div></div>
+              <div class="deal"><div class="deal-name">BioPharma Iberia</div><div class="deal-meta">Aéreo · temperatura controlada</div><div class="deal-val">€64.000 · enviada hoy</div></div>
+            </div>
+            <div>
+              <div class="pipe-col-head"><span>Ganado</span><span>6</span></div>
+              <div class="deal"><div class="deal-name">Grupo Almar</div><div class="deal-meta">Contrato anual · 480 TEU</div><div class="deal-val">€1,2M · firmado</div></div>
+              <div class="deal"><div class="deal-name">Electro Nórdica</div><div class="deal-meta">LCL semanal · CN → SE</div><div class="deal-val">€96.000 · firmado</div></div>
+            </div>
+          </div>
+          <p class="pp-note">Cada cotización ganada se convierte en embarque con un clic — cliente, tarifa y ruta ya cargados.</p>
+        </div>
+      </div>
+
+      <div class="pp" id="pp-finanzas">
+        <div class="pp-frame">
+          <div class="pp-grid">
+            <div>
+              <h4>Facturación · junio</h4>
+              <div class="dash-card" style="padding:6px 0 0">
+                <div class="inv-row head"><span>Factura</span><span>Cliente</span><span>Importe</span><span>Estado</span></div>
+                <div class="inv-row"><span class="dt-ref">F-2026-0461</span><span>Grupo Almar</span><span class="mono" style="font-size:12px">€48.200</span><span class="chip st-done">Cobrada</span></div>
+                <div class="inv-row"><span class="dt-ref">F-2026-0460</span><span>Electro Nórdica</span><span class="mono" style="font-size:12px">€12.840</span><span class="chip st-transit">Emitida</span></div>
+                <div class="inv-row"><span class="dt-ref">F-2026-0458</span><span>Textiles Arroyo</span><span class="mono" style="font-size:12px">€9.310</span><span class="chip st-customs">Vencida 3 días</span></div>
+                <div class="inv-row"><span class="dt-ref">F-2026-0457</span><span>BioPharma Iberia</span><span class="mono" style="font-size:12px">€21.600</span><span class="chip st-done">Cobrada</span></div>
+              </div>
+            </div>
+            <div>
+              <h4>Margen por expediente</h4>
+              <div class="margin-bars">
+                <div class="mb-row"><span>MNN-84213</span><div class="mb-track"><div class="mb-fill" style="--w:78%"></div></div><span class="mb-val">22,4%</span></div>
+                <div class="mb-row"><span>MNN-84207</span><div class="mb-track"><div class="mb-fill" style="--w:64%"></div></div><span class="mb-val">18,1%</span></div>
+                <div class="mb-row"><span>MNN-84198</span><div class="mb-track"><div class="mb-fill" style="--w:88%"></div></div><span class="mb-val">26,9%</span></div>
+                <div class="mb-row"><span>MNN-84190</span><div class="mb-track"><div class="mb-fill" style="--w:52%"></div></div><span class="mb-val">14,2%</span></div>
+              </div>
+              <p class="pp-note">Costes de naviera, despacho y última milla imputados automáticamente a cada expediente. El margen real, visible antes de facturar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pp" id="pp-reportes">
+        <div class="pp-frame">
+          <h4>Resumen ejecutivo · Q2 2026</h4>
+          <div class="rep-grid">
+            <div class="dash-card"><span class="rep-label">Ingresos</span><div class="rep-big">€4,82M</div><div class="rep-delta">+18% vs. Q1</div></div>
+            <div class="dash-card"><span class="rep-label">Margen medio</span><div class="rep-big">19,6%</div><div class="rep-delta">+2,1 pts</div></div>
+            <div class="dash-card"><span class="rep-label">Tiempo de despacho</span><div class="rep-big">1,4 días</div><div class="rep-delta">−0,8 días</div></div>
+          </div>
+          <div class="dash-card" style="margin-top:14px">
+            <div class="dash-card-head">Volumen mensual por modo <span>TEU / TON</span></div>
+            <div class="bars" style="height:110px">
+              <div class="bar" style="--h:42%"></div><div class="bar" style="--h:56%"></div><div class="bar" style="--h:48%"></div><div class="bar" style="--h:70%"></div><div class="bar" style="--h:64%"></div><div class="bar hot" style="--h:84%"></div>
+            </div>
+            <div class="bar-labels"><span>ENE</span><span>FEB</span><span>MAR</span><span>ABR</span><span>MAY</span><span>JUN</span></div>
+          </div>
+          <p class="pp-note">Cuadros de mando en vivo por sucursal, cliente, ruta y modo. Exportables, programables y siempre al día.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FUNCIONALIDADES ============ -->
+<section class="features section-pad" id="funcionalidades" data-screen-label="Funcionalidades">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow" data-reveal="">Funcionalidades</span>
+      <h2 class="section-title" data-reveal="" style="--d:.08s">Todo lo que tu operación necesita. <span class="grad-text">Nada que no.</span></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" data-reveal=""><span class="feature-num">01</span><h3>Embarques multimodal</h3><p>Marítimo FCL/LCL, aéreo y terrestre en un solo expediente, con hitos y responsables claros.</p></div>
+      <div class="feature-card" data-reveal="" style="--d:.06s"><span class="feature-num">02</span><h3>Cotizaciones inteligentes</h3><p>Tarifas de compra y venta, recargos y márgenes calculados al momento. Enviadas en minutos, no días.</p></div>
+      <div class="feature-card" data-reveal="" style="--d:.12s"><span class="feature-num">03</span><h3>Documentación automática</h3><p>BL, AWB, packing list y certificados generados desde los datos del expediente. Cero re-tecleo.</p></div>
+      <div class="feature-card" data-reveal=""><span class="feature-num">04</span><h3>Gestión aduanera</h3><p>DUA, partidas arancelarias y estados de despacho conectados con las plataformas oficiales.</p></div>
+      <div class="feature-card" data-reveal="" style="--d:.06s"><span class="feature-num">05</span><h3>CRM logístico</h3><p>Pipeline comercial pensado para forwarding: de prospecto a embarque recurrente sin fricción.</p></div>
+      <div class="feature-card" data-reveal="" style="--d:.12s"><span class="feature-num">06</span><h3>Finanzas y facturación</h3><p>Costes imputados por expediente, multidivisa, y margen real visible antes de emitir la factura.</p></div>
+      <div class="feature-card" data-reveal=""><span class="feature-num">07</span><h3>Tracking en tiempo real</h3><p>Posición viva de contenedores y cargas aéreas, con alertas proactivas de demora para ti y tu cliente.</p></div>
+      <div class="feature-card" data-reveal="" style="--d:.06s"><span class="feature-num">08</span><h3>Portal del cliente</h3><p>Tus clientes consultan estado, documentos y facturas por sí mismos. Menos llamadas, más confianza.</p></div>
+      <div class="feature-card" data-reveal="" style="--d:.12s"><span class="feature-num">09</span><h3>Automatizaciones</h3><p>Reglas que disparan tareas, correos y alertas cuando algo cambia. La operación avanza sola.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IA ============ -->
+<section class="ai section-pad" data-screen-label="IA">
+  <div class="wrap">
+    <div class="ai-grid">
+      <div>
+        <span class="section-eyebrow" data-reveal="">Inteligencia operativa</span>
+        <h2 class="section-title" data-reveal="" style="--d:.08s">Una operación que <span class="grad-text">piensa contigo.</span></h2>
+        <div class="ai-points">
+          <div class="ai-point" data-reveal=""><span class="ai-point-dot"></span><div><h3>Predicción de demoras</h3><p>ETAs recalculadas con datos reales de puertos y navieras. Sabes del retraso antes de que el cliente pregunte.</p></div></div>
+          <div class="ai-point" data-reveal="" style="--d:.08s"><span class="ai-point-dot"></span><div><h3>Asistente operativo</h3><p>Pregunta en lenguaje natural por embarques, márgenes o documentos pendientes. Respuesta con datos, no opiniones.</p></div></div>
+          <div class="ai-point" data-reveal="" style="--d:.16s"><span class="ai-point-dot"></span><div><h3>Recomendaciones de acción</h3><p>Adelantar un despacho, reclamar una factura, reasignar un agente: el sistema sugiere el siguiente paso.</p></div></div>
+        </div>
+      </div>
+      <div class="ai-panel" data-reveal="" style="--d:.12s">
+        <div class="ai-panel-head"><span class="ai-spark"></span>Asistente Manann</div>
+        <div class="ai-chat">
+          <div class="msg user">¿Qué embarques corren riesgo de demora esta semana?</div>
+          <div class="msg bot">He detectado <b>3 embarques con riesgo alto</b>:<br></br><span class="mono">MNN-84207</span> — congestión en Róterdam, ETA +2 días.<br></br><span class="mono">MNN-84190</span> — certificado de origen pendiente, bloquea el despacho.<br></br><span class="mono">MNN-84221</span> — rolling probable en Ningbo.<br></br><b>Sugerencia:</b> adelantar la presentación documental del 84190 hoy evitaría 3 días de almacenaje.</div>
+        </div>
+        <div class="ai-actions">
+          <button class="ai-chip">Crear alerta para el cliente</button>
+          <button class="ai-chip">Adelantar despacho</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTEGRACIONES ============ -->
+<section class="integrations section-pad" id="integraciones" data-screen-label="Integraciones">
+  <div class="wrap">
+    <div class="section-head center">
+      <span class="section-eyebrow" data-reveal="">Integraciones</span>
+      <h2 class="section-title" data-reveal="" style="--d:.08s">Conectado con <span class="grad-text">todo tu ecosistema.</span></h2>
+      <p class="section-sub" data-reveal="" style="--d:.16s">Navieras, aduanas, contabilidad y comunicación: Manann habla con las herramientas que ya usas.</p>
+    </div>
+    <div class="int-grid">
+      <div class="int-group" data-reveal="">
+        <span class="int-cat">Navieras y aerolíneas</span>
+        <div class="int-chips"><span class="int-chip">Maersk</span><span class="int-chip">MSC</span><span class="int-chip">CMA CGM</span><span class="int-chip">Hapag-Lloyd</span><span class="int-chip">Evergreen</span><span class="int-chip">Lufthansa Cargo</span><span class="int-chip">IAG Cargo</span></div>
+      </div>
+      <div class="int-group" data-reveal="" style="--d:.08s">
+        <span class="int-cat">Aduanas y organismos</span>
+        <div class="int-chips"><span class="int-chip">AEAT / DUA</span><span class="int-chip">VUCE</span><span class="int-chip">ICS2</span><span class="int-chip">Ventanilla Única</span><span class="int-chip">TARIC</span></div>
+      </div>
+      <div class="int-group" data-reveal="" style="--d:.12s">
+        <span class="int-cat">Contabilidad y ERP</span>
+        <div class="int-chips"><span class="int-chip">SAP</span><span class="int-chip">QuickBooks</span><span class="int-chip">Xero</span><span class="int-chip">NetSuite</span><span class="int-chip">Holded</span><span class="int-chip">Sage</span></div>
+      </div>
+      <div class="int-group" data-reveal="" style="--d:.16s">
+        <span class="int-cat">Comunicación y datos</span>
+        <div class="int-chips"><span class="int-chip">Gmail</span><span class="int-chip">Outlook</span><span class="int-chip">Slack</span><span class="int-chip">WhatsApp Business</span><span class="int-chip">Excel</span><span class="int-chip">Power BI</span></div>
+      </div>
+      <div class="api-card" data-reveal="" style="--d:.1s">
+        <div class="api-copy">
+          <h3>API abierta y webhooks</h3>
+          <p>Todo lo que ves en Manann existe también como API REST documentada. Construye integraciones propias, sincroniza tu data warehouse o conecta el portal de tu cliente más exigente.</p>
+        </div>
+        <div class="api-code"><span class="c"># Suscríbete a eventos de embarque</span><br></br><span class="k">POST</span> /v1/webhooks<br></br>{<br></br>&nbsp;&nbsp;<span class="k">"event"</span>: <span class="s">"shipment.eta_changed"</span>,<br></br>&nbsp;&nbsp;<span class="k">"url"</span>: <span class="s">"https://tuempresa.com/hooks/manann"</span><br></br>}<br></br><br></br><span class="c"># → 201 Created · firmado con HMAC-SHA256</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RESULTADOS ============ -->
+<section class="results section-pad" data-screen-label="Resultados">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow" data-reveal="">Resultados</span>
+      <h2 class="section-title" data-reveal="" style="--d:.08s">El impacto se mide <span class="grad-text">en cada expediente.</span></h2>
+    </div>
+    <div class="results-grid">
+      <div class="result-card" data-reveal=""><div class="result-value grad-text" data-count="62" data-prefix="−" data-suffix="%">0</div><div class="result-label">Tiempo dedicado a documentación</div></div>
+      <div class="result-card" data-reveal="" style="--d:.08s"><div class="result-value grad-text" data-count="3.4" data-decimals="1" data-suffix="×">0</div><div class="result-label">Más cotizaciones enviadas por agente</div></div>
+      <div class="result-card" data-reveal="" style="--d:.16s"><div class="result-value grad-text" data-count="28" data-prefix="−" data-suffix="%">0</div><div class="result-label">Costos operativos por expediente</div></div>
+      <div class="result-card" data-reveal="" style="--d:.24s"><div class="result-value grad-text" data-count="44" data-prefix="+" data-suffix="">0</div><div class="result-label">Puntos de NPS con clientes finales</div></div>
+    </div>
+    <div class="results-quote" data-reveal="">
+      <blockquote>“Pasamos de perseguir correos a operar con datos en vivo. Hoy un agente gestiona el doble de expedientes — y se va a casa antes.”</blockquote>
+      <cite><b>Laura Mendoza</b> · Directora de Operaciones, Meridian Freight</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ENTERPRISE ============ -->
+<section class="enterprise section-pad" id="enterprise" data-screen-label="Enterprise">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-eyebrow" data-reveal="">Enterprise</span>
+      <h2 class="section-title" data-reveal="" style="--d:.08s">Preparado para <span class="grad-text">operaciones globales.</span></h2>
+    </div>
+    <div class="enterprise-grid">
+      <div class="ent-card" data-reveal=""><h3>Seguridad</h3><p>Cifrado en tránsito y en reposo, single sign-on y permisos granulares por rol y sucursal.</p><div class="ent-tags"><span class="ent-tag">AES-256</span><span class="ent-tag">SSO / SAML</span><span class="ent-tag">2FA</span></div></div>
+      <div class="ent-card" data-reveal="" style="--d:.08s"><h3>Escalabilidad</h3><p>Multi-sucursal, multidivisa y multi-entidad. De 5 a 5.000 usuarios sin cambiar de plataforma.</p><div class="ent-tags"><span class="ent-tag">Multi-divisa</span><span class="ent-tag">Multi-sucursal</span></div></div>
+      <div class="ent-card" data-reveal="" style="--d:.16s"><h3>Cumplimiento</h3><p>Alineado con la normativa aduanera y de protección de datos de cada región donde operas.</p><div class="ent-tags"><span class="ent-tag">GDPR</span><span class="ent-tag">ICS2</span><span class="ent-tag">Auditoría</span></div></div>
+      <div class="ent-card" data-reveal="" style="--d:.24s"><h3>Confiabilidad</h3><p>Infraestructura redundante con respaldo continuo y un historial de disponibilidad que habla solo.</p><div class="ent-tags"><span class="ent-tag">SLA 99,98%</span><span class="ent-tag">Backups continuos</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="final-cta" id="cta" data-screen-label="CTA Final">
+  <div class="wrap">
+    <h2 class="final-title" data-reveal="">La logística del futuro <span class="grad-text">ya está operando.</span></h2>
+    <p class="final-sub" data-reveal="" style="--d:.08s">Únete a los forwarders que dejaron atrás el software heredado.</p>
+    <div class="final-ctas" data-reveal="" style="--d:.16s">
+      <a href="#hero" class="btn btn-primary">Solicitar una demo <span class="arr">→</span></a>
+      <a href="#producto" class="btn btn-ghost">Hablar con el equipo</a>
+    </div>
+    <p class="final-note" data-reveal="" style="--d:.24s">Implementación guiada · Migración de datos incluida · Sin permanencia</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <a href="#hero" class="logo"><span class="logo-mark"></span>Manann</a>
+    <div class="footer-links">
+      <a href="#producto">Producto</a>
+      <a href="#funcionalidades">Funcionalidades</a>
+      <a href="#integraciones">Integraciones</a>
+      <a href="#enterprise">Enterprise</a>
+    </div>
+    <span class="footer-copy">© 2026 Manann · El sistema operativo de la logística global</span>
+  </div>
+</footer>
+
+<div id="tweaks-root"></div>
+
+<script src="manann/app.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="manann/tweaks-panel.jsx"></script>
+<script type="text/babel" src="manann/tweaks.jsx"></script>
+
+</body>
+</html>

@@ -9,7 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode } from "@/lib/tracking/shipsgo";
@@ -25,9 +25,8 @@ import {
 } from "@/lib/erp";
 import { sendInvoiceEmail, sendQuotationEmail } from "@/lib/email";
 import {
-  blExtractionSchema,
-  EXTRACTION_PROMPT,
   overallConfidence,
+  pickExtractionSchema,
   type BlExtraction,
 } from "@/lib/bl-extraction";
 
@@ -139,14 +138,17 @@ export async function extractDocument(documentId: string): Promise<void> {
     if (!res.ok) throw new Error("No se pudo descargar el PDF");
     const bytes = new Uint8Array(await res.arrayBuffer());
 
+    const [shipmentRow] = await db.select({ mode: shipment.mode }).from(shipment).where(eq(shipment.id, doc.shipmentId));
+    const { schema: extractionSchema, prompt: extractionPrompt } = pickExtractionSchema(shipmentRow?.mode ?? "maritimo");
+
     const { object } = await generateObject({
       model: google("gemini-2.5-flash"),
-      schema: blExtractionSchema,
+      schema: extractionSchema,
       messages: [
         {
           role: "user",
           content: [
-            { type: "text", text: EXTRACTION_PROMPT },
+            { type: "text", text: extractionPrompt },
             { type: "file", data: bytes, mediaType: "application/pdf" },
           ],
         },
@@ -1220,4 +1222,127 @@ export async function sendFacturaEmail(
   });
 
   await updateInvoiceStatus(invoiceId, "enviada");
+}
+
+// ─── Marcar expediente en aduana ─────────────────────────────────────────────
+
+export async function markShipmentEnAduana(shipmentId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Inválido");
+  const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
+  if (!owned) throw new Error("No autorizado");
+  await db.update(shipment).set({ status: "en_aduana" }).where(eq(shipment.id, shipmentId));
+  revalidatePath(`/expedientes/${shipmentId}`);
+}
+
+// ─── Comparativa IA: BL vs. factura comercial ─────────────────────────────────
+
+const compareFieldSchema = z.object({
+  blValue: z.string().nullable(),
+  invoiceValue: z.string().nullable(),
+  match: z.boolean(),
+});
+
+const compareResultSchema = z.object({
+  shipper: compareFieldSchema,
+  consignee: compareFieldSchema,
+  description: compareFieldSchema,
+  hsCode: compareFieldSchema,
+  grossWeight: compareFieldSchema,
+  quantity: compareFieldSchema,
+  country: compareFieldSchema,
+  incoterm: compareFieldSchema,
+  discrepancySummary: z.string().describe("Resumen en español de las discrepancias encontradas. Vacío si no hay."),
+});
+
+export type CompareResult = z.infer<typeof compareResultSchema>;
+
+export async function compareDocuments(shipmentId: string): Promise<CompareResult> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Inválido");
+  const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
+  if (!owned) throw new Error("No autorizado");
+
+  const docs = await db
+    .select({ id: document.id, type: document.type, blobUrl: document.blobUrl })
+    .from(document)
+    .where(eq(document.shipmentId, shipmentId));
+
+  const bl = docs.find((d) => d.type === "bl" && d.blobUrl);
+  const fac = docs.find((d) => d.type === "factura_comercial" && d.blobUrl);
+
+  if (!bl?.blobUrl || !fac?.blobUrl) {
+    throw new Error("Se necesitan un BL y una factura comercial subidos para comparar.");
+  }
+
+  const [blRes, facRes] = await Promise.all([fetch(bl.blobUrl), fetch(fac.blobUrl)]);
+  if (!blRes.ok || !facRes.ok) throw new Error("No se pudieron descargar los documentos.");
+  const [blBytes, facBytes] = await Promise.all([
+    blRes.arrayBuffer().then((b) => new Uint8Array(b)),
+    facRes.arrayBuffer().then((b) => new Uint8Array(b)),
+  ]);
+
+  const { object } = await generateObject({
+    model: google("gemini-2.5-flash"),
+    schema: compareResultSchema,
+    messages: [
+      {
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text:
+              "Eres un experto en comercio internacional. Compara los siguientes dos documentos: " +
+              "el primero es un Bill of Lading (BL) y el segundo es una Factura Comercial. " +
+              "Para cada campo extrae el valor de cada documento y determina si coinciden. " +
+              "Sé estricto: diferencias de mayúsculas o abreviaturas son aceptables (match=true), " +
+              "pero diferencias de valor, peso o cantidad son discrepancias (match=false). " +
+              "PRIMER DOCUMENTO — Bill of Lading:",
+          },
+          { type: "file", data: blBytes, mediaType: "application/pdf" },
+          { type: "text", text: "SEGUNDO DOCUMENTO — Factura Comercial:" },
+          { type: "file", data: facBytes, mediaType: "application/pdf" },
+        ],
+      },
+    ],
+  });
+
+  return object;
+}
+
+// ─── Onboarding ───────────────────────────────────────────────────────────────
+
+export async function completeOnboarding(): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  await db
+    .update(member)
+    .set({ onboarded: true })
+    .where(eq(member.id, ctx.org.memberId));
+}
+
+// ─── Comentarios ─────────────────────────────────────────────────────────────
+
+export async function addComment(shipmentId: string, body: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Inválido");
+  const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
+  if (!owned) throw new Error("No autorizado");
+
+  const trimmed = body.trim();
+  if (!trimmed) throw new Error("El comentario no puede estar vacío");
+
+  const mentions = [...trimmed.matchAll(/@([\w]+)/g)].map((m) => m[1]);
+
+  await db.insert(comment).values({
+    shipmentId,
+    authorId: ctx.org.memberId,
+    body: trimmed,
+    mentions,
+  });
+
+  revalidatePath(`/expedientes/${shipmentId}`);
 }

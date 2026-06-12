@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getOrgContext } from "@/lib/erp";
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { CommandPalette } from "@/components/app/command-palette";
+import { OnboardingWizard } from "@/components/app/onboarding-wizard";
 
 // Guardia real de sesión (server-side). El middleware solo hace el chequeo
 // optimista de cookie; aquí validamos la sesión y cargamos la org del usuario.
@@ -23,6 +24,7 @@ export default async function AppLayout({
         </main>
       </div>
       <CommandPalette />
+      {ctx.org && !ctx.org.onboarded && <OnboardingWizard />}
     </div>
   );
 }

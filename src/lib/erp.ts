@@ -4,10 +4,10 @@ import { cache } from "react";
 import { and, count, desc, eq, asc, or, ilike, gte, lt } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation } from "@/db/schema";
+import { member, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
-export type ActiveOrg = { id: string; name: string; slug: string };
+export type ActiveOrg = { id: string; name: string; slug: string; memberId: string; onboarded: boolean };
 
 // Contexto {sesión, org} cacheado por request: layout y páginas lo comparten
 // sin repetir queries. Devuelve null si no hay sesión.
@@ -26,7 +26,7 @@ export async function getActiveOrg(userId: string): Promise<ActiveOrg | null> {
   });
   if (!m?.organization) return null;
   const o = m.organization;
-  return { id: o.id, name: o.name, slug: o.slug };
+  return { id: o.id, name: o.name, slug: o.slug, memberId: m.id, onboarded: m.onboarded ?? false };
 }
 
 // Lista de expedientes de una org, con sus partes (para derivar consignatario).
@@ -362,3 +362,27 @@ export async function getQuotationDetail(orgId: string, quotationId: string) {
 
 export type QuotationItem = Awaited<ReturnType<typeof listQuotations>>[number];
 export type QuotationDetail = NonNullable<Awaited<ReturnType<typeof getQuotationDetail>>>;
+
+// ─── Comentarios ─────────────────────────────────────────────────────────────
+
+export async function getShipmentComments(orgId: string, shipmentId: string) {
+  const owned = await shipmentBelongsToOrg(orgId, shipmentId);
+  if (!owned) return [];
+  return db
+    .select({
+      id: comment.id,
+      body: comment.body,
+      mentions: comment.mentions,
+      createdAt: comment.createdAt,
+      authorId: comment.authorId,
+      authorUserId: member.userId,
+      authorName: user.name,
+    })
+    .from(comment)
+    .innerJoin(member, eq(comment.authorId, member.id))
+    .innerJoin(user, eq(member.userId, user.id))
+    .where(eq(comment.shipmentId, shipmentId))
+    .orderBy(asc(comment.createdAt));
+}
+
+export type ShipmentComment = Awaited<ReturnType<typeof getShipmentComments>>[number];

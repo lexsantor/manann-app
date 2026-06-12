@@ -18,6 +18,7 @@ import {
   getShipmentActivity,
   getOrgMembers,
   getTrackingSubscriptions,
+  getShipmentComments,
   type ShipmentDetail,
 } from "@/lib/erp";
 import { Icon } from "@/components/icon";
@@ -40,6 +41,9 @@ import { ActivityPanel } from "@/components/app/activity-panel";
 import { AssigneeSelect } from "@/components/app/assignee-select";
 import { ShipsGoPanel } from "@/components/app/shipsgo-panel";
 import { FinanzasPanel } from "@/components/app/finanzas-panel";
+import { DuaPanel } from "@/components/app/dua-panel";
+import { CommentsPanel } from "@/components/app/comments-panel";
+import { DocumentCompare } from "@/components/app/document-compare";
 import {
   MODE,
   PARTY_ROLE,
@@ -89,11 +93,12 @@ export default async function ExpedienteDetailPage({
   const ctx = await getOrgContext();
   if (!ctx?.org) notFound();
 
-  const [s, activity, members, trackingSubs] = await Promise.all([
+  const [s, activity, members, trackingSubs, comments] = await Promise.all([
     getShipmentDetail(ctx.org.id, id),
     getShipmentActivity(ctx.org.id, id),
     getOrgMembers(ctx.org.id),
     getTrackingSubscriptions(ctx.org.id, id),
+    getShipmentComments(ctx.org.id, id),
   ]);
   if (!s) notFound();
 
@@ -278,13 +283,32 @@ export default async function ExpedienteDetailPage({
       {/* cuerpo en dos columnas */}
       <div className="grid gap-5 lg:grid-cols-3">
         <div className="space-y-5 lg:col-span-2">
-          <Documents documents={s.documents} shipmentId={s.id} />
+          <Documents
+            documents={s.documents}
+            shipmentId={s.id}
+            hasBl={s.documents.some((d) => d.type === "bl" && d.blobUrl)}
+            hasFactura={s.documents.some((d) => d.type === "factura_comercial" && d.blobUrl)}
+          />
           <Parties parties={s.parties} />
           <Containers containers={s.containers} cargo={s.cargoLines} mode={s.mode} />
           <FinanzasPanel
             shipmentId={s.id}
             charges={s.charges}
             clientName={s.parties.find((p) => p.role === "consignee")?.name ?? ""}
+          />
+          <DuaPanel
+            shipmentId={s.id}
+            status={s.status}
+            blNumber={s.blNumber}
+            incoterm={s.incoterm}
+            pol={s.pol}
+            pod={s.pod}
+            shipper={s.parties.find((p) => p.role === "shipper")?.name}
+            consignee={s.parties.find((p) => p.role === "consignee")?.name}
+            hsCode={s.cargoLines.find((l) => l.hsCode)?.hsCode}
+            cargoDescription={s.cargoLines[0]?.description}
+            grossWeightKg={s.cargoLines.reduce((sum, l) => sum + (l.grossWeightKg ?? 0), 0) || undefined}
+            packages={s.cargoLines.reduce((sum, l) => sum + (l.packages ?? 0), 0) || undefined}
           />
         </div>
 
@@ -313,6 +337,10 @@ export default async function ExpedienteDetailPage({
               }))}
             />
           </Panel>
+          <CommentsPanel
+            shipmentId={s.id}
+            comments={comments}
+          />
         </div>
       </div>
     </div>
@@ -448,14 +476,21 @@ function Containers({
 function Documents({
   documents,
   shipmentId,
+  hasBl,
+  hasFactura,
 }: {
   documents: ShipmentDetail["documents"];
   shipmentId: string;
+  hasBl: boolean;
+  hasFactura: boolean;
 }) {
   return (
     <Panel title="Documentos" icon={FileText}>
       {/* Upload zone — lo primero, visible siempre */}
       <DocumentUpload shipmentId={shipmentId} />
+
+      {/* Comparativa IA: visible cuando hay BL + factura comercial */}
+      <DocumentCompare shipmentId={shipmentId} hasBl={hasBl} hasFactura={hasFactura} />
 
       {/* Lista de documentos — aparece debajo al subir el primero */}
       {documents.length > 0 && (
