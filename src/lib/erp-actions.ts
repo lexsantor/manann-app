@@ -729,3 +729,35 @@ export async function syncTrackingEvents(shipmentId: string): Promise<void> {
 
   revalidatePath(`/expedientes/${shipmentId}`);
 }
+
+// ─── Link público de expediente ───────────────────────────────────────────────
+
+export async function getOrCreateShareToken(
+  shipmentId: string,
+): Promise<string> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Expediente inválido");
+
+  const [row] = await db
+    .select({ shareToken: shipment.shareToken })
+    .from(shipment)
+    .where(
+      and(
+        eq(shipment.id, shipmentId),
+        eq(shipment.organizationId, ctx.org.id),
+      ),
+    )
+    .limit(1);
+
+  if (!row) throw new Error("Expediente no encontrado");
+  if (row.shareToken) return row.shareToken;
+
+  const token = crypto.randomUUID();
+  await db
+    .update(shipment)
+    .set({ shareToken: token })
+    .where(eq(shipment.id, shipmentId));
+
+  return token;
+}

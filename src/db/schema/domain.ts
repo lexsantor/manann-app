@@ -92,6 +92,7 @@ export const shipment = pgTable(
     aiSummaryAt: timestamp("ai_summary_at"),
     // 3.5 — agente asignado (FK a member, no a user: es un rol en la org)
     assignedTo: uuid("assigned_to"),
+    shareToken: text("share_token").unique(),
     createdBy: text("created_by").references(() => user.id, {
       onDelete: "set null",
     }),

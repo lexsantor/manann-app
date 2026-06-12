@@ -33,6 +33,7 @@ import { HsCodeSuggest } from "@/components/app/hs-code-suggest";
 import { StatusTimeline } from "@/components/app/status-timeline";
 import { DemoTour } from "@/components/app/demo-tour";
 import { PrintButton } from "@/components/app/print-button";
+import { ShareButton } from "@/components/app/share-button";
 import { NotesPanel } from "@/components/app/notes-panel";
 import { InlineField } from "@/components/app/inline-field";
 import { AiSummaryPanel } from "@/components/app/ai-summary-panel";
@@ -126,6 +127,7 @@ export default async function ExpedienteDetailPage({
             members={members}
           />
           <DemoTour />
+          <ShareButton shipmentId={s.id} />
           <PrintButton />
         </div>
       </div>

@@ -79,6 +79,18 @@ export type ShipmentDetail = NonNullable<
   Awaited<ReturnType<typeof getShipmentDetail>>
 >;
 
+// Vista pública de expediente por token (sin auth de org).
+export async function getShipmentByToken(token: string) {
+  return db.query.shipment.findFirst({
+    where: eq(shipment.shareToken, token),
+    with: {
+      parties: true,
+      containers: { with: { cargoLines: true } },
+      trackingEvents: { orderBy: (t) => [desc(t.occurredAt)] },
+    },
+  });
+}
+
 // ¿Este expediente pertenece a esta org? (chequeo de ownership barato para
 // autorizar subidas/acciones sin traer el detalle completo).
 export async function shipmentBelongsToOrg(

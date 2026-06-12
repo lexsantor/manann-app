@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { FileText, FileCheck2, FileX2, FileClock, FileSearch, ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { getOrgContext, listDocuments } from "@/lib/erp";
-import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
+import { DocumentosList } from "@/components/app/documentos-list";
 
 export const metadata = { title: "Documentos — Manann" };
 
@@ -16,36 +15,6 @@ const DOC_TYPE_LABEL: Record<string, string> = {
   certificado_origen: "Cert. origen",
   otro: "Otro",
 };
-
-const DOC_STATUS_LABEL: Record<string, { label: string; cls: string }> = {
-  uploaded: { label: "Subido", cls: "text-muted-foreground bg-muted/60" },
-  processing: { label: "Procesando", cls: "text-sky-600 bg-sky-500/10" },
-  extracted: { label: "Extraído", cls: "text-accent bg-accent/10" },
-  confirmed: { label: "Confirmado", cls: "text-primary bg-primary/10" },
-  error: { label: "Error", cls: "text-destructive bg-destructive/10" },
-};
-
-const DOC_STATUS_ICON: Record<string, typeof FileText> = {
-  confirmed: FileCheck2,
-  error: FileX2,
-  processing: FileClock,
-  extracted: FileSearch,
-};
-
-function formatSize(bytes: number | null): string {
-  if (!bytes) return "";
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
-function formatDate(d: Date): string {
-  return new Date(d).toLocaleDateString("es-ES", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 export default async function DocumentosPage({
   searchParams,
@@ -91,92 +60,8 @@ export default async function DocumentosPage({
         ))}
       </div>
 
-      {/* Lista */}
-      {visible.length > 0 ? (
-        <div className="overflow-hidden rounded-xl border border-border bg-card">
-          {visible.map((doc, i) => {
-            const StatusIcon = DOC_STATUS_ICON[doc.status] ?? FileText;
-            const statusMeta = DOC_STATUS_LABEL[doc.status] ?? DOC_STATUS_LABEL.uploaded;
-            return (
-              <div
-                key={doc.id}
-                className={cn(
-                  "flex items-center gap-4 px-4 py-3 transition-colors hover:bg-surface-2/40",
-                  i !== 0 && "border-t border-border/60",
-                )}
-              >
-                {/* Icono */}
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-md border border-border text-muted-foreground">
-                  <Icon icon={StatusIcon} size={16} />
-                </span>
-
-                {/* Nombre + tipo */}
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-foreground">
-                    {doc.filename}
-                  </p>
-                  <div className="mt-0.5 flex items-center gap-2">
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {DOC_TYPE_LABEL[doc.type] ?? doc.type}
-                    </span>
-                    {doc.sizeBytes && (
-                      <>
-                        <span className="text-border">·</span>
-                        <span className="font-mono text-xs text-muted-foreground">
-                          {formatSize(doc.sizeBytes)}
-                        </span>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                {/* Expediente */}
-                <Link
-                  href={`/expedientes/${doc.shipmentId}`}
-                  prefetch={false}
-                  className="hidden shrink-0 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground sm:block"
-                >
-                  {doc.reference}
-                </Link>
-
-                {/* Estado */}
-                <span
-                  className={cn(
-                    "hidden shrink-0 rounded-full px-2 py-0.5 font-mono text-[10px] sm:inline-flex",
-                    statusMeta.cls,
-                  )}
-                >
-                  {statusMeta.label}
-                </span>
-
-                {/* Fecha */}
-                <span className="hidden shrink-0 text-xs text-muted-foreground lg:block">
-                  {formatDate(doc.createdAt)}
-                </span>
-
-                {/* Descarga */}
-                {doc.blobUrl && (
-                  <a
-                    href={doc.blobUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="shrink-0 text-muted-foreground transition-colors hover:text-foreground"
-                    title="Abrir documento"
-                  >
-                    <Icon icon={ExternalLink} size={14} />
-                  </a>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      ) : (
-        <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-          <p className="text-sm text-muted-foreground">
-            No hay documentos con ese tipo.
-          </p>
-        </div>
-      )}
+      {/* Lista con preview lateral */}
+      <DocumentosList docs={visible} />
     </div>
   );
 }
