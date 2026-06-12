@@ -9,6 +9,8 @@ import {
   Satellite,
   ClipboardList,
   Users,
+  ChevronRight,
+  FileText,
 } from "lucide-react";
 
 import { Hero } from "@/components/marketing/hero";
@@ -207,7 +209,7 @@ export default function HomePage() {
           <StaggerGrid className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {/* Extracción documental — celda ancha */}
             <StaggerItem className="sm:col-span-2 lg:col-span-2">
-              <div className="h-full rounded-xl border border-border bg-card p-8 transition-colors hover:bg-surface-2">
+              <div className="card-glow h-full rounded-xl border border-border bg-card p-8 hover:bg-surface-2">
                 <Icon icon={FEATURES[0].icon} size={24} className="text-primary" />
                 <h3 className="mt-5 font-display text-xl font-medium tracking-tight text-foreground">
                   {FEATURES[0].title}
@@ -240,7 +242,7 @@ export default function HomePage() {
 
             {/* Resumen ejecutivo — celda normal */}
             <StaggerItem>
-              <div className="h-full rounded-xl border border-border bg-card p-6 transition-colors hover:bg-surface-2">
+              <div className="card-glow h-full rounded-xl border border-border bg-card p-6 hover:bg-surface-2">
                 <Icon icon={FEATURES[1].icon} size={22} className="text-primary" />
                 <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
                   {FEATURES[1].title}
@@ -254,7 +256,7 @@ export default function HomePage() {
             {/* Tracking, Calendario, Trazabilidad — celdas normales */}
             {FEATURES.slice(2, 5).map((f) => (
               <StaggerItem key={f.title}>
-                <div className="h-full rounded-xl border border-border bg-card p-6 transition-colors hover:bg-surface-2">
+                <div className="card-glow h-full rounded-xl border border-border bg-card p-6 hover:bg-surface-2">
                   <Icon icon={f.icon} size={22} className="text-primary" />
                   <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
                     {f.title}
@@ -268,7 +270,7 @@ export default function HomePage() {
 
             {/* Equipo y asignación — franja completa */}
             <StaggerItem className="sm:col-span-2 lg:col-span-3">
-              <div className="flex items-start gap-5 rounded-xl border border-border bg-card p-6 transition-colors hover:bg-surface-2 sm:items-center">
+              <div className="card-glow flex items-start gap-5 rounded-xl border border-border bg-card p-6 hover:bg-surface-2 sm:items-center">
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-md border border-border bg-background text-primary">
                   <Icon icon={FEATURES[5].icon} size={20} />
                 </span>
@@ -286,8 +288,110 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* La plataforma — transparent (C) */}
       <section className="border-t border-border">
+        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
+          <FadeUp>
+            <p className="eyebrow">La plataforma</p>
+            <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight sm:text-4xl">
+              Un documento entra. Un expediente vivo sale.
+            </h2>
+            <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
+              Manann no es un formulario con IA enchufada. Es un sistema
+              construido alrededor del expediente desde el primer byte.
+            </p>
+          </FadeUp>
+
+          {/* Flow diagram */}
+          <div className="mt-14 flex flex-col items-stretch gap-3 lg:flex-row lg:items-center">
+            {/* Node 1 — BL */}
+            <FadeUp delay={0.08} className="flex-1">
+              <div className="card-glow flex h-full flex-col gap-4 rounded-xl border border-border bg-card p-6">
+                <div className="flex size-10 items-center justify-center rounded-lg border border-border bg-background text-primary">
+                  <Icon icon={FileText} size={18} />
+                </div>
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/50">Entrada</p>
+                  <h3 className="mt-1 font-display text-base font-medium tracking-tight text-foreground">
+                    Bill of Lading
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                    PDF, booking confirmation o AWB. Lo arrastras, nada más.
+                  </p>
+                </div>
+              </div>
+            </FadeUp>
+
+            {/* Arrow */}
+            <FadeUp delay={0.13} className="flex shrink-0 items-center justify-center lg:flex-col">
+              <ChevronRight size={18} className="rotate-90 text-primary/30 lg:rotate-0" />
+            </FadeUp>
+
+            {/* Node 2 — IA */}
+            <FadeUp delay={0.18} className="flex-1">
+              <div className="card-glow flex h-full flex-col gap-4 rounded-xl border border-primary/25 bg-card p-6">
+                <div className="flex size-10 items-center justify-center rounded-lg border border-primary/25 bg-primary/8 text-primary">
+                  <Icon icon={Sparkles} size={18} />
+                </div>
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/50">Motor</p>
+                  <h3 className="mt-1 font-display text-base font-medium tracking-tight text-foreground">
+                    Manann IA
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                    Lee, extrae y propone cada campo con su nivel de confianza.
+                  </p>
+                </div>
+              </div>
+            </FadeUp>
+
+            {/* Arrow */}
+            <FadeUp delay={0.23} className="flex shrink-0 items-center justify-center lg:flex-col">
+              <ChevronRight size={18} className="rotate-90 text-primary/30 lg:rotate-0" />
+            </FadeUp>
+
+            {/* Node 3 — Expediente */}
+            <FadeUp delay={0.28} className="flex-1">
+              <div className="card-glow flex h-full flex-col gap-4 rounded-xl border border-border bg-card p-6">
+                <div className="flex size-10 items-center justify-center rounded-lg border border-border bg-background text-primary">
+                  <Icon icon={CheckCircle2} size={18} />
+                </div>
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/50">Resultado</p>
+                  <h3 className="mt-1 font-display text-base font-medium tracking-tight text-foreground">
+                    Expediente vivo
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                    Confirmado por ti. El sistema lo acompaña hasta la entrega.
+                  </p>
+                </div>
+              </div>
+            </FadeUp>
+          </div>
+
+          {/* 6 modules strip */}
+          <StaggerGrid className="mt-3 grid grid-cols-3 gap-3 sm:grid-cols-6">
+            {[
+              { icon: Satellite, label: "Tracking" },
+              { icon: Sparkles, label: "Resumen IA" },
+              { icon: CalendarDays, label: "Calendario" },
+              { icon: ClipboardList, label: "Auditoría" },
+              { icon: Users, label: "Equipo" },
+              { icon: Upload, label: "Documentos" },
+            ].map((m) => (
+              <StaggerItem key={m.label}>
+                <div className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card/40 px-3 py-4 text-center">
+                  <Icon icon={m.icon} size={15} className="text-muted-foreground/60" />
+                  <span className="font-mono text-[10px] tracking-wide text-muted-foreground/60">{m.label}</span>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerGrid>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-20 text-center sm:px-6 sm:py-28">
           <FadeUp>
             <h2 className="mx-auto max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">

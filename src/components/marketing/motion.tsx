@@ -16,10 +16,10 @@ export function FadeUp({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-48px" }}
-      transition={{ duration: 0.55, ease, delay }}
+      transition={{ duration: 0.65, ease, delay }}
       className={className}
     >
       {children}
@@ -57,11 +57,12 @@ export function StaggerItem({
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 18 },
+        hidden: { opacity: 0, y: 20, filter: "blur(6px)" },
         visible: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.45, ease },
+          filter: "blur(0px)",
+          transition: { duration: 0.55, ease },
         },
       }}
       className={className}

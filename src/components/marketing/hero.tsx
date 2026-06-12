@@ -35,7 +35,7 @@ export function Hero() {
             style={{ "--i": 1 } as React.CSSProperties}
           >
             El sistema conoce la ruta.{" "}
-            <span className="text-primary">Tú mantienes el rumbo.</span>
+            <span className="text-gradient-primary">Tú mantienes el rumbo.</span>
           </h1>
           <p
             className="mx-auto mt-7 max-w-xl font-sans text-lg leading-relaxed text-muted-foreground hero-enter"
