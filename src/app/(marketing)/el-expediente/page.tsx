@@ -9,6 +9,8 @@ import {
   ClipboardList,
   Users,
   Building2,
+  GitCompare,
+  FileCheck2,
 } from "lucide-react";
 
 import { Icon } from "@/components/icon";
@@ -71,6 +73,16 @@ const LIVE = [
     icon: Building2,
     title: "Directorio de contactos",
     body: "Exportadores, importadores, navieras y agentes se registran automáticamente. Sin alta manual: cada expediente construye el directorio del equipo.",
+  },
+  {
+    icon: GitCompare,
+    title: "Comparativa BL vs. factura",
+    body: "La IA cruza los dos documentos y marca en ámbar cada campo que difiere. Detecta errores de valor, peso o descripción antes de que lleguen a aduanas.",
+  },
+  {
+    icon: FileCheck2,
+    title: "Aduanas y DUA",
+    body: "Cuando el envío llega a aduanas, el DUA se prerellena desde el expediente. HS code, valor, régimen y partes, listos para revisar sin reintroducir un solo dato.",
   },
 ];
 
@@ -139,7 +151,7 @@ export default function ElExpedientePage() {
               <ol className="space-y-4 text-[16px] leading-relaxed text-muted-foreground">
                 <li>
                   <strong className="font-medium text-foreground">Subido.</strong>{" "}
-                  El BL llega al expediente como documento, listo para leerse.
+                  El BL marítimo, AWB aéreo o CMR terrestre llega al expediente como documento, listo para leerse.
                 </li>
                 <li>
                   <strong className="font-medium text-foreground">Leído.</strong> La

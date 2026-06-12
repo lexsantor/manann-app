@@ -15,6 +15,9 @@ import {
   Globe,
   Zap,
   BookOpen,
+  GitCompare,
+  FileCheck2,
+  Receipt,
 } from "lucide-react";
 
 import { Icon } from "@/components/icon";
@@ -115,6 +118,21 @@ const ONGOING = [
     icon: Building2,
     title: "Contactos y documentos",
     body: "Todos los BLs, facturas y certificados en un solo lugar. El directorio de navieras, agentes e importadores se construye solo, expediente a expediente.",
+  },
+  {
+    icon: GitCompare,
+    title: "Comparativa IA: BL vs. factura",
+    body: "Manann cruza automáticamente los campos del BL con la factura comercial y resalta en ámbar las discrepancias: valor, peso, descripción, incoterm. Ningún error pasa inadvertido.",
+  },
+  {
+    icon: FileCheck2,
+    title: "Preparación de aduanas",
+    body: "Pulsa «Preparar declaración» y el DUA se rellena desde el expediente: HS code, valor en aduana, régimen, partes. Listo para revisar antes de la presentación.",
+  },
+  {
+    icon: Receipt,
+    title: "Cotizaciones y facturación",
+    body: "Genera una cotización desde los costes del expediente, apruébala y conviértela en factura en un clic. Sin copiar datos entre sistemas ni salir del expediente.",
   },
 ];
 
