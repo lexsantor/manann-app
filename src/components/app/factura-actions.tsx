@@ -1,9 +1,9 @@
 "use client";
 
-import { useTransition } from "react";
+import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle, Send, Printer, XCircle, Loader2 } from "lucide-react";
-import { updateInvoiceStatus } from "@/lib/erp-actions";
+import { CheckCircle, Send, Printer, XCircle, Loader2, Mail, X } from "lucide-react";
+import { updateInvoiceStatus, sendFacturaEmail } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
 
 interface FacturaActionsProps {
@@ -32,10 +32,18 @@ const TRANSITIONS: Record<string, { label: string; next: string; icon: React.Ele
   anulada: [],
 };
 
+const EMAIL_STATUSES = ["emitida", "enviada", "pagada", "vencida"];
+
 export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
   const [pending, startTransition] = useTransition();
+  const [emailPending, startEmailTransition] = useTransition();
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
   const router = useRouter();
   const transitions = TRANSITIONS[status] ?? [];
+  const canSendEmail = EMAIL_STATUSES.includes(status);
 
   function handlePrint() {
     window.print();
@@ -48,6 +56,37 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
     });
   }
 
+  function handleEmailOpen() {
+    setShowEmailForm(true);
+    setEmailError("");
+    setEmailSent(false);
+  }
+
+  function handleEmailCancel() {
+    setShowEmailForm(false);
+    setEmail("");
+    setEmailError("");
+  }
+
+  function handleEmailSend() {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError("Introduce un email válido");
+      return;
+    }
+    setEmailError("");
+    startEmailTransition(async () => {
+      try {
+        await sendFacturaEmail(invoiceId, email);
+        setEmailSent(true);
+        setShowEmailForm(false);
+        setEmail("");
+        router.refresh();
+      } catch {
+        setEmailError("No se pudo enviar. Inténtalo de nuevo.");
+      }
+    });
+  }
+
   return (
     <div className="flex flex-wrap items-center gap-2 print:hidden">
       <button
@@ -57,6 +96,51 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
         <Printer className="size-4" />
         Imprimir / PDF
       </button>
+
+      {canSendEmail && !showEmailForm && (
+        <button
+          onClick={handleEmailOpen}
+          disabled={emailPending}
+          className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+        >
+          <Mail className="size-4" />
+          {emailSent ? "Email enviado" : "Enviar por email"}
+        </button>
+      )}
+
+      {showEmailForm && (
+        <div className="flex items-center gap-1.5">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
+            onKeyDown={(e) => e.key === "Enter" && handleEmailSend()}
+            placeholder="destinatario@empresa.com"
+            autoFocus
+            className={cn(
+              "h-8 w-56 rounded-md border bg-background px-3 text-sm outline-none focus:ring-1 focus:ring-primary transition-colors",
+              emailError ? "border-destructive focus:ring-destructive" : "border-border",
+            )}
+          />
+          <button
+            onClick={handleEmailSend}
+            disabled={emailPending}
+            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
+          >
+            {emailPending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
+            Enviar
+          </button>
+          <button
+            onClick={handleEmailCancel}
+            className="flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <X className="size-4" />
+          </button>
+          {emailError && (
+            <span className="text-xs text-destructive">{emailError}</span>
+          )}
+        </div>
+      )}
 
       {transitions.map((t) => (
         <button

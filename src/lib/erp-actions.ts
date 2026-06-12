@@ -19,7 +19,9 @@ import {
   getOwnedDocument,
   listShipments,
   getActiveMemberId,
+  getInvoiceDetail,
 } from "@/lib/erp";
+import { sendInvoiceEmail } from "@/lib/email";
 import {
   blExtractionSchema,
   EXTRACTION_PROMPT,
@@ -915,4 +917,43 @@ export async function updateInvoiceStatus(
 
   revalidatePath("/facturas");
   revalidatePath(`/expedientes/${row.shipment.id}`);
+}
+
+// ─── Enviar factura por email ─────────────────────────────────────────────────
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export async function sendFacturaEmail(
+  invoiceId: string,
+  recipientEmail: string,
+): Promise<void> {
+  if (!EMAIL_RE.test(recipientEmail)) throw new Error("Email de destinatario inválido");
+
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const inv = await getInvoiceDetail(ctx.org.id, invoiceId);
+  if (!inv) throw new Error("Factura no encontrada");
+
+  await sendInvoiceEmail({
+    to: recipientEmail,
+    orgName: ctx.org.name,
+    reference: inv.reference,
+    clientName: inv.clientName || recipientEmail,
+    issueDate: inv.issueDate ?? new Date().toISOString().slice(0, 10),
+    dueDate: inv.dueDate ?? null,
+    lines: inv.lines.map((l) => ({
+      concept: l.concept,
+      quantity: l.quantity,
+      unitPrice: l.unitPrice,
+      subtotal: l.subtotal,
+    })),
+    subtotal: inv.subtotal,
+    taxRate: inv.taxRate,
+    total: inv.total,
+    currency: inv.currency,
+    notes: inv.notes ?? null,
+  });
+
+  await updateInvoiceStatus(invoiceId, "enviada");
 }

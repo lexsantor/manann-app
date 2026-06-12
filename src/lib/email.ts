@@ -92,6 +92,172 @@ export async function sendContactEmail({
   }
 }
 
+// ─── Factura ─────────────────────────────────────────────────────────────────
+
+interface InvoiceLine {
+  concept: string;
+  quantity: string;
+  unitPrice: string;
+  subtotal: string;
+}
+
+interface SendInvoiceEmailParams {
+  to: string;
+  orgName: string;
+  reference: string;
+  clientName: string;
+  issueDate: string;
+  dueDate?: string | null;
+  lines: InvoiceLine[];
+  subtotal: string;
+  taxRate: string;
+  total: string;
+  currency: string;
+  notes?: string | null;
+}
+
+export async function sendInvoiceEmail(params: SendInvoiceEmailParams): Promise<void> {
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`\n[dev] Factura ${params.reference} → ${params.to}\n`);
+  }
+  if (!resend) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("RESEND_API_KEY no está configurada");
+    }
+    return;
+  }
+
+  const taxAmount = (Number(params.total) - Number(params.subtotal)).toFixed(2);
+  const fmt = (n: string) =>
+    new Intl.NumberFormat("es-ES", { style: "currency", currency: params.currency }).format(Number(n));
+
+  const { error } = await resend.emails.send({
+    from,
+    to: params.to,
+    subject: `Factura ${params.reference} de ${params.orgName}`,
+    text: [
+      `Factura: ${params.reference}`,
+      `De: ${params.orgName}`,
+      `Para: ${params.clientName}`,
+      `Emisión: ${params.issueDate}`,
+      params.dueDate ? `Vencimiento: ${params.dueDate}` : "",
+      "",
+      ...params.lines.map((l) => `${l.concept}  ${l.quantity} × ${fmt(l.unitPrice)}  ${fmt(l.subtotal)}`),
+      "",
+      `Base imponible: ${fmt(params.subtotal)}`,
+      `IVA ${params.taxRate}%: ${fmt(taxAmount)}`,
+      `Total: ${fmt(params.total)}`,
+      params.notes ? `\nNotas: ${params.notes}` : "",
+    ].filter(Boolean).join("\n"),
+    html: invoiceHtml({ ...params, taxAmount, fmt }),
+  });
+
+  if (error) throw new Error(`Resend no pudo enviar la factura: ${error.message}`);
+}
+
+const ESC_MAP: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+const esc = (s: string | null | undefined) => String(s ?? "").replace(/[&<>"']/g, (c) => ESC_MAP[c] ?? c);
+
+function invoiceHtml({
+  orgName,
+  reference,
+  clientName,
+  issueDate,
+  dueDate,
+  lines,
+  subtotal,
+  taxRate,
+  total,
+  taxAmount,
+  notes,
+  fmt,
+}: SendInvoiceEmailParams & { taxAmount: string; fmt: (n: string) => string }): string {
+  const linesRows = lines.map((l) => `
+    <tr>
+      <td style="padding:8px 0;border-bottom:1px solid #e8e8e8;font-size:13px;color:${INK}">${esc(l.concept)}</td>
+      <td style="padding:8px 0;border-bottom:1px solid #e8e8e8;font-size:13px;color:${INK_MUTED};text-align:right">${esc(l.quantity)}</td>
+      <td style="padding:8px 0;border-bottom:1px solid #e8e8e8;font-size:13px;color:${INK_MUTED};text-align:right">${fmt(l.unitPrice)}</td>
+      <td style="padding:8px 0;border-bottom:1px solid #e8e8e8;font-size:13px;color:${INK};text-align:right;font-weight:600">${fmt(l.subtotal)}</td>
+    </tr>
+  `).join("");
+
+  return `
+    <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:600px;margin:0 auto;background:#fff;color:${INK}">
+      <!-- Header -->
+      <div style="background:#0d1117;padding:28px 32px;border-radius:12px 12px 0 0">
+        <table style="width:100%;border-collapse:collapse">
+          <tr>
+            <td>
+              <span style="font-size:16px;font-weight:700;color:#fff;letter-spacing:-0.3px">${esc(orgName)}</span>
+            </td>
+            <td style="text-align:right">
+              <span style="font-size:11px;font-family:monospace;color:#6b7280;text-transform:uppercase;letter-spacing:0.12em">Factura</span><br>
+              <span style="font-size:20px;font-weight:700;color:#fff;font-family:monospace">${esc(reference)}</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Body -->
+      <div style="padding:28px 32px;border:1px solid #e8e8e8;border-top:none;border-radius:0 0 12px 12px">
+
+        <!-- Cliente + fechas -->
+        <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
+          <tr>
+            <td style="vertical-align:top;width:50%">
+              <p style="margin:0 0 4px;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:0.12em;color:${INK_FAINT}">Facturado a</p>
+              <p style="margin:0;font-size:14px;font-weight:600;color:${INK}">${esc(clientName)}</p>
+            </td>
+            <td style="vertical-align:top;text-align:right">
+              <p style="margin:0 0 4px;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:0.12em;color:${INK_FAINT}">Fecha de emisión</p>
+              <p style="margin:0 0 8px;font-size:13px;font-family:monospace;color:${INK}">${esc(issueDate)}</p>
+              ${dueDate ? `<p style="margin:0 0 4px;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:0.12em;color:${INK_FAINT}">Vencimiento</p><p style="margin:0;font-size:13px;font-family:monospace;color:${INK}">${esc(dueDate)}</p>` : ""}
+            </td>
+          </tr>
+        </table>
+
+        <!-- Líneas -->
+        <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
+          <thead>
+            <tr>
+              <th style="padding:6px 0;border-bottom:2px solid #e8e8e8;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:0.1em;color:${INK_FAINT};text-align:left;font-weight:600">Concepto</th>
+              <th style="padding:6px 0;border-bottom:2px solid #e8e8e8;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:0.1em;color:${INK_FAINT};text-align:right;font-weight:600">Cant.</th>
+              <th style="padding:6px 0;border-bottom:2px solid #e8e8e8;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:0.1em;color:${INK_FAINT};text-align:right;font-weight:600">Precio</th>
+              <th style="padding:6px 0;border-bottom:2px solid #e8e8e8;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:0.1em;color:${INK_FAINT};text-align:right;font-weight:600">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>${linesRows}</tbody>
+        </table>
+
+        <!-- Totales -->
+        <div style="display:flex;justify-content:flex-end;margin-bottom:24px">
+          <table style="border-collapse:collapse;min-width:220px">
+            <tr>
+              <td style="padding:4px 0;font-size:13px;color:${INK_MUTED}">Base imponible</td>
+              <td style="padding:4px 0;font-size:13px;color:${INK_MUTED};text-align:right;font-family:monospace;padding-left:24px">${fmt(subtotal)}</td>
+            </tr>
+            <tr>
+              <td style="padding:4px 0;font-size:13px;color:${INK_MUTED}">IVA ${esc(taxRate)}%</td>
+              <td style="padding:4px 0;font-size:13px;color:${INK_MUTED};text-align:right;font-family:monospace;padding-left:24px">${fmt(taxAmount)}</td>
+            </tr>
+            <tr style="border-top:2px solid #e8e8e8">
+              <td style="padding:8px 0 0;font-size:15px;font-weight:700;color:${INK}">Total</td>
+              <td style="padding:8px 0 0;font-size:15px;font-weight:700;color:${BRAND_GREEN};text-align:right;font-family:monospace;padding-left:24px">${fmt(total)}</td>
+            </tr>
+          </table>
+        </div>
+
+        ${notes ? `<div style="background:#f8f9fa;border-radius:8px;padding:14px 16px;margin-bottom:20px"><p style="margin:0 0 4px;font-size:10px;font-family:monospace;text-transform:uppercase;letter-spacing:0.1em;color:${INK_FAINT}">Notas</p><p style="margin:0;font-size:13px;color:${INK_MUTED}">${esc(notes)}</p></div>` : ""}
+
+        <!-- Footer -->
+        <p style="margin:0;font-size:11px;color:${INK_FAINT};text-align:center;border-top:1px solid #f0f0f0;padding-top:16px">
+          ${esc(orgName)} · ${esc(reference)} · Generado con Manann ERP
+        </p>
+      </div>
+    </div>
+  `;
+}
+
 function magicLinkHtml(url: string): string {
   return `
     <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:${INK}">
