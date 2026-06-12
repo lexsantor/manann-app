@@ -153,10 +153,10 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
                   onClick={() => setOpen(false)}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors duration-150",
                     active
-                      ? "bg-surface-2 font-medium text-foreground"
-                      : "text-muted-foreground hover:bg-surface-2/60 hover:text-foreground",
+                      ? "bg-primary/10 font-medium text-foreground shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.2)]"
+                      : "text-muted-foreground hover:bg-surface-2 hover:text-foreground",
                   )}
                 >
                   <Icon icon={item.icon} size={16} />
