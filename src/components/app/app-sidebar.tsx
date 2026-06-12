@@ -12,6 +12,14 @@ import {
   FolderOpen,
   Receipt,
   Tag,
+  Satellite,
+  FileCheck2,
+  FileText,
+  BarChart3,
+  Zap,
+  Plug,
+  CreditCard,
+  Settings,
   type LucideIcon,
 } from "lucide-react";
 
@@ -21,17 +29,62 @@ import { LogoutButton } from "./logout-button";
 import { NotificationsBell } from "./notifications-bell";
 import { cn } from "@/lib/utils";
 
-const NAV: { label: string; href: string; icon: LucideIcon }[] = [
-  { label: "Panel", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Expedientes", href: "/expedientes", icon: Package },
-  { label: "Calendario", href: "/calendar", icon: CalendarDays },
-  { label: "Contactos", href: "/contactos", icon: Building2 },
-  { label: "Documentos", href: "/documentos", icon: FolderOpen },
+interface NavItem {
+  label: string;
+  href?: string;
+  icon: LucideIcon;
+  soon?: boolean;
+}
+
+interface NavGroup {
+  section: string | null;
+  items: NavItem[];
+}
+
+const NAV_GROUPS: NavGroup[] = [
+  {
+    section: null,
+    items: [
+      { label: "General", href: "/dashboard", icon: LayoutDashboard },
+    ],
+  },
+  {
+    section: "Operaciones",
+    items: [
+      { label: "Expedientes", href: "/expedientes", icon: Package },
+      { label: "Calendario", href: "/calendar", icon: CalendarDays },
+      { label: "Documentos", href: "/documentos", icon: FolderOpen },
+      { label: "Aduanas", icon: FileCheck2, soon: true },
+      { label: "Tracking", icon: Satellite, soon: true },
+    ],
+  },
+  {
+    section: "Comercial",
+    items: [
+      { label: "Contactos", href: "/contactos", icon: Building2 },
+      { label: "Cotizaciones", icon: FileText, soon: true },
+    ],
+  },
+  {
+    section: "Finanzas",
+    items: [
+      { label: "Facturación", icon: Receipt, soon: true },
+      { label: "Gastos", icon: CreditCard, soon: true },
+      { label: "Tarifas", icon: Tag, soon: true },
+    ],
+  },
+  {
+    section: "Análisis",
+    items: [
+      { label: "Reportes", icon: BarChart3, soon: true },
+      { label: "Automatizaciones", icon: Zap, soon: true },
+    ],
+  },
 ];
 
-const SOON: { label: string; icon: LucideIcon }[] = [
-  { label: "Facturación", icon: Receipt },
-  { label: "Tarifas", icon: Tag },
+const BOTTOM_NAV: NavItem[] = [
+  { label: "Integraciones", icon: Plug, soon: true },
+  { label: "Configuración", icon: Settings, soon: true },
 ];
 
 interface AppSidebarProps {
@@ -43,7 +96,6 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  // Escape cierra el drawer móvil (WCAG 2.1.1 / 2.4.3).
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -53,8 +105,8 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(`${href}/`);
+  const isActive = (href?: string) =>
+    !!href && (pathname === href || pathname.startsWith(`${href}/`));
 
   const Content = (
     <div className="flex h-full flex-col">
@@ -68,54 +120,83 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
         </Link>
       </div>
 
-      <nav aria-label="Navegación principal" className="flex-1 space-y-1 px-3 py-2">
-        {NAV.map((item) => {
-          const active = isActive(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              prefetch={false}
-              onClick={() => setOpen(false)}
-              aria-current={active ? "page" : undefined}
-              className={cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
-                active
-                  ? "bg-surface-2 font-medium text-foreground"
-                  : "text-muted-foreground hover:bg-surface-2/60 hover:text-foreground",
-              )}
-            >
-              <Icon icon={item.icon} size={18} />
-              {item.label}
-            </Link>
-          );
-        })}
-
-        {SOON.map((item) => (
-          <span
-            key={item.label}
-            className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-sm text-ink-subtle/70"
-            title="Disponible en una próxima fase"
-          >
-            <Icon icon={item.icon} size={18} />
-            {item.label}
-            <span className="ml-auto rounded-md border border-border px-1.5 py-0.5 font-mono text-[10px] text-ink-subtle">
-              pronto
-            </span>
-          </span>
+      <nav aria-label="Navegación principal" className="flex-1 overflow-y-auto px-3 py-2">
+        {NAV_GROUPS.map((group, gi) => (
+          <div key={gi} className={cn(gi > 0 ? "mt-4" : "")}>
+            {group.section && (
+              <p className="mb-1 px-3 font-mono text-[9px] uppercase tracking-[0.18em] text-muted-foreground/40">
+                {group.section}
+              </p>
+            )}
+            {group.items.map((item) => {
+              const active = isActive(item.href);
+              if (item.soon || !item.href) {
+                return (
+                  <span
+                    key={item.label}
+                    className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground/40"
+                    title="Disponible en una próxima fase"
+                  >
+                    <Icon icon={item.icon} size={16} />
+                    {item.label}
+                    <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground/40">
+                      pronto
+                    </span>
+                  </span>
+                );
+              }
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  prefetch={false}
+                  onClick={() => setOpen(false)}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+                    active
+                      ? "bg-surface-2 font-medium text-foreground"
+                      : "text-muted-foreground hover:bg-surface-2/60 hover:text-foreground",
+                  )}
+                >
+                  <Icon icon={item.icon} size={16} />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
         ))}
 
         <NotificationsBell />
       </nav>
 
-      <div className="border-t border-border p-3">
-        <div className="px-2 pb-2">
-          <p className="truncate text-sm font-medium text-foreground">{orgName}</p>
-          <p className="truncate text-xs text-muted-foreground">{userEmail}</p>
+      <div className="border-t border-border">
+        {/* Bottom utilities */}
+        <div className="px-3 pt-2 pb-1">
+          {BOTTOM_NAV.map((item) => (
+            <span
+              key={item.label}
+              className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground/40"
+              title="Disponible en una próxima fase"
+            >
+              <Icon icon={item.icon} size={16} />
+              {item.label}
+              <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground/40">
+                pronto
+              </span>
+            </span>
+          ))}
         </div>
-        <div className="flex items-center justify-between gap-2 px-1">
-          <ThemeToggle />
-          <LogoutButton />
+
+        <div className="px-3 pb-3">
+          <div className="px-2 pb-2">
+            <p className="truncate text-sm font-medium text-foreground">{orgName}</p>
+            <p className="truncate text-xs text-muted-foreground">{userEmail}</p>
+          </div>
+          <div className="flex items-center justify-between gap-2 px-1">
+            <ThemeToggle />
+            <LogoutButton />
+          </div>
         </div>
       </div>
     </div>
@@ -161,7 +242,7 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
         </button>
       </header>
 
-      {/* Móvil: drawer — siempre montado para que la transición funcione */}
+      {/* Móvil: drawer */}
       <div
         aria-hidden={!open}
         className={cn(

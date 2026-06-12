@@ -1,13 +1,48 @@
 import { cn } from "@/lib/utils";
 
-const SIDEBAR = [
-  { label: "Expedientes", active: true },
-  { label: "Tracking" },
-  { label: "Documentos" },
-  { label: "Contactos" },
-  { label: "Calendario" },
-  { label: "Resúmenes IA" },
+const SIDEBAR_GROUPS = [
+  {
+    section: null,
+    items: [{ label: "General", active: false }],
+  },
+  {
+    section: "Operaciones",
+    items: [
+      { label: "Expedientes", active: true },
+      { label: "Tracking", active: false },
+      { label: "Documentos", active: false },
+      { label: "Aduanas", active: false },
+    ],
+  },
+  {
+    section: "Comercial",
+    items: [
+      { label: "Clientes", active: false },
+      { label: "Cotizaciones", active: false },
+    ],
+  },
+  {
+    section: "Finanzas",
+    items: [
+      { label: "Facturación", active: false },
+      { label: "Gastos", active: false },
+      { label: "Tarifas", active: false },
+    ],
+  },
+  {
+    section: "Análisis",
+    items: [
+      { label: "Reportes", active: false },
+      { label: "Automatizaciones", active: false },
+    ],
+  },
+  {
+    section: "IA Manann",
+    items: [{ label: "Resúmenes IA", active: false }],
+  },
 ];
+
+const BOTTOM_ITEMS = ["Integraciones", "Configuración"];
 
 const KPIS = [
   { label: "En tránsito", value: "248", delta: "+12% vs. mes ant." },
@@ -61,12 +96,13 @@ export function HeroDashboard() {
         </div>
 
         {/* Body grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "176px 1fr", minHeight: 448 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "192px 1fr", minHeight: 500 }}>
           {/* Sidebar */}
-          <div className="flex flex-col gap-0.5 border-r border-border/35 px-2 py-3">
-            <div className="mb-3 flex items-center gap-2 px-2 py-1">
+          <div className="flex flex-col border-r border-border/35 overflow-y-auto px-2 py-3">
+            {/* Logo */}
+            <div className="mb-2 flex items-center gap-2 px-2 py-1">
               <span
-                className="block size-3.5 rotate-45 rounded-[3px]"
+                className="block size-3.5 rotate-45 rounded-[3px] shrink-0"
                 style={{
                   background: "linear-gradient(135deg, hsl(172 51% 52%), hsl(185 55% 66%))",
                   boxShadow: "0 0 10px hsl(var(--primary) / 0.45)",
@@ -74,23 +110,52 @@ export function HeroDashboard() {
               />
               <span className="font-display text-sm font-semibold tracking-tight">Manann</span>
             </div>
-            {SIDEBAR.map((item) => (
-              <div
-                key={item.label}
-                className={cn(
-                  "flex items-center gap-2 rounded-md px-2.5 py-1.5 text-[12.5px]",
-                  item.active ? "bg-primary/9 text-foreground" : "text-muted-foreground/55"
+
+            {/* Groups */}
+            {SIDEBAR_GROUPS.map((group, gi) => (
+              <div key={gi} className={cn(gi > 0 ? "mt-3" : "mt-1")}>
+                {group.section && (
+                  <p className="mb-0.5 px-2.5 font-mono text-[8.5px] uppercase tracking-[0.18em] text-muted-foreground/30">
+                    {group.section}
+                  </p>
                 )}
-              >
-                <span
-                  className={cn("size-[4.5px] shrink-0 rounded-[2px]", item.active ? "bg-primary" : "bg-muted-foreground/25")}
-                  style={item.active ? { boxShadow: "0 0 6px hsl(var(--primary))" } : undefined}
-                />
-                {item.label}
+                {group.items.map((item) => (
+                  <div
+                    key={item.label}
+                    className={cn(
+                      "flex items-center gap-2 rounded-md px-2.5 py-[5px] text-[12px]",
+                      item.active
+                        ? "bg-primary/9 text-foreground"
+                        : "text-muted-foreground/50 hover:text-muted-foreground/70"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "size-[4px] shrink-0 rounded-[2px]",
+                        item.active ? "bg-primary" : "bg-muted-foreground/20"
+                      )}
+                      style={item.active ? { boxShadow: "0 0 6px hsl(var(--primary))" } : undefined}
+                    />
+                    {item.label}
+                  </div>
+                ))}
               </div>
             ))}
-            <div className="mt-auto border-t border-border/25 px-2 pt-2.5">
-              <span className="font-mono text-[9.5px] text-muted-foreground/30">OP · Valencia HQ</span>
+
+            {/* Bottom utilities */}
+            <div className="mt-auto border-t border-border/25 px-2 pt-2.5 pb-1">
+              {BOTTOM_ITEMS.map((label) => (
+                <div
+                  key={label}
+                  className="flex items-center gap-2 rounded-md px-2.5 py-[5px] text-[12px] text-muted-foreground/35"
+                >
+                  <span className="size-[4px] shrink-0 rounded-[2px] bg-muted-foreground/15" />
+                  {label}
+                </div>
+              ))}
+              <span className="mt-1.5 block font-mono text-[9.5px] text-muted-foreground/25 px-2.5">
+                OP · Valencia HQ
+              </span>
             </div>
           </div>
 
@@ -129,12 +194,12 @@ export function HeroDashboard() {
             {/* Split: chart + table */}
             <div className="flex flex-1 gap-2.5" style={{ minHeight: 0 }}>
               {/* Bar chart */}
-              <div className="w-[260px] shrink-0 rounded-lg border border-border/35 bg-background/20 p-3">
+              <div className="w-[240px] shrink-0 rounded-lg border border-border/35 bg-background/20 p-3">
                 <div className="mb-2.5 flex items-baseline justify-between">
                   <span className="text-[12px] font-semibold">Volumen semanal</span>
                   <span className="font-mono text-[8.5px] text-muted-foreground/35">TEU</span>
                 </div>
-                <div className="flex h-[90px] items-end gap-1.5">
+                <div className="flex h-[80px] items-end gap-1.5">
                   {BARS.map((h, i) => (
                     <div
                       key={i}
