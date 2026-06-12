@@ -84,3 +84,14 @@ export const chargeType = pgEnum("charge_type", [
   "almacenaje",
   "otro",
 ]);
+
+export const chargeDirection = pgEnum("charge_direction", ["cost", "revenue"]);
+
+export const invoiceStatus = pgEnum("invoice_status", [
+  "borrador",
+  "emitida",
+  "enviada",
+  "pagada",
+  "vencida",
+  "anulada",
+]);

@@ -40,6 +40,7 @@ import { AiSummaryPanel } from "@/components/app/ai-summary-panel";
 import { ActivityPanel } from "@/components/app/activity-panel";
 import { AssigneeSelect } from "@/components/app/assignee-select";
 import { ShipsGoPanel } from "@/components/app/shipsgo-panel";
+import { FinanzasPanel } from "@/components/app/finanzas-panel";
 import {
   MODE,
   PARTY_ROLE,
@@ -282,7 +283,7 @@ export default async function ExpedienteDetailPage({
           <Documents documents={s.documents} shipmentId={s.id} />
           <Parties parties={s.parties} />
           <Containers containers={s.containers} cargo={s.cargoLines} mode={s.mode} />
-          <Charges charges={s.charges} />
+          <FinanzasPanel shipmentId={s.id} charges={s.charges} />
         </div>
 
         <div className="space-y-5">

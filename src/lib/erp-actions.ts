@@ -9,7 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode } from "@/lib/tracking/shipsgo";
@@ -760,4 +760,59 @@ export async function getOrCreateShareToken(
     .where(eq(shipment.id, shipmentId));
 
   return token;
+}
+
+// ─── Cargos financieros ──────────────────────────────────────────────────────
+
+const addChargeSchema = z.object({
+  type: z.enum(["flete", "aduana", "manipulacion", "seguro", "documentacion", "almacenaje", "otro"]),
+  direction: z.enum(["cost", "revenue"]),
+  description: z.string().max(255).optional(),
+  amount: z.string().regex(/^\d+(\.\d{1,2})?$/, "Importe inválido"),
+  currency: z.string().length(3).default("EUR"),
+});
+
+export async function addCharge(
+  shipmentId: string,
+  input: z.infer<typeof addChargeSchema>,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const owned = await db.query.shipment.findFirst({
+    where: and(eq(shipment.id, shipmentId), eq(shipment.organizationId, ctx.org.id)),
+    columns: { id: true },
+  });
+  if (!owned) throw new Error("Expediente no encontrado");
+
+  const data = addChargeSchema.parse(input);
+
+  await db.insert(charge).values({
+    shipmentId,
+    type: data.type,
+    direction: data.direction,
+    description: data.description ?? null,
+    amount: data.amount,
+    currency: data.currency,
+  });
+
+  revalidatePath(`/expedientes/${shipmentId}`);
+}
+
+export async function deleteCharge(
+  chargeId: string,
+  shipmentId: string,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const row = await db.query.charge.findFirst({
+    where: eq(charge.id, chargeId),
+    with: { shipment: { columns: { organizationId: true } } },
+  });
+  if (!row || row.shipment.organizationId !== ctx.org.id) throw new Error("No autorizado");
+
+  await db.delete(charge).where(eq(charge.id, chargeId));
+
+  revalidatePath(`/expedientes/${shipmentId}`);
 }

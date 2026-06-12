@@ -8,6 +8,7 @@ import {
   integer,
   numeric,
   timestamp,
+  date,
   jsonb,
   index,
   unique,
@@ -26,6 +27,8 @@ import {
   trackingEventType,
   trackingSource,
   chargeType,
+  chargeDirection,
+  invoiceStatus,
 } from "./enums";
 
 // ─── Tenant ───────────────────────────────────────────────────────────────
@@ -235,11 +238,49 @@ export const charge = pgTable(
     description: text("description"),
     amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
     currency: text("currency").notNull().default("EUR"),
+    direction: chargeDirection("direction").notNull().default("cost"),
     payableBy: partyRole("payable_by"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [index("charge_shipment_id_idx").on(t.shipmentId)],
 );
+
+// ─── Facturas ────────────────────────────────────────────────────────────────
+
+export const invoice = pgTable(
+  "invoice",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    shipmentId: uuid("shipment_id")
+      .notNull()
+      .references(() => shipment.id, { onDelete: "cascade" }),
+    reference: text("reference").notNull(),
+    status: invoiceStatus("status").notNull().default("borrador"),
+    issueDate: date("issue_date"),
+    dueDate: date("due_date"),
+    subtotal: numeric("subtotal", { precision: 12, scale: 2 }).notNull().default("0"),
+    taxRate: numeric("tax_rate", { precision: 5, scale: 2 }).notNull().default("21"),
+    total: numeric("total", { precision: 12, scale: 2 }).notNull().default("0"),
+    currency: text("currency").notNull().default("EUR"),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [index("invoice_shipment_id_idx").on(t.shipmentId)],
+);
+
+export const invoiceLine = pgTable("invoice_line", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  invoiceId: uuid("invoice_id")
+    .notNull()
+    .references(() => invoice.id, { onDelete: "cascade" }),
+  concept: text("concept").notNull(),
+  quantity: numeric("quantity", { precision: 10, scale: 3 }).notNull().default("1"),
+  unitPrice: numeric("unit_price", { precision: 12, scale: 2 }).notNull(),
+  taxRate: numeric("tax_rate", { precision: 5, scale: 2 }).notNull().default("21"),
+  subtotal: numeric("subtotal", { precision: 12, scale: 2 }).notNull(),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
 
 // ─── Relations (para la query API de Drizzle en PR-5) ───────────────────────
 
@@ -267,6 +308,7 @@ export const shipmentRelations = relations(shipment, ({ one, many }) => ({
   documents: many(document),
   trackingEvents: many(trackingEvent),
   charges: many(charge),
+  invoices: many(invoice),
 }));
 
 export const partyRelations = relations(party, ({ one }) => ({
@@ -313,6 +355,21 @@ export const chargeRelations = relations(charge, ({ one }) => ({
   shipment: one(shipment, {
     fields: [charge.shipmentId],
     references: [shipment.id],
+  }),
+}));
+
+export const invoiceRelations = relations(invoice, ({ one, many }) => ({
+  shipment: one(shipment, {
+    fields: [invoice.shipmentId],
+    references: [shipment.id],
+  }),
+  lines: many(invoiceLine),
+}));
+
+export const invoiceLineRelations = relations(invoiceLine, ({ one }) => ({
+  invoice: one(invoice, {
+    fields: [invoiceLine.invoiceId],
+    references: [invoice.id],
   }),
 }));
 
