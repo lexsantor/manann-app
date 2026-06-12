@@ -99,7 +99,7 @@ export default function HomePage() {
       <Hero />
 
       {/* El problema */}
-      <section className="relative overflow-hidden border-t border-border">
+      <section className="relative overflow-hidden border-t border-border bg-surface-2">
         {/* Ghost watermark */}
         <div
           className="pointer-events-none absolute -right-[4%] top-1/2 -translate-y-1/2 select-none font-display font-medium leading-none tracking-tighter text-foreground opacity-[0.03]"
@@ -161,7 +161,7 @@ export default function HomePage() {
       </section>
 
       {/* Los tres pasos */}
-      <section id="como-funciona" className="scroll-mt-20 border-t border-border bg-surface-2">
+      <section id="como-funciona" className="scroll-mt-20 border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
           <FadeUp>
             <p className="eyebrow">Cómo funciona</p>
@@ -191,7 +191,7 @@ export default function HomePage() {
       </section>
 
       {/* Sistema completo */}
-      <section className="border-t border-border">
+      <section className="border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
           <FadeUp>
             <p className="eyebrow">De la entrada a la entrega</p>
@@ -287,7 +287,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border bg-surface-2">
+      <section className="border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-20 text-center sm:px-6 sm:py-28">
           <FadeUp>
             <h2 className="mx-auto max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">

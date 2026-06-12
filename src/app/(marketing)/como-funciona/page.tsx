@@ -121,7 +121,7 @@ const ONGOING = [
 export default function ComoFuncionaPage() {
   return (
     <>
-      {/* Hero */}
+      {/* Hero — transparent (A) */}
       <div className="mx-auto max-w-[1080px] px-5 sm:px-6">
         <section className="pb-12 pt-16 sm:pt-24">
           <FadeUp>
@@ -137,63 +137,57 @@ export default function ComoFuncionaPage() {
         </section>
       </div>
 
-      {/* Los tres pasos — surface-2 */}
-      <div className="bg-surface-2">
-        <div className="mx-auto max-w-[1080px] px-5 sm:px-6">
-          <section className="py-4">
+      {/* Los tres pasos — surface-2 (B) */}
+      <div className="border-t border-border bg-surface-2">
+        <div className="mx-auto max-w-[1080px] px-5 py-16 sm:px-6 sm:py-20">
+          <StaggerGrid className="grid gap-6 sm:grid-cols-3">
             {STEPS.map((s, i) => (
-              <FadeUp key={s.title} delay={i * 0.08}>
-                <div className="grid gap-6 border-t border-border py-12 lg:grid-cols-[auto_1fr] lg:gap-12">
-                  <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:gap-3">
-                    <span className="flex size-11 items-center justify-center rounded-md border border-border bg-card text-primary">
-                      <Icon icon={s.icon} size={22} />
-                    </span>
-                    <span className="font-mono text-sm text-muted-foreground">
-                      0{i + 1}
-                    </span>
+              <StaggerItem key={s.title}>
+                <div className="h-full rounded-xl border border-border bg-card p-7">
+                  <span className="block font-mono text-[3rem] font-light leading-none tracking-tighter text-muted-foreground/20">
+                    0{i + 1}
+                  </span>
+                  <div className="mt-4 flex size-9 items-center justify-center rounded-md border border-border bg-background text-primary">
+                    <Icon icon={s.icon} size={18} />
                   </div>
-                  <div className="max-w-2xl">
-                    <h2 className="font-display text-2xl font-medium tracking-tight text-foreground">
-                      {s.title}
-                    </h2>
-                    <p className="mt-2 text-lg text-foreground">{s.lead}</p>
-                    <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
-                      {s.body}
-                    </p>
-                  </div>
+                  <h3 className="mt-5 font-display text-xl font-medium tracking-tight text-foreground">
+                    {s.title}
+                  </h3>
+                  <p className="mt-2 text-sm font-medium text-foreground/80">{s.lead}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
+                    {s.body}
+                  </p>
                 </div>
-              </FadeUp>
+              </StaggerItem>
             ))}
-          </section>
+          </StaggerGrid>
         </div>
       </div>
 
-      {/* Garantías — bg-card */}
-      <div className="bg-card">
+      {/* Garantías — transparent (C) */}
+      <div className="border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-16 sm:px-6">
-          <section>
-            <StaggerGrid className="grid gap-6 sm:grid-cols-3">
-              {GUARANTEES.map((g) => (
-                <StaggerItem key={g.title}>
-                  <div className="rounded-lg border border-border bg-background p-6">
-                    <Icon icon={g.icon} size={20} className="text-primary" />
-                    <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
-                      {g.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {g.body}
-                    </p>
-                  </div>
-                </StaggerItem>
-              ))}
-            </StaggerGrid>
-          </section>
+          <StaggerGrid className="grid gap-6 sm:grid-cols-3">
+            {GUARANTEES.map((g) => (
+              <StaggerItem key={g.title}>
+                <div className="h-full rounded-lg border border-border bg-card p-6">
+                  <Icon icon={g.icon} size={20} className="text-primary" />
+                  <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
+                    {g.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
+                    {g.body}
+                  </p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerGrid>
         </div>
       </div>
 
-      {/* La plataforma — bg-background */}
-      <div className="mx-auto max-w-[1080px] px-5 sm:px-6">
-        <section className="py-16">
+      {/* La plataforma — surface-2 (B) */}
+      <div className="border-t border-border bg-surface-2">
+        <div className="mx-auto max-w-[1080px] px-5 py-16 sm:px-6">
           <FadeUp>
             <p className="eyebrow">La plataforma</p>
             <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
@@ -203,57 +197,55 @@ export default function ComoFuncionaPage() {
           <StaggerGrid className="mt-10 grid gap-6 sm:grid-cols-3">
             {PLATFORM.map((p) => (
               <StaggerItem key={p.title}>
-                <div className="rounded-lg border border-border bg-card p-6 transition-colors hover:bg-surface-2">
+                <div className="h-full rounded-lg border border-border bg-card p-6 transition-colors hover:bg-background">
                   <Icon icon={p.icon} size={20} className="text-primary" />
                   <h3 className="mt-5 font-display text-lg font-medium tracking-tight text-foreground">
                     {p.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
                     {p.body}
                   </p>
                 </div>
               </StaggerItem>
             ))}
           </StaggerGrid>
-        </section>
-      </div>
-
-      {/* Después de la confirmación — surface-2 */}
-      <div className="bg-surface-2">
-        <div className="mx-auto max-w-[1080px] px-5 py-16 sm:px-6">
-          <section>
-            <FadeUp>
-              <p className="eyebrow">Después de la confirmación</p>
-              <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
-                El sistema sigue trabajando contigo.
-              </h2>
-              <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
-                Los tres pasos crean el expediente. A partir de ahí, Manann mantiene
-                el contexto sin que tengas que pedirlo.
-              </p>
-            </FadeUp>
-            <StaggerGrid className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {ONGOING.map((o) => (
-                <StaggerItem key={o.title}>
-                  <div className="rounded-lg border border-border bg-card p-6 transition-colors hover:bg-background">
-                    <Icon icon={o.icon} size={20} className="text-primary" />
-                    <h3 className="mt-4 font-display font-medium tracking-tight text-foreground">
-                      {o.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {o.body}
-                    </p>
-                  </div>
-                </StaggerItem>
-              ))}
-            </StaggerGrid>
-          </section>
         </div>
       </div>
 
-      {/* CTA */}
-      <div className="mx-auto max-w-[1080px] px-5 sm:px-6">
-        <section className="border-t border-border py-20 text-center">
+      {/* Después de la confirmación — transparent (C) */}
+      <div className="border-t border-border">
+        <div className="mx-auto max-w-[1080px] px-5 py-16 sm:px-6">
+          <FadeUp>
+            <p className="eyebrow">Después de la confirmación</p>
+            <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+              El sistema sigue trabajando contigo.
+            </h2>
+            <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
+              Los tres pasos crean el expediente. A partir de ahí, Manann mantiene
+              el contexto sin que tengas que pedirlo.
+            </p>
+          </FadeUp>
+          <StaggerGrid className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {ONGOING.map((o) => (
+              <StaggerItem key={o.title}>
+                <div className="h-full rounded-lg border border-border bg-card p-6 transition-colors hover:bg-surface-2">
+                  <Icon icon={o.icon} size={20} className="text-primary" />
+                  <h3 className="mt-4 font-display font-medium tracking-tight text-foreground">
+                    {o.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
+                    {o.body}
+                  </p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerGrid>
+        </div>
+      </div>
+
+      {/* CTA — surface-2 (B) */}
+      <div className="border-t border-border bg-surface-2">
+        <div className="mx-auto max-w-[1080px] px-5 py-20 text-center sm:px-6">
           <FadeUp>
             <h2 className="mx-auto max-w-2xl font-display text-3xl font-medium tracking-tight text-foreground">
               Míralo con un documento de verdad.
@@ -279,7 +271,7 @@ export default function ComoFuncionaPage() {
               </Link>
             </div>
           </FadeUp>
-        </section>
+        </div>
       </div>
     </>
   );
