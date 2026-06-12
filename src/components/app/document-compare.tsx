@@ -88,6 +88,12 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
         </p>
       )}
 
+      {!result && !pending && !error && (
+        <p className="mt-2 text-xs text-muted-foreground/50">
+          Pulsa el botón para cruzar los campos del BL con la factura comercial.
+        </p>
+      )}
+
       {result && (
         <div className="mt-3 space-y-2">
           {result.discrepancySummary && (
@@ -95,7 +101,7 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
               {result.discrepancySummary}
             </div>
           )}
-          <div className="overflow-hidden rounded-lg border border-border/60">
+          <div className="overflow-x-auto overflow-hidden rounded-lg border border-border/60">
             <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-border/40 bg-surface-2/30 px-3 py-1.5 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
               <span>Campo</span>
               <span>BL</span>

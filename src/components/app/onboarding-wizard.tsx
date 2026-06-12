@@ -77,7 +77,7 @@ export function OnboardingWizard() {
           <X className="size-4" />
         </button>
 
-        <div className="px-8 pb-8 pt-10">
+        <div className="px-5 pb-6 pt-8 sm:px-8 sm:pb-8 sm:pt-10">
           {/* Icono */}
           <div className="mb-5 flex size-12 items-center justify-center rounded-xl bg-primary/10">
             <StepIcon className="size-6 text-primary" />

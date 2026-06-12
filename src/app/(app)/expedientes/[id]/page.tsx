@@ -491,6 +491,11 @@ function Documents({
 
       {/* Comparativa IA: visible cuando hay BL + factura comercial */}
       <DocumentCompare shipmentId={shipmentId} hasBl={hasBl} hasFactura={hasFactura} />
+      {hasBl && !hasFactura && (
+        <p className="mt-3 text-xs text-muted-foreground/50">
+          Sube la factura comercial para comparar automáticamente con el BL.
+        </p>
+      )}
 
       {/* Lista de documentos — aparece debajo al subir el primero */}
       {documents.length > 0 && (
