@@ -5,6 +5,7 @@ import { TrendingUp, TrendingDown, Plus, Trash2, Loader2, Receipt } from "lucide
 import { Icon } from "@/components/icon";
 import { formatMoney } from "@/lib/erp-format";
 import { addCharge, deleteCharge } from "@/lib/erp-actions";
+import { GenerarFacturaButton } from "@/components/app/generar-factura-button";
 import { cn } from "@/lib/utils";
 import type { ShipmentDetail } from "@/lib/erp";
 
@@ -153,9 +154,10 @@ function LineRow({ charge: c, shipmentId }: LineRowProps) {
 interface FinanzasPanelProps {
   shipmentId: string;
   charges: Charge[];
+  clientName?: string;
 }
 
-export function FinanzasPanel({ shipmentId, charges }: FinanzasPanelProps) {
+export function FinanzasPanel({ shipmentId, charges, clientName = "" }: FinanzasPanelProps) {
   const [addingCost, setAddingCost] = useState(false);
   const [addingRevenue, setAddingRevenue] = useState(false);
 
@@ -172,9 +174,21 @@ export function FinanzasPanel({ shipmentId, charges }: FinanzasPanelProps) {
 
   return (
     <section className="rounded-xl border border-border bg-card p-5">
-      <div className="mb-4 flex items-center gap-2">
-        <Icon icon={Receipt} size={16} className="text-muted-foreground" />
-        <h2 className="font-display text-base font-medium tracking-tight text-foreground">Finanzas</h2>
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <Icon icon={Receipt} size={16} className="text-muted-foreground" />
+          <h2 className="font-display text-base font-medium tracking-tight text-foreground">Finanzas</h2>
+        </div>
+        {revenues.length > 0 && (
+          <GenerarFacturaButton
+            shipmentId={shipmentId}
+            clientName={clientName}
+            defaultLines={revenues.map((c) => ({
+              concept: c.description || CHARGE_TYPE_LABELS[c.type] || c.type,
+              unitPrice: c.amount,
+            }))}
+          />
+        )}
       </div>
 
       {/* Margin KPIs */}

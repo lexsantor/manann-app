@@ -4,7 +4,7 @@ import { cache } from "react";
 import { and, count, desc, eq, asc, or, ilike, gte, lt } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, party, shipment, document, fieldChange, trackingSubscription } from "@/db/schema";
+import { member, party, shipment, document, fieldChange, trackingSubscription, invoice } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string };
@@ -272,3 +272,51 @@ export async function listContacts(orgId: string) {
 
 export type ContactItem = Awaited<ReturnType<typeof listContacts>>[number];
 export type DocumentItem = Awaited<ReturnType<typeof listDocuments>>[number];
+
+// ─── Facturas ────────────────────────────────────────────────────────────────
+
+export async function listInvoices(orgId: string) {
+  return db
+    .select({
+      id: invoice.id,
+      reference: invoice.reference,
+      status: invoice.status,
+      issueDate: invoice.issueDate,
+      dueDate: invoice.dueDate,
+      total: invoice.total,
+      currency: invoice.currency,
+      shipmentId: invoice.shipmentId,
+      shipmentRef: shipment.reference,
+    })
+    .from(invoice)
+    .innerJoin(shipment, eq(invoice.shipmentId, shipment.id))
+    .where(eq(shipment.organizationId, orgId))
+    .orderBy(desc(invoice.createdAt));
+}
+
+export async function countOrgInvoices(orgId: string): Promise<number> {
+  const [row] = await db
+    .select({ n: count(invoice.id) })
+    .from(invoice)
+    .innerJoin(shipment, eq(invoice.shipmentId, shipment.id))
+    .where(eq(shipment.organizationId, orgId));
+  return row?.n ?? 0;
+}
+
+export async function getInvoiceDetail(orgId: string, invoiceId: string) {
+  const row = await db.query.invoice.findFirst({
+    where: eq(invoice.id, invoiceId),
+    with: {
+      lines: { orderBy: (l) => [asc(l.sortOrder)] },
+      shipment: {
+        columns: { id: true, reference: true, organizationId: true },
+        with: { parties: true },
+      },
+    },
+  });
+  if (!row || row.shipment.organizationId !== orgId) return null;
+  return row;
+}
+
+export type InvoiceItem = Awaited<ReturnType<typeof listInvoices>>[number];
+export type InvoiceDetail = NonNullable<Awaited<ReturnType<typeof getInvoiceDetail>>>;

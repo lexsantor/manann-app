@@ -140,8 +140,10 @@ const dateTimeFmt = new Intl.DateTimeFormat("es-ES", {
   minute: "2-digit",
 });
 
-export function formatDate(d: Date | null): string {
-  return d ? dateFmt.format(d) : "—";
+export function formatDate(d: Date | string | null): string {
+  if (!d) return "—";
+  const date = typeof d === "string" ? new Date(d + "T12:00:00") : d;
+  return dateFmt.format(date);
 }
 
 export function formatDateTime(d: Date | null): string {

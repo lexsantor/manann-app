@@ -9,7 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode } from "@/lib/tracking/shipsgo";
@@ -815,4 +815,102 @@ export async function deleteCharge(
   await db.delete(charge).where(eq(charge.id, chargeId));
 
   revalidatePath(`/expedientes/${shipmentId}`);
+}
+
+// ─── Facturas ────────────────────────────────────────────────────────────────
+
+const createInvoiceSchema = z.object({
+  clientName: z.string().min(1).max(255),
+  clientNif: z.string().max(20).optional(),
+  issueDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  dueDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  taxRate: z.string().regex(/^\d+(\.\d{1,2})?$/).default("21"),
+  currency: z.string().length(3).default("EUR"),
+  notes: z.string().max(500).optional(),
+  lines: z.array(z.object({
+    concept: z.string().min(1).max(255),
+    quantity: z.string().default("1"),
+    unitPrice: z.string().regex(/^\d+(\.\d{1,2})?$/),
+    taxRate: z.string().default("21"),
+  })).min(1),
+});
+
+export type CreateInvoiceInput = z.infer<typeof createInvoiceSchema>;
+
+export async function createInvoice(
+  shipmentId: string,
+  input: CreateInvoiceInput,
+): Promise<{ invoiceId: string; reference: string }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const owned = await db.query.shipment.findFirst({
+    where: and(eq(shipment.id, shipmentId), eq(shipment.organizationId, ctx.org.id)),
+    columns: { id: true },
+  });
+  if (!owned) throw new Error("Expediente no encontrado");
+
+  const data = createInvoiceSchema.parse(input);
+
+  // Número de factura: MNN-F-{año}-{secuencial 3 dígitos}
+  const { countOrgInvoices } = await import("@/lib/erp");
+  const n = (await countOrgInvoices(ctx.org.id)) + 1;
+  const year = new Date().getFullYear();
+  const reference = `MNN-F-${year}-${String(n).padStart(3, "0")}`;
+
+  const subtotal = data.lines.reduce(
+    (s, l) => s + Number(l.quantity) * Number(l.unitPrice),
+    0,
+  );
+  const taxAmount = subtotal * (Number(data.taxRate) / 100);
+  const total = subtotal + taxAmount;
+
+  const [inv] = await db.insert(invoice).values({
+    shipmentId,
+    reference,
+    status: "borrador",
+    issueDate: data.issueDate,
+    dueDate: data.dueDate ?? null,
+    subtotal: subtotal.toFixed(2),
+    taxRate: data.taxRate,
+    total: total.toFixed(2),
+    currency: data.currency,
+    notes: data.notes ?? null,
+  }).returning({ id: invoice.id });
+
+  await db.insert(invoiceLine).values(
+    data.lines.map((l, i) => ({
+      invoiceId: inv.id,
+      concept: l.concept,
+      quantity: l.quantity,
+      unitPrice: l.unitPrice,
+      taxRate: l.taxRate,
+      subtotal: (Number(l.quantity) * Number(l.unitPrice)).toFixed(2),
+      sortOrder: i,
+    })),
+  );
+
+  revalidatePath(`/expedientes/${shipmentId}`);
+  revalidatePath("/facturas");
+
+  return { invoiceId: inv.id, reference };
+}
+
+export async function updateInvoiceStatus(
+  invoiceId: string,
+  status: "borrador" | "emitida" | "enviada" | "pagada" | "vencida" | "anulada",
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const row = await db.query.invoice.findFirst({
+    where: eq(invoice.id, invoiceId),
+    with: { shipment: { columns: { id: true, organizationId: true } } },
+  });
+  if (!row || row.shipment.organizationId !== ctx.org.id) throw new Error("No autorizado");
+
+  await db.update(invoice).set({ status, updatedAt: new Date() }).where(eq(invoice.id, invoiceId));
+
+  revalidatePath("/facturas");
+  revalidatePath(`/expedientes/${row.shipment.id}`);
 }

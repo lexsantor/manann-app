@@ -6,7 +6,6 @@ import {
   Container as ContainerIcon,
   Boxes,
   Users,
-  Receipt,
   MapPinned,
   FileText,
   Sparkles,
@@ -44,7 +43,6 @@ import { FinanzasPanel } from "@/components/app/finanzas-panel";
 import {
   MODE,
   PARTY_ROLE,
-  CHARGE_TYPE,
   DOC_TYPE,
   portLabel,
   formatDate,
@@ -283,7 +281,11 @@ export default async function ExpedienteDetailPage({
           <Documents documents={s.documents} shipmentId={s.id} />
           <Parties parties={s.parties} />
           <Containers containers={s.containers} cargo={s.cargoLines} mode={s.mode} />
-          <FinanzasPanel shipmentId={s.id} charges={s.charges} />
+          <FinanzasPanel
+            shipmentId={s.id}
+            charges={s.charges}
+            clientName={s.parties.find((p) => p.role === "consignee")?.name ?? ""}
+          />
         </div>
 
         <div className="space-y-5">
@@ -438,62 +440,6 @@ function Containers({
             </div>
           ))}
         </div>
-      )}
-    </Panel>
-  );
-}
-
-function Charges({ charges }: { charges: ShipmentDetail["charges"] }) {
-  const total = charges.reduce((sum, c) => sum + Number(c.amount), 0);
-  const currency = charges[0]?.currency ?? "EUR";
-  // Solo sumamos a un total si todos los cargos comparten divisa.
-  const mixedCurrency = new Set(charges.map((c) => c.currency)).size > 1;
-
-  return (
-    <Panel title="Cargos" icon={Receipt}>
-      {charges.length > 0 ? (
-        <div className="divide-y divide-border">
-          {charges.map((c) => {
-            const typeLabel = CHARGE_TYPE[c.type] ?? c.type;
-            // Sub-etiqueta sin duplicar: el tipo solo si hay descripción propia.
-            const sub = [
-              c.description ? typeLabel : null,
-              c.payableBy
-                ? `paga ${PARTY_ROLE[c.payableBy] ?? c.payableBy}`
-                : null,
-            ]
-              .filter(Boolean)
-              .join(" · ");
-            return (
-              <div
-                key={c.id}
-                className="flex items-center justify-between gap-3 py-2 first:pt-0"
-              >
-                <div className="min-w-0">
-                  <p className="text-sm text-foreground">
-                    {c.description || typeLabel}
-                  </p>
-                  {sub && (
-                    <p className="font-mono text-xs uppercase tracking-wide text-muted-foreground">
-                      {sub}
-                    </p>
-                  )}
-                </div>
-                <span className="shrink-0 font-mono text-sm text-foreground">
-                  {formatMoney(c.amount, c.currency)}
-                </span>
-              </div>
-            );
-          })}
-          <div className="flex items-center justify-between pt-3">
-            <span className="text-sm font-medium text-foreground">Total</span>
-            <span className="font-mono text-sm font-medium text-foreground">
-              {mixedCurrency ? "Varias divisas" : formatMoney(String(total), currency)}
-            </span>
-          </div>
-        </div>
-      ) : (
-        <p className="text-sm text-muted-foreground">Sin cargos registrados.</p>
       )}
     </Panel>
   );
