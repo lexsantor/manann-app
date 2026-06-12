@@ -26,8 +26,8 @@ export const metadata: Metadata = {
 const STEPS = [
   {
     icon: Upload,
-    title: "Arrastra el BL",
-    body: "Suelta el Bill of Lading en PDF. Sin plantillas ni formularios previos que rellenar.",
+    title: "Arrastra el documento",
+    body: "Bill of Lading, Booking Confirmation o cualquier documento de embarque en PDF. Sin plantillas ni formularios previos.",
   },
   {
     icon: ScanText,
@@ -80,7 +80,7 @@ export default function HomePage() {
       <Hero />
 
       {/* Los tres pasos */}
-      <section id="como-funciona" className="scroll-mt-20 border-t border-border">
+      <section id="como-funciona" className="scroll-mt-20 border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-24">
           <FadeUp>
             <p className="eyebrow">Cómo funciona</p>
@@ -146,7 +146,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="border-t border-border">
+      <section className="border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-20 text-center sm:px-6 sm:py-28">
           <FadeUp>
             <h2 className="mx-auto max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">

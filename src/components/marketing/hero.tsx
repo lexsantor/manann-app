@@ -8,6 +8,7 @@ import { ExpedienteCardDemo } from "./expediente-card-demo";
 
 export function Hero() {
   return (
+    <div className="bg-surface-2">
     <section className="mx-auto max-w-[1080px] px-5 pb-16 pt-16 sm:px-6 sm:pt-24 lg:pt-28">
       <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
         <div>
@@ -66,5 +67,6 @@ export function Hero() {
         </div>
       </div>
     </section>
+    </div>
   );
 }
