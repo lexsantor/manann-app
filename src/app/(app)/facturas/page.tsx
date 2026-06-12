@@ -84,7 +84,9 @@ export default async function FacturasPage({ searchParams }: PageProps) {
               style={{ gridTemplateColumns: "1fr 120px 100px 100px 100px 32px" }}
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <span className="font-mono text-sm font-medium text-foreground">{inv.reference}</span>
+                <Link href={`/facturas/${inv.id}`} className="font-mono text-sm font-medium text-foreground hover:text-primary transition-colors">
+                  {inv.reference}
+                </Link>
                 <span className={cn(
                   "rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold",
                   STATUS_COLOR[inv.status] ?? "bg-border/30 text-muted-foreground",

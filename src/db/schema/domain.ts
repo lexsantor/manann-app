@@ -262,6 +262,8 @@ export const invoice = pgTable(
     taxRate: numeric("tax_rate", { precision: 5, scale: 2 }).notNull().default("21"),
     total: numeric("total", { precision: 12, scale: 2 }).notNull().default("0"),
     currency: text("currency").notNull().default("EUR"),
+    clientName: text("client_name").notNull().default(""),
+    clientNif: text("client_nif"),
     notes: text("notes"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),

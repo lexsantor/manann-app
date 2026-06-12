@@ -300,18 +300,28 @@ h1, h2, h3, .font-display {
    Oculta chrome del ERP; deja solo el contenido del expediente.
    ============================================================ */
 @media print {
-  nav, aside { display: none !important; }
+  nav, aside, header { display: none !important; }
   .lg\:pl-60 { padding-left: 0 !important; }
   body {
     background: white !important;
     background-image: none !important;
-    color: black !important;
+    color: #111 !important;
   }
-  .bg-card, .bg-background, .bg-surface-2\/40 {
+  .bg-card, .bg-background, .bg-surface-2\/40, .bg-surface-2\/30 {
     background: white !important;
     box-shadow: none !important;
   }
-  .border-border { border-color: #e5e5e5 !important; }
+  .border-border { border-color: #e0e0e0 !important; }
+  /* Factura: quita sticky bar, muestra todo en una hoja */
+  .print\:hidden { display: none !important; }
+  .print\:block { display: block !important; }
+  .print\:px-0 { padding-left: 0 !important; padding-right: 0 !important; }
+  .print\:py-0 { padding-top: 0 !important; padding-bottom: 0 !important; }
+  .print\:rounded-none { border-radius: 0 !important; }
+  .print\:border-0 { border: none !important; }
+  .print\:shadow-none { box-shadow: none !important; }
+  .print\:p-0 { padding: 0 !important; }
+  @page { margin: 18mm 14mm; }
 }
 
 /* Logo conmutado por tema (sin flash: ambos en el DOM, CSS los muestra). */

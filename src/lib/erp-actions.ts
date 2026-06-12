@@ -875,6 +875,8 @@ export async function createInvoice(
     taxRate: data.taxRate,
     total: total.toFixed(2),
     currency: data.currency,
+    clientName: data.clientName,
+    clientNif: data.clientNif ?? null,
     notes: data.notes ?? null,
   }).returning({ id: invoice.id });
 
