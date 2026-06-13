@@ -19,6 +19,7 @@ export default async function AppLayout({
     <div className="min-h-dvh bg-background">
       <AppSidebar
         userEmail={ctx.user.email}
+        userName={ctx.user.name ?? ""}
         orgName={ctx.org?.name ?? "—"}
         activeOrgId={ctx.org?.id ?? ""}
         orgs={userOrgs}

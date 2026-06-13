@@ -96,12 +96,13 @@ interface OrgOption {
 
 interface AppSidebarProps {
   userEmail: string;
+  userName: string;
   orgName: string;
   activeOrgId: string;
   orgs: OrgOption[];
 }
 
-export function AppSidebar({ userEmail, orgName, activeOrgId, orgs }: AppSidebarProps) {
+export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: AppSidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -221,8 +222,13 @@ export function AppSidebar({ userEmail, orgName, activeOrgId, orgs }: AppSidebar
         </div>
 
         <div className="border-t border-border px-3 py-3">
-          <OrgSwitcher orgs={orgs} activeOrgId={activeOrgId} activeOrgName={orgName} />
-          <p className="truncate px-2 text-xs text-muted-foreground">{userEmail}</p>
+          {orgs.length >= 2 ? (
+            <OrgSwitcher orgs={orgs} activeOrgId={activeOrgId} activeOrgName={orgName} />
+          ) : (
+            <p className="truncate px-2 text-sm font-medium text-foreground">{orgName}</p>
+          )}
+          <p className="truncate px-2 text-sm text-muted-foreground">{userName}</p>
+          <p className="truncate px-2 text-xs text-muted-foreground/60">{userEmail}</p>
         </div>
 
         <div className="border-t border-border px-4 py-3 flex items-center justify-between gap-2">
