@@ -85,6 +85,13 @@
       "when": 1781305792624,
       "tag": "0011_living_squirrel_girl",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1781342827713,
+      "tag": "0012_magenta_red_skull",
+      "breakpoints": true
     }
   ]
 }

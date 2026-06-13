@@ -85,7 +85,7 @@ const NAV_GROUPS: NavGroup[] = [
 
 const BOTTOM_NAV: NavItem[] = [
   { label: "Integraciones", icon: Plug, soon: true },
-  { label: "Configuración", icon: Settings, soon: true },
+  { label: "Ajustes", href: "/settings", icon: Settings },
 ];
 
 interface AppSidebarProps {

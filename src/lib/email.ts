@@ -577,3 +577,60 @@ function magicLinkHtml(url: string): string {
     </div>
   `;
 }
+
+// ─── Invitación a org ─────────────────────────────────────────────────────────
+
+export async function sendInviteEmail(to: string, orgName: string, inviteUrl: string): Promise<void> {
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`\n[dev] Invitación a "${orgName}" → ${to}\n  ${inviteUrl}\n`);
+  }
+  if (!resend) {
+    if (process.env.NODE_ENV === "production") throw new Error("RESEND_API_KEY no está configurada");
+    return;
+  }
+
+  const { error } = await resend.emails.send({
+    from,
+    to,
+    subject: `Te han invitado a ${orgName} en Manann`,
+    text: [
+      `Has recibido una invitación para unirte a ${orgName} en Manann.`,
+      "",
+      `Acepta la invitación aquí: ${inviteUrl}`,
+      "",
+      "El enlace expira en 7 días.",
+      "",
+      "Si no esperabas esta invitación, puedes ignorar este correo.",
+    ].join("\n"),
+    html: inviteHtml(orgName, inviteUrl),
+  });
+
+  if (error) throw new Error(`Resend no pudo enviar la invitación: ${error.message}`);
+}
+
+function inviteHtml(orgName: string, inviteUrl: string): string {
+  return `
+    <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:${INK}">
+      <div style="margin-bottom:28px">
+        <span style="font-size:15px;font-weight:700;color:${BRAND_GREEN};letter-spacing:-0.3px">Manann</span>
+      </div>
+      <h1 style="font-size:22px;font-weight:700;margin:0 0 8px;letter-spacing:-0.4px">
+        Te han invitado a unirte
+      </h1>
+      <p style="font-size:14px;line-height:1.65;color:${INK_MUTED};margin:0 0 24px">
+        Tienes una invitación para unirte a <strong style="color:${INK}">${esc(orgName)}</strong> en Manann.
+      </p>
+      <a href="${inviteUrl}"
+         style="display:inline-block;background:${BRAND_GREEN};color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:12px 20px;border-radius:10px;margin-bottom:24px">
+        Aceptar invitación
+      </a>
+      <p style="font-size:13px;line-height:1.6;color:${INK_MUTED};margin:0 0 16px">
+        Si el botón no funciona, copia este enlace en tu navegador:<br>
+        <span style="font-family:monospace;font-size:11px;color:${INK_FAINT}">${esc(inviteUrl)}</span>
+      </p>
+      <p style="margin:0;font-size:12px;color:${INK_FAINT};border-top:1px solid #f0f0f0;padding-top:16px">
+        El enlace expira en 7 días · Si no esperabas esta invitación, ignora este correo.
+      </p>
+    </div>
+  `;
+}

@@ -542,3 +542,29 @@ export const commentRelations = relations(comment, ({ one }) => ({
   shipment: one(shipment, { fields: [comment.shipmentId], references: [shipment.id] }),
   author: one(member, { fields: [comment.authorId], references: [member.id] }),
 }));
+
+// ─── Invitaciones a la org ──────────────────────────────────────────────────
+
+export const invitation = pgTable(
+  "invitation",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    email: text("email").notNull(),
+    token: text("token").notNull().unique(),
+    expiresAt: timestamp("expires_at").notNull(),
+    usedAt: timestamp("used_at"),
+    createdBy: text("created_by").references(() => user.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [
+    index("invitation_token_idx").on(t.token),
+    index("invitation_org_id_idx").on(t.organizationId),
+  ],
+);
+
+export const invitationRelations = relations(invitation, ({ one }) => ({
+  organization: one(organization, { fields: [invitation.organizationId], references: [organization.id] }),
+}));
