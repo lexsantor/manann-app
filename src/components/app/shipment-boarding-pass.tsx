@@ -153,6 +153,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
   const { gp, hasAtRisk } = computeGP(s.charges);
 
   const ph = MODE_PLACEHOLDER[s.mode] ?? MODE_PLACEHOLDER.maritimo;
+  const PlaceholderIcon = ph.icon;
   const showImg = imgUrl !== null && !hideImages;
 
   return (
@@ -228,7 +229,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             <>
               <div className={cn("h-full w-full bg-gradient-to-b", ph.from, ph.to)} />
               <div className="absolute inset-0 flex items-center justify-center">
-                <Icon icon={ph.icon} size={48} className="text-white/15" />
+                <PlaceholderIcon size={64} strokeWidth={0.75} className="text-white/22" />
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
             </>
@@ -311,7 +312,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
           {/* Progreso + fechas integradas */}
           <div className="mt-2.5 border-t border-border pt-2.5">
-            <div className="relative h-1.5 overflow-hidden rounded-full bg-surface-2">
+            <div className="relative h-1.5 overflow-hidden rounded-full bg-border/60">
               <div
                 className="absolute inset-y-0 left-0 rounded-full bg-primary"
                 style={{ width: `${progress}%` }}

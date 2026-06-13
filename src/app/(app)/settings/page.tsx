@@ -5,6 +5,7 @@ import { getOrgSettings } from "@/lib/settings-actions";
 import { OrgNameForm } from "@/components/app/settings-org-name";
 import { MembersTable } from "@/components/app/settings-members";
 import { InviteForm } from "@/components/app/settings-invite";
+import { DisplayPrefsSection } from "@/components/app/settings-display-prefs";
 
 export const metadata: Metadata = { title: "Ajustes — Manann" };
 
@@ -55,6 +56,8 @@ export default async function SettingsPage() {
           </div>
         )}
       </section>
+
+      <DisplayPrefsSection />
     </main>
   );
 }

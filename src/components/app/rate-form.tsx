@@ -1,11 +1,40 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useTransition, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { X, Loader2, Plus } from "lucide-react";
+import { X, Loader2, Plus, CalendarDays } from "lucide-react";
 import { createRate, updateRate, type RateInput } from "@/lib/erp-actions";
 import { type RateItem } from "@/lib/erp";
 import { cn } from "@/lib/utils";
+
+function DateInput({
+  value,
+  onChange,
+}: {
+  value: string | null;
+  onChange: (v: string | null) => void;
+}) {
+  const ref = useRef<HTMLInputElement>(null);
+  return (
+    <div className="relative">
+      <input
+        ref={ref}
+        type="date"
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value || null)}
+        className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 pr-10 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
+      />
+      <button
+        type="button"
+        tabIndex={-1}
+        onClick={() => (ref.current as HTMLInputElement & { showPicker?: () => void })?.showPicker?.()}
+        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors pointer-events-none"
+      >
+        <CalendarDays className="size-4" />
+      </button>
+    </div>
+  );
+}
 import {
   Select,
   SelectContent,
@@ -180,7 +209,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
                 value={form.basePrice}
                 onChange={(e) => set("basePrice", e.target.value)}
                 placeholder="0.00"
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 pr-14 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors"
+                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 pr-14 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-base text-muted-foreground">
                 {form.currency}
@@ -194,23 +223,13 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
               <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
                 Válida desde
               </label>
-              <input
-                type="date"
-                value={form.validFrom ?? ""}
-                onChange={(e) => set("validFrom", e.target.value || null)}
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors"
-              />
+              <DateInput value={form.validFrom} onChange={(v) => set("validFrom", v)} />
             </div>
             <div>
               <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
                 Válida hasta
               </label>
-              <input
-                type="date"
-                value={form.validTo ?? ""}
-                onChange={(e) => set("validTo", e.target.value || null)}
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors"
-              />
+              <DateInput value={form.validTo} onChange={(v) => set("validTo", v)} />
             </div>
           </div>
 

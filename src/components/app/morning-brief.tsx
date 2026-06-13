@@ -24,8 +24,7 @@ function TimeSavedDonut({
   ];
 
   const max = total || 1;
-  // SVG donut
-  const R = 32, CX = 40, CY = 40, STROKE = 10;
+  const R = 44, CX = 55, CY = 55, STROKE = 11;
   const circumference = 2 * Math.PI * R;
   let offset = 0;
   const slices = breakdown.map((b, i) => {
@@ -37,9 +36,9 @@ function TimeSavedDonut({
   });
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex flex-col items-center gap-4">
       <div className="relative shrink-0">
-        <svg width="80" height="80" className="-rotate-90">
+        <svg width="110" height="110" className="-rotate-90">
           <circle cx={CX} cy={CY} r={R} fill="none" stroke="hsl(var(--border))" strokeWidth={STROKE} />
           {slices.map((s, i) => (
             <circle
@@ -57,11 +56,11 @@ function TimeSavedDonut({
           ))}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-mono text-base font-semibold text-foreground leading-none">{total}h</span>
-          <span className="font-mono text-base text-muted-foreground">/ sem.</span>
+          <span className="font-mono text-lg font-semibold text-foreground leading-none">{total}h</span>
+          <span className="font-mono text-sm text-muted-foreground">/ sem.</span>
         </div>
       </div>
-      <div className="space-y-1.5">
+      <div className="w-full space-y-1.5">
         {breakdown.map((b, i) => (
           <div key={b.label} className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full shrink-0" style={{ background: COLORS[i] }} />
@@ -164,7 +163,9 @@ export function MorningBrief({
   return (
     <div className="space-y-6">
       {/* Hero greeting */}
-      <div className="rounded-xl border border-border bg-card p-6">
+      <div className="relative overflow-hidden rounded-xl border border-border bg-card p-6">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/8 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-primary/6 blur-2xl" />
         <p className="font-mono text-sm uppercase tracking-widest text-muted-foreground">{greeting}</p>
         <h1 className="mt-1 font-display text-3xl font-medium tracking-tight text-foreground">
           {userName}.

@@ -209,7 +209,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
                 <div key={i} className="grid gap-2 items-center" style={{ gridTemplateColumns: "1fr 70px 90px 90px 28px" }}>
                   <input type="text" value={l.concept} onChange={(e) => updateLine(i, "concept", e.target.value)}
                     placeholder="Concepto"
-                    className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+                    className="rounded-md border border-border bg-surface-2/30 px-2 py-1.5 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
                   <Select value={l.unit} onValueChange={(v) => updateLine(i, "unit", v)}>
                     <SelectTrigger className="h-[34px] text-base">
                       <SelectValue />
@@ -222,10 +222,10 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
                   </Select>
                   <input type="number" value={l.quantity} onChange={(e) => updateLine(i, "quantity", e.target.value)}
                     min="0" step="1"
-                    className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-right text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+                    className="rounded-md border border-border bg-surface-2/30 px-2 py-1.5 text-right text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
                   <input type="number" value={l.unitPrice} onChange={(e) => updateLine(i, "unitPrice", e.target.value)}
                     min="0" step="0.01"
-                    className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-right text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+                    className="rounded-md border border-border bg-surface-2/30 px-2 py-1.5 text-right text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
                   <button onClick={() => removeLine(i)} disabled={lines.length === 1}
                     className="flex size-7 items-center justify-center rounded text-muted-foreground/30 hover:text-destructive transition-colors disabled:pointer-events-none">
                     <Trash2 className="size-3.5" />

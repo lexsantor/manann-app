@@ -36,11 +36,12 @@ export function RouteMap({ pol, pod, events }: RouteMapProps) {
       if (cancelled || !el) return;
 
       map = L.map(el, {
-        zoomControl: false,
+        zoomControl: true,
         attributionControl: false,
-        scrollWheelZoom: false,
+        scrollWheelZoom: true,
         dragging: true,
       });
+      map.zoomControl.setPosition("bottomright");
 
       const dark = resolvedTheme !== "light";
       const tiles = dark
@@ -87,12 +88,31 @@ export function RouteMap({ pol, pod, events }: RouteMapProps) {
         if (!c) return;
         pts.push(c);
         const current = i === 0;
-        dot(
-          c,
-          AMBER,
-          current ? 7 : 4,
-          `${TRACKING_TYPE[e.type] ?? e.type} · ${portLabel(e.location)}`,
-        );
+        const label = `${TRACKING_TYPE[e.type] ?? e.type} · ${portLabel(e.location)}`;
+        if (current) {
+          const pulseIcon = L.divIcon({
+            className: "",
+            iconSize: [20, 20],
+            iconAnchor: [10, 10],
+            html: `<span style="
+              display:block;position:relative;width:20px;height:20px;">
+              <span style="
+                position:absolute;inset:0;border-radius:50%;
+                background:${AMBER};opacity:0.25;
+                animation:manann-pulse-ring 1.8s cubic-bezier(0.4,0,0.6,1) infinite;">
+              </span>
+              <span style="
+                position:absolute;top:4px;left:4px;width:12px;height:12px;
+                border-radius:50%;background:${AMBER};border:2px solid #fff;">
+              </span>
+            </span>`,
+          });
+          L.marker(c, { icon: pulseIcon })
+            .addTo(map!)
+            .bindTooltip(label, { direction: "top", offset: [0, -4] });
+        } else {
+          dot(c, AMBER, 4, label);
+        }
       });
 
       if (pts.length) {
