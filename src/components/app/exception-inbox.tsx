@@ -1,0 +1,141 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import Link from "next/link";
+import { AlertTriangle, TrendingDown, Scale, CheckCircle2, ExternalLink } from "lucide-react";
+import { type ChargeException } from "@/lib/exceptions";
+import { resolveAtRiskCharge } from "@/lib/erp-actions";
+import { formatMoney } from "@/lib/erp-format";
+import { Icon } from "@/components/icon";
+import { cn } from "@/lib/utils";
+
+const KIND_META: Record<ChargeException["kind"], {
+  label: string;
+  icon: typeof AlertTriangle;
+  pill: string;
+}> = {
+  at_risk: {
+    label: "Sin facturar",
+    icon: AlertTriangle,
+    pill: "bg-destructive/10 text-destructive border-destructive/20",
+  },
+  accrual_gap: {
+    label: "Desvío accrual",
+    icon: Scale,
+    pill: "bg-accent/10 text-accent border-accent/20",
+  },
+  negative_gp: {
+    label: "GP negativo",
+    icon: TrendingDown,
+    pill: "bg-destructive/10 text-destructive border-destructive/20",
+  },
+};
+
+function ExceptionRow({ ex, onResolve }: { ex: ChargeException; onResolve: (id: string) => void }) {
+  const [pending, startTransition] = useTransition();
+  const meta = KIND_META[ex.kind];
+
+  function handleResolve() {
+    if (ex.kind !== "at_risk") return;
+    startTransition(async () => {
+      await resolveAtRiskCharge(ex.chargeId);
+      onResolve(ex.chargeId);
+    });
+  }
+
+  return (
+    <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-3 transition-opacity" style={{ opacity: pending ? 0.5 : 1 }}>
+      <div className={cn("mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md border", meta.pill)}>
+        <Icon icon={meta.icon} size={14} />
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <p className="truncate text-sm font-medium text-foreground">{ex.chargeDescription}</p>
+            <div className="mt-0.5 flex items-center gap-1.5">
+              <span className={cn("rounded border px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide", meta.pill)}>
+                {meta.label}
+              </span>
+              <Link
+                href={`/expedientes/${ex.shipmentId}`}
+                className="flex items-center gap-0.5 font-mono text-[10px] text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {ex.shipmentReference}
+                <Icon icon={ExternalLink} size={8} />
+              </Link>
+            </div>
+          </div>
+          <div className="shrink-0 text-right">
+            <p className="font-mono text-sm font-semibold text-destructive">
+              {formatMoney(String(ex.riskAmount), ex.currency)}
+            </p>
+            <p className="font-mono text-[10px] text-muted-foreground">en riesgo</p>
+          </div>
+        </div>
+      </div>
+
+      {ex.kind === "at_risk" && (
+        <button
+          onClick={handleResolve}
+          disabled={pending}
+          title="Marcar como resuelto"
+          className="mt-0.5 shrink-0 rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
+        >
+          <Icon icon={CheckCircle2} size={16} />
+        </button>
+      )}
+    </div>
+  );
+}
+
+export function ExceptionInbox({ exceptions }: { exceptions: ChargeException[] }) {
+  const [items, setItems] = useState(exceptions);
+
+  function handleResolve(chargeId: string) {
+    setItems((prev) => prev.filter((e) => e.chargeId !== chargeId));
+  }
+
+  if (items.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card py-16 text-center">
+        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10">
+          <Icon icon={CheckCircle2} size={22} className="text-emerald-500" />
+        </div>
+        <p className="text-sm font-medium text-foreground">Sin excepciones activas</p>
+        <p className="mt-1 text-xs text-muted-foreground">Todos los cargos están bajo control.</p>
+      </div>
+    );
+  }
+
+  const totalRisk = items.reduce((s, e) => s + e.riskAmount, 0);
+
+  return (
+    <div className="space-y-4">
+      {/* Banner de riesgo total */}
+      <div className="flex items-center gap-3 rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3">
+        <Icon icon={AlertTriangle} size={16} className="shrink-0 text-destructive" />
+        <div className="min-w-0 flex-1">
+          <p className="text-sm text-foreground">
+            <span className="font-semibold text-destructive">
+              {formatMoney(String(totalRisk), "EUR")}
+            </span>{" "}
+            de margen en riesgo en{" "}
+            <span className="font-semibold">{items.length}</span>{" "}
+            {items.length === 1 ? "excepción" : "excepciones"}.
+          </p>
+          <p className="mt-0.5 text-xs text-muted-foreground">
+            Resolver estas excepciones puede recuperar hasta un +33% de beneficio neto.
+          </p>
+        </div>
+      </div>
+
+      {/* Lista */}
+      <div className="space-y-2">
+        {items.map((ex) => (
+          <ExceptionRow key={`${ex.kind}-${ex.chargeId}`} ex={ex} onResolve={handleResolve} />
+        ))}
+      </div>
+    </div>
+  );
+}

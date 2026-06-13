@@ -1,13 +1,16 @@
 import Link from "next/link";
-import { FileStack, Ship, Landmark, CheckCircle2, ArrowRight } from "lucide-react";
+import { FileStack, Ship, Landmark, CheckCircle2, ArrowRight, AlertTriangle, ShieldAlert } from "lucide-react";
 
 import { getOrgContext, listShipments, computeStats, computeOperationalStats } from "@/lib/erp";
+import { computeLeakageKpi, computeGpByClient } from "@/lib/exceptions";
 import { KpiCard } from "@/components/app/kpi-card";
 import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
 import { ShipmentBarChart, StatusDonutChart } from "@/components/app/dashboard-charts";
 import { DemoResetButton } from "@/components/app/demo-reset-button";
 import { Icon } from "@/components/icon";
 import { OperationalMetrics } from "@/components/app/operational-metrics";
+import { formatMoney } from "@/lib/erp-format";
+import { cn } from "@/lib/utils";
 
 const TERMINAL = new Set(["entregado", "cerrado"]);
 
@@ -33,6 +36,9 @@ export default async function DashboardPage() {
   const stats = computeStats(confirmed);
   const opStats = computeOperationalStats(confirmed);
   const active = confirmed.filter((s) => !TERMINAL.has(s.status));
+
+  const leakage = computeLeakageKpi(shipments);
+  const gpByClient = computeGpByClient(shipments);
 
   // Weekly buckets for bar chart (last 8 weeks)
   const now = new Date();
@@ -114,6 +120,93 @@ export default async function DashboardPage() {
       )}
 
       <OperationalMetrics stats={opStats} />
+
+      {/* B2 — Margen fugado */}
+      {leakage.atRiskCount > 0 && (
+        <section className="rounded-xl border border-destructive/20 bg-destructive/5 p-4">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-destructive/10">
+              <Icon icon={AlertTriangle} size={16} className="text-destructive" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="font-medium text-foreground">
+                Fuga de margen detectada —{" "}
+                <span className="text-destructive">
+                  {formatMoney(String(leakage.totalAtRisk), leakage.currency)}
+                </span>
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {leakage.atRiskCount} cargo{leakage.atRiskCount > 1 ? "s" : ""} marcado{leakage.atRiskCount > 1 ? "s" : ""} como &ldquo;sin facturar&rdquo;. Recuperar este margen equivale a un +33% de beneficio neto típico en transitario.
+              </p>
+            </div>
+            <Link
+              href="/excepciones"
+              className="shrink-0 rounded-md bg-destructive/10 px-3 py-1.5 text-xs font-medium text-destructive transition-colors hover:bg-destructive/20"
+            >
+              Ver excepciones
+              <Icon icon={ArrowRight} size={12} className="ml-1 inline-block" />
+            </Link>
+          </div>
+        </section>
+      )}
+
+      {/* B3 — GP por cliente */}
+      {gpByClient.length > 0 && (
+        <section>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="font-display text-lg font-medium tracking-tight text-foreground">
+              Gross Profit por cliente
+            </h2>
+            <Link
+              href="/excepciones"
+              prefetch={false}
+              className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Icon icon={ShieldAlert} size={14} />
+              Excepciones
+            </Link>
+          </div>
+          <div className="overflow-hidden rounded-xl border border-border bg-card">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-border">
+                  <th className="px-4 py-2.5 text-left font-mono text-[10px] uppercase tracking-wide text-muted-foreground">Cliente</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-[10px] uppercase tracking-wide text-muted-foreground">Expedientes</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-[10px] uppercase tracking-wide text-muted-foreground">Venta</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-[10px] uppercase tracking-wide text-muted-foreground">GP</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-[10px] uppercase tracking-wide text-muted-foreground">Margen</th>
+                  <th className="px-4 py-2.5 text-center font-mono text-[10px] uppercase tracking-wide text-muted-foreground">Tier</th>
+                </tr>
+              </thead>
+              <tbody>
+                {gpByClient.slice(0, 8).map((row) => (
+                  <tr key={row.name} className="border-b border-border/50 last:border-0 transition-colors hover:bg-surface-2">
+                    <td className="px-4 py-2.5 font-medium text-foreground">{row.name}</td>
+                    <td className="px-4 py-2.5 text-right font-mono text-muted-foreground">{row.shipmentCount}</td>
+                    <td className="px-4 py-2.5 text-right font-mono text-muted-foreground">{formatMoney(String(row.revenue), "EUR")}</td>
+                    <td className={cn("px-4 py-2.5 text-right font-mono font-medium", row.gp >= 0 ? "text-emerald-500" : "text-destructive")}>
+                      {formatMoney(String(row.gp), "EUR")}
+                    </td>
+                    <td className="px-4 py-2.5 text-right font-mono text-muted-foreground">
+                      {row.margin.toFixed(1)}%
+                    </td>
+                    <td className="px-4 py-2.5 text-center">
+                      <span className={cn(
+                        "rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold",
+                        row.tier === "A" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                        : row.tier === "B" ? "bg-primary/10 text-primary"
+                        : "bg-muted text-muted-foreground",
+                      )}>
+                        {row.tier}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
       <section>
         <div className="mb-3 flex items-center justify-between">

@@ -12,6 +12,7 @@ export const shipmentStatus = pgEnum("shipment_status", [
   "en_transito",
   "en_aduana",
   "entregado",
+  "facturado",
   "cerrado",
 ]);
 

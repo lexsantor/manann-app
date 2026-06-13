@@ -83,7 +83,12 @@ export async function listShipments(
 
   return db.query.shipment.findMany({
     where: and(...(filters as [typeof filters[0], ...typeof filters])),
-    with: { parties: true },
+    with: {
+      parties: true,
+      charges: {
+        columns: { id: true, type: true, description: true, amount: true, buyAmount: true, accrualAmount: true, currency: true, direction: true, atRisk: true, passThrough: true },
+      },
+    },
     orderBy: [desc(shipment.createdAt)],
   });
 }

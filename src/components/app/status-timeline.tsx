@@ -6,10 +6,11 @@ const STAGES = [
   { key: "en_transito", label: "En tránsito" },
   { key: "en_aduana",   label: "En aduana" },
   { key: "entregado",   label: "Entregado" },
+  { key: "facturado",   label: "Facturado" },
 ];
 
 const STATUS_INDEX: Record<string, number> = {
-  borrador: 0, confirmado: 1, en_transito: 2, en_aduana: 3, entregado: 4, cerrado: 4,
+  borrador: 0, confirmado: 1, en_transito: 2, en_aduana: 3, entregado: 4, facturado: 5, cerrado: 5,
 };
 
 export function StatusTimeline({ status }: { status: string }) {

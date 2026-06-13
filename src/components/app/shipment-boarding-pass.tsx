@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { MoveRight } from "lucide-react";
+import { MoveRight, AlertTriangle } from "lucide-react";
 
 import { type ShipmentListItem } from "@/lib/erp";
-import { portLabel, formatDate, MODE } from "@/lib/erp-format";
+import { portLabel, formatDate, MODE, formatMoney } from "@/lib/erp-format";
 import { portImageUrl } from "@/lib/port-images";
 import { StatusPill } from "@/components/app/status-pill";
 import { Icon } from "@/components/icon";
@@ -75,6 +75,26 @@ function cityOnly(locode: string | null): string {
   return idx !== -1 ? label.slice(0, idx) : label;
 }
 
+// ─── GP calculado desde cargos ───────────────────────────────────────────────
+
+function computeGP(charges: ShipmentListItem["charges"]): { gp: number | null; hasAtRisk: boolean } {
+  const revenues = charges.filter((c) => c.direction === "revenue");
+  const costs = charges.filter((c) => c.direction === "cost");
+
+  if (revenues.length === 0) return { gp: null, hasAtRisk: false };
+
+  const totalSell = revenues.reduce((s, c) => s + Number(c.amount), 0);
+  const hasAnyBuy = revenues.some((c) => c.buyAmount != null);
+  const totalBuy = hasAnyBuy
+    ? revenues.reduce((s, c) => s + (c.buyAmount != null ? Number(c.buyAmount) : 0), 0)
+    : costs.reduce((s, c) => s + Number(c.amount), 0);
+
+  if (!hasAnyBuy && costs.length === 0) return { gp: null, hasAtRisk: false };
+
+  const hasAtRisk = revenues.some((c) => c.atRisk);
+  return { gp: totalSell - totalBuy, hasAtRisk };
+}
+
 // ─── Boarding pass card ──────────────────────────────────────────────────────
 
 export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
@@ -87,6 +107,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
   const mode      = MODE[s.mode] ?? MODE.maritimo;
   const etaOverdue = isEtaOverdue(s.eta, s.status);
   const consignee = s.parties.find((p) => p.role === "consignee")?.name ?? null;
+  const { gp, hasAtRisk } = computeGP(s.charges);
 
   return (
     <Link
@@ -201,8 +222,29 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             </div>
           </div>
 
+          {/* GP — solo si está disponible */}
+          {gp !== null && (
+            <div className="mt-2.5 flex items-center justify-between border-t border-border pt-2.5">
+              <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground flex items-center gap-1">
+                Gross Profit
+                {hasAtRisk && (
+                  <Icon icon={AlertTriangle} size={10} className="text-destructive" />
+                )}
+              </span>
+              <span className={cn(
+                "font-mono text-sm font-semibold",
+                gp > 0 ? "text-emerald-500" : "text-destructive",
+              )}>
+                {formatMoney(String(gp), "EUR")}
+              </span>
+            </div>
+          )}
+
           {/* Estado + modo */}
-          <div className="mt-2.5 flex items-center justify-between border-t border-border pt-2.5">
+          <div className={cn(
+            "flex items-center justify-between border-t border-border pt-2.5",
+            gp !== null ? "mt-2.5" : "mt-2.5",
+          )}>
             <StatusPill status={s.status} />
             <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Icon icon={mode.icon} size={12} />

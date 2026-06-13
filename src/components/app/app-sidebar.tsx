@@ -17,10 +17,12 @@ import {
   FileText,
   BarChart3,
   Zap,
+  Sunrise,
   Plug,
   CreditCard,
   Settings,
   Map,
+  ShieldAlert,
   type LucideIcon,
 } from "lucide-react";
 
@@ -70,16 +72,23 @@ const NAV_GROUPS: NavGroup[] = [
   {
     section: "Finanzas",
     items: [
+      { label: "Excepciones", href: "/excepciones", icon: ShieldAlert },
       { label: "Facturación", href: "/facturas", icon: Receipt },
       { label: "Gastos", icon: CreditCard, soon: true },
       { label: "Tarifas", href: "/tarifas", icon: Tag },
     ],
   },
   {
+    section: "IA",
+    items: [
+      { label: "Briefing", href: "/briefing", icon: Sunrise },
+      { label: "Autopilot", href: "/autopilot", icon: Zap },
+    ],
+  },
+  {
     section: "Análisis",
     items: [
       { label: "Reportes", icon: BarChart3, soon: true },
-      { label: "Automatizaciones", icon: Zap, soon: true },
     ],
   },
 ];

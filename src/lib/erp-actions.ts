@@ -779,12 +779,17 @@ const addChargeSchema = z.object({
   direction: z.enum(["cost", "revenue"]),
   description: z.string().max(255).optional(),
   amount: z.string().regex(/^\d+(\.\d{1,2})?$/, "Importe inválido"),
+  buyAmount: z.string().regex(/^\d+(\.\d{1,2})?$/).optional(),
+  passThrough: z.boolean().default(false),
+  atRisk: z.boolean().default(false),
   currency: z.string().length(3).default("EUR"),
 });
 
+export type AddChargeInput = z.input<typeof addChargeSchema>;
+
 export async function addCharge(
   shipmentId: string,
-  input: z.infer<typeof addChargeSchema>,
+  input: AddChargeInput,
 ): Promise<void> {
   const ctx = await getOrgContext();
   if (!ctx?.org) throw new Error("No autorizado");
@@ -803,6 +808,9 @@ export async function addCharge(
     direction: data.direction,
     description: data.description ?? null,
     amount: data.amount,
+    buyAmount: data.passThrough ? data.amount : (data.buyAmount ?? null),
+    passThrough: data.passThrough,
+    atRisk: data.atRisk,
     currency: data.currency,
   });
 
@@ -1349,4 +1357,96 @@ export async function addComment(shipmentId: string, body: string): Promise<void
   });
 
   revalidatePath(`/expedientes/${shipmentId}`);
+}
+
+// ─── Copiloto: contexto de datos para el panel IA ────────────────────────────
+
+export async function getCopilotoContext(): Promise<{
+  shipmentCount: number;
+  activeCount: number;
+  atRiskTotal: number;
+  atRiskCount: number;
+  topExceptions: { ref: string; kind: string; amount: number; shipmentId: string }[];
+  gpByClient: { name: string; gp: number; margin: number; tier: string }[];
+  activeShipments: { id: string; ref: string; status: string; carrier: string | null; eta: string | null; pol: string | null; pod: string | null }[];
+} | null> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) return null;
+
+  const shipments = await listShipments(ctx.org.id);
+
+  const { computeExceptions, computeLeakageKpi, computeGpByClient } = await import("@/lib/exceptions");
+  const exceptions = computeExceptions(shipments);
+  const leakage = computeLeakageKpi(shipments);
+  const gpClients = computeGpByClient(shipments);
+
+  const ACTIVE = ["confirmado", "en_transito", "en_aduana"];
+
+  return {
+    shipmentCount: shipments.length,
+    activeCount: shipments.filter((s) => ACTIVE.includes(s.status)).length,
+    atRiskTotal: leakage.totalAtRisk,
+    atRiskCount: leakage.atRiskCount,
+    topExceptions: exceptions.slice(0, 3).map((e) => ({
+      ref: e.shipmentReference,
+      kind: e.kind,
+      amount: e.riskAmount,
+      shipmentId: e.shipmentId,
+    })),
+    gpByClient: gpClients.slice(0, 5).map((c) => ({
+      name: c.name,
+      gp: c.gp,
+      margin: c.margin,
+      tier: c.tier,
+    })),
+    activeShipments: shipments
+      .filter((s) => ACTIVE.includes(s.status))
+      .slice(0, 5)
+      .map((s) => ({
+        id: s.id,
+        ref: s.reference,
+        status: s.status,
+        carrier: s.carrier,
+        eta: s.eta ? new Date(s.eta).toLocaleDateString("es-ES") : null,
+        pol: s.pol,
+        pod: s.pod,
+      })),
+  };
+}
+
+// ─── Tier B: Excepciones financieras ─────────────────────────────────────────
+
+export async function resolveAtRiskCharge(chargeId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const row = await db.query.charge.findFirst({
+    where: eq(charge.id, chargeId),
+    with: { shipment: { columns: { id: true, organizationId: true } } },
+  });
+  if (!row || row.shipment.organizationId !== ctx.org.id) throw new Error("No autorizado");
+
+  await db.update(charge).set({ atRisk: false }).where(eq(charge.id, chargeId));
+
+  revalidatePath(`/expedientes/${row.shipment.id}`);
+  revalidatePath("/excepciones");
+}
+
+export async function updateChargeAccrual(
+  chargeId: string,
+  accrualAmount: string,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!/^\d+(\.\d{1,2})?$/.test(accrualAmount)) throw new Error("Importe inválido");
+
+  const row = await db.query.charge.findFirst({
+    where: eq(charge.id, chargeId),
+    with: { shipment: { columns: { id: true, organizationId: true } } },
+  });
+  if (!row || row.shipment.organizationId !== ctx.org.id) throw new Error("No autorizado");
+
+  await db.update(charge).set({ accrualAmount }).where(eq(charge.id, chargeId));
+
+  revalidatePath(`/expedientes/${row.shipment.id}`);
 }

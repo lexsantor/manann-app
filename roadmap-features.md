@@ -53,6 +53,33 @@
 
 ---
 
+## Tier A — Átomo financiero (S · ≤2 días)
+
+- [x] **Buy/sell por línea de cargo + GP en cabecera** — columna `buy_amount` en `charge` + tabla unificada venta/compra/margen en `FinanzasPanel`; GP hero en KPI cards; barra de advertencia si hay fuga
+- [x] **Flags `at_risk` y `pass_through` en cargos** — pill rojo "sin facturar" + pill gris "pass-through" visibles en la tabla; aviso cuantificado de pérdida de GP
+- [x] **GP en lista de expedientes** — campo GP calculado visible en cada boarding pass; icono `AlertTriangle` si hay cargos `at_risk`
+- [x] **Tipos de excepción con riesgo** — campos `risk_amount` y `exception_kind` en tabla `notification`; base para la bandeja de excepciones (Tier B)
+
+---
+
+## Tier B — Inteligencia financiera (M · 2–4 días)
+
+- [x] **Bandeja de excepciones** — `/excepciones` con exception inbox ordenado por riesgo €; chips at_risk/accrual_gap/GP negativo; botón resolver; banner "margen total en riesgo"; link desde sidebar (ShieldAlert)
+- [x] **KPI "Margen fugado"** — panel en dashboard: suma de cargos `at_risk` con copy "+33% de beneficio"; link directo a excepciones
+- [x] **GP por cliente** — tabla en dashboard: agrupa por consignatario, calcula GP/margen/tier A-B-C; visible junto a métricas operacionales
+- [x] **Conciliación accrual vs. factura** — columna `accrual_amount` en `charge` + panel inline en `FinanzasPanel`; muestra provisioned/real/variación en ámbar; acción `updateChargeAccrual`
+- [x] **Pipeline extendido** — estado `facturado` en `shipmentStatus` enum + stage 6 en `StatusTimeline` (barra de progreso visual completa)
+
+---
+
+## Tier C — Copiloto IA (M · 2–4 días)
+
+- [x] **Autopilot inbox** — `/autopilot`; acciones derivadas de datos reales (at_risk, accrual_gap, GP negativo, ETA vencida); severidad crítica/atención; aprobar individual o masivo; contador de € recuperados; link desde sidebar (Zap)
+- [x] **Briefing matutino** — `/briefing`; saludo contextual, chips (€ en riesgo, tareas críticas, acciones IA, horas ahorradas), plan del día top-5, donut tiempo ahorrado por categoría, agenda estática; link desde sidebar (Sunrise)
+- [x] **Copiloto conversacional** — panel flotante ⌘J; drawer lateral 420px; contexto cargado lazy en primer open; keyword matching (excepciones, clientes, expedientes, email borrador, resumen); bloque email con copy; sugerencias en estado vacío
+
+---
+
 ## Tier 9 — Preparación demo + distribución (S-M)
 
 - [x] **Vercel Analytics** — `@vercel/analytics/next` en root layout; mide visitas y flujo wow sin configuración adicional

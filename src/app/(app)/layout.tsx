@@ -4,6 +4,7 @@ import { getOrgContext, getUserOrgs } from "@/lib/erp";
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { CommandPalette } from "@/components/app/command-palette";
 import { OnboardingWizard } from "@/components/app/onboarding-wizard";
+import { CopilotoPanel } from "@/components/app/copiloto-panel";
 
 export default async function AppLayout({
   children,
@@ -30,6 +31,7 @@ export default async function AppLayout({
         </main>
       </div>
       <CommandPalette />
+      <CopilotoPanel />
       {ctx.org && !ctx.org.onboarded && <OnboardingWizard />}
     </div>
   );
