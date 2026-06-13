@@ -181,7 +181,7 @@ export function AppSidebar({ userEmail, orgName, activeOrgId, orgs }: AppSidebar
 
       <div className="border-t border-border">
         {/* Bottom utilities */}
-        <div className="px-3 pt-2 pb-1">
+        <div className="px-3 pt-3 pb-2">
           {BOTTOM_NAV.map((item) => {
             if (item.href && !item.soon) {
               const active = isActive(item.href);
@@ -220,15 +220,14 @@ export function AppSidebar({ userEmail, orgName, activeOrgId, orgs }: AppSidebar
           })}
         </div>
 
-        <div className="px-3 pb-3">
-          <div className="px-1 pb-1">
-            <OrgSwitcher orgs={orgs} activeOrgId={activeOrgId} activeOrgName={orgName} />
-            <p className="truncate px-2 text-xs text-muted-foreground">{userEmail}</p>
-          </div>
-          <div className="mt-1 flex items-center justify-between gap-2 px-1">
-            <ThemeToggle />
-            <LogoutButton />
-          </div>
+        <div className="border-t border-border px-3 py-3">
+          <OrgSwitcher orgs={orgs} activeOrgId={activeOrgId} activeOrgName={orgName} />
+          <p className="truncate px-2 text-xs text-muted-foreground">{userEmail}</p>
+        </div>
+
+        <div className="border-t border-border px-4 py-3 flex items-center justify-between gap-2">
+          <ThemeToggle />
+          <LogoutButton />
         </div>
       </div>
     </div>
