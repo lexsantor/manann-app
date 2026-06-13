@@ -223,13 +223,13 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
               <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
                 Válida desde
               </label>
-              <DateInput value={form.validFrom} onChange={(v) => set("validFrom", v)} />
+              <DateInput value={form.validFrom ?? null} onChange={(v) => set("validFrom", v)} />
             </div>
             <div>
               <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
                 Válida hasta
               </label>
-              <DateInput value={form.validTo} onChange={(v) => set("validTo", v)} />
+              <DateInput value={form.validTo ?? null} onChange={(v) => set("validTo", v)} />
             </div>
           </div>
 
