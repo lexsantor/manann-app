@@ -1,9 +1,14 @@
-// Cliente ShipsGo — 3.1.
-// IMPORTANTE: el alta consume 1 crédito (de 3 disponibles).
-// Gastar créditos 1–2 semanas antes de la demo con un contenedor en tránsito activo.
+// Cliente ShipsGo — tracking real de contenedores.
+// IMPORTANTE: cada subscribeContainer() consume 1 crédito (3 disponibles).
+// Activar con SHIPSGO_ENABLED=true + SHIPSGO_API_KEY en .env.
 // Docs: https://shipsgo.com/api-docs
 const BASE_URL = "https://shipsgo.com/api/v2.1";
 const API_KEY = process.env.SHIPSGO_API_KEY ?? "";
+
+// Guard de créditos: requiere flag explícito + API key configurada.
+export function isShipsGoEnabled(): boolean {
+  return process.env.SHIPSGO_ENABLED === "true" && Boolean(API_KEY);
+}
 
 export interface ShipsGoEvent {
   eventCode: string; // e.g. "gate_in", "loaded", "departed"

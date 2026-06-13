@@ -12,7 +12,7 @@ import { db } from "@/db";
 import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
-import { subscribeContainer, fetchContainerEvents, mapEventCode } from "@/lib/tracking/shipsgo";
+import { subscribeContainer, fetchContainerEvents, mapEventCode, isShipsGoEnabled } from "@/lib/tracking/shipsgo";
 import {
   getOrgContext,
   shipmentBelongsToOrg,
@@ -645,6 +645,10 @@ export async function subscribeContainerTracking(
   containerNumber: string,
   shippingLine: string,
 ): Promise<{ error?: string }> {
+  if (!isShipsGoEnabled()) {
+    return { error: "ShipsGo no está activado. Configura SHIPSGO_ENABLED=true y SHIPSGO_API_KEY en las variables de entorno." };
+  }
+
   const ctx = await getOrgContext();
   if (!ctx?.org) return { error: "No autorizado" };
   if (!UUID_RE.test(shipmentId)) return { error: "Expediente inválido" };

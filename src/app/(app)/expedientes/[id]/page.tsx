@@ -40,6 +40,7 @@ import { AiSummaryPanel } from "@/components/app/ai-summary-panel";
 import { ActivityPanel } from "@/components/app/activity-panel";
 import { AssigneeSelect } from "@/components/app/assignee-select";
 import { ShipsGoPanel } from "@/components/app/shipsgo-panel";
+import { syncTrackingEvents } from "@/lib/erp-actions";
 import { FinanzasPanel } from "@/components/app/finanzas-panel";
 import { DuaPanel } from "@/components/app/dua-panel";
 import { CommentsPanel } from "@/components/app/comments-panel";
@@ -92,6 +93,11 @@ export default async function ExpedienteDetailPage({
 
   const ctx = await getOrgContext();
   if (!ctx?.org) notFound();
+
+  const shipsgoEnabled = process.env.SHIPSGO_ENABLED === "true" && Boolean(process.env.SHIPSGO_API_KEY);
+
+  // Sincronizar eventos ShipsGo antes de cargar la página (no-op si sync < 30 min)
+  if (shipsgoEnabled) await syncTrackingEvents(id);
 
   const [s, activity, members, trackingSubs, comments] = await Promise.all([
     getShipmentDetail(ctx.org.id, id),
@@ -319,6 +325,7 @@ export default async function ExpedienteDetailPage({
               shipmentId={s.id}
               subscriptions={trackingSubs}
               hasRealEvents={s.trackingEvents.some((e) => e.source === "shipsgo")}
+              shipsgoEnabled={shipsgoEnabled}
             />
             <TrackingTimeline events={s.trackingEvents} />
           </Panel>

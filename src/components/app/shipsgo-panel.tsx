@@ -18,9 +18,10 @@ interface ShipsGoPanelProps {
   shipmentId: string;
   subscriptions: TrackingSub[];
   hasRealEvents: boolean;
+  shipsgoEnabled: boolean;
 }
 
-export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents }: ShipsGoPanelProps) {
+export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgoEnabled }: ShipsGoPanelProps) {
   const [showForm, setShowForm] = useState(false);
   const [containerNumber, setContainerNumber] = useState("");
   const [shippingLine, setShippingLine] = useState("");
@@ -76,14 +77,24 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents }: Ships
             <span className="size-1.5 rounded-full bg-muted-foreground" />
             Simulación · tracking en vivo ShipsGo disponible
           </p>
-          <button
-            type="button"
-            onClick={() => setShowForm(true)}
-            className="ml-auto flex items-center gap-1 rounded-md px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
-          >
-            <Icon icon={Satellite} size={11} />
-            Vincular
-          </button>
+          {shipsgoEnabled ? (
+            <button
+              type="button"
+              onClick={() => setShowForm(true)}
+              className="ml-auto flex items-center gap-1 rounded-md px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+            >
+              <Icon icon={Satellite} size={11} />
+              Vincular
+            </button>
+          ) : (
+            <span
+              title="Activa SHIPSGO_ENABLED=true en .env para vincular"
+              className="ml-auto flex items-center gap-1 rounded-md px-2 py-0.5 text-xs text-muted-foreground/40 cursor-not-allowed"
+            >
+              <Icon icon={Satellite} size={11} />
+              Vincular
+            </span>
+          )}
         </div>
       ) : (
         <div className="rounded-lg border border-border bg-surface-2/40 p-3 text-xs">
