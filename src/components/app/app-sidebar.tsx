@@ -174,19 +174,42 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
       <div className="border-t border-border">
         {/* Bottom utilities */}
         <div className="px-3 pt-2 pb-1">
-          {BOTTOM_NAV.map((item) => (
-            <span
-              key={item.label}
-              className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground/40"
-              title="Disponible en una próxima fase"
-            >
-              <Icon icon={item.icon} size={16} />
-              {item.label}
-              <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground/40">
-                pronto
+          {BOTTOM_NAV.map((item) => {
+            if (item.href && !item.soon) {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  prefetch={false}
+                  onClick={() => setOpen(false)}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors duration-150",
+                    active
+                      ? "bg-primary/10 font-medium text-foreground shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.2)]"
+                      : "text-muted-foreground hover:bg-surface-2 hover:text-foreground",
+                  )}
+                >
+                  <Icon icon={item.icon} size={16} />
+                  {item.label}
+                </Link>
+              );
+            }
+            return (
+              <span
+                key={item.label}
+                className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground/40"
+                title="Disponible en una próxima fase"
+              >
+                <Icon icon={item.icon} size={16} />
+                {item.label}
+                <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground/40">
+                  pronto
+                </span>
               </span>
-            </span>
-          ))}
+            );
+          })}
         </div>
 
         <div className="px-3 pb-3">

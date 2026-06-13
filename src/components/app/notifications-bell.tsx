@@ -79,7 +79,7 @@ export function NotificationsBell() {
       </button>
 
       {open && (
-        <div className="absolute left-full top-0 z-50 ml-2 w-72 rounded-xl border border-border bg-card shadow-lg">
+        <div className="fixed left-[252px] top-4 z-50 w-72 rounded-xl border border-border bg-card shadow-lg">
           <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
             <p className="text-sm font-medium text-foreground">Notificaciones</p>
             {notifs.length > 0 && (

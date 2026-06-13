@@ -6,6 +6,13 @@ import { X, Loader2, Plus, Trash2, Tag } from "lucide-react";
 import { createQuotation, type CreateQuotationInput } from "@/lib/erp-actions";
 import { type RateItem } from "@/lib/erp";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const UNIT_LABELS: Record<string, string> = {
   contenedor: "contenedor", bl: "BL", kg: "kg",
@@ -203,12 +210,16 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
                   <input type="text" value={l.concept} onChange={(e) => updateLine(i, "concept", e.target.value)}
                     placeholder="Concepto"
                     className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
-                  <select value={l.unit} onChange={(e) => updateLine(i, "unit", e.target.value)}
-                    className="rounded border border-border bg-surface-2/30 px-1.5 py-1.5 text-xs text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors">
-                    {Object.entries(UNIT_LABELS).map(([v, label]) => (
-                      <option key={v} value={v}>{label}</option>
-                    ))}
-                  </select>
+                  <Select value={l.unit} onValueChange={(v) => updateLine(i, "unit", v)}>
+                    <SelectTrigger className="h-[34px] text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(UNIT_LABELS).map(([v, label]) => (
+                        <SelectItem key={v} value={v}>{label}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <input type="number" value={l.quantity} onChange={(e) => updateLine(i, "quantity", e.target.value)}
                     min="0" step="1"
                     className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-right text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
@@ -228,18 +239,26 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">IVA</label>
-              <select value={taxRate} onChange={(e) => setTaxRate(e.target.value as typeof taxRate)}
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors">
-                <option value="21">21%</option><option value="10">10%</option>
-                <option value="4">4%</option><option value="0">0%</option>
-              </select>
+              <Select value={taxRate} onValueChange={(v) => setTaxRate(v as typeof taxRate)}>
+                <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="21">21%</SelectItem>
+                  <SelectItem value="10">10%</SelectItem>
+                  <SelectItem value="4">4%</SelectItem>
+                  <SelectItem value="0">0%</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Moneda</label>
-              <select value={currency} onChange={(e) => setCurrency(e.target.value)}
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors">
-                <option value="EUR">EUR</option><option value="USD">USD</option><option value="GBP">GBP</option>
-              </select>
+              <Select value={currency} onValueChange={setCurrency}>
+                <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="EUR">EUR</SelectItem>
+                  <SelectItem value="USD">USD</SelectItem>
+                  <SelectItem value="GBP">GBP</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

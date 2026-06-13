@@ -6,6 +6,13 @@ import { X, Loader2, Plus } from "lucide-react";
 import { createRate, updateRate, type RateInput } from "@/lib/erp-actions";
 import { type RateItem } from "@/lib/erp";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const SERVICE_LABELS: Record<string, string> = {
   flete: "Flete",
@@ -117,15 +124,16 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
             <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
               Tipo de servicio
             </label>
-            <select
-              value={form.serviceType}
-              onChange={(e) => set("serviceType", e.target.value as RateInput["serviceType"])}
-              className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors"
-            >
-              {Object.entries(SERVICE_LABELS).map(([v, l]) => (
-                <option key={v} value={v}>{l}</option>
-              ))}
-            </select>
+            <Select value={form.serviceType} onValueChange={(v) => set("serviceType", v as RateInput["serviceType"])}>
+              <SelectTrigger className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(SERVICE_LABELS).map(([v, l]) => (
+                  <SelectItem key={v} value={v}>{l}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Unidad + Precio + Moneda */}
@@ -134,27 +142,29 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
               <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 Unidad
               </label>
-              <select
-                value={form.unit}
-                onChange={(e) => set("unit", e.target.value as RateInput["unit"])}
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors"
-              >
-                {Object.entries(UNIT_LABELS).map(([v, l]) => (
-                  <option key={v} value={v}>{l}</option>
-                ))}
-              </select>
+              <Select value={form.unit} onValueChange={(v) => set("unit", v as RateInput["unit"])}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(UNIT_LABELS).map(([v, l]) => (
+                    <SelectItem key={v} value={v}>{l}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div>
               <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                 Moneda
               </label>
-              <select
-                value={form.currency}
-                onChange={(e) => set("currency", e.target.value)}
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors"
-              >
-                {CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
+              <Select value={form.currency} onValueChange={(v) => set("currency", v)}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {CURRENCIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
