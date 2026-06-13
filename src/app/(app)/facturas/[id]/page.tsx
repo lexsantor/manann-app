@@ -45,7 +45,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
         <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-5 py-3">
           <Link
             href="/facturas"
-            className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="flex items-center gap-1.5 text-base text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="size-4" />
             Facturas
@@ -53,7 +53,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
 
           <div className="flex items-center gap-3">
             <span className={cn(
-              "rounded-full px-2.5 py-0.5 font-mono text-[11px] font-semibold",
+              "rounded-full px-2.5 py-0.5 font-mono text-base font-semibold",
               STATUS_COLOR[inv.status] ?? "bg-border/30 text-muted-foreground",
             )}>
               {STATUS_LABEL[inv.status] ?? inv.status}
@@ -78,15 +78,15 @@ export default async function FacturaDetailPage({ params }: PageProps) {
                 />
                 <span className="font-display text-lg font-semibold tracking-tight">{ctx.org.name}</span>
               </div>
-              <p className="text-sm text-muted-foreground">Valencia, España</p>
+              <p className="text-base text-muted-foreground">Valencia, España</p>
             </div>
 
             {/* Número e identificador */}
             <div className="text-right">
-              <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Factura</p>
+              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Factura</p>
               <p className="mt-1 font-display text-2xl font-semibold tracking-tight text-foreground">{inv.reference}</p>
               <span className={cn(
-                "mt-1.5 inline-block rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold print:hidden",
+                "mt-1.5 inline-block rounded-full px-2 py-0.5 font-mono text-base font-semibold print:hidden",
                 STATUS_COLOR[inv.status],
               )}>
                 {STATUS_LABEL[inv.status]}
@@ -97,28 +97,28 @@ export default async function FacturaDetailPage({ params }: PageProps) {
           {/* Datos cliente + fechas */}
           <div className="grid grid-cols-2 gap-6 py-6 border-b border-border/40">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground mb-2">Facturado a</p>
+              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground mb-2">Facturado a</p>
               <p className="font-medium text-foreground">{inv.clientName || "—"}</p>
               {inv.clientNif && (
-                <p className="mt-0.5 font-mono text-sm text-muted-foreground">{inv.clientNif}</p>
+                <p className="mt-0.5 font-mono text-base text-muted-foreground">{inv.clientNif}</p>
               )}
             </div>
             <div className="text-right space-y-2">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Fecha de emisión</p>
-                <p className="mt-0.5 font-mono text-sm text-foreground">{formatDate(inv.issueDate)}</p>
+                <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Fecha de emisión</p>
+                <p className="mt-0.5 font-mono text-base text-foreground">{formatDate(inv.issueDate)}</p>
               </div>
               {inv.dueDate && (
                 <div>
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Fecha de vencimiento</p>
-                  <p className="mt-0.5 font-mono text-sm text-foreground">{formatDate(inv.dueDate)}</p>
+                  <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Fecha de vencimiento</p>
+                  <p className="mt-0.5 font-mono text-base text-foreground">{formatDate(inv.dueDate)}</p>
                 </div>
               )}
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Expediente</p>
+                <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Expediente</p>
                 <Link
                   href={`/expedientes/${inv.shipment.id}`}
-                  className="mt-0.5 font-mono text-sm text-primary/75 hover:text-primary print:text-foreground print:no-underline"
+                  className="mt-0.5 font-mono text-base text-primary/75 hover:text-primary print:text-foreground print:no-underline"
                 >
                   {inv.shipment.reference}
                 </Link>
@@ -130,7 +130,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
           <div className="py-6">
             {/* Cabecera tabla */}
             <div
-              className="grid gap-3 pb-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60 border-b border-border/40"
+              className="grid gap-3 pb-2 font-mono text-base uppercase tracking-wider text-muted-foreground/60 border-b border-border/40"
               style={{ gridTemplateColumns: "1fr 72px 100px 100px" }}
             >
               <span>Concepto</span>
@@ -145,12 +145,12 @@ export default async function FacturaDetailPage({ params }: PageProps) {
                 className="grid gap-3 border-b border-border/30 py-3 last:border-0"
                 style={{ gridTemplateColumns: "1fr 72px 100px 100px" }}
               >
-                <span className="text-sm text-foreground">{line.concept}</span>
-                <span className="text-right font-mono text-sm text-muted-foreground">{line.quantity}</span>
-                <span className="text-right font-mono text-sm text-muted-foreground">
+                <span className="text-base text-foreground">{line.concept}</span>
+                <span className="text-right font-mono text-base text-muted-foreground">{line.quantity}</span>
+                <span className="text-right font-mono text-base text-muted-foreground">
                   {formatMoney(line.unitPrice, inv.currency)}
                 </span>
-                <span className="text-right font-mono text-sm text-foreground">
+                <span className="text-right font-mono text-base text-foreground">
                   {formatMoney(line.subtotal, inv.currency)}
                 </span>
               </div>
@@ -160,11 +160,11 @@ export default async function FacturaDetailPage({ params }: PageProps) {
           {/* Totales */}
           <div className="flex justify-end pt-2">
             <div className="w-64 space-y-2">
-              <div className="flex justify-between text-sm text-muted-foreground">
+              <div className="flex justify-between text-base text-muted-foreground">
                 <span>Base imponible</span>
                 <span className="font-mono">{formatMoney(inv.subtotal, inv.currency)}</span>
               </div>
-              <div className="flex justify-between text-sm text-muted-foreground">
+              <div className="flex justify-between text-base text-muted-foreground">
                 <span>IVA {inv.taxRate}%</span>
                 <span className="font-mono">{formatMoney(taxAmount.toFixed(2), inv.currency)}</span>
               </div>
@@ -178,14 +178,14 @@ export default async function FacturaDetailPage({ params }: PageProps) {
           {/* Notas */}
           {inv.notes && (
             <div className="mt-8 rounded-lg border border-border/40 bg-surface-2/30 p-4">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground mb-1.5">Notas</p>
-              <p className="text-sm text-muted-foreground whitespace-pre-line">{inv.notes}</p>
+              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground mb-1.5">Notas</p>
+              <p className="text-base text-muted-foreground whitespace-pre-line">{inv.notes}</p>
             </div>
           )}
 
           {/* Footer legal */}
           <div className="mt-10 border-t border-border/30 pt-4 text-center">
-            <p className="font-mono text-[10px] text-muted-foreground/40">
+            <p className="font-mono text-base text-muted-foreground/40">
               {ctx.org.name} · {inv.reference} · Generado con Manann ERP
             </p>
           </div>

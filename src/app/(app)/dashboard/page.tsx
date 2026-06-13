@@ -24,7 +24,7 @@ export default async function DashboardPage() {
         <h1 className="font-display text-3xl font-medium tracking-tight text-foreground">
           Hola, {name}.
         </h1>
-        <p className="mt-3 text-sm text-muted-foreground">
+        <p className="mt-3 text-base text-muted-foreground">
           Tu usuario aún no está asignado a ninguna organización.
         </p>
       </div>
@@ -85,7 +85,7 @@ export default async function DashboardPage() {
         <h1 className="mt-2 font-display text-3xl font-medium tracking-tight text-foreground">
           Hola, {name}.
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-base text-muted-foreground">
           {active.length > 0
             ? `Tienes ${active.length} expediente${active.length === 1 ? "" : "s"} en curso.`
             : "No tienes expedientes en curso ahora mismo."}
@@ -102,18 +102,18 @@ export default async function DashboardPage() {
       {confirmed.length > 0 && (
         <section className="grid gap-4 lg:grid-cols-3">
           <div className="rounded-xl border border-border bg-card p-5 lg:col-span-2">
-            <p className="mb-4 font-mono text-xs uppercase tracking-wide text-muted-foreground">
+            <p className="mb-4 font-mono text-base uppercase tracking-wide text-muted-foreground">
               Expedientes por semana
             </p>
             <ShipmentBarChart data={weekBuckets} />
           </div>
           <div className="rounded-xl border border-border bg-card p-5">
-            <p className="mb-4 font-mono text-xs uppercase tracking-wide text-muted-foreground">
+            <p className="mb-4 font-mono text-base uppercase tracking-wide text-muted-foreground">
               Distribución por estado
             </p>
             {donutData.length > 0
               ? <StatusDonutChart data={donutData} />
-              : <p className="text-sm text-muted-foreground">Sin datos</p>
+              : <p className="text-base text-muted-foreground">Sin datos</p>
             }
           </div>
         </section>
@@ -135,13 +135,13 @@ export default async function DashboardPage() {
                   {formatMoney(String(leakage.totalAtRisk), leakage.currency)}
                 </span>
               </p>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-1 text-base text-muted-foreground">
                 {leakage.atRiskCount} cargo{leakage.atRiskCount > 1 ? "s" : ""} marcado{leakage.atRiskCount > 1 ? "s" : ""} como &ldquo;sin facturar&rdquo;. Recuperar este margen equivale a un +33% de beneficio neto típico en transitario.
               </p>
             </div>
             <Link
               href="/excepciones"
-              className="shrink-0 rounded-md bg-destructive/10 px-3 py-1.5 text-xs font-medium text-destructive transition-colors hover:bg-destructive/20"
+              className="shrink-0 rounded-md bg-destructive/10 px-3 py-1.5 text-base font-medium text-destructive transition-colors hover:bg-destructive/20"
             >
               Ver excepciones
               <Icon icon={ArrowRight} size={12} className="ml-1 inline-block" />
@@ -160,22 +160,22 @@ export default async function DashboardPage() {
             <Link
               href="/excepciones"
               prefetch={false}
-              className="flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="flex items-center gap-1.5 text-base text-muted-foreground transition-colors hover:text-foreground"
             >
               <Icon icon={ShieldAlert} size={14} />
               Excepciones
             </Link>
           </div>
           <div className="overflow-hidden rounded-xl border border-border bg-card">
-            <table className="w-full text-sm">
+            <table className="w-full text-base">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="px-4 py-2.5 text-left font-mono text-[10px] uppercase tracking-wide text-muted-foreground">Cliente</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-[10px] uppercase tracking-wide text-muted-foreground">Expedientes</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-[10px] uppercase tracking-wide text-muted-foreground">Venta</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-[10px] uppercase tracking-wide text-muted-foreground">GP</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-[10px] uppercase tracking-wide text-muted-foreground">Margen</th>
-                  <th className="px-4 py-2.5 text-center font-mono text-[10px] uppercase tracking-wide text-muted-foreground">Tier</th>
+                  <th className="px-4 py-2.5 text-left font-mono text-base uppercase tracking-wide text-muted-foreground">Cliente</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-base uppercase tracking-wide text-muted-foreground">Expedientes</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-base uppercase tracking-wide text-muted-foreground">Venta</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-base uppercase tracking-wide text-muted-foreground">GP</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-base uppercase tracking-wide text-muted-foreground">Margen</th>
+                  <th className="px-4 py-2.5 text-center font-mono text-base uppercase tracking-wide text-muted-foreground">Tier</th>
                 </tr>
               </thead>
               <tbody>
@@ -192,7 +192,7 @@ export default async function DashboardPage() {
                     </td>
                     <td className="px-4 py-2.5 text-center">
                       <span className={cn(
-                        "rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold",
+                        "rounded-full px-2 py-0.5 font-mono text-base font-semibold",
                         row.tier === "A" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
                         : row.tier === "B" ? "bg-primary/10 text-primary"
                         : "bg-muted text-muted-foreground",
@@ -216,7 +216,7 @@ export default async function DashboardPage() {
           <Link
             href="/expedientes"
             prefetch={false}
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="inline-flex items-center gap-1.5 text-base text-muted-foreground transition-colors hover:text-foreground"
           >
             Ver todos
             <Icon icon={ArrowRight} size={15} />
@@ -237,7 +237,7 @@ export default async function DashboardPage() {
           </div>
         ) : (
           <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground">
               Todos los expedientes están entregados o cerrados.
             </p>
           </div>
@@ -245,7 +245,7 @@ export default async function DashboardPage() {
       </section>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5">
-        <p className="text-xs text-ink-subtle">
+        <p className="text-base text-ink-subtle">
           Entorno de demostración con datos simulados.
         </p>
         <DemoResetButton />

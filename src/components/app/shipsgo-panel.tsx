@@ -51,7 +51,7 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
     return (
       <div className="mb-4 mt-2">
         {subscriptions.map((sub) => (
-          <p key={sub.id} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <p key={sub.id} className="flex items-center gap-1.5 text-base text-muted-foreground">
             <Icon icon={CheckCircle} size={12} className="text-primary" />
             <span className="font-mono">{sub.containerNumber}</span>
             <span>· ShipsGo · datos reales</span>
@@ -63,7 +63,7 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
           </p>
         ))}
         {!hasRealEvents && subscriptions.every((s) => s.status === "active") && (
-          <p className="mt-1 text-xs text-muted-foreground">Esperando primer evento de ShipsGo...</p>
+          <p className="mt-1 text-base text-muted-foreground">Esperando primer evento de ShipsGo...</p>
         )}
       </div>
     );
@@ -73,7 +73,7 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
     <div className="mb-4 mt-2">
       {!showForm ? (
         <div className="flex items-center gap-2">
-          <p className="flex items-center gap-1.5 text-xs text-ink-subtle">
+          <p className="flex items-center gap-1.5 text-base text-ink-subtle">
             <span className="size-1.5 rounded-full bg-muted-foreground" />
             Simulación · tracking en vivo ShipsGo disponible
           </p>
@@ -81,7 +81,7 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
             <button
               type="button"
               onClick={() => setShowForm(true)}
-              className="ml-auto flex items-center gap-1 rounded-md px-2 py-0.5 text-xs text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+              className="ml-auto flex items-center gap-1 rounded-md px-2 py-0.5 text-base text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
             >
               <Icon icon={Satellite} size={11} />
               Vincular
@@ -89,7 +89,7 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
           ) : (
             <span
               title="Activa SHIPSGO_ENABLED=true en .env para vincular"
-              className="ml-auto flex items-center gap-1 rounded-md px-2 py-0.5 text-xs text-muted-foreground/40 cursor-not-allowed"
+              className="ml-auto flex items-center gap-1 rounded-md px-2 py-0.5 text-base text-muted-foreground/40 cursor-not-allowed"
             >
               <Icon icon={Satellite} size={11} />
               Vincular
@@ -97,7 +97,7 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
           )}
         </div>
       ) : (
-        <div className="rounded-lg border border-border bg-surface-2/40 p-3 text-xs">
+        <div className="rounded-lg border border-border bg-surface-2/40 p-3 text-base">
           <div className="mb-2 flex items-center justify-between">
             <span className="flex items-center gap-1.5 font-medium text-foreground">
               <Icon icon={Satellite} size={12} />
@@ -124,7 +124,7 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
               onChange={(e) => setContainerNumber(e.target.value.toUpperCase())}
               placeholder="Nº contenedor ISO 6346 (p.ej. MSCU1234567)"
               className={cn(
-                "w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-xs text-foreground",
+                "w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground",
                 "placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary",
               )}
             />
@@ -134,7 +134,7 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
               onChange={(e) => setShippingLine(e.target.value)}
               placeholder="Naviera (p.ej. MSC, MAERSK, CMA CGM)"
               className={cn(
-                "w-full rounded-md border border-border bg-background px-3 py-1.5 text-xs text-foreground",
+                "w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground",
                 "placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary",
               )}
             />

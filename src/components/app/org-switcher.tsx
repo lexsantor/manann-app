@@ -31,7 +31,7 @@ export function OrgSwitcher({ orgs, activeOrgId, activeOrgName }: Props) {
       <DropdownMenuTrigger asChild>
         <button
           className={cn(
-            "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm transition-colors",
+            "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-base transition-colors",
             "text-foreground hover:bg-surface-2",
             isPending && "opacity-60",
           )}

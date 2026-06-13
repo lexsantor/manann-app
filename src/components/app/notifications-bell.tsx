@@ -63,7 +63,7 @@ export function NotificationsBell() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+          "flex w-full items-center gap-3 rounded-md px-3 py-2 text-base transition-colors",
           open
             ? "bg-surface-2 text-foreground"
             : "text-muted-foreground hover:bg-surface-2/60 hover:text-foreground",
@@ -72,7 +72,7 @@ export function NotificationsBell() {
         <Icon icon={Bell} size={18} />
         <span>Notificaciones</span>
         {unread > 0 && (
-          <span className="ml-auto flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 font-mono text-[9px] font-bold text-primary-foreground">
+          <span className="ml-auto flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 font-mono text-base font-bold text-primary-foreground">
             {unread > 9 ? "9+" : unread}
           </span>
         )}
@@ -81,16 +81,16 @@ export function NotificationsBell() {
       {open && (
         <div className="fixed left-[252px] top-4 z-50 w-72 rounded-xl border border-border bg-card shadow-lg">
           <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
-            <p className="text-sm font-medium text-foreground">Notificaciones</p>
+            <p className="text-base font-medium text-foreground">Notificaciones</p>
             {notifs.length > 0 && (
-              <span className="font-mono text-xs text-muted-foreground">{notifs.length}</span>
+              <span className="font-mono text-base text-muted-foreground">{notifs.length}</span>
             )}
           </div>
           <div className="max-h-72 overflow-y-auto">
             {notifs.length === 0 ? (
               <div className="px-4 py-8 text-center">
                 <Icon icon={Check} size={20} className="mx-auto mb-2 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">Todo al día</p>
+                <p className="text-base text-muted-foreground">Todo al día</p>
               </div>
             ) : (
               notifs.map((n) => (
@@ -105,8 +105,8 @@ export function NotificationsBell() {
                     <Icon icon={Package} size={12} className="text-muted-foreground" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs leading-relaxed text-foreground">{n.message}</p>
-                    <p className="mt-0.5 font-mono text-[10px] text-muted-foreground">
+                    <p className="text-base leading-relaxed text-foreground">{n.message}</p>
+                    <p className="mt-0.5 font-mono text-base text-muted-foreground">
                       {relativeTime(n.createdAt)}
                       {n.shipmentReference && ` · ${n.shipmentReference}`}
                     </p>

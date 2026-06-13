@@ -5,7 +5,7 @@ import type { ShipmentDetail } from "@/lib/erp";
 function SourceBadge({ source }: { source: string }) {
   if (source === "shipsgo") {
     return (
-      <span className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-primary/10 px-1.5 py-px font-mono text-[10px] font-medium text-primary">
+      <span className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-primary/10 px-1.5 py-px font-mono text-base font-medium text-primary">
         <span className="size-1.5 rounded-full bg-primary" />
         ShipsGo · real
       </span>
@@ -13,7 +13,7 @@ function SourceBadge({ source }: { source: string }) {
   }
   if (source === "mock") {
     return (
-      <span className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-muted px-1.5 py-px font-mono text-[10px] text-muted-foreground">
+      <span className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-muted px-1.5 py-px font-mono text-base text-muted-foreground">
         Simulación
       </span>
     );
@@ -28,7 +28,7 @@ export function TrackingTimeline({
 }) {
   if (!events.length) {
     return (
-      <p className="text-sm text-muted-foreground">
+      <p className="text-base text-muted-foreground">
         Sin eventos de tracking todavía.
       </p>
     );
@@ -58,7 +58,7 @@ export function TrackingTimeline({
               <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                 <p
                   className={cn(
-                    "flex items-center text-sm",
+                    "flex items-center text-base",
                     current
                       ? "font-medium text-foreground"
                       : "text-muted-foreground",
@@ -67,12 +67,12 @@ export function TrackingTimeline({
                   {TRACKING_TYPE[e.type] ?? e.type}
                   <SourceBadge source={e.source} />
                 </p>
-                <p className="font-mono text-xs text-muted-foreground">
+                <p className="font-mono text-base text-muted-foreground">
                   {formatDateTime(e.occurredAt)}
                 </p>
               </div>
               {(e.description || e.location) && (
-                <p className="mt-0.5 text-xs text-muted-foreground">
+                <p className="mt-0.5 text-base text-muted-foreground">
                   {e.description}
                   {e.location ? ` · ${portLabel(e.location)}` : ""}
                 </p>

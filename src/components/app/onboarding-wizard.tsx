@@ -84,14 +84,14 @@ export function OnboardingWizard() {
           </div>
 
           {/* Paso */}
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/50">
+          <p className="mb-2 font-mono text-base uppercase tracking-[0.2em] text-muted-foreground/50">
             Paso {step + 1} de {STEPS.length}
           </p>
 
           <h2 className="mb-3 font-display text-xl font-semibold tracking-tight text-foreground">
             {current.title}
           </h2>
-          <p className="text-sm leading-relaxed text-muted-foreground">
+          <p className="text-base leading-relaxed text-muted-foreground">
             {current.body}
           </p>
 
@@ -113,14 +113,14 @@ export function OnboardingWizard() {
             <button
               onClick={handleSkip}
               disabled={pending}
-              className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+              className="text-base text-muted-foreground/60 hover:text-muted-foreground transition-colors"
             >
               Omitir
             </button>
             <button
               onClick={handleNext}
               disabled={pending}
-              className="flex items-center gap-2 rounded-lg bg-primary/10 px-5 py-2.5 text-sm font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 rounded-lg bg-primary/10 px-5 py-2.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
             >
               {current.cta}
               <ArrowRight className="size-4" />

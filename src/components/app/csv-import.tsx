@@ -132,7 +132,7 @@ export function CsvImport() {
             </div>
             <div>
               <p className="font-medium text-foreground">Importación completada</p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-base text-muted-foreground">
                 {result.created} expediente{result.created !== 1 ? "s" : ""} creado{result.created !== 1 ? "s" : ""}
                 {result.skipped > 0 && `, ${result.skipped} omitido${result.skipped !== 1 ? "s" : ""} (referencia duplicada)`}
               </p>
@@ -141,12 +141,12 @@ export function CsvImport() {
 
           {result.errors.length > 0 && (
             <div className="mt-4 rounded-md border border-destructive/30 bg-destructive/5 p-4">
-              <p className="mb-2 text-xs font-medium text-destructive">
+              <p className="mb-2 text-base font-medium text-destructive">
                 {result.errors.length} fila{result.errors.length !== 1 ? "s" : ""} con error:
               </p>
               <ul className="space-y-1">
                 {result.errors.map((e) => (
-                  <li key={e.row} className="font-mono text-xs text-destructive">
+                  <li key={e.row} className="font-mono text-base text-destructive">
                     Fila {e.row}: {e.message}
                   </li>
                 ))}
@@ -161,7 +161,7 @@ export function CsvImport() {
           </Button>
           <Link
             href="/expedientes"
-            className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+            className="inline-flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-base text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
           >
             Ver expedientes
             <Icon icon={ArrowRight} size={14} />
@@ -178,7 +178,7 @@ export function CsvImport() {
         <div className="flex items-center justify-between">
           <div>
             <p className="font-medium text-foreground">{fileName}</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground">
               {rows.length} fila{rows.length !== 1 ? "s" : ""} detectada{rows.length !== 1 ? "s" : ""}
             </p>
           </div>
@@ -188,11 +188,11 @@ export function CsvImport() {
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-border">
-          <table className="w-full text-sm">
+          <table className="w-full text-base">
             <thead>
               <tr className="border-b border-border bg-card">
                 {["referencia", "modo", "pol", "pod", "naviera", "estado", "etd", "eta"].map((col) => (
-                  <th key={col} className="px-4 py-2.5 text-left font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                  <th key={col} className="px-4 py-2.5 text-left font-mono text-base uppercase tracking-wider text-muted-foreground">
                     {col}
                   </th>
                 ))}
@@ -201,26 +201,26 @@ export function CsvImport() {
             <tbody>
               {preview.map((r, i) => (
                 <tr key={i} className="border-b border-border last:border-0">
-                  <td className="px-4 py-2.5 font-mono text-xs text-foreground">{r.referencia || <span className="text-muted-foreground">auto</span>}</td>
-                  <td className="px-4 py-2.5 text-xs text-foreground">{r.modo || "maritimo"}</td>
-                  <td className="px-4 py-2.5 font-mono text-xs">{r.pol || "—"}</td>
-                  <td className="px-4 py-2.5 font-mono text-xs">{r.pod || "—"}</td>
-                  <td className="px-4 py-2.5 text-xs">{r.naviera || "—"}</td>
-                  <td className="px-4 py-2.5 text-xs">{r.estado || "borrador"}</td>
-                  <td className="px-4 py-2.5 font-mono text-xs">{r.etd || "—"}</td>
-                  <td className="px-4 py-2.5 font-mono text-xs">{r.eta || "—"}</td>
+                  <td className="px-4 py-2.5 font-mono text-base text-foreground">{r.referencia || <span className="text-muted-foreground">auto</span>}</td>
+                  <td className="px-4 py-2.5 text-base text-foreground">{r.modo || "maritimo"}</td>
+                  <td className="px-4 py-2.5 font-mono text-base">{r.pol || "—"}</td>
+                  <td className="px-4 py-2.5 font-mono text-base">{r.pod || "—"}</td>
+                  <td className="px-4 py-2.5 text-base">{r.naviera || "—"}</td>
+                  <td className="px-4 py-2.5 text-base">{r.estado || "borrador"}</td>
+                  <td className="px-4 py-2.5 font-mono text-base">{r.etd || "—"}</td>
+                  <td className="px-4 py-2.5 font-mono text-base">{r.eta || "—"}</td>
                 </tr>
               ))}
             </tbody>
           </table>
           {rows.length > 5 && (
-            <p className="border-t border-border px-4 py-2.5 font-mono text-xs text-muted-foreground">
+            <p className="border-t border-border px-4 py-2.5 font-mono text-base text-muted-foreground">
               + {rows.length - 5} fila{rows.length - 5 !== 1 ? "s" : ""} más
             </p>
           )}
         </div>
 
-        <p className="text-xs text-muted-foreground">
+        <p className="text-base text-muted-foreground">
           Las referencias vacías se generarán automáticamente (EXP-{new Date().getFullYear()}-XXXX).
           Las filas con una referencia ya existente se omitirán sin error.
         </p>
@@ -233,7 +233,7 @@ export function CsvImport() {
             type="button"
             onClick={reset}
             disabled={pending}
-            className="rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+            className="rounded-md border border-border px-3 py-1.5 text-base text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
           >
             Cancelar
           </button>
@@ -258,10 +258,10 @@ export function CsvImport() {
           <Icon icon={Upload} size={20} className="text-muted-foreground" />
         </div>
         <div>
-          <p className="text-sm font-medium text-foreground">
+          <p className="text-base font-medium text-foreground">
             Arrastra tu CSV aquí o haz clic para seleccionarlo
           </p>
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className="mt-1 text-base text-muted-foreground">
             Máximo 500 filas · Solo archivos .csv
           </p>
         </div>
@@ -275,40 +275,40 @@ export function CsvImport() {
       </div>
 
       {parseError && (
-        <p className="flex items-center gap-1.5 text-sm text-destructive" role="alert">
+        <p className="flex items-center gap-1.5 text-base text-destructive" role="alert">
           <Icon icon={AlertCircle} size={14} /> {parseError}
         </p>
       )}
 
       {/* Formato esperado */}
       <div className="rounded-xl border border-border bg-card p-5">
-        <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+        <p className="mb-3 font-mono text-base uppercase tracking-widest text-muted-foreground">
           Formato esperado
         </p>
         <div className="mb-4 flex flex-wrap gap-2">
           {EXPECTED_COLS.map((col) => (
             <span
               key={col}
-              className="rounded border border-border bg-background px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
+              className="rounded border border-border bg-background px-2 py-0.5 font-mono text-base text-muted-foreground"
             >
               {col}
             </span>
           ))}
         </div>
-        <p className="mb-3 text-xs text-muted-foreground">
+        <p className="mb-3 text-base text-muted-foreground">
           Solo <code className="font-mono">referencia</code> puede estar vacía (se genera automáticamente).
           Fechas en formato <code className="font-mono">YYYY-MM-DD</code>.
         </p>
-        <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+        <p className="mb-2 font-mono text-base uppercase tracking-widest text-muted-foreground">
           Ejemplo
         </p>
-        <pre className="overflow-x-auto rounded-md bg-background p-3 font-mono text-[11px] text-muted-foreground">
+        <pre className="overflow-x-auto rounded-md bg-background p-3 font-mono text-base text-muted-foreground">
           {EXAMPLE_CSV}
         </pre>
         <a
           href={`data:text/csv;charset=utf-8,${encodeURIComponent(EXAMPLE_CSV)}`}
           download="manann-plantilla.csv"
-          className="mt-3 inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+          className="mt-3 inline-flex items-center gap-1.5 text-base text-primary hover:underline"
         >
           <Icon icon={FileText} size={12} />
           Descargar plantilla

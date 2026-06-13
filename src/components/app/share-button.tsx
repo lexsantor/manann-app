@@ -43,7 +43,7 @@ export function ShareButton({ shipmentId }: ShareButtonProps) {
           ? "Error al generar enlace"
           : "Compartir expediente"
       }
-      className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground disabled:opacity-60 print:hidden"
+      className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-base text-muted-foreground transition-colors hover:text-foreground disabled:opacity-60 print:hidden"
     >
       {status === "loading" ? (
         <Icon icon={Loader2} size={13} className="animate-spin" />

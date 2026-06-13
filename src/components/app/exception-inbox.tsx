@@ -52,14 +52,14 @@ function ExceptionRow({ ex, onResolve }: { ex: ChargeException; onResolve: (id: 
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-foreground">{ex.chargeDescription}</p>
+            <p className="truncate text-base font-medium text-foreground">{ex.chargeDescription}</p>
             <div className="mt-0.5 flex items-center gap-1.5">
-              <span className={cn("rounded border px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide", meta.pill)}>
+              <span className={cn("rounded border px-1.5 py-0.5 font-mono text-base font-semibold uppercase tracking-wide", meta.pill)}>
                 {meta.label}
               </span>
               <Link
                 href={`/expedientes/${ex.shipmentId}`}
-                className="flex items-center gap-0.5 font-mono text-[10px] text-muted-foreground transition-colors hover:text-foreground"
+                className="flex items-center gap-0.5 font-mono text-base text-muted-foreground transition-colors hover:text-foreground"
               >
                 {ex.shipmentReference}
                 <Icon icon={ExternalLink} size={8} />
@@ -67,10 +67,10 @@ function ExceptionRow({ ex, onResolve }: { ex: ChargeException; onResolve: (id: 
             </div>
           </div>
           <div className="shrink-0 text-right">
-            <p className="font-mono text-sm font-semibold text-destructive">
+            <p className="font-mono text-base font-semibold text-destructive">
               {formatMoney(String(ex.riskAmount), ex.currency)}
             </p>
-            <p className="font-mono text-[10px] text-muted-foreground">en riesgo</p>
+            <p className="font-mono text-base text-muted-foreground">en riesgo</p>
           </div>
         </div>
       </div>
@@ -102,8 +102,8 @@ export function ExceptionInbox({ exceptions }: { exceptions: ChargeException[] }
         <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10">
           <Icon icon={CheckCircle2} size={22} className="text-emerald-500" />
         </div>
-        <p className="text-sm font-medium text-foreground">Sin excepciones activas</p>
-        <p className="mt-1 text-xs text-muted-foreground">Todos los cargos están bajo control.</p>
+        <p className="text-base font-medium text-foreground">Sin excepciones activas</p>
+        <p className="mt-1 text-base text-muted-foreground">Todos los cargos están bajo control.</p>
       </div>
     );
   }
@@ -116,7 +116,7 @@ export function ExceptionInbox({ exceptions }: { exceptions: ChargeException[] }
       <div className="flex items-center gap-3 rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3">
         <Icon icon={AlertTriangle} size={16} className="shrink-0 text-destructive" />
         <div className="min-w-0 flex-1">
-          <p className="text-sm text-foreground">
+          <p className="text-base text-foreground">
             <span className="font-semibold text-destructive">
               {formatMoney(String(totalRisk), "EUR")}
             </span>{" "}
@@ -124,7 +124,7 @@ export function ExceptionInbox({ exceptions }: { exceptions: ChargeException[] }
             <span className="font-semibold">{items.length}</span>{" "}
             {items.length === 1 ? "excepción" : "excepciones"}.
           </p>
-          <p className="mt-0.5 text-xs text-muted-foreground">
+          <p className="mt-0.5 text-base text-muted-foreground">
             Resolver estas excepciones puede recuperar hasta un +33% de beneficio neto.
           </p>
         </div>

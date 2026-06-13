@@ -42,7 +42,7 @@ export default async function DocumentosPage({
           <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">
             Documentos
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-base text-muted-foreground">
             {all.length} documento{all.length !== 1 ? "s" : ""} en total
           </p>
         </div>
@@ -81,7 +81,7 @@ function FilterChip({
       prefetch={false}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition-colors",
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-base transition-colors",
         active
           ? "border-primary/40 bg-primary/10 text-foreground"
           : "border-border bg-card text-muted-foreground hover:text-foreground",
@@ -93,5 +93,5 @@ function FilterChip({
 }
 
 function Count({ n }: { n: number }) {
-  return <span className="font-mono text-xs text-ink-subtle">{n}</span>;
+  return <span className="font-mono text-base text-ink-subtle">{n}</span>;
 }

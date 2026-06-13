@@ -55,7 +55,7 @@ export default async function MapaPage() {
         <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">
           Mapa de rutas
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-base text-muted-foreground">
           {mappable.length} expediente{mappable.length !== 1 ? "s" : ""} activo{mappable.length !== 1 ? "s" : ""} en tránsito
         </p>
       </header>
@@ -65,7 +65,7 @@ export default async function MapaPage() {
       {/* Listado de rutas activas */}
       {active.length > 0 && (
         <section className="space-y-2">
-          <h2 className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+          <h2 className="text-base font-medium uppercase tracking-widest text-muted-foreground">
             Expedientes activos
           </h2>
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -77,19 +77,19 @@ export default async function MapaPage() {
               >
                 <span className={cn("mt-1 size-2 shrink-0 rounded-full", STATUS_DOT[s.status] ?? "bg-muted-foreground")} />
                 <div className="min-w-0">
-                  <p className="font-mono text-xs font-medium text-foreground group-hover:text-primary">
+                  <p className="font-mono text-base font-medium text-foreground group-hover:text-primary">
                     {s.reference}
                   </p>
-                  <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
+                  <p className="mt-0.5 flex items-center gap-1 text-base text-muted-foreground">
                     {s.pol ? portLabel(s.pol) : "—"}
                     <span className="text-muted-foreground/40">→</span>
                     {s.pod ? portLabel(s.pod) : "—"}
                   </p>
                   {s.carrier && (
-                    <p className="mt-0.5 text-[11px] text-muted-foreground/60">{s.carrier}</p>
+                    <p className="mt-0.5 text-base text-muted-foreground/60">{s.carrier}</p>
                   )}
                 </div>
-                <span className="ml-auto shrink-0 text-[10px] text-muted-foreground/60">
+                <span className="ml-auto shrink-0 text-base text-muted-foreground/60">
                   {STATUS_LABEL[s.status] ?? s.status}
                 </span>
               </a>
@@ -101,7 +101,7 @@ export default async function MapaPage() {
       {active.length === 0 && (
         <div className="flex flex-col items-center gap-3 py-16 text-center">
           <Icon icon={MapPin} size={32} className="text-muted-foreground/30" />
-          <p className="text-sm text-muted-foreground">
+          <p className="text-base text-muted-foreground">
             No hay expedientes activos en este momento.
           </p>
         </div>

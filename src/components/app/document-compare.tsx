@@ -58,16 +58,16 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <Icon icon={GitCompare} size={14} className="text-muted-foreground" />
-          <span className="font-mono text-xs text-muted-foreground">
+          <span className="font-mono text-base text-muted-foreground">
             Comparativa IA: BL vs. Factura comercial
           </span>
           {result && discrepancies.length === 0 && (
-            <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] text-emerald-400">
+            <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-base text-emerald-400">
               <CheckCircle2 className="size-3" /> Sin discrepancias
             </span>
           )}
           {result && discrepancies.length > 0 && (
-            <span className="flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 font-mono text-[10px] text-amber-500">
+            <span className="flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 font-mono text-base text-amber-500">
               <AlertTriangle className="size-3" /> {discrepancies.length} discrepancia{discrepancies.length > 1 ? "s" : ""}
             </span>
           )}
@@ -75,7 +75,7 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
         <button
           onClick={handleCompare}
           disabled={pending}
-          className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-xs text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-base text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors disabled:opacity-50"
         >
           {pending ? <Loader2 className="size-3 animate-spin" /> : <GitCompare className="size-3" />}
           {result ? "Volver a comparar" : "Comparar documentos"}
@@ -83,13 +83,13 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
       </div>
 
       {error && (
-        <p className="mt-2 flex items-center gap-1.5 text-xs text-destructive">
+        <p className="mt-2 flex items-center gap-1.5 text-base text-destructive">
           <XCircle className="size-3.5" /> {error}
         </p>
       )}
 
       {!result && !pending && !error && (
-        <p className="mt-2 text-xs text-muted-foreground/50">
+        <p className="mt-2 text-base text-muted-foreground/50">
           Pulsa el botón para cruzar los campos del BL con la factura comercial.
         </p>
       )}
@@ -97,12 +97,12 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
       {result && (
         <div className="mt-3 space-y-2">
           {result.discrepancySummary && (
-            <div className="rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-xs text-amber-600 dark:text-amber-400">
+            <div className="rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-base text-amber-600 dark:text-amber-400">
               {result.discrepancySummary}
             </div>
           )}
           <div className="overflow-x-auto overflow-hidden rounded-lg border border-border/60">
-            <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-border/40 bg-surface-2/30 px-3 py-1.5 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
+            <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-border/40 bg-surface-2/30 px-3 py-1.5 font-mono text-base uppercase tracking-wider text-muted-foreground/60">
               <span>Campo</span>
               <span>BL</span>
               <span>Factura</span>
@@ -111,7 +111,7 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
               <div
                 key={f.key}
                 className={cn(
-                  "grid grid-cols-[1fr_1fr_1fr] border-b border-border/30 px-3 py-2 text-xs last:border-0",
+                  "grid grid-cols-[1fr_1fr_1fr] border-b border-border/30 px-3 py-2 text-base last:border-0",
                   !f.match && (f.blValue || f.invoiceValue)
                     ? "bg-amber-500/5"
                     : "",

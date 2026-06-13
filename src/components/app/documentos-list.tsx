@@ -58,7 +58,7 @@ export function DocumentosList({ docs }: DocumentosListProps) {
   if (docs.length === 0) {
     return (
       <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-base text-muted-foreground">
           No hay documentos con ese tipo.
         </p>
       </div>
@@ -96,17 +96,17 @@ export function DocumentosList({ docs }: DocumentosListProps) {
 
               {/* Nombre + tipo */}
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-foreground">
+                <p className="truncate text-base font-medium text-foreground">
                   {doc.filename}
                 </p>
                 <div className="mt-0.5 flex items-center gap-2">
-                  <span className="font-mono text-xs text-muted-foreground">
+                  <span className="font-mono text-base text-muted-foreground">
                     {DOC_TYPE_LABEL[doc.type] ?? doc.type}
                   </span>
                   {doc.sizeBytes && (
                     <>
                       <span className="text-border">·</span>
-                      <span className="font-mono text-xs text-muted-foreground">
+                      <span className="font-mono text-base text-muted-foreground">
                         {formatSize(doc.sizeBytes)}
                       </span>
                     </>
@@ -119,7 +119,7 @@ export function DocumentosList({ docs }: DocumentosListProps) {
                 href={`/expedientes/${doc.shipmentId}`}
                 prefetch={false}
                 onClick={(e) => e.stopPropagation()}
-                className="hidden shrink-0 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground sm:block"
+                className="hidden shrink-0 font-mono text-base text-muted-foreground transition-colors hover:text-foreground sm:block"
               >
                 {doc.reference}
               </Link>
@@ -127,7 +127,7 @@ export function DocumentosList({ docs }: DocumentosListProps) {
               {/* Estado */}
               <span
                 className={cn(
-                  "hidden shrink-0 rounded-full px-2 py-0.5 font-mono text-[10px] sm:inline-flex",
+                  "hidden shrink-0 rounded-full px-2 py-0.5 font-mono text-base sm:inline-flex",
                   statusMeta.cls,
                 )}
               >
@@ -135,7 +135,7 @@ export function DocumentosList({ docs }: DocumentosListProps) {
               </span>
 
               {/* Fecha */}
-              <span className="hidden shrink-0 text-xs text-muted-foreground lg:block">
+              <span className="hidden shrink-0 text-base text-muted-foreground lg:block">
                 {formatDate(doc.createdAt)}
               </span>
 

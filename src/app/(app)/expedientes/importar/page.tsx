@@ -9,11 +9,11 @@ export const metadata: Metadata = { title: "Importar expedientes — Manann" };
 
 export default function ImportarPage() {
   return (
-    <div className="mx-auto max-w-3xl space-y-8">
+    <div className="space-y-8">
       <header>
         <Link
           href="/expedientes"
-          className="mb-4 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+          className="mb-4 inline-flex items-center gap-1.5 text-base text-muted-foreground transition-colors hover:text-foreground"
         >
           <Icon icon={ArrowLeft} size={14} />
           Volver a expedientes
@@ -21,7 +21,7 @@ export default function ImportarPage() {
         <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">
           Importar expedientes
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-base text-muted-foreground">
           Sube un CSV para crear expedientes en bloque. Útil para migrar desde
           otro sistema o cargar histórico.
         </p>

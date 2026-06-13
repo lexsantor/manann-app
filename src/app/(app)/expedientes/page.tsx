@@ -23,7 +23,7 @@ export default async function ExpedientesPage({
 
   if (!ctx?.org) {
     return (
-      <p className="text-sm text-muted-foreground">
+      <p className="text-base text-muted-foreground">
         Tu usuario no está asignado a ninguna organización.
       </p>
     );
@@ -48,7 +48,7 @@ export default async function ExpedientesPage({
           <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">
             Expedientes
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-base text-muted-foreground">
             {all.length} expediente{all.length !== 1 ? "s" : ""}
           </p>
         </div>
@@ -56,14 +56,14 @@ export default async function ExpedientesPage({
           <Link
             href="/expedientes/importar"
             prefetch={false}
-            className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+            className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-base text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
           >
             <Icon icon={Upload} size={14} />
             Importar CSV
           </Link>
           <a
             href="/api/expedientes/export"
-            className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+            className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-base text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
           >
             <Icon icon={Download} size={14} />
             Exportar CSV
@@ -143,7 +143,7 @@ export default async function ExpedientesPage({
         </div>
       ) : (
         <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-base text-muted-foreground">
             No hay expedientes con ese estado.
           </p>
         </div>
@@ -167,7 +167,7 @@ function FilterChip({
       prefetch={false}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition-colors",
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-base transition-colors",
         active
           ? "border-primary/40 bg-primary/10 text-foreground"
           : "border-border bg-card text-muted-foreground hover:text-foreground",
@@ -179,5 +179,5 @@ function FilterChip({
 }
 
 function Count({ n }: { n: number }) {
-  return <span className="font-mono text-xs text-ink-subtle">{n}</span>;
+  return <span className="font-mono text-base text-ink-subtle">{n}</span>;
 }

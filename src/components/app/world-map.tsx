@@ -152,7 +152,7 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
       {/* Leyenda */}
       <div className="absolute bottom-3 left-4 flex flex-wrap gap-3">
         {Object.entries(STATUS_COLOR).map(([status, color]) => (
-          <span key={status} className="flex items-center gap-1 text-[10px] text-muted-foreground">
+          <span key={status} className="flex items-center gap-1 text-base text-muted-foreground">
             <span
               className="inline-block size-2 rounded-full"
               style={{ background: color }}

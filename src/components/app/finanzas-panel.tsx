@@ -78,7 +78,7 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
-          className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+          className="rounded-md border border-border bg-background px-2 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
         >
           {CHARGE_TYPES.map(([val, label]) => (
             <option key={val} value={val}>{label}</option>
@@ -89,10 +89,10 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
           placeholder="Descripción (opcional)"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+          className="rounded-md border border-border bg-background px-2 py-1.5 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
         />
         <div className="relative">
-          <span className="absolute left-2 top-1/2 -translate-y-1/2 font-mono text-[10px] text-muted-foreground">Venta</span>
+          <span className="absolute left-2 top-1/2 -translate-y-1/2 font-mono text-base text-muted-foreground">Venta</span>
           <input
             type="number"
             placeholder="0,00"
@@ -100,11 +100,11 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
             min="0"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full rounded-md border border-border bg-background pl-10 pr-2 py-1.5 text-right font-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            className="w-full rounded-md border border-border bg-background pl-10 pr-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
           />
         </div>
         <div className="relative">
-          <span className="absolute left-2 top-1/2 -translate-y-1/2 font-mono text-[10px] text-muted-foreground">Compra</span>
+          <span className="absolute left-2 top-1/2 -translate-y-1/2 font-mono text-base text-muted-foreground">Compra</span>
           <input
             type="number"
             placeholder="0,00"
@@ -113,12 +113,12 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
             value={passThrough ? amount : buyAmount}
             disabled={passThrough}
             onChange={(e) => setBuyAmount(e.target.value)}
-            className="w-full rounded-md border border-border bg-background pl-12 pr-2 py-1.5 text-right font-mono text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-40"
+            className="w-full rounded-md border border-border bg-background pl-12 pr-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-40"
           />
         </div>
       </div>
 
-      <div className="flex items-center gap-4 text-xs">
+      <div className="flex items-center gap-4 text-base">
         <label className="flex items-center gap-1.5 cursor-pointer select-none text-muted-foreground">
           <input
             type="checkbox"
@@ -143,7 +143,7 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
           </label>
         )}
         {sell > 0 && buy > 0 && !passThrough && (
-          <span className="ml-auto font-mono text-[11px] text-muted-foreground">
+          <span className="ml-auto font-mono text-base text-muted-foreground">
             GP: <span className={cn("font-semibold", gp >= 0 ? "text-emerald-500" : "text-destructive")}>
               {gp >= 0 ? "+" : ""}{gp.toFixed(0)} €
             </span>
@@ -151,15 +151,15 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
         )}
       </div>
 
-      {error && <p className="text-xs text-destructive">{error}</p>}
+      {error && <p className="text-base text-destructive">{error}</p>}
       <div className="flex justify-end gap-2">
-        <button type="button" onClick={onDone} className="rounded-md px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground">
+        <button type="button" onClick={onDone} className="rounded-md px-3 py-1.5 text-base text-muted-foreground hover:text-foreground">
           Cancelar
         </button>
         <button
           type="submit"
           disabled={pending}
-          className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/15 disabled:opacity-50"
+          className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 disabled:opacity-50"
         >
           {pending && <Loader2 className="size-3 animate-spin" />}
           Guardar
@@ -198,28 +198,28 @@ function ChargeRow({ charge: c, shipmentId, showBuyCol }: ChargeRowProps) {
     )}>
       <td className="py-2 pl-3 pr-2">
         <div className="flex items-center gap-2 min-w-0">
-          <span className="text-sm text-foreground truncate">{c.description || typeLabel}</span>
+          <span className="text-base text-foreground truncate">{c.description || typeLabel}</span>
           {c.description && (
-            <span className="shrink-0 font-mono text-[9px] uppercase tracking-wider text-muted-foreground">{typeLabel}</span>
+            <span className="shrink-0 font-mono text-base uppercase tracking-wider text-muted-foreground">{typeLabel}</span>
           )}
           {c.atRisk && (
-            <span className="shrink-0 inline-flex items-center gap-0.5 rounded-sm bg-destructive/10 px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wide text-destructive">
+            <span className="shrink-0 inline-flex items-center gap-0.5 rounded-sm bg-destructive/10 px-1.5 py-0.5 font-mono text-base font-semibold uppercase tracking-wide text-destructive">
               <AlertTriangle className="size-2.5" /> sin facturar
             </span>
           )}
           {c.passThrough && !c.atRisk && (
-            <span className="shrink-0 rounded-sm bg-muted px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wide text-muted-foreground">
+            <span className="shrink-0 rounded-sm bg-muted px-1.5 py-0.5 font-mono text-base uppercase tracking-wide text-muted-foreground">
               pass-through
             </span>
           )}
         </div>
       </td>
       <td className="py-2 px-2 text-right">
-        <span className="font-mono text-sm text-foreground">{formatMoney(c.amount, c.currency)}</span>
+        <span className="font-mono text-base text-foreground">{formatMoney(c.amount, c.currency)}</span>
       </td>
       {showBuyCol && (
         <td className="py-2 px-2 text-right">
-          <span className="font-mono text-sm text-muted-foreground">
+          <span className="font-mono text-base text-muted-foreground">
             {buy != null ? formatMoney(String(buy), c.currency) : <span className="text-border">—</span>}
           </span>
         </td>
@@ -228,13 +228,13 @@ function ChargeRow({ charge: c, shipmentId, showBuyCol }: ChargeRowProps) {
         <td className="py-2 px-2 text-right">
           {gp != null ? (
             <span className={cn(
-              "font-mono text-sm font-medium",
+              "font-mono text-base font-medium",
               gp > 0 ? "text-emerald-500" : gp === 0 ? "text-muted-foreground" : "text-destructive",
             )}>
               {gp > 0 ? "+" : ""}{gp.toFixed(0)} €
             </span>
           ) : (
-            <span className="text-border font-mono text-sm">—</span>
+            <span className="text-border font-mono text-base">—</span>
           )}
         </td>
       )}
@@ -308,13 +308,13 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
       {(totalSell > 0 || effectiveBuy > 0) && (
         <div className="mb-4 grid grid-cols-3 gap-2">
           <div className="rounded-lg border border-border/50 bg-surface-2/30 p-3">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Venta total</p>
+            <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Venta total</p>
             <p className="mt-1 font-mono text-base font-semibold text-foreground">
               {hasMixed ? "—" : formatMoney(String(totalSell), currency)}
             </p>
           </div>
           <div className="rounded-lg border border-border/50 bg-surface-2/30 p-3">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Compra total</p>
+            <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Compra total</p>
             <p className="mt-1 font-mono text-base font-semibold text-muted-foreground">
               {hasMixed ? "—" : formatMoney(String(effectiveBuy), currency)}
             </p>
@@ -324,7 +324,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
             gp >= 0 ? "border-emerald-500/20 bg-emerald-500/5" : "border-destructive/20 bg-destructive/5",
           )}>
             <div className="flex items-center justify-between">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Gross Profit</p>
+              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Gross Profit</p>
               {gp >= 0
                 ? <Icon icon={TrendingUp} size={13} className="text-emerald-500" />
                 : <Icon icon={TrendingDown} size={13} className="text-destructive" />}
@@ -333,7 +333,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
               {hasMixed ? "—" : formatMoney(String(gp), currency)}
             </p>
             {gpPct !== null && !hasMixed && (
-              <p className="mt-0.5 font-mono text-[10px] text-muted-foreground">{gpPct.toFixed(1)} %</p>
+              <p className="mt-0.5 font-mono text-base text-muted-foreground">{gpPct.toFixed(1)} %</p>
             )}
           </div>
         </div>
@@ -343,7 +343,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
       {atRiskCharges.length > 0 && (
         <div className="mb-4 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2.5">
           <Icon icon={AlertTriangle} size={14} className="mt-0.5 shrink-0 text-destructive" />
-          <div className="min-w-0 text-xs text-destructive">
+          <div className="min-w-0 text-base text-destructive">
             <span className="font-semibold">Fuga de margen: </span>
             {atRiskCharges.length === 1
               ? `${atRiskCharges[0].description || CHARGE_TYPE_LABELS[atRiskCharges[0].type]} (${formatMoney(String(atRiskTotal), currency)}) no facturado al cliente.`
@@ -357,10 +357,10 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
       {/* Tabla de ingresos */}
       <div className="mb-4">
         <div className="mb-1.5 flex items-center justify-between">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Líneas de ingreso</p>
+          <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Líneas de ingreso</p>
           <button
             onClick={() => { setAddingRevenue(true); setAddingCost(false); }}
-            className="flex items-center gap-1 rounded text-[11px] text-muted-foreground hover:text-foreground"
+            className="flex items-center gap-1 rounded text-base text-muted-foreground hover:text-foreground"
           >
             <Plus className="size-3" /> Añadir
           </button>
@@ -371,13 +371,13 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border/40 bg-surface-2/30">
-                  <th className="py-1.5 pl-3 pr-2 text-left font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Concepto</th>
-                  <th className="py-1.5 px-2 text-right font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Venta</th>
+                  <th className="py-1.5 pl-3 pr-2 text-left font-mono text-base uppercase tracking-wider text-muted-foreground">Concepto</th>
+                  <th className="py-1.5 px-2 text-right font-mono text-base uppercase tracking-wider text-muted-foreground">Venta</th>
                   {showBuyCol && (
-                    <th className="py-1.5 px-2 text-right font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Compra</th>
+                    <th className="py-1.5 px-2 text-right font-mono text-base uppercase tracking-wider text-muted-foreground">Compra</th>
                   )}
                   {showBuyCol && (
-                    <th className="py-1.5 px-2 text-right font-mono text-[10px] uppercase tracking-wider text-muted-foreground">GP</th>
+                    <th className="py-1.5 px-2 text-right font-mono text-base uppercase tracking-wider text-muted-foreground">GP</th>
                   )}
                   <th className="w-8" />
                 </tr>
@@ -390,14 +390,14 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
               {showBuyCol && revenues.length > 1 && (
                 <tfoot>
                   <tr className="border-t-2 border-border bg-surface-2/20">
-                    <td className="py-2 pl-3 pr-2 font-medium text-sm text-foreground">Total</td>
-                    <td className="py-2 px-2 text-right font-mono text-sm font-semibold text-foreground">
+                    <td className="py-2 pl-3 pr-2 font-medium text-base text-foreground">Total</td>
+                    <td className="py-2 px-2 text-right font-mono text-base font-semibold text-foreground">
                       {hasMixed ? "—" : formatMoney(String(totalSell), currency)}
                     </td>
-                    <td className="py-2 px-2 text-right font-mono text-sm font-semibold text-muted-foreground">
+                    <td className="py-2 px-2 text-right font-mono text-base font-semibold text-muted-foreground">
                       {hasMixed ? "—" : formatMoney(String(totalBuy), currency)}
                     </td>
-                    <td className="py-2 px-2 text-right font-mono text-sm font-semibold">
+                    <td className="py-2 px-2 text-right font-mono text-base font-semibold">
                       <span className={gp >= 0 ? "text-emerald-500" : "text-destructive"}>
                         {gp >= 0 ? "+" : ""}{hasMixed ? "—" : formatMoney(String(gp), currency)}
                       </span>
@@ -409,7 +409,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
             </table>
           </div>
         ) : !addingRevenue ? (
-          <p className="text-xs text-muted-foreground">Sin líneas de ingreso.</p>
+          <p className="text-base text-muted-foreground">Sin líneas de ingreso.</p>
         ) : null}
 
         {addingRevenue && (
@@ -421,10 +421,10 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
       {(costs.length > 0 || addingCost) && (
         <div className="border-t border-dashed border-border/60 pt-4">
           <div className="mb-1.5 flex items-center justify-between">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Otros costes</p>
+            <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Otros costes</p>
             <button
               onClick={() => { setAddingCost(true); setAddingRevenue(false); }}
-              className="flex items-center gap-1 rounded text-[11px] text-muted-foreground hover:text-foreground"
+              className="flex items-center gap-1 rounded text-base text-muted-foreground hover:text-foreground"
             >
               <Plus className="size-3" /> Añadir
             </button>
@@ -447,7 +447,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
         <div className="mt-2 border-t border-dashed border-border/60 pt-3">
           <button
             onClick={() => setAddingCost(true)}
-            className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground"
+            className="flex items-center gap-1 text-base text-muted-foreground hover:text-foreground"
           >
             <Plus className="size-3" />
             <ArrowRight className="size-3" />
@@ -480,9 +480,9 @@ function CostRow({ charge: c, shipmentId }: { charge: Charge; shipmentId: string
   return (
     <div className="group py-2 first:pt-0">
       <div className="flex items-center justify-between gap-3">
-        <p className="text-sm text-foreground">{label}</p>
+        <p className="text-base text-foreground">{label}</p>
         <div className="flex shrink-0 items-center gap-2">
-          <span className="font-mono text-sm text-muted-foreground">{formatMoney(c.amount, c.currency ?? "EUR")}</span>
+          <span className="font-mono text-base text-muted-foreground">{formatMoney(c.amount, c.currency ?? "EUR")}</span>
           <button
             onClick={() => setEditingAccrual((v) => !v)}
             title="Registrar factura real (accrual)"
@@ -501,7 +501,7 @@ function CostRow({ charge: c, shipmentId }: { charge: Charge; shipmentId: string
       {/* Accrual reconciliation inline */}
       {(editingAccrual || (actual != null && Math.abs(variance ?? 0) > 0.01)) && (
         <div className={cn(
-          "mt-1.5 rounded-md border px-2.5 py-2 text-xs",
+          "mt-1.5 rounded-md border px-2.5 py-2 text-base",
           variance != null && Math.abs(variance) > 0.01
             ? "border-accent/20 bg-accent/5"
             : "border-border/60 bg-surface-2/40",
@@ -515,14 +515,14 @@ function CostRow({ charge: c, shipmentId }: { charge: Charge; shipmentId: string
                 min="0"
                 value={accrualInput}
                 onChange={(e) => setAccrualInput(e.target.value)}
-                className="w-24 rounded border border-border/60 bg-background px-2 py-0.5 font-mono text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                className="w-24 rounded border border-border/60 bg-background px-2 py-0.5 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
                 autoFocus
                 onKeyDown={(e) => { if (e.key === "Enter") handleSaveAccrual(); if (e.key === "Escape") setEditingAccrual(false); }}
               />
               <button
                 onClick={handleSaveAccrual}
                 disabled={pending}
-                className="flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 font-mono text-[10px] text-primary hover:bg-primary/15 disabled:opacity-50"
+                className="flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 font-mono text-base text-primary hover:bg-primary/15 disabled:opacity-50"
               >
                 {pending && <Loader2 className="size-2.5 animate-spin" />}
                 Guardar

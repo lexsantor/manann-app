@@ -18,7 +18,7 @@ export function PdfViewer({ url, filename }: PdfViewerProps) {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          className="inline-flex items-center gap-1.5 text-base text-muted-foreground transition-colors hover:text-foreground"
         >
           <Icon icon={open ? EyeOff : Eye} size={13} />
           {open ? "Cerrar vista previa" : "Ver documento"}
@@ -27,7 +27,7 @@ export function PdfViewer({ url, filename }: PdfViewerProps) {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          className="inline-flex items-center gap-1 text-base text-muted-foreground transition-colors hover:text-foreground"
         >
           <Icon icon={ExternalLink} size={12} />
           Abrir en pestaña

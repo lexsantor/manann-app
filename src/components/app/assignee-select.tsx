@@ -50,13 +50,13 @@ export function AssigneeSelect({ shipmentId, assignedTo, members }: AssigneeSele
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "flex items-center gap-1.5 rounded-md px-2 py-1 text-xs transition-colors",
+          "flex items-center gap-1.5 rounded-md px-2 py-1 text-base transition-colors",
           "text-muted-foreground hover:bg-surface-2/60 hover:text-foreground",
         )}
       >
         {current ? (
           <>
-            <span className="flex size-5 items-center justify-center rounded-full bg-surface-2 font-mono text-[9px] font-bold text-foreground">
+            <span className="flex size-5 items-center justify-center rounded-full bg-surface-2 font-mono text-base font-bold text-foreground">
               {current.initials}
             </span>
             <span>{current.name}</span>
@@ -77,7 +77,7 @@ export function AssigneeSelect({ shipmentId, assignedTo, members }: AssigneeSele
               type="button"
               onClick={() => pick(null)}
               className={cn(
-                "flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs transition-colors hover:bg-surface-2/60",
+                "flex w-full items-center gap-2 rounded-md px-3 py-2 text-base transition-colors hover:bg-surface-2/60",
                 !currentId ? "text-foreground" : "text-muted-foreground",
               )}
             >
@@ -91,11 +91,11 @@ export function AssigneeSelect({ shipmentId, assignedTo, members }: AssigneeSele
                 type="button"
                 onClick={() => pick(m.id)}
                 className={cn(
-                  "flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs transition-colors hover:bg-surface-2/60",
+                  "flex w-full items-center gap-2 rounded-md px-3 py-2 text-base transition-colors hover:bg-surface-2/60",
                   m.id === currentId ? "text-foreground" : "text-muted-foreground",
                 )}
               >
-                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-surface-2 font-mono text-[9px] font-bold text-foreground">
+                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-surface-2 font-mono text-base font-bold text-foreground">
                   {m.initials}
                 </span>
                 <span className="flex-1 truncate text-left">{m.name}</span>

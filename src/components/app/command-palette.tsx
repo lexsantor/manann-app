@@ -86,27 +86,27 @@ export function CommandPalette() {
           placeholder="Buscar expediente, navegar…"
           value={q}
           onValueChange={setQ}
-          className="flex h-11 w-full bg-transparent py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none"
+          className="flex h-11 w-full bg-transparent py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none"
         />
         {searching && (
           <Icon icon={Loader2} size={14} className="shrink-0 animate-spin text-muted-foreground" />
         )}
       </div>
       <CommandList className="max-h-[320px] overflow-y-auto p-1">
-        <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
+        <CommandEmpty className="py-6 text-center text-base text-muted-foreground">
           Sin resultados.
         </CommandEmpty>
 
-        <CommandGroup heading="Navegar" className="px-1 py-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          <CommandItem onSelect={() => go("/dashboard")} className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-surface-2 aria-selected:bg-surface-2">
+        <CommandGroup heading="Navegar" className="px-1 py-1 text-base font-medium uppercase tracking-wide text-muted-foreground">
+          <CommandItem onSelect={() => go("/dashboard")} className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-base text-foreground hover:bg-surface-2 aria-selected:bg-surface-2">
             <Icon icon={LayoutDashboard} size={15} className="text-muted-foreground" />
             Panel
           </CommandItem>
-          <CommandItem onSelect={() => go("/expedientes")} className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-surface-2 aria-selected:bg-surface-2">
+          <CommandItem onSelect={() => go("/expedientes")} className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-base text-foreground hover:bg-surface-2 aria-selected:bg-surface-2">
             <Icon icon={Package} size={15} className="text-muted-foreground" />
             Expedientes
           </CommandItem>
-          <CommandItem onSelect={() => go("/expedientes?accion=nuevo")} className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-surface-2 aria-selected:bg-surface-2">
+          <CommandItem onSelect={() => go("/expedientes?accion=nuevo")} className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-base text-foreground hover:bg-surface-2 aria-selected:bg-surface-2">
             <Icon icon={Plus} size={15} className="text-muted-foreground" />
             Nuevo expediente
           </CommandItem>
@@ -115,18 +115,18 @@ export function CommandPalette() {
         {hits.length > 0 && (
           <>
             <CommandSeparator className="my-1 h-px bg-border" />
-            <CommandGroup heading="Expedientes" className="px-1 py-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <CommandGroup heading="Expedientes" className="px-1 py-1 text-base font-medium uppercase tracking-wide text-muted-foreground">
               {hits.map((s) => (
                 <CommandItem
                   key={s.id}
                   value={s.reference}
                   onSelect={() => go(`/expedientes/${s.id}`)}
-                  className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-surface-2 aria-selected:bg-surface-2"
+                  className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-base text-foreground hover:bg-surface-2 aria-selected:bg-surface-2"
                 >
                   <Icon icon={MoveRight} size={14} className="shrink-0 text-muted-foreground" />
                   <span className="font-mono font-medium">{s.reference}</span>
                   {s.pol && s.pod && (
-                    <span className="ml-1 text-xs text-muted-foreground">
+                    <span className="ml-1 text-base text-muted-foreground">
                       {s.pol.slice(-3)} → {s.pod.slice(-3)}
                     </span>
                   )}
@@ -137,10 +137,10 @@ export function CommandPalette() {
         )}
 
         <CommandSeparator className="my-1 h-px bg-border" />
-        <CommandGroup heading="Tema" className="px-1 py-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        <CommandGroup heading="Tema" className="px-1 py-1 text-base font-medium uppercase tracking-wide text-muted-foreground">
           <CommandItem
             onSelect={() => { setTheme(resolvedTheme === "dark" ? "light" : "dark"); setOpen(false); }}
-            className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-surface-2 aria-selected:bg-surface-2"
+            className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-base text-foreground hover:bg-surface-2 aria-selected:bg-surface-2"
           >
             <Icon icon={resolvedTheme === "dark" ? Sun : Moon} size={15} className="text-muted-foreground" />
             {resolvedTheme === "dark" ? "Tema claro" : "Tema oscuro"}

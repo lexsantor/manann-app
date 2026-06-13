@@ -57,7 +57,7 @@ export function InlineField({ shipmentId, field, value, mono, className }: Inlin
           disabled={pending}
           autoFocus
           className={cn(
-            "h-6 min-w-0 rounded border border-ring bg-background px-1.5 text-sm text-foreground focus:outline-none",
+            "h-6 min-w-0 rounded border border-ring bg-background px-1.5 text-base text-foreground focus:outline-none",
             mono ? "font-mono" : "font-sans",
             className,
           )}
@@ -88,7 +88,7 @@ export function InlineField({ shipmentId, field, value, mono, className }: Inlin
         className,
       )}
     >
-      <span className={cn("text-sm text-foreground", mono && "font-mono")}>
+      <span className={cn("text-base text-foreground", mono && "font-mono")}>
         {value ?? "-"}
       </span>
       <Icon

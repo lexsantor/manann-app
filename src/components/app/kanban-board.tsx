@@ -35,7 +35,7 @@ export function KanbanBoard({ shipments }: KanbanBoardProps) {
   if (cols.length === 0) {
     return (
       <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-        <p className="text-sm text-muted-foreground">No hay expedientes.</p>
+        <p className="text-base text-muted-foreground">No hay expedientes.</p>
       </div>
     );
   }
@@ -48,8 +48,8 @@ export function KanbanBoard({ shipments }: KanbanBoardProps) {
         return (
           <div key={status} className="flex w-64 shrink-0 flex-col gap-2">
             <div className="flex items-center justify-between px-1">
-              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{label}</span>
-              <span className="font-mono text-xs text-ink-subtle">{items.length}</span>
+              <span className="text-base font-medium text-muted-foreground uppercase tracking-wide">{label}</span>
+              <span className="font-mono text-base text-ink-subtle">{items.length}</span>
             </div>
             <div className="space-y-2">
               {items.map((s) => <KanbanCard key={s.id} s={s} />)}
@@ -71,21 +71,21 @@ function KanbanCard({ s }: { s: ShipmentListItem }) {
       className="block rounded-lg border border-border bg-card p-3 transition-colors hover:border-primary/30 hover:bg-surface-2"
     >
       <div className="flex items-start justify-between gap-2">
-        <p className="font-mono text-xs font-semibold text-foreground">{s.reference}</p>
+        <p className="font-mono text-base font-semibold text-foreground">{s.reference}</p>
         <PriorityPill priority={s.priority} />
       </div>
       {(s.pol || s.pod) && (
-        <div className="mt-1.5 flex items-center gap-1 font-mono text-xs text-muted-foreground">
+        <div className="mt-1.5 flex items-center gap-1 font-mono text-base text-muted-foreground">
           <span>{pol3}</span>
           <Icon icon={MoveRight} size={10} />
           <span>{pod3}</span>
         </div>
       )}
       {s.carrier && (
-        <p className="mt-1 text-xs text-ink-subtle truncate">{s.carrier}</p>
+        <p className="mt-1 text-base text-ink-subtle truncate">{s.carrier}</p>
       )}
       {s.eta && (
-        <p className="mt-1 text-[10px] text-ink-subtle">ETA {formatDate(s.eta)}</p>
+        <p className="mt-1 text-base text-ink-subtle">ETA {formatDate(s.eta)}</p>
       )}
     </Link>
   );

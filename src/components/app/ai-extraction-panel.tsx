@@ -51,7 +51,7 @@ export function AiExtractionPanel({
   if (compact) {
     if (status === "processing") {
       return (
-        <span className="inline-flex shrink-0 items-center gap-1.5 text-xs text-accent">
+        <span className="inline-flex shrink-0 items-center gap-1.5 text-base text-accent">
           <Icon icon={Loader2} size={13} className="animate-spin" />
           Leyendo…
         </span>
@@ -59,7 +59,7 @@ export function AiExtractionPanel({
     }
     if (status === "confirmed") {
       return (
-        <span className="inline-flex shrink-0 items-center gap-1.5 text-xs text-success">
+        <span className="inline-flex shrink-0 items-center gap-1.5 text-base text-success">
           <Icon icon={Check} size={13} /> Incorporado
         </span>
       );
@@ -72,7 +72,7 @@ export function AiExtractionPanel({
               type="button"
               onClick={() => run(() => extractDocument(documentId))}
               disabled={pending}
-              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition hover:brightness-110 disabled:opacity-60"
+              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-base font-medium text-primary-foreground transition hover:brightness-110 disabled:opacity-60"
             >
               <Icon
                 icon={pending ? Loader2 : Sparkles}
@@ -85,14 +85,14 @@ export function AiExtractionPanel({
               type="button"
               onClick={() => run(() => deleteDocument(documentId))}
               disabled={pending}
-              className="inline-flex items-center gap-1.5 rounded-md border border-destructive px-3 py-1.5 text-sm font-medium text-destructive transition hover:bg-destructive/5 disabled:opacity-60"
+              className="inline-flex items-center gap-1.5 rounded-md border border-destructive px-3 py-1.5 text-base font-medium text-destructive transition hover:bg-destructive/5 disabled:opacity-60"
             >
               <Icon icon={Trash2} size={13} />
               Eliminar
             </button>
           </div>
           {(error || status === "error") && (
-            <p className="flex items-center gap-1 text-xs text-destructive">
+            <p className="flex items-center gap-1 text-base text-destructive">
               <Icon icon={AlertCircle} size={11} />
               {error || "Falló. Reinténtalo."}
             </p>
@@ -117,10 +117,10 @@ export function AiExtractionPanel({
             <Icon icon={Check} size={13} className="text-success" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-success">
+            <p className="text-base font-semibold text-success">
               Datos incorporados al expediente
             </p>
-            <p className="mt-0.5 font-mono text-xs text-muted-foreground">
+            <p className="mt-0.5 font-mono text-base text-muted-foreground">
               {filled} campos completados automáticamente · confianza {conf}%
             </p>
           </div>
@@ -144,8 +144,8 @@ export function AiExtractionPanel({
       <div className="mb-4 flex items-center gap-2.5">
         <Icon icon={Sparkles} size={16} className="shrink-0 text-accent" />
         <div>
-          <p className="text-sm font-semibold text-accent">Propuesta de la IA</p>
-          <p className="mt-0.5 text-xs text-muted-foreground">
+          <p className="text-base font-semibold text-accent">Propuesta de la IA</p>
+          <p className="mt-0.5 text-base text-muted-foreground">
             Revisa y confirma los datos extraídos
           </p>
         </div>
@@ -164,12 +164,12 @@ export function AiExtractionPanel({
               )}
             >
               <div className="flex items-start justify-between gap-2">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                <p className="text-base uppercase tracking-wide text-muted-foreground">
                   {f.label}
                 </p>
                 <span
                   className={cn(
-                    "shrink-0 font-mono text-xs",
+                    "shrink-0 font-mono text-base",
                     low ? "text-destructive" : "text-accent",
                   )}
                 >
@@ -178,7 +178,7 @@ export function AiExtractionPanel({
               </div>
               <p
                 className={cn(
-                  "mt-1 text-sm font-medium text-foreground",
+                  "mt-1 text-base font-medium text-foreground",
                   f.mono && "font-mono",
                 )}
               >
@@ -194,7 +194,7 @@ export function AiExtractionPanel({
           type="button"
           onClick={() => run(() => applyExtraction(documentId))}
           disabled={pending}
-          className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition hover:brightness-110 disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-base font-semibold text-primary-foreground transition hover:brightness-110 disabled:opacity-60"
         >
           <Icon
             icon={pending ? Loader2 : Check}
@@ -207,14 +207,14 @@ export function AiExtractionPanel({
           type="button"
           onClick={() => run(() => discardExtraction(documentId))}
           disabled={pending}
-          className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2.5 text-sm text-muted-foreground transition hover:text-foreground disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-md border border-border px-4 py-2.5 text-base text-muted-foreground transition hover:text-foreground disabled:opacity-60"
         >
           <Icon icon={X} size={15} /> Descartar
         </button>
       </div>
 
       {error && (
-        <p className="mt-2 flex items-center gap-1.5 text-sm text-destructive">
+        <p className="mt-2 flex items-center gap-1.5 text-base text-destructive">
           <Icon icon={AlertCircle} size={14} />
           {error}
         </p>

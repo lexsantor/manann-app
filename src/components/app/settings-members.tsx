@@ -44,13 +44,13 @@ export function MembersTable({ members, currentMemberId, isOwner }: Props) {
 
   return (
     <div className="rounded-md border bg-card">
-      <table className="w-full text-sm">
+      <table className="w-full text-base">
         <thead>
           <tr className="border-b">
-            <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">
+            <th className="px-4 py-2.5 text-left text-base font-medium text-muted-foreground">
               Usuario
             </th>
-            <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground">
+            <th className="px-4 py-2.5 text-left text-base font-medium text-muted-foreground">
               Rol
             </th>
             <th className="px-4 py-2.5" />
@@ -63,15 +63,15 @@ export function MembersTable({ members, currentMemberId, isOwner }: Props) {
               <tr key={m.memberId} className="border-b last:border-0">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-2">
-                    <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted font-mono text-xs text-muted-foreground">
+                    <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-muted font-mono text-base text-muted-foreground">
                       {(m.name ?? m.email)[0].toUpperCase()}
                     </div>
                     <div>
                       <p className="font-medium leading-none">{m.name ?? "—"}</p>
-                      <p className="mt-0.5 text-xs text-muted-foreground">{m.email}</p>
+                      <p className="mt-0.5 text-base text-muted-foreground">{m.email}</p>
                     </div>
                     {isSelf && (
-                      <span className="rounded-full bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                      <span className="rounded-full bg-muted px-1.5 py-0.5 text-base text-muted-foreground">
                         tú
                       </span>
                     )}
@@ -84,7 +84,7 @@ export function MembersTable({ members, currentMemberId, isOwner }: Props) {
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-7 gap-1.5 px-2 text-xs"
+                          className="h-7 gap-1.5 px-2 text-base"
                           disabled={isPending}
                         >
                           {m.role === "owner" && <Crown className="size-3 text-amber-500" />}
@@ -102,7 +102,7 @@ export function MembersTable({ members, currentMemberId, isOwner }: Props) {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   ) : (
-                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1.5 text-base text-muted-foreground">
                       {m.role === "owner" && <Crown className="size-3 text-amber-500" />}
                       {ROLE_LABEL[m.role]}
                     </span>

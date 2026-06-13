@@ -20,21 +20,21 @@ export function ShipmentRow({ s }: { s: ShipmentListItem }) {
     >
       {/* referencia + consignatario */}
       <div className="min-w-0">
-        <p className="font-mono text-sm text-foreground">{s.reference}</p>
-        <p className="truncate text-xs text-muted-foreground">
+        <p className="font-mono text-base text-foreground">{s.reference}</p>
+        <p className="truncate text-base text-muted-foreground">
           {consignee?.name ?? "Sin consignatario"}
         </p>
       </div>
 
       {/* ruta + naviera */}
       <div className="min-w-0">
-        <div className="flex items-center gap-2 text-sm text-foreground">
+        <div className="flex items-center gap-2 text-base text-foreground">
           <Icon icon={mode.icon} size={15} className="shrink-0 text-muted-foreground" />
           <span className="truncate">{portLabel(s.pol)}</span>
           <Icon icon={MoveRight} size={14} className="shrink-0 text-ink-subtle" />
           <span className="truncate">{portLabel(s.pod)}</span>
         </div>
-        <p className="truncate text-xs text-muted-foreground">
+        <p className="truncate text-base text-muted-foreground">
           {s.carrier}
           {s.vessel ? ` · ${s.vessel}` : ""}
         </p>
@@ -47,7 +47,7 @@ export function ShipmentRow({ s }: { s: ShipmentListItem }) {
           <PriorityPill priority={s.priority} />
         </div>
         <div className="flex items-center gap-2 sm:w-[120px] sm:justify-end">
-          <span className="font-mono text-xs text-muted-foreground">
+          <span className="font-mono text-base text-muted-foreground">
             ETA {formatDate(s.eta)}
           </span>
           <Icon

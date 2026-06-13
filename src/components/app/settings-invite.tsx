@@ -38,7 +38,7 @@ export function InviteForm() {
             setSent(false);
             setError(null);
           }}
-          className="h-8 max-w-xs text-sm"
+          className="h-8 max-w-xs text-base"
           onKeyDown={(e) => e.key === "Enter" && send()}
         />
         <Button size="sm" className="h-8 gap-1.5" onClick={send} disabled={isPending || !email.trim()}>
@@ -46,9 +46,9 @@ export function InviteForm() {
           Enviar invitación
         </Button>
       </div>
-      {error && <p className="text-xs text-destructive">{error}</p>}
+      {error && <p className="text-base text-destructive">{error}</p>}
       {sent && (
-        <p className="text-xs text-primary">
+        <p className="text-base text-primary">
           Invitación enviada. El enlace expira en 7 días.
         </p>
       )}

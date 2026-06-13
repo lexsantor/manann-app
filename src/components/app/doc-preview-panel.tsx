@@ -66,11 +66,11 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-foreground">
+                <p className="truncate text-base font-medium text-foreground">
                   {doc.filename}
                 </p>
                 <div className="mt-0.5 flex items-center gap-2">
-                  <span className="font-mono text-xs text-muted-foreground">
+                  <span className="font-mono text-base text-muted-foreground">
                     {DOC_TYPE_LABEL[doc.type] ?? doc.type}
                   </span>
                   {doc.reference && (
@@ -78,7 +78,7 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
                       <span className="text-border">·</span>
                       <Link
                         href={`/expedientes/${doc.shipmentId}`}
-                        className="font-mono text-xs text-muted-foreground transition-colors hover:text-primary"
+                        className="font-mono text-base text-muted-foreground transition-colors hover:text-primary"
                       >
                         {doc.reference}
                       </Link>
@@ -87,7 +87,7 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
                   <span className="text-border">·</span>
                   <span
                     className={cn(
-                      "rounded-full px-2 py-0.5 font-mono text-[10px]",
+                      "rounded-full px-2 py-0.5 font-mono text-base",
                       (DOC_STATUS_LABEL[doc.status] ?? DOC_STATUS_LABEL.uploaded).cls,
                     )}
                   >
@@ -122,7 +122,7 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
             {/* AI confidence strip — only when extracted/confirmed */}
             {doc.aiConfidence !== null && ["extracted", "confirmed"].includes(doc.status) && (
               <div className="flex items-center gap-2 border-b border-border bg-accent/5 px-5 py-2.5">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                <span className="font-mono text-base uppercase tracking-wider text-muted-foreground">
                   Confianza IA
                 </span>
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-border">
@@ -131,7 +131,7 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
                     style={{ width: `${Math.round(Number(doc.aiConfidence) * 100)}%` }}
                   />
                 </div>
-                <span className="font-mono text-xs text-accent">
+                <span className="font-mono text-base text-accent">
                   {Math.round(Number(doc.aiConfidence) * 100)}%
                 </span>
               </div>
@@ -152,7 +152,7 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
                     size={32}
                     className="text-muted-foreground/40"
                   />
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base text-muted-foreground">
                     Sin archivo almacenado
                   </p>
                 </div>

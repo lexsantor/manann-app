@@ -54,11 +54,11 @@ export function AiSummaryPanel({
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-2">
           <Icon icon={Sparkles} size={14} className="shrink-0 text-accent" />
-          <span className="font-mono text-[10px] uppercase tracking-wider text-accent">
+          <span className="font-mono text-base uppercase tracking-wider text-accent">
             IA · resumen
           </span>
           {summaryAt && (
-            <span className="font-mono text-[10px] text-muted-foreground">
+            <span className="font-mono text-base text-muted-foreground">
               · {timeAgo(summaryAt)}
             </span>
           )}
@@ -70,7 +70,7 @@ export function AiSummaryPanel({
             disabled={isPending}
             title={summary ? "Regenerar resumen" : "Generar resumen"}
             className={cn(
-              "flex items-center gap-1 rounded-md px-2 py-1 font-mono text-[10px] transition-colors",
+              "flex items-center gap-1 rounded-md px-2 py-1 font-mono text-base transition-colors",
               "text-accent hover:bg-accent/10 disabled:opacity-50",
             )}
           >
@@ -85,7 +85,7 @@ export function AiSummaryPanel({
       </div>
 
       {error && (
-        <div className="mt-3 flex items-start gap-2 text-xs text-destructive">
+        <div className="mt-3 flex items-start gap-2 text-base text-destructive">
           <Icon icon={AlertTriangle} size={12} className="mt-0.5 shrink-0" />
           <span>{error}</span>
         </div>
@@ -106,14 +106,14 @@ export function AiSummaryPanel({
       {summary ? (
         <p
           className={cn(
-            "mt-3 text-sm leading-relaxed text-foreground",
+            "mt-3 text-base leading-relaxed text-foreground",
             isPending && "opacity-50",
           )}
         >
           {summary}
         </p>
       ) : !isPending && !error && (
-        <p className="mt-3 text-sm text-muted-foreground">
+        <p className="mt-3 text-base text-muted-foreground">
           {canGenerate
             ? "Pulsa «Generar» para obtener un resumen ejecutivo de este expediente."
             : "Añade datos o documentos al expediente para poder generar un resumen."}

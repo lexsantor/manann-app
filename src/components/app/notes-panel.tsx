@@ -35,7 +35,7 @@ export function NotesPanel({ shipmentId, initialNotes }: NotesPanelProps) {
           </h2>
         </div>
         {saved && (
-          <span className="font-mono text-xs text-muted-foreground">
+          <span className="font-mono text-base text-muted-foreground">
             Guardado
           </span>
         )}
@@ -45,7 +45,7 @@ export function NotesPanel({ shipmentId, initialNotes }: NotesPanelProps) {
         onChange={handleChange}
         rows={4}
         placeholder="Apuntes internos del expediente…"
-        className="w-full resize-none rounded-md border border-border bg-surface-2/40 p-3 font-sans text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
+        className="w-full resize-none rounded-md border border-border bg-surface-2/40 p-3 font-sans text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/40"
       />
     </section>
   );

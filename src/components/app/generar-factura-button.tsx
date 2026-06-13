@@ -104,7 +104,7 @@ export function GenerarFacturaButton({
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/15 transition-colors"
+        className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors"
       >
         <FileText className="size-3.5" />
         Generar factura
@@ -138,34 +138,34 @@ export function GenerarFacturaButton({
               <div className="flex-1 space-y-5 p-5">
                 {/* Cliente */}
                 <fieldset className="space-y-3">
-                  <legend className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Cliente</legend>
+                  <legend className="font-mono text-base uppercase tracking-wider text-muted-foreground">Cliente</legend>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2">
-                      <label className="mb-1 block text-xs text-muted-foreground">Nombre / Razón social</label>
+                      <label className="mb-1 block text-base text-muted-foreground">Nombre / Razón social</label>
                       <input
                         type="text"
                         value={client}
                         onChange={(e) => setClient(e.target.value)}
                         placeholder="Importaciones García S.L."
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs text-muted-foreground">NIF / CIF</label>
+                      <label className="mb-1 block text-base text-muted-foreground">NIF / CIF</label>
                       <input
                         type="text"
                         value={clientNif}
                         onChange={(e) => setClientNif(e.target.value)}
                         placeholder="B-12345678"
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs text-muted-foreground">IVA (%)</label>
+                      <label className="mb-1 block text-base text-muted-foreground">IVA (%)</label>
                       <select
                         value={taxRate}
                         onChange={(e) => setTaxRate(e.target.value)}
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
                       >
                         <option value="21">21% (general)</option>
                         <option value="10">10% (reducido)</option>
@@ -178,24 +178,24 @@ export function GenerarFacturaButton({
 
                 {/* Fechas */}
                 <fieldset className="space-y-3">
-                  <legend className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Fechas</legend>
+                  <legend className="font-mono text-base uppercase tracking-wider text-muted-foreground">Fechas</legend>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="mb-1 block text-xs text-muted-foreground">Emisión</label>
+                      <label className="mb-1 block text-base text-muted-foreground">Emisión</label>
                       <input
                         type="date"
                         value={issueDate}
                         onChange={(e) => setIssueDate(e.target.value)}
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-xs text-muted-foreground">Vencimiento</label>
+                      <label className="mb-1 block text-base text-muted-foreground">Vencimiento</label>
                       <input
                         type="date"
                         value={dueDate}
                         onChange={(e) => setDueDate(e.target.value)}
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                     </div>
                   </div>
@@ -204,14 +204,14 @@ export function GenerarFacturaButton({
                 {/* Líneas */}
                 <fieldset className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <legend className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Líneas</legend>
-                    <button type="button" onClick={addLine} className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground">
+                    <legend className="font-mono text-base uppercase tracking-wider text-muted-foreground">Líneas</legend>
+                    <button type="button" onClick={addLine} className="flex items-center gap-1 text-base text-muted-foreground hover:text-foreground">
                       <Plus className="size-3" /> Añadir línea
                     </button>
                   </div>
 
                   {/* Cabecera de columnas */}
-                  <div className="grid grid-cols-[1fr_56px_88px_24px] gap-2 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60 px-1">
+                  <div className="grid grid-cols-[1fr_56px_88px_24px] gap-2 font-mono text-base uppercase tracking-wider text-muted-foreground/60 px-1">
                     <span>Concepto</span>
                     <span className="text-right">Cant.</span>
                     <span className="text-right">Precio</span>
@@ -225,7 +225,7 @@ export function GenerarFacturaButton({
                         value={l.concept}
                         onChange={(e) => updateLine(i, "concept", e.target.value)}
                         placeholder="Flete marítimo FCL"
-                        className="rounded-md border border-border bg-background px-2 py-1.5 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="rounded-md border border-border bg-background px-2 py-1.5 text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       <input
                         type="number"
@@ -233,7 +233,7 @@ export function GenerarFacturaButton({
                         step="0.001"
                         value={l.quantity}
                         onChange={(e) => updateLine(i, "quantity", e.target.value)}
-                        className="rounded-md border border-border bg-background px-2 py-1.5 text-right font-mono text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="rounded-md border border-border bg-background px-2 py-1.5 text-right font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       <input
                         type="number"
@@ -242,7 +242,7 @@ export function GenerarFacturaButton({
                         value={l.unitPrice}
                         onChange={(e) => updateLine(i, "unitPrice", e.target.value)}
                         placeholder="0,00"
-                        className="rounded-md border border-border bg-background px-2 py-1.5 text-right font-mono text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="rounded-md border border-border bg-background px-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       <button
                         type="button"
@@ -259,20 +259,20 @@ export function GenerarFacturaButton({
 
                 {/* Notas */}
                 <fieldset>
-                  <legend className="mb-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Notas (opcional)</legend>
+                  <legend className="mb-1 font-mono text-base uppercase tracking-wider text-muted-foreground">Notas (opcional)</legend>
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     rows={2}
                     placeholder="Condiciones de pago, referencia del cliente..."
-                    className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary"
                   />
                 </fieldset>
               </div>
 
               {/* Footer: totales + botón */}
               <div className="border-t border-border bg-surface-2/30 p-5">
-                <div className="mb-4 space-y-1 text-sm">
+                <div className="mb-4 space-y-1 text-base">
                   <div className="flex justify-between text-muted-foreground">
                     <span>Base imponible</span>
                     <span className="font-mono">{formatMoney(subtotal.toFixed(2))}</span>
@@ -287,13 +287,13 @@ export function GenerarFacturaButton({
                   </div>
                 </div>
 
-                {error && <p className="mb-3 text-xs text-destructive">{error}</p>}
+                {error && <p className="mb-3 text-base text-destructive">{error}</p>}
 
                 <button
                   type="submit"
                   disabled={pending}
                   className={cn(
-                    "flex w-full items-center justify-center gap-2 rounded-md py-2.5 text-sm font-medium transition-colors",
+                    "flex w-full items-center justify-center gap-2 rounded-md py-2.5 text-base font-medium transition-colors",
                     "bg-primary text-background hover:bg-primary/90 disabled:opacity-50",
                   )}
                 >

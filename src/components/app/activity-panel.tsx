@@ -50,7 +50,7 @@ function ChangeRow({ entry }: { entry: FieldChangeEntry }) {
   return (
     <div className="flex items-start gap-2 py-2">
       <SourceIcon source={entry.source} />
-      <div className="min-w-0 flex-1 text-xs">
+      <div className="min-w-0 flex-1 text-base">
         <span className="font-medium text-foreground">{entry.field}</span>
         {" "}
         <span className="text-muted-foreground">
@@ -62,7 +62,7 @@ function ChangeRow({ entry }: { entry: FieldChangeEntry }) {
             ? `editado por ${entry.changedByInitials}`
             : "editado"}
         </span>
-        <div className="mt-0.5 font-mono text-[10px] text-muted-foreground">
+        <div className="mt-0.5 font-mono text-base text-muted-foreground">
           {needsTruncate && !expanded ? (
             <>
               <span className="line-clamp-1">{OLD}</span>
@@ -98,7 +98,7 @@ function ChangeRow({ entry }: { entry: FieldChangeEntry }) {
           )}
         </div>
       </div>
-      <time className="shrink-0 font-mono text-[10px] text-muted-foreground">
+      <time className="shrink-0 font-mono text-base text-muted-foreground">
         {new Date(entry.changedAt).toLocaleTimeString("es-ES", {
           hour: "2-digit",
           minute: "2-digit",
@@ -140,7 +140,7 @@ export function ActivityPanel({ changes }: ActivityPanelProps) {
 
   if (changes.length === 0) {
     return (
-      <p className="py-6 text-center text-sm text-muted-foreground">
+      <p className="py-6 text-center text-base text-muted-foreground">
         Sin actividad registrada
       </p>
     );
@@ -150,7 +150,7 @@ export function ActivityPanel({ changes }: ActivityPanelProps) {
     <div>
       {grouped.map((group) => (
         <div key={group.date} className="mb-4">
-          <p className="mb-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+          <p className="mb-1 font-mono text-base uppercase tracking-wider text-muted-foreground">
             {group.date}
           </p>
           <div className="divide-y divide-border/50 rounded-lg border border-border bg-card px-3">
@@ -165,7 +165,7 @@ export function ActivityPanel({ changes }: ActivityPanelProps) {
           type="button"
           onClick={() => setPage((p) => p + 1)}
           className={cn(
-            "mt-2 w-full rounded-md py-1.5 text-xs text-muted-foreground",
+            "mt-2 w-full rounded-md py-1.5 text-base text-muted-foreground",
             "transition-colors hover:bg-surface-2/60 hover:text-foreground",
           )}
         >

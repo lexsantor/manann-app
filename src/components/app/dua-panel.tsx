@@ -76,11 +76,11 @@ export function DuaPanel({
           <span className="font-display text-base font-medium tracking-tight text-foreground">
             Declaración DUA
           </span>
-          <span className="rounded border border-amber-500/30 bg-amber-500/8 px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wide text-amber-500">
+          <span className="rounded border border-amber-500/30 bg-amber-500/8 px-1.5 py-0.5 font-mono text-base font-semibold uppercase tracking-wide text-amber-500">
             Simulación
           </span>
           {missingCount > 0 && (
-            <span className="rounded-full bg-amber-500/10 px-1.5 py-0.5 font-mono text-[9px] text-amber-500">
+            <span className="rounded-full bg-amber-500/10 px-1.5 py-0.5 font-mono text-base text-amber-500">
               {missingCount} pendiente{missingCount > 1 ? "s" : ""}
             </span>
           )}
@@ -90,19 +90,19 @@ export function DuaPanel({
 
       {open && (
         <div className="border-t border-border px-5 pb-5 pt-4">
-          <p className="mb-4 text-xs text-muted-foreground/70">
+          <p className="mb-4 text-base text-muted-foreground/70">
             Campos prellenados desde el expediente. Verifica y completa antes de presentar.
             La integración real con AEAT estará disponible en producción.
           </p>
 
           <div className="mb-4">
-            <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+            <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">
               Régimen aduanero
             </label>
             <select
               value={regimen}
               onChange={(e) => setRegimen(e.target.value)}
-              className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors"
+              className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors"
             >
               {REGIMEN_OPTIONS.map((r) => (
                 <option key={r.value} value={r.value}>{r.label}</option>
@@ -121,10 +121,10 @@ export function DuaPanel({
                     : "border-border/60 bg-surface-2/30",
                 )}
               >
-                <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">
                   {f.label}
                 </p>
-                <p className={cn("mt-0.5 text-sm", f.missing ? "text-amber-500/70 italic" : "text-foreground")}>
+                <p className={cn("mt-0.5 text-base", f.missing ? "text-amber-500/70 italic" : "text-foreground")}>
                   {f.value}
                   {f.missing && (
                     <AlertTriangle className="ml-1.5 inline size-2.5 text-amber-500/70" />
@@ -135,18 +135,18 @@ export function DuaPanel({
           </div>
 
           <div className="mt-4 flex items-center justify-between gap-3">
-            <p className="font-mono text-[10px] text-muted-foreground/40">
+            <p className="font-mono text-base text-muted-foreground/40">
               Simulación — integración AEAT en producción
             </p>
             {isEnAduana ? (
-              <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[11px] font-semibold text-emerald-400">
+              <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 font-mono text-base font-semibold text-emerald-400">
                 En aduana ✓
               </span>
             ) : (
               <button
                 onClick={handleEnAduana}
                 disabled={pending}
-                className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
+                className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
               >
                 {pending ? <Loader2 className="size-4 animate-spin" /> : <FileCheck2 className="size-4" />}
                 Marcar en aduana

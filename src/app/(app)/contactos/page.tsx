@@ -60,7 +60,7 @@ export default async function ContactosPage({
         <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">
           Contactos
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-base text-muted-foreground">
           {all.length} contacto{all.length !== 1 ? "s" : ""} en {
             Object.keys(roleCounts).length
           } rol{Object.keys(roleCounts).length !== 1 ? "es" : ""}
@@ -95,23 +95,23 @@ export default async function ContactosPage({
                 )}
               >
                 {/* Avatar inicial */}
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-border font-mono text-xs font-medium text-foreground">
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-border font-mono text-base font-medium text-foreground">
                   {initials(contact.name)}
                 </span>
 
                 {/* Nombre + ubicación */}
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-foreground">
+                  <p className="truncate text-base font-medium text-foreground">
                     {contact.name}
                   </p>
                   <div className="mt-0.5 flex items-center gap-2">
                     {location && (
-                      <span className="text-xs text-muted-foreground">{location}</span>
+                      <span className="text-base text-muted-foreground">{location}</span>
                     )}
                     {contact.taxId && (
                       <>
                         {location && <span className="text-border">·</span>}
-                        <span className="font-mono text-xs text-muted-foreground">
+                        <span className="font-mono text-base text-muted-foreground">
                           {contact.taxId}
                         </span>
                       </>
@@ -122,7 +122,7 @@ export default async function ContactosPage({
                 {/* Rol */}
                 <span
                   className={cn(
-                    "shrink-0 rounded-full px-2 py-0.5 font-mono text-[10px]",
+                    "shrink-0 rounded-full px-2 py-0.5 font-mono text-base",
                     roleMeta,
                   )}
                 >
@@ -133,7 +133,7 @@ export default async function ContactosPage({
                 <Link
                   href={`/expedientes?q=${encodeURIComponent(contact.name)}`}
                   prefetch={false}
-                  className="shrink-0 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  className="shrink-0 font-mono text-base text-muted-foreground transition-colors hover:text-foreground"
                   title="Ver expedientes de este contacto"
                 >
                   {contact.expedientes} exp.
@@ -144,7 +144,7 @@ export default async function ContactosPage({
         </div>
       ) : (
         <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-base text-muted-foreground">
             No hay contactos con ese rol.
           </p>
         </div>
@@ -168,7 +168,7 @@ function FilterChip({
       prefetch={false}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition-colors",
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-base transition-colors",
         active
           ? "border-primary/40 bg-primary/10 text-foreground"
           : "border-border bg-card text-muted-foreground hover:text-foreground",
@@ -180,5 +180,5 @@ function FilterChip({
 }
 
 function Count({ n }: { n: number }) {
-  return <span className="font-mono text-xs text-ink-subtle">{n}</span>;
+  return <span className="font-mono text-base text-ink-subtle">{n}</span>;
 }

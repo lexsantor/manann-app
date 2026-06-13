@@ -52,7 +52,7 @@ export default async function TarifasPage() {
           <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">
             Tarifas
           </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
+          <p className="mt-0.5 text-base text-muted-foreground">
             {active.length} activas · {inactive.length} inactivas
           </p>
         </div>
@@ -62,8 +62,8 @@ export default async function TarifasPage() {
       {rates.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/60 py-20 text-center">
           <Icon icon={Tag} size={32} className="mb-3 text-muted-foreground/30" />
-          <p className="text-sm font-medium text-muted-foreground">Sin tarifas todavía</p>
-          <p className="mt-1 text-xs text-muted-foreground/60">
+          <p className="text-base font-medium text-muted-foreground">Sin tarifas todavía</p>
+          <p className="mt-1 text-base text-muted-foreground/60">
             Crea tu primer tarifa para usarla al generar facturas y cotizaciones.
           </p>
         </div>
@@ -91,7 +91,7 @@ function RatesTable({
   return (
     <div>
       <p className={cn(
-        "mb-2 font-mono text-[10px] uppercase tracking-wider",
+        "mb-2 font-mono text-base uppercase tracking-wider",
         muted ? "text-muted-foreground/40" : "text-muted-foreground/60",
       )}>
         {title}
@@ -99,7 +99,7 @@ function RatesTable({
       <div className="overflow-hidden rounded-xl border border-border bg-card">
         {/* Cabecera */}
         <div
-          className="grid items-center gap-3 border-b border-border/60 px-5 py-2.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60"
+          className="grid items-center gap-3 border-b border-border/60 px-5 py-2.5 font-mono text-base uppercase tracking-wider text-muted-foreground/60"
           style={{ gridTemplateColumns: "1fr 110px 120px 110px 110px 90px 32px" }}
         >
           <span>Concepto</span>
@@ -121,30 +121,30 @@ function RatesTable({
             style={{ gridTemplateColumns: "1fr 110px 120px 110px 110px 90px 32px" }}
           >
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-foreground">{r.concept}</p>
+              <p className="truncate text-base font-medium text-foreground">{r.concept}</p>
               {r.notes && (
-                <p className="mt-0.5 truncate font-mono text-[11px] text-muted-foreground/60">
+                <p className="mt-0.5 truncate font-mono text-base text-muted-foreground/60">
                   {r.notes}
                 </p>
               )}
             </div>
 
             <span className={cn(
-              "w-fit rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold",
+              "w-fit rounded-full px-2 py-0.5 font-mono text-base font-semibold",
               SERVICE_COLOR[r.serviceType] ?? "bg-border/30 text-muted-foreground",
             )}>
               {SERVICE_LABEL[r.serviceType] ?? r.serviceType}
             </span>
 
-            <span className="font-mono text-xs text-muted-foreground">
+            <span className="font-mono text-base text-muted-foreground">
               {UNIT_LABEL[r.unit] ?? r.unit}
             </span>
 
-            <span className="text-right font-mono text-sm font-medium text-foreground">
+            <span className="text-right font-mono text-base font-medium text-foreground">
               {formatMoney(r.basePrice, r.currency)}
             </span>
 
-            <span className="font-mono text-xs text-muted-foreground">
+            <span className="font-mono text-base text-muted-foreground">
               {r.validFrom && r.validTo
                 ? `${formatDate(r.validFrom)} – ${formatDate(r.validTo)}`
                 : r.validFrom

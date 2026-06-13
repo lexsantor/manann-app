@@ -73,7 +73,7 @@ export function CommentsPanel({ shipmentId, comments }: CommentsPanelProps) {
           Comentarios
         </h2>
         {comments.length > 0 && (
-          <span className="ml-auto rounded-full bg-surface-2 px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
+          <span className="ml-auto rounded-full bg-surface-2 px-2 py-0.5 font-mono text-base text-muted-foreground">
             {comments.length}
           </span>
         )}
@@ -84,17 +84,17 @@ export function CommentsPanel({ shipmentId, comments }: CommentsPanelProps) {
         <div className="mb-4 space-y-3">
           {comments.map((c) => (
             <div key={c.id} className="flex items-start gap-2.5">
-              <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 font-mono text-[10px] font-semibold text-primary/80">
+              <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 font-mono text-base font-semibold text-primary/80">
                 {initials(c.authorName)}
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline gap-2">
-                  <span className="text-xs font-medium text-foreground">{c.authorName ?? "Usuario"}</span>
-                  <span className="font-mono text-[10px] text-muted-foreground/50">
+                  <span className="text-base font-medium text-foreground">{c.authorName ?? "Usuario"}</span>
+                  <span className="font-mono text-base text-muted-foreground/50">
                     {formatRelative(c.createdAt)}
                   </span>
                 </div>
-                <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-0.5 text-base leading-relaxed text-muted-foreground">
                   {renderBody(c.body)}
                 </p>
               </div>
@@ -102,7 +102,7 @@ export function CommentsPanel({ shipmentId, comments }: CommentsPanelProps) {
           ))}
         </div>
       ) : (
-        <p className="mb-4 text-sm text-muted-foreground/60">
+        <p className="mb-4 text-base text-muted-foreground/60">
           Sin comentarios todavía. Usa @nombre para mencionar a alguien.
         </p>
       )}
@@ -119,7 +119,7 @@ export function CommentsPanel({ shipmentId, comments }: CommentsPanelProps) {
           rows={2}
           placeholder="Escribe un comentario… @menciona a alguien (⌘↵ para enviar)"
           className={cn(
-            "w-full resize-none rounded-lg border bg-surface-2/30 px-3 py-2.5 pr-10 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors",
+            "w-full resize-none rounded-lg border bg-surface-2/30 px-3 py-2.5 pr-10 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors",
             error ? "border-destructive" : "border-border",
           )}
         />
@@ -132,7 +132,7 @@ export function CommentsPanel({ shipmentId, comments }: CommentsPanelProps) {
           {pending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
         </button>
       </div>
-      {error && <p className="mt-1 text-xs text-destructive">{error}</p>}
+      {error && <p className="mt-1 text-base text-destructive">{error}</p>}
     </section>
   );
 }

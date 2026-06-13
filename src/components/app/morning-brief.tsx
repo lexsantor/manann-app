@@ -58,15 +58,15 @@ function TimeSavedDonut({
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <span className="font-mono text-base font-semibold text-foreground leading-none">{total}h</span>
-          <span className="font-mono text-[8px] text-muted-foreground">/ sem.</span>
+          <span className="font-mono text-base text-muted-foreground">/ sem.</span>
         </div>
       </div>
       <div className="space-y-1.5">
         {breakdown.map((b, i) => (
           <div key={b.label} className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full shrink-0" style={{ background: COLORS[i] }} />
-            <span className="text-xs text-muted-foreground">{b.label}</span>
-            <span className="ml-auto font-mono text-xs font-medium text-foreground">{b.hours}h</span>
+            <span className="text-base text-muted-foreground">{b.label}</span>
+            <span className="ml-auto font-mono text-base font-medium text-foreground">{b.hours}h</span>
           </div>
         ))}
       </div>
@@ -99,12 +99,12 @@ function TaskRow({ action }: { action: AutopilotAction }) {
         />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-medium text-foreground">{action.title}</p>
-        <p className="mt-0.5 text-xs text-muted-foreground truncate">{action.description}</p>
+        <p className="text-base font-medium text-foreground">{action.title}</p>
+        <p className="mt-0.5 text-base text-muted-foreground truncate">{action.description}</p>
       </div>
       {action.impact > 0 && (
         <span className={cn(
-          "shrink-0 font-mono text-xs font-semibold",
+          "shrink-0 font-mono text-base font-semibold",
           isCritical ? "text-destructive" : "text-accent",
         )}>
           {formatMoney(String(action.impact), "EUR")}
@@ -165,35 +165,35 @@ export function MorningBrief({
     <div className="space-y-6">
       {/* Hero greeting */}
       <div className="rounded-xl border border-border bg-card p-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">{greeting}</p>
+        <p className="font-mono text-base uppercase tracking-widest text-muted-foreground">{greeting}</p>
         <h1 className="mt-1 font-display text-3xl font-medium tracking-tight text-foreground">
           {userName}.
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-base text-muted-foreground">
           Manann ha revisado tus <strong>{shipmentCount}</strong> expediente{shipmentCount !== 1 ? "s" : ""} mientras te preparabas.
         </p>
 
         {/* Chips */}
         <div className="mt-4 flex flex-wrap gap-2">
           {atRiskTotal > 0 && (
-            <Link href="/excepciones" className="flex items-center gap-1.5 rounded-full border border-destructive/20 bg-destructive/5 px-3 py-1 text-xs font-medium text-destructive transition-colors hover:bg-destructive/10">
+            <Link href="/excepciones" className="flex items-center gap-1.5 rounded-full border border-destructive/20 bg-destructive/5 px-3 py-1 text-base font-medium text-destructive transition-colors hover:bg-destructive/10">
               <Icon icon={AlertTriangle} size={11} />
               {formatMoney(String(atRiskTotal), "EUR")} en riesgo
             </Link>
           )}
           {criticalCount > 0 && (
-            <Link href="/autopilot" className="flex items-center gap-1.5 rounded-full border border-destructive/20 bg-destructive/5 px-3 py-1 text-xs font-medium text-destructive transition-colors hover:bg-destructive/10">
+            <Link href="/autopilot" className="flex items-center gap-1.5 rounded-full border border-destructive/20 bg-destructive/5 px-3 py-1 text-base font-medium text-destructive transition-colors hover:bg-destructive/10">
               <Icon icon={Zap} size={11} />
               {criticalCount} tarea{criticalCount > 1 ? "s" : ""} crítica{criticalCount > 1 ? "s" : ""}
             </Link>
           )}
           {actions.length > 0 && (
-            <Link href="/autopilot" className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary/10">
+            <Link href="/autopilot" className="flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-base font-medium text-primary transition-colors hover:bg-primary/10">
               <Icon icon={Zap} size={11} />
               {actions.length} acción{actions.length > 1 ? "es" : ""} IA
             </Link>
           )}
-          <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+          <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3 py-1 text-base font-medium text-emerald-600 dark:text-emerald-400">
             <Icon icon={TrendingUp} size={11} />
             {timeSaved.total}h ahorradas esta semana
           </span>
@@ -205,7 +205,7 @@ export function MorningBrief({
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-base font-medium tracking-tight text-foreground">Plan para hoy</h2>
-            <Link href="/autopilot" className="flex items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground">
+            <Link href="/autopilot" className="flex items-center gap-1 text-base text-muted-foreground transition-colors hover:text-foreground">
               Ver todo
               <Icon icon={ArrowRight} size={12} />
             </Link>
@@ -219,7 +219,7 @@ export function MorningBrief({
           ) : (
             <div className="flex items-center gap-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-4">
               <Icon icon={ShieldAlert} size={16} className="text-emerald-500" />
-              <p className="text-sm text-emerald-600 dark:text-emerald-400">Sin tareas pendientes. Todo en orden.</p>
+              <p className="text-base text-emerald-600 dark:text-emerald-400">Sin tareas pendientes. Todo en orden.</p>
             </div>
           )}
         </div>
@@ -228,29 +228,29 @@ export function MorningBrief({
         <div className="space-y-4">
           {/* Time Saved */}
           <div className="rounded-xl border border-border bg-card p-4">
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+            <p className="mb-3 font-mono text-base uppercase tracking-wider text-muted-foreground">
               Tiempo ahorrado
             </p>
             <TimeSavedDonut breakdown={timeSaved.breakdown} total={timeSaved.total} />
-            <p className="mt-3 text-xs text-muted-foreground text-center">
+            <p className="mt-3 text-base text-muted-foreground text-center">
               Casi <strong>{Math.round(timeSaved.total / 8)} jornada{timeSaved.total >= 16 ? "s" : ""}</strong> esta semana
             </p>
           </div>
 
           {/* Agenda */}
           <div className="rounded-xl border border-border bg-card p-4">
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+            <p className="mb-3 font-mono text-base uppercase tracking-wider text-muted-foreground">
               Agenda de hoy
             </p>
             <div className="space-y-2">
               {AGENDA.map((item) => (
                 <div key={item.time} className="flex items-center gap-3">
-                  <span className="shrink-0 font-mono text-[10px] text-muted-foreground w-10">{item.time}</span>
+                  <span className="shrink-0 font-mono text-base text-muted-foreground w-10">{item.time}</span>
                   <span className={cn(
                     "w-1.5 h-1.5 rounded-full shrink-0",
                     TONE_CLASS[item.tone].split(" ")[0],
                   )} />
-                  <span className="text-xs text-foreground leading-tight">{item.label}</span>
+                  <span className="text-base text-foreground leading-tight">{item.label}</span>
                 </div>
               ))}
             </div>

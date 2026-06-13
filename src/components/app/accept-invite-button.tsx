@@ -29,7 +29,7 @@ export function AcceptInviteButton({ token }: Props) {
       <Button className="w-full" onClick={accept} disabled={isPending}>
         {isPending ? "Procesando…" : "Aceptar invitación"}
       </Button>
-      <p className="text-center text-xs text-muted-foreground">
+      <p className="text-center text-base text-muted-foreground">
         ¿No quieres unirte?{" "}
         <a href="/dashboard" className="text-primary underline underline-offset-4">
           Ir al dashboard

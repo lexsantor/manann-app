@@ -41,7 +41,7 @@ export function StatusTimeline({ status }: { status: string }) {
               />
               <span
                 className={cn(
-                  "whitespace-nowrap font-mono text-[9px] uppercase tracking-wider leading-tight text-center",
+                  "whitespace-nowrap font-mono text-base uppercase tracking-wider leading-tight text-center",
                   done || active ? "text-foreground" : "text-muted-foreground",
                 )}
               >

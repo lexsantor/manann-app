@@ -29,7 +29,7 @@ export function KpiCard({ label, value, icon, accent }: KpiCardProps) {
     <div className="rounded-[calc(0.75rem+6px)] bg-surface-2/20 p-1.5 ring-1 ring-border/30 transition-all duration-200 ease-out hover:bg-surface-2/40 hover:ring-border/60">
       <div className="rounded-xl bg-card p-4 shadow-[inset_0_1px_0_hsl(var(--foreground)/0.05)]">
         <div className="flex items-center justify-between">
-          <p className="font-sans text-sm text-muted-foreground">{label}</p>
+          <p className="font-sans text-base text-muted-foreground">{label}</p>
           <Icon
             icon={icon}
             size={18}

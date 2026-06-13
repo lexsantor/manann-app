@@ -27,7 +27,7 @@ function CarrierBadge({ carrier }: { carrier: string }) {
   return (
     <span
       className={cn(
-        "rounded px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide",
+        "rounded px-1.5 py-0.5 font-mono text-base font-semibold uppercase tracking-wide",
         cls,
       )}
     >
@@ -131,13 +131,13 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
           <div className="absolute bottom-0 left-0 right-0 px-4 pb-2.5 transition-transform duration-700 group-hover:-translate-y-1">
             <div className="flex items-center gap-2">
               <div className="flex-1">
-                <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white">
+                <p className="font-mono text-base uppercase tracking-[0.15em] text-white">
                   Origen
                 </p>
                 <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">
                   {pol3}
                 </p>
-                <p className="mt-0.5 font-mono text-[10px] text-white/80">
+                <p className="mt-0.5 font-mono text-base text-white/80">
                   {polCity}
                 </p>
               </div>
@@ -147,13 +147,13 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
                 className="shrink-0 text-white/40"
               />
               <div className="flex-1 text-right">
-                <p className="font-mono text-[8px] uppercase tracking-[0.15em] text-white">
+                <p className="font-mono text-base uppercase tracking-[0.15em] text-white">
                   Destino
                 </p>
                 <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">
                   {pod3}
                 </p>
-                <p className="mt-0.5 font-mono text-[10px] text-white/80">
+                <p className="mt-0.5 font-mono text-base text-white/80">
                   {podCity}
                 </p>
               </div>
@@ -169,7 +169,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
           {/* Referencia + naviera */}
           <div className="flex items-center justify-between gap-2">
-            <p className="font-mono text-xs tracking-wide text-muted-foreground">
+            <p className="font-mono text-base tracking-wide text-muted-foreground">
               {s.reference}
             </p>
             {s.carrier && <CarrierBadge carrier={s.carrier} />}
@@ -180,14 +180,14 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             <div className="mt-2 space-y-2 border-t border-border pt-2">
               {s.blNumber && (
                 <div className="min-w-0">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">BL</p>
-                  <p className="mt-0.5 truncate font-sans text-sm text-foreground">{s.blNumber}</p>
+                  <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">BL</p>
+                  <p className="mt-0.5 truncate font-sans text-base text-foreground">{s.blNumber}</p>
                 </div>
               )}
               {consignee && (
                 <div className="min-w-0">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">Consignatario</p>
-                  <p className="mt-0.5 truncate font-sans text-sm text-foreground">{consignee}</p>
+                  <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">Consignatario</p>
+                  <p className="mt-0.5 truncate font-sans text-base text-foreground">{consignee}</p>
                 </div>
               )}
             </div>
@@ -203,19 +203,19 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             </div>
             <div className="mt-1.5 flex items-start justify-between">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
-                <p className="mt-0.5 font-sans text-sm text-foreground">{formatDate(s.etd)}</p>
+                <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
+                <p className="mt-0.5 font-sans text-base text-foreground">{formatDate(s.etd)}</p>
               </div>
               <div className="text-right">
                 <div className="flex items-center justify-end gap-1.5">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground">ETA</p>
+                  <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">ETA</p>
                   {etaOverdue && (
-                    <span className="rounded-sm bg-accent/15 px-1 py-0.5 font-mono text-[8px] font-semibold uppercase tracking-wide text-accent">
+                    <span className="rounded-sm bg-accent/15 px-1 py-0.5 font-mono text-base font-semibold uppercase tracking-wide text-accent">
                       Vencida
                     </span>
                   )}
                 </div>
-                <p className={cn("mt-0.5 font-sans text-sm", etaOverdue ? "text-accent" : "text-foreground")}>
+                <p className={cn("mt-0.5 font-sans text-base", etaOverdue ? "text-accent" : "text-foreground")}>
                   {formatDate(s.eta)}
                 </p>
               </div>
@@ -225,14 +225,14 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
           {/* GP — solo si está disponible */}
           {gp !== null && (
             <div className="mt-2.5 flex items-center justify-between border-t border-border pt-2.5">
-              <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground flex items-center gap-1">
+              <span className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground flex items-center gap-1">
                 Gross Profit
                 {hasAtRisk && (
                   <Icon icon={AlertTriangle} size={10} className="text-destructive" />
                 )}
               </span>
               <span className={cn(
-                "font-mono text-sm font-semibold",
+                "font-mono text-base font-semibold",
                 gp > 0 ? "text-emerald-500" : "text-destructive",
               )}>
                 {formatMoney(String(gp), "EUR")}
@@ -246,7 +246,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             gp !== null ? "mt-2.5" : "mt-2.5",
           )}>
             <StatusPill status={s.status} />
-            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5 text-base text-muted-foreground">
               <Icon icon={mode.icon} size={12} />
               {mode.label}
             </span>

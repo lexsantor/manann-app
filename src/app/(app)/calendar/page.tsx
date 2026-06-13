@@ -81,7 +81,7 @@ export default async function CalendarPage({
           <h1 className="font-display text-2xl font-medium capitalize tracking-tight text-foreground">
             {monthLabel}
           </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-base text-muted-foreground">
             {shipments.length} ETA{shipments.length !== 1 ? "s" : ""} este mes
           </p>
         </div>
@@ -97,7 +97,7 @@ export default async function CalendarPage({
           <Link
             href="/calendar"
             prefetch={false}
-            className="rounded-md border border-border px-3 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+            className="rounded-md border border-border px-3 py-1 text-base text-muted-foreground transition-colors hover:text-foreground"
           >
             Hoy
           </Link>
@@ -121,7 +121,7 @@ export default async function CalendarPage({
               {["Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Do"].map((d) => (
                 <div
                   key={d}
-                  className="py-2 text-center font-mono text-[10px] uppercase tracking-wider text-muted-foreground"
+                  className="py-2 text-center font-mono text-base uppercase tracking-wider text-muted-foreground"
                 >
                   {d}
                 </div>
@@ -162,7 +162,7 @@ export default async function CalendarPage({
                   >
                     <span
                       className={cn(
-                        "inline-flex h-6 w-6 items-center justify-center rounded-full font-mono text-xs",
+                        "inline-flex h-6 w-6 items-center justify-center rounded-full font-mono text-base",
                         isToday
                           ? "bg-primary text-primary-foreground"
                           : isThisMonth
@@ -185,7 +185,7 @@ export default async function CalendarPage({
                           />
                         ))}
                         {hasMore && (
-                          <span className="font-mono text-[9px] text-muted-foreground">
+                          <span className="font-mono text-base text-muted-foreground">
                             +{dayShipments.length - 3}
                           </span>
                         )}
@@ -204,7 +204,7 @@ export default async function CalendarPage({
               .map(([k, cls]) => (
                 <div key={k} className="flex items-center gap-1.5">
                   <span className={cn("size-2 rounded-full", cls)} />
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-base text-muted-foreground">
                     {STATUS[k]?.label ?? k}
                   </span>
                 </div>
@@ -221,7 +221,7 @@ export default async function CalendarPage({
                 <h2 className="font-medium text-foreground">
                   {selectedDay} de {firstDay.toLocaleDateString("es-ES", { month: "long" })}
                 </h2>
-                <span className="ml-auto font-mono text-xs text-muted-foreground">
+                <span className="ml-auto font-mono text-base text-muted-foreground">
                   {selectedShipments.length} expediente{selectedShipments.length !== 1 ? "s" : ""}
                 </span>
               </div>
@@ -241,10 +241,10 @@ export default async function CalendarPage({
                         )}
                       />
                       <div className="min-w-0 flex-1">
-                        <p className="font-mono text-xs font-medium text-foreground">
+                        <p className="font-mono text-base font-medium text-foreground">
                           {s.reference}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-base text-muted-foreground">
                           {[s.pol, s.pod].filter(Boolean).join(" → ")}
                           {s.carrier ? ` · ${s.carrier}` : ""}
                         </p>
@@ -253,7 +253,7 @@ export default async function CalendarPage({
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">Sin expedientes este día.</p>
+                <p className="text-base text-muted-foreground">Sin expedientes este día.</p>
               )}
             </div>
           )}
@@ -262,8 +262,8 @@ export default async function CalendarPage({
             <div className="rounded-xl border border-border bg-card p-4">
               <div className="mb-3 flex items-center gap-2">
                 <Icon icon={AlertCircle} size={14} className="text-accent" />
-                <h2 className="text-sm font-medium text-foreground">Sin ETA</h2>
-                <span className="ml-auto font-mono text-xs text-muted-foreground">
+                <h2 className="text-base font-medium text-foreground">Sin ETA</h2>
+                <span className="ml-auto font-mono text-base text-muted-foreground">
                   {withoutEta.length}
                 </span>
               </div>
@@ -273,7 +273,7 @@ export default async function CalendarPage({
                     key={s.id}
                     href={`/expedientes/${s.id}`}
                     prefetch={false}
-                    className="flex items-center gap-2 rounded-md px-2 py-1.5 text-xs transition-colors hover:bg-surface-2/60"
+                    className="flex items-center gap-2 rounded-md px-2 py-1.5 text-base transition-colors hover:bg-surface-2/60"
                   >
                     <span className="font-mono text-foreground">{s.reference}</span>
                     <span className="truncate text-muted-foreground">
@@ -285,7 +285,7 @@ export default async function CalendarPage({
                   <Link
                     href="/expedientes"
                     prefetch={false}
-                    className="block pt-1 text-xs text-primary hover:underline"
+                    className="block pt-1 text-base text-primary hover:underline"
                   >
                     Ver todos ({withoutEta.length})
                   </Link>

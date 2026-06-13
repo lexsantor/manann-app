@@ -36,7 +36,7 @@ export function GenerarCotizacionButton({ rates }: GenerarCotizacionButtonProps)
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/15 transition-colors"
+        className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors"
       >
         <Plus className="size-4" />
         Nueva cotización
@@ -139,38 +139,38 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
           {/* Cliente */}
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2">
-              <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Cliente *</label>
+              <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">Cliente *</label>
               <input type="text" value={clientName} onChange={(e) => setClientName(e.target.value)}
                 placeholder="Nombre del cliente"
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
             </div>
             <div>
-              <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Email del cliente</label>
+              <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">Email del cliente</label>
               <input type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)}
                 placeholder="cliente@empresa.com"
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
             </div>
             <div>
-              <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Válida hasta</label>
+              <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">Válida hasta</label>
               <input type="date" value={validUntil} onChange={(e) => setValidUntil(e.target.value)}
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
             </div>
           </div>
 
           {/* Líneas */}
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Líneas *</label>
+              <label className="font-mono text-base uppercase tracking-wider text-muted-foreground">Líneas *</label>
               <div className="flex items-center gap-2">
                 {rates.length > 0 && (
                   <button onClick={() => setShowRates((v) => !v)}
-                    className="flex items-center gap-1 rounded px-2 py-0.5 text-[11px] text-muted-foreground hover:text-foreground border border-border/60 transition-colors">
+                    className="flex items-center gap-1 rounded px-2 py-0.5 text-base text-muted-foreground hover:text-foreground border border-border/60 transition-colors">
                     <Tag className="size-3" />
                     Importar tarifa
                   </button>
                 )}
                 <button onClick={addLine}
-                  className="flex items-center gap-1 rounded px-2 py-0.5 text-[11px] text-primary hover:bg-primary/5 transition-colors">
+                  className="flex items-center gap-1 rounded px-2 py-0.5 text-base text-primary hover:bg-primary/5 transition-colors">
                   <Plus className="size-3" />
                   Añadir línea
                 </button>
@@ -180,15 +180,15 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
             {/* Rate picker */}
             {showRates && (
               <div className="mb-3 rounded-lg border border-border/60 bg-surface-2/20 p-3">
-                <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">
+                <p className="mb-2 font-mono text-base uppercase tracking-wider text-muted-foreground/60">
                   Selecciona una tarifa para importar
                 </p>
                 <div className="space-y-1 max-h-40 overflow-y-auto">
                   {rates.filter((r) => r.active).map((r) => (
                     <button key={r.id} onClick={() => importRate(r)}
                       className="flex w-full items-center justify-between rounded px-2 py-1.5 text-left hover:bg-primary/5 transition-colors">
-                      <span className="text-sm text-foreground">{r.concept}</span>
-                      <span className="font-mono text-xs text-muted-foreground">
+                      <span className="text-base text-foreground">{r.concept}</span>
+                      <span className="font-mono text-base text-muted-foreground">
                         {new Intl.NumberFormat("es-ES", { style: "currency", currency: r.currency }).format(Number(r.basePrice))} / {UNIT_LABELS[r.unit] ?? r.unit}
                       </span>
                     </button>
@@ -198,7 +198,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
             )}
 
             {/* Cabecera tabla */}
-            <div className="grid gap-2 pb-1 font-mono text-[9px] uppercase tracking-wider text-muted-foreground/50"
+            <div className="grid gap-2 pb-1 font-mono text-base uppercase tracking-wider text-muted-foreground/50"
               style={{ gridTemplateColumns: "1fr 70px 90px 90px 28px" }}>
               <span>Concepto</span><span className="text-center">Unidad</span>
               <span className="text-right">Cant.</span><span className="text-right">Precio</span><span />
@@ -209,9 +209,9 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
                 <div key={i} className="grid gap-2 items-center" style={{ gridTemplateColumns: "1fr 70px 90px 90px 28px" }}>
                   <input type="text" value={l.concept} onChange={(e) => updateLine(i, "concept", e.target.value)}
                     placeholder="Concepto"
-                    className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+                    className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
                   <Select value={l.unit} onValueChange={(v) => updateLine(i, "unit", v)}>
-                    <SelectTrigger className="h-[34px] text-xs">
+                    <SelectTrigger className="h-[34px] text-base">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -222,10 +222,10 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
                   </Select>
                   <input type="number" value={l.quantity} onChange={(e) => updateLine(i, "quantity", e.target.value)}
                     min="0" step="1"
-                    className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-right text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+                    className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-right text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
                   <input type="number" value={l.unitPrice} onChange={(e) => updateLine(i, "unitPrice", e.target.value)}
                     min="0" step="0.01"
-                    className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-right text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+                    className="rounded border border-border bg-surface-2/30 px-2 py-1.5 text-right text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
                   <button onClick={() => removeLine(i)} disabled={lines.length === 1}
                     className="flex size-7 items-center justify-center rounded text-muted-foreground/30 hover:text-destructive transition-colors disabled:pointer-events-none">
                     <Trash2 className="size-3.5" />
@@ -238,7 +238,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
           {/* IVA + Moneda + Totales */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">IVA</label>
+              <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">IVA</label>
               <Select value={taxRate} onValueChange={(v) => setTaxRate(v as typeof taxRate)}>
                 <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -250,7 +250,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
               </Select>
             </div>
             <div>
-              <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Moneda</label>
+              <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">Moneda</label>
               <Select value={currency} onValueChange={setCurrency}>
                 <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -264,10 +264,10 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
 
           {/* Resumen totales */}
           <div className="rounded-lg border border-border/50 bg-surface-2/20 px-4 py-3 space-y-1">
-            <div className="flex justify-between text-sm text-muted-foreground">
+            <div className="flex justify-between text-base text-muted-foreground">
               <span>Base imponible</span><span className="font-mono">{fmt(subtotal)}</span>
             </div>
-            <div className="flex justify-between text-sm text-muted-foreground">
+            <div className="flex justify-between text-base text-muted-foreground">
               <span>IVA {taxRate}%</span><span className="font-mono">{fmt(tax)}</span>
             </div>
             <div className="flex justify-between border-t border-border/40 pt-1.5 font-semibold text-foreground">
@@ -277,23 +277,23 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
 
           {/* Notas */}
           <div>
-            <label className="mb-1.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Notas</label>
+            <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">Notas</label>
             <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3}
               placeholder="Condiciones, exclusiones, notas para el cliente..."
-              className="w-full resize-none rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+              className="w-full resize-none rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
           </div>
 
-          {error && <p className="text-xs text-destructive">{error}</p>}
+          {error && <p className="text-base text-destructive">{error}</p>}
         </div>
 
         {/* Footer */}
         <div className="border-t border-border px-5 py-4 flex items-center justify-end gap-3">
           <button onClick={onClose}
-            className="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            className="rounded-md border border-border px-4 py-2 text-base text-muted-foreground hover:text-foreground transition-colors">
             Cancelar
           </button>
           <button onClick={handleSubmit} disabled={pending}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-4 py-2 text-sm font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50">
+            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-4 py-2 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50">
             {pending ? <Loader2 className="size-4 animate-spin" /> : <Plus className="size-4" />}
             Crear cotización
           </button>

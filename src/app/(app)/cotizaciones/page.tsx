@@ -43,14 +43,14 @@ export default async function CotizacionesPage({ searchParams }: PageProps) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">Cotizaciones</h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">{quotations.length} cotizaciones</p>
+          <p className="mt-0.5 text-base text-muted-foreground">{quotations.length} cotizaciones</p>
         </div>
         <GenerarCotizacionButton rates={rates} />
       </div>
 
       {/* Banner de confirmación */}
       {created && (
-        <div className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-primary">
+        <div className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-base text-primary">
           <FileText className="size-4 shrink-0" />
           Cotización <span className="font-mono font-medium">{created}</span> creada como borrador.
         </div>
@@ -60,15 +60,15 @@ export default async function CotizacionesPage({ searchParams }: PageProps) {
       {quotations.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/60 py-20 text-center">
           <Icon icon={FileText} size={32} className="mb-3 text-muted-foreground/30" />
-          <p className="text-sm font-medium text-muted-foreground">Sin cotizaciones todavía</p>
-          <p className="mt-1 text-xs text-muted-foreground/60">
+          <p className="text-base font-medium text-muted-foreground">Sin cotizaciones todavía</p>
+          <p className="mt-1 text-base text-muted-foreground/60">
             Crea tu primera cotización para un cliente.
           </p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-xl border border-border bg-card">
           <div
-            className="grid items-center gap-3 border-b border-border/60 px-5 py-2.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60"
+            className="grid items-center gap-3 border-b border-border/60 px-5 py-2.5 font-mono text-base uppercase tracking-wider text-muted-foreground/60"
             style={{ gridTemplateColumns: "1fr 140px 120px 100px 100px" }}
           >
             <span>Referencia</span>
@@ -86,31 +86,31 @@ export default async function CotizacionesPage({ searchParams }: PageProps) {
             >
               <div className="flex items-center gap-2.5 min-w-0">
                 <Link href={`/cotizaciones/${q.id}`}
-                  className="font-mono text-sm font-medium text-foreground hover:text-primary transition-colors">
+                  className="font-mono text-base font-medium text-foreground hover:text-primary transition-colors">
                   {q.reference}
                 </Link>
                 <span className={cn(
-                  "rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold",
+                  "rounded-full px-2 py-0.5 font-mono text-base font-semibold",
                   STATUS_COLOR[q.status] ?? "bg-border/30 text-muted-foreground",
                 )}>
                   {STATUS_LABEL[q.status] ?? q.status}
                 </span>
                 {q.shipmentId && (
                   <Link href={`/expedientes/${q.shipmentId}`}
-                    className="font-mono text-[10px] text-primary/60 hover:text-primary transition-colors">
+                    className="font-mono text-base text-primary/60 hover:text-primary transition-colors">
                     → EXP
                   </Link>
                 )}
               </div>
-              <span className="truncate text-sm text-muted-foreground">{q.clientName || "—"}</span>
-              <span className="font-mono text-xs text-muted-foreground">
+              <span className="truncate text-base text-muted-foreground">{q.clientName || "—"}</span>
+              <span className="font-mono text-base text-muted-foreground">
                 {q.validUntil ? formatDate(q.validUntil) : "—"}
               </span>
-              <span className="text-right font-mono text-sm font-medium text-foreground">
+              <span className="text-right font-mono text-base font-medium text-foreground">
                 {formatMoney(q.total, q.currency)}
               </span>
               <Link href={`/cotizaciones/${q.id}`}
-                className="flex h-7 items-center justify-end font-mono text-[10px] text-primary/60 hover:text-primary transition-colors">
+                className="flex h-7 items-center justify-end font-mono text-base text-primary/60 hover:text-primary transition-colors">
                 Ver →
               </Link>
             </div>

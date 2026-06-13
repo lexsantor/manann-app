@@ -58,16 +58,16 @@ export function OperationalMetrics({ stats }: Props) {
           {/* Top navieras */}
           {stats.topCarriers.length > 0 && (
             <div className="rounded-xl border border-border bg-card p-5 lg:col-span-2">
-              <p className="mb-4 font-mono text-xs uppercase tracking-wide text-muted-foreground">
+              <p className="mb-4 font-mono text-base uppercase tracking-wide text-muted-foreground">
                 Top navieras / transportistas
               </p>
               <div className="space-y-2.5">
                 {stats.topCarriers.map(({ carrier, count }, i) => (
                   <div key={carrier} className="flex items-center gap-3">
-                    <span className="w-4 text-right font-mono text-[10px] text-muted-foreground/50">
+                    <span className="w-4 text-right font-mono text-base text-muted-foreground/50">
                       {i + 1}
                     </span>
-                    <span className="w-36 truncate text-sm text-foreground">{carrier}</span>
+                    <span className="w-36 truncate text-base text-foreground">{carrier}</span>
                     <div className="flex flex-1 items-center gap-2">
                       <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-surface-2">
                         <div
@@ -75,7 +75,7 @@ export function OperationalMetrics({ stats }: Props) {
                           style={{ width: `${Math.round((count / maxCarrierCount) * 100)}%` }}
                         />
                       </div>
-                      <span className="w-6 text-right font-mono text-xs text-muted-foreground">
+                      <span className="w-6 text-right font-mono text-base text-muted-foreground">
                         {count}
                       </span>
                     </div>
@@ -88,14 +88,14 @@ export function OperationalMetrics({ stats }: Props) {
           {/* Por modo */}
           {stats.byMode.length > 0 && (
             <div className="rounded-xl border border-border bg-card p-5">
-              <p className="mb-4 font-mono text-xs uppercase tracking-wide text-muted-foreground">
+              <p className="mb-4 font-mono text-base uppercase tracking-wide text-muted-foreground">
                 Por modo de transporte
               </p>
               <div className="space-y-2.5">
                 {stats.byMode.map(({ mode, count }) => (
                   <div key={mode} className="flex items-center justify-between">
-                    <span className="text-sm text-foreground">{mode}</span>
-                    <span className="font-mono text-sm text-muted-foreground">{count}</span>
+                    <span className="text-base text-foreground">{mode}</span>
+                    <span className="font-mono text-base text-muted-foreground">{count}</span>
                   </div>
                 ))}
               </div>
@@ -124,7 +124,7 @@ function MetricCard({
     <div className="rounded-xl border border-border bg-card p-4">
       <div className="flex items-center gap-2 text-muted-foreground">
         <Icon icon={icon} size={14} />
-        <span className="font-mono text-[10px] uppercase tracking-wide">{label}</span>
+        <span className="font-mono text-base uppercase tracking-wide">{label}</span>
       </div>
       <p
         className={`mt-2 font-display text-2xl font-semibold tracking-tight ${
@@ -133,7 +133,7 @@ function MetricCard({
       >
         {value}
       </p>
-      <p className="mt-0.5 text-xs text-muted-foreground">{sub}</p>
+      <p className="mt-0.5 text-base text-muted-foreground">{sub}</p>
     </div>
   );
 }

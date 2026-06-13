@@ -36,13 +36,13 @@ export function OrgNameForm({ currentName, isOwner }: Props) {
 
   return (
     <div className="space-y-1">
-      <p className="text-xs text-muted-foreground">Nombre de la organización</p>
+      <p className="text-base text-muted-foreground">Nombre de la organización</p>
       {editing ? (
         <div className="flex items-center gap-2">
           <Input
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="h-8 max-w-xs text-sm"
+            className="h-8 max-w-xs text-base"
             autoFocus
             onKeyDown={(e) => {
               if (e.key === "Enter") save();
@@ -58,7 +58,7 @@ export function OrgNameForm({ currentName, isOwner }: Props) {
         </div>
       ) : (
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">{currentName}</span>
+          <span className="text-base font-medium">{currentName}</span>
           {isOwner && (
             <Button size="sm" variant="ghost" className="size-6" onClick={() => setEditing(true)}>
               <Pencil className="size-3" />
@@ -66,7 +66,7 @@ export function OrgNameForm({ currentName, isOwner }: Props) {
           )}
         </div>
       )}
-      {error && <p className="text-xs text-destructive">{error}</p>}
+      {error && <p className="text-base text-destructive">{error}</p>}
     </div>
   );
 }

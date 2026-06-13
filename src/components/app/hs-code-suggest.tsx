@@ -41,7 +41,7 @@ export function HsCodeSuggest({ cargoLineId }: HsCodeSuggestProps) {
       <button
         type="button"
         onClick={handleSuggest}
-        className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[10px] font-medium text-accent transition-colors hover:bg-accent/10"
+        className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-base font-medium text-accent transition-colors hover:bg-accent/10"
       >
         <Icon icon={Sparkles} size={10} />
         Sugerir HS
@@ -51,7 +51,7 @@ export function HsCodeSuggest({ cargoLineId }: HsCodeSuggestProps) {
 
   if (state === "loading") {
     return (
-      <span className="inline-flex items-center gap-1 font-mono text-[10px] text-muted-foreground">
+      <span className="inline-flex items-center gap-1 font-mono text-base text-muted-foreground">
         <Icon icon={Sparkles} size={10} className="animate-pulse text-accent" />
         Consultando IA…
       </span>
@@ -63,7 +63,7 @@ export function HsCodeSuggest({ cargoLineId }: HsCodeSuggestProps) {
       <button
         type="button"
         onClick={handleSuggest}
-        className="inline-flex items-center gap-1 font-mono text-[10px] text-destructive hover:underline"
+        className="inline-flex items-center gap-1 font-mono text-base text-destructive hover:underline"
       >
         Error · reintentar
       </button>
@@ -75,7 +75,7 @@ export function HsCodeSuggest({ cargoLineId }: HsCodeSuggestProps) {
       <div className="mt-1.5 flex items-start gap-2 rounded-md border border-accent/30 bg-accent/[0.07] px-2.5 py-2">
         <Icon icon={Sparkles} size={11} className="mt-0.5 shrink-0 text-accent" />
         <div className="min-w-0 flex-1">
-          <p className="font-mono text-xs font-semibold text-accent">{suggestion.code}</p>
+          <p className="font-mono text-base font-semibold text-accent">{suggestion.code}</p>
           <p className="mt-0.5 text-[12px] leading-snug text-muted-foreground">
             {suggestion.justification}
           </p>
@@ -85,7 +85,7 @@ export function HsCodeSuggest({ cargoLineId }: HsCodeSuggestProps) {
             type="button"
             onClick={handleApply}
             disabled={isPending}
-            className="inline-flex items-center gap-1 rounded bg-accent px-2 py-1 text-[10px] font-medium text-white transition-colors hover:bg-accent/90 disabled:opacity-50"
+            className="inline-flex items-center gap-1 rounded bg-accent px-2 py-1 text-base font-medium text-white transition-colors hover:bg-accent/90 disabled:opacity-50"
           >
             <Icon icon={Check} size={10} />
             Aplicar

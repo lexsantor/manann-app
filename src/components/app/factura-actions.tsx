@@ -91,7 +91,7 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
     <div className="flex flex-wrap items-center gap-2 print:hidden">
       <button
         onClick={handlePrint}
-        className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-base text-muted-foreground hover:text-foreground transition-colors"
       >
         <Printer className="size-4" />
         Imprimir / PDF
@@ -101,7 +101,7 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
         <button
           onClick={handleEmailOpen}
           disabled={emailPending}
-          className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+          className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-base text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
         >
           <Mail className="size-4" />
           {emailSent ? "Email enviado" : "Enviar por email"}
@@ -118,14 +118,14 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
             placeholder="destinatario@empresa.com"
             autoFocus
             className={cn(
-              "h-8 w-56 rounded-md border bg-background px-3 text-sm outline-none focus:ring-1 focus:ring-primary transition-colors",
+              "h-8 w-56 rounded-md border bg-background px-3 text-base outline-none focus:ring-1 focus:ring-primary transition-colors",
               emailError ? "border-destructive focus:ring-destructive" : "border-border",
             )}
           />
           <button
             onClick={handleEmailSend}
             disabled={emailPending}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
+            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
           >
             {emailPending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
             Enviar
@@ -137,7 +137,7 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
             <X className="size-4" />
           </button>
           {emailError && (
-            <span className="text-xs text-destructive">{emailError}</span>
+            <span className="text-base text-destructive">{emailError}</span>
           )}
         </div>
       )}
@@ -148,7 +148,7 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
           onClick={() => handleStatus(t.next)}
           disabled={pending}
           className={cn(
-            "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors disabled:opacity-50",
+            "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-base font-medium transition-colors disabled:opacity-50",
             t.variant === "primary" && "bg-primary/10 text-primary hover:bg-primary/15",
             t.variant === "danger" && "bg-destructive/10 text-destructive hover:bg-destructive/15",
             t.variant === "ghost" && "border border-border text-muted-foreground hover:text-foreground",

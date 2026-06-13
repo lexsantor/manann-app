@@ -58,7 +58,7 @@ export function HsCodeSearch({ cargoLineId, currentCode }: HsCodeSearchProps) {
         type="button"
         onClick={() => setOpen(true)}
         className={cn(
-          "inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[10px] transition-colors",
+          "inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-base transition-colors",
           currentCode
             ? "text-muted-foreground hover:bg-surface-2/60 hover:text-foreground"
             : "font-medium text-primary/70 hover:bg-primary/10 hover:text-primary",
@@ -79,7 +79,7 @@ export function HsCodeSearch({ cargoLineId, currentCode }: HsCodeSearchProps) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar por descripción o código…"
-          className="min-w-0 flex-1 bg-transparent font-mono text-xs text-foreground placeholder:text-muted-foreground focus:outline-none"
+          className="min-w-0 flex-1 bg-transparent font-mono text-base text-foreground placeholder:text-muted-foreground focus:outline-none"
         />
         <button
           type="button"
@@ -100,10 +100,10 @@ export function HsCodeSearch({ cargoLineId, currentCode }: HsCodeSearchProps) {
                 onClick={() => select(code)}
                 className="flex w-full items-start gap-2.5 px-3 py-2 text-left transition-colors hover:bg-surface-2/60 disabled:opacity-50"
               >
-                <span className="mt-px shrink-0 font-mono text-[11px] font-semibold text-primary">
+                <span className="mt-px shrink-0 font-mono text-base font-semibold text-primary">
                   {code}
                 </span>
-                <span className="text-xs leading-snug text-muted-foreground">
+                <span className="text-base leading-snug text-muted-foreground">
                   {desc}
                 </span>
               </button>
@@ -114,7 +114,7 @@ export function HsCodeSearch({ cargoLineId, currentCode }: HsCodeSearchProps) {
 
       {query.length >= 2 && results.length === 0 && (
         <div className="absolute left-0 top-full z-50 mt-1 w-full rounded-md border border-border bg-popover px-3 py-2.5 shadow-lg">
-          <p className="text-xs text-muted-foreground">Sin resultados para {JSON.stringify(query)}</p>
+          <p className="text-base text-muted-foreground">Sin resultados para {JSON.stringify(query)}</p>
         </div>
       )}
     </div>

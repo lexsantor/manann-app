@@ -26,11 +26,11 @@ export function DemoResetButton() {
   }
 
   const linkCls =
-    "rounded-md px-2 py-1 text-xs transition-colors disabled:opacity-50";
+    "rounded-md px-2 py-1 text-base transition-colors disabled:opacity-50";
 
   if (confirming) {
     return (
-      <div className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+      <div className="inline-flex items-center gap-1.5 text-base text-muted-foreground">
         <span>¿Reiniciar? Se borran los cambios de la demo.</span>
         <button
           type="button"
@@ -56,7 +56,7 @@ export function DemoResetButton() {
     <button
       type="button"
       onClick={() => setConfirming(true)}
-      className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-ink-subtle transition-colors hover:text-foreground"
+      className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-base text-ink-subtle transition-colors hover:text-foreground"
     >
       <Icon icon={pending ? Loader2 : RotateCcw} size={13} className={pending ? "animate-spin" : undefined} />
       Reiniciar demo

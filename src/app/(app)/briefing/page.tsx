@@ -18,7 +18,7 @@ export default async function BriefingPage() {
   const firstName = ctx.user.name?.split(" ")[0] ?? "operador";
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
+    <div className="space-y-6">
       <MorningBrief
         userName={firstName}
         actions={actions}

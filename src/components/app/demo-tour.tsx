@@ -59,7 +59,7 @@ export function DemoTour() {
       <button
         type="button"
         onClick={() => setStep(0)}
-        className="print:hidden inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-xs text-primary transition-colors hover:bg-primary/20"
+        className="print:hidden inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-base text-primary transition-colors hover:bg-primary/20"
       >
         <Icon icon={Sparkles} size={11} />
         Guía demo
@@ -73,7 +73,7 @@ export function DemoTour() {
           />
           <div className="fixed bottom-6 right-6 z-[1101] w-[calc(100vw-3rem)] max-w-sm rounded-xl border border-border bg-card shadow-xl">
             <div className="flex items-center justify-between px-5 pt-4">
-              <span className="font-mono text-xs text-muted-foreground">
+              <span className="font-mono text-base text-muted-foreground">
                 {(step ?? 0) + 1} / {STEPS.length}
               </span>
               <button
@@ -90,7 +90,7 @@ export function DemoTour() {
               <h3 className="font-display text-base font-medium tracking-tight text-foreground">
                 {current.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-base leading-relaxed text-muted-foreground">
                 {current.body}
               </p>
 
@@ -109,7 +109,7 @@ export function DemoTour() {
                 <button
                   type="button"
                   onClick={next}
-                  className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                  className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-base font-medium text-primary-foreground transition-opacity hover:opacity-90"
                 >
                   {(step ?? 0) < STEPS.length - 1 ? (
                     <>Siguiente <Icon icon={ChevronRight} size={13} /></>

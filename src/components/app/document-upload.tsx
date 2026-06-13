@@ -88,7 +88,7 @@ export function DocumentUpload({ shipmentId }: { shipmentId: string }) {
         {state === "uploading" ? (
           <>
             <Icon icon={Loader2} size={20} className="animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">
+            <p className="text-base text-muted-foreground">
               Subiendo… {progress}%
             </p>
             <div className="h-1 w-full max-w-[200px] overflow-hidden rounded-full bg-surface-2">
@@ -101,10 +101,10 @@ export function DocumentUpload({ shipmentId }: { shipmentId: string }) {
         ) : (
           <>
             <Icon icon={UploadCloud} size={20} className="text-muted-foreground" />
-            <p className="text-sm text-foreground">
+            <p className="text-base text-foreground">
               Arrastra un Bill of Lading (PDF)
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-base text-muted-foreground">
               o haz clic para elegir · máx 10 MB
             </p>
           </>
@@ -112,7 +112,7 @@ export function DocumentUpload({ shipmentId }: { shipmentId: string }) {
       </div>
 
       {state === "error" && (
-        <p className="mt-2 flex items-center gap-1.5 text-xs text-destructive" role="alert">
+        <p className="mt-2 flex items-center gap-1.5 text-base text-destructive" role="alert">
           <Icon icon={AlertCircle} size={13} /> {error}
         </p>
       )}

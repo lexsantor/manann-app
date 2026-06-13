@@ -143,7 +143,7 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
         {NAV_GROUPS.map((group, gi) => (
           <div key={gi} className={cn(gi > 0 ? "mt-4" : "")}>
             {group.section && (
-              <p className="mb-1 px-3 font-mono text-[9px] uppercase tracking-[0.18em] text-muted-foreground/40">
+              <p className="mb-1 px-3 font-mono text-base uppercase tracking-[0.18em] text-muted-foreground/40">
                 {group.section}
               </p>
             )}
@@ -153,12 +153,12 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
                 return (
                   <span
                     key={item.label}
-                    className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground/40"
+                    className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-base text-muted-foreground/40"
                     title="Disponible en una próxima fase"
                   >
                     <Icon icon={item.icon} size={16} />
                     {item.label}
-                    <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground/40">
+                    <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-base text-muted-foreground/40">
                       pronto
                     </span>
                   </span>
@@ -172,7 +172,7 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
                   onClick={() => setOpen(false)}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors duration-150",
+                    "flex items-center gap-3 rounded-md px-3 py-2 text-base transition-colors duration-150",
                     active
                       ? "bg-primary/10 font-medium text-foreground shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.2)]"
                       : "text-muted-foreground hover:bg-surface-2 hover:text-foreground",
@@ -203,7 +203,7 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
                   onClick={() => setOpen(false)}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors duration-150",
+                    "flex items-center gap-3 rounded-md px-3 py-2 text-base transition-colors duration-150",
                     active
                       ? "bg-primary/10 font-medium text-foreground shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.2)]"
                       : "text-muted-foreground hover:bg-surface-2 hover:text-foreground",
@@ -217,12 +217,12 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
             return (
               <span
                 key={item.label}
-                className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground/40"
+                className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-base text-muted-foreground/40"
                 title="Disponible en una próxima fase"
               >
                 <Icon icon={item.icon} size={16} />
                 {item.label}
-                <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground/40">
+                <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-base text-muted-foreground/40">
                   pronto
                 </span>
               </span>
@@ -234,10 +234,10 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
           {orgs.length >= 2 ? (
             <OrgSwitcher orgs={orgs} activeOrgId={activeOrgId} activeOrgName={orgName} />
           ) : (
-            <p className="truncate px-2 text-sm font-medium text-foreground">{orgName}</p>
+            <p className="truncate px-2 text-base font-medium text-foreground">{orgName}</p>
           )}
-          <p className="truncate px-2 text-sm text-muted-foreground">{userName}</p>
-          <p className="truncate px-2 text-xs text-muted-foreground/60">{userEmail}</p>
+          <p className="truncate px-2 text-base text-muted-foreground">{userName}</p>
+          <p className="truncate px-2 text-base text-muted-foreground/60">{userEmail}</p>
         </div>
 
         <div className="border-t border-border px-4 py-3 flex items-center justify-between gap-2">

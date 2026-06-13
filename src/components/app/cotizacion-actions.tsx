@@ -80,7 +80,7 @@ export function CotizacionActions({
       {/* Email form / button */}
       {canEmail && !showEmailForm && (
         <button onClick={() => setShowEmailForm(true)} disabled={emailPending}
-          className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50">
+          className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-base text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50">
           <Mail className="size-4" />
           {emailSent ? "Email enviado" : "Enviar por email"}
         </button>
@@ -93,11 +93,11 @@ export function CotizacionActions({
             onKeyDown={(e) => e.key === "Enter" && handleEmailSend()}
             placeholder="cliente@empresa.com"
             className={cn(
-              "h-8 w-56 rounded-md border bg-background px-3 text-sm outline-none focus:ring-1 focus:ring-primary transition-colors",
+              "h-8 w-56 rounded-md border bg-background px-3 text-base outline-none focus:ring-1 focus:ring-primary transition-colors",
               emailError ? "border-destructive focus:ring-destructive" : "border-border",
             )} />
           <button onClick={handleEmailSend} disabled={emailPending}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50">
+            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50">
             {emailPending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
             Enviar
           </button>
@@ -105,21 +105,21 @@ export function CotizacionActions({
             className="flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:text-foreground transition-colors">
             <X className="size-4" />
           </button>
-          {emailError && <span className="text-xs text-destructive">{emailError}</span>}
+          {emailError && <span className="text-base text-destructive">{emailError}</span>}
         </div>
       )}
 
       {/* Accept / Reject */}
       {canAccept && (
         <button onClick={() => handleStatus("aceptada")} disabled={pending}
-          className="flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-3 py-1.5 text-sm font-medium text-emerald-400 hover:bg-emerald-500/15 transition-colors disabled:opacity-50">
+          className="flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-3 py-1.5 text-base font-medium text-emerald-400 hover:bg-emerald-500/15 transition-colors disabled:opacity-50">
           {pending ? <Loader2 className="size-4 animate-spin" /> : <CheckCircle className="size-4" />}
           Aceptada
         </button>
       )}
       {canReject && (
         <button onClick={() => handleStatus("rechazada")} disabled={pending}
-          className="flex items-center gap-1.5 rounded-md bg-destructive/10 px-3 py-1.5 text-sm font-medium text-destructive hover:bg-destructive/15 transition-colors disabled:opacity-50">
+          className="flex items-center gap-1.5 rounded-md bg-destructive/10 px-3 py-1.5 text-base font-medium text-destructive hover:bg-destructive/15 transition-colors disabled:opacity-50">
           {pending ? <Loader2 className="size-4 animate-spin" /> : <XCircle className="size-4" />}
           Rechazada
         </button>
@@ -128,7 +128,7 @@ export function CotizacionActions({
       {/* Convert to expediente */}
       {canConvert && (
         <button onClick={handleConvert} disabled={convertPending}
-          className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50">
+          className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50">
           {convertPending ? <Loader2 className="size-4 animate-spin" /> : <ArrowRight className="size-4" />}
           Convertir en expediente
         </button>
@@ -137,7 +137,7 @@ export function CotizacionActions({
       {/* Link to expediente if already converted */}
       {isConverted && (
         <a href={`/expedientes/${shipmentId}`}
-          className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+          className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-base text-muted-foreground hover:text-foreground transition-colors">
           <ExternalLink className="size-4" />
           Ver expediente
         </a>

@@ -89,7 +89,7 @@ function ActionCard({
     return (
       <div className="flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 transition-all">
         <Icon icon={CheckCircle2} size={18} className="shrink-0 text-emerald-500" />
-        <p className="text-sm text-emerald-600 dark:text-emerald-400">
+        <p className="text-base text-emerald-600 dark:text-emerald-400">
           <span className="font-medium">{action.title}</span> — hecho.{" "}
           {action.impact > 0 && (
             <span className="font-semibold">+{formatMoney(String(action.impact), "EUR")} recuperados.</span>
@@ -117,27 +117,27 @@ function ActionCard({
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <p className="font-medium text-sm text-foreground">{action.title}</p>
+                <p className="font-medium text-base text-foreground">{action.title}</p>
                 <span className={cn(
-                  "rounded-full px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-wide",
+                  "rounded-full px-2 py-0.5 font-mono text-base font-semibold uppercase tracking-wide",
                   action.severity === "critical" ? "bg-destructive/10 text-destructive" : "bg-accent/10 text-accent",
                 )}>
                   {SEV_LABEL[action.severity]}
                 </span>
-                <span className="font-mono text-[9px] text-primary bg-primary/10 px-1.5 py-0.5 rounded-full uppercase tracking-wide">
+                <span className="font-mono text-base text-primary bg-primary/10 px-1.5 py-0.5 rounded-full uppercase tracking-wide">
                   IA 97%
                 </span>
               </div>
-              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">{action.description}</p>
+              <p className="mt-1 text-base text-muted-foreground leading-relaxed">{action.description}</p>
             </div>
           </div>
 
           {/* Impact + actions */}
           <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
             <div className="flex items-center gap-1.5">
-              <span className="font-mono text-xs text-muted-foreground">{action.impactLabel}:</span>
+              <span className="font-mono text-base text-muted-foreground">{action.impactLabel}:</span>
               <span className={cn(
-                "font-mono text-sm font-semibold",
+                "font-mono text-base font-semibold",
                 action.kind === "negative_gp" || action.kind === "accrual_gap"
                   ? "text-destructive"
                   : "text-emerald-500",
@@ -149,14 +149,14 @@ function ActionCard({
             <div className="flex items-center gap-2">
               <Link
                 href={`/expedientes/${action.shipmentId}`}
-                className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground hover:bg-surface-2"
+                className="flex items-center gap-1 rounded-md px-2 py-1 text-base text-muted-foreground transition-colors hover:text-foreground hover:bg-surface-2"
               >
                 {action.shipmentRef}
                 <Icon icon={ExternalLink} size={10} />
               </Link>
               <button
                 onClick={() => onDismiss(action.id)}
-                className="flex items-center gap-1 rounded-md px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+                className="flex items-center gap-1 rounded-md px-2.5 py-1 text-base text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
               >
                 <Icon icon={X} size={12} />
                 Descartar
@@ -164,7 +164,7 @@ function ActionCard({
               <button
                 onClick={handleApprove}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-md px-3 py-1 text-xs font-medium transition-colors",
+                  "flex items-center gap-1.5 rounded-md px-3 py-1 text-base font-medium transition-colors",
                   action.severity === "critical"
                     ? "bg-destructive/10 text-destructive hover:bg-destructive/20"
                     : "bg-primary/10 text-primary hover:bg-primary/15",
@@ -221,7 +221,7 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
           <Icon icon={CheckCircle2} size={26} className="text-emerald-500" />
         </div>
         <p className="font-display text-lg font-medium text-foreground">Bandeja vacía. Bien hecho.</p>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="mt-1 text-base text-muted-foreground">
           Has resuelto todo lo que Manann IA te propuso.
           {executed > 0 && (
             <> Ejecutaste <strong>{executed} acción{executed > 1 ? "es" : ""}</strong>
@@ -241,27 +241,27 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
       {/* Header bar */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-mono text-xs text-muted-foreground">
+          <span className="font-mono text-base text-muted-foreground">
             {actions.length} acción{actions.length > 1 ? "es" : ""} pendiente{actions.length > 1 ? "s" : ""}
           </span>
           {criticals.length > 0 && (
-            <span className="rounded-full bg-destructive/10 px-2 py-0.5 font-mono text-[10px] font-semibold text-destructive uppercase tracking-wide">
+            <span className="rounded-full bg-destructive/10 px-2 py-0.5 font-mono text-base font-semibold text-destructive uppercase tracking-wide">
               {criticals.length} crítica{criticals.length > 1 ? "s" : ""}
             </span>
           )}
           {executed > 0 && (
-            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
+            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-base font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
               {executed} ejecutada{executed > 1 ? "s" : ""} · +{formatMoney(String(recovered), "EUR")}
             </span>
           )}
         </div>
         <div className="flex items-center gap-2">
-          <span className="font-mono text-xs text-muted-foreground">
+          <span className="font-mono text-base text-muted-foreground">
             Impacto total: <span className="font-semibold text-foreground">{formatMoney(String(totalImpact), "EUR")}</span>
           </span>
           <button
             onClick={handleApproveAll}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:bg-primary/15"
+            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary transition-colors hover:bg-primary/15"
           >
             <Icon icon={CheckCircle2} size={12} />
             Aprobar todo ({actions.length})

@@ -41,7 +41,7 @@ function BlockRenderer({ blocks }: { blocks: Block[] }) {
       {blocks.map((b, i) => {
         if (b.type === "text") {
           return (
-            <p key={i} className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+            <p key={i} className="text-base text-foreground leading-relaxed whitespace-pre-wrap">
               {b.content}
             </p>
           );
@@ -51,8 +51,8 @@ function BlockRenderer({ blocks }: { blocks: Block[] }) {
             <div key={i} className="rounded-lg border border-border/60 bg-surface-2/40 divide-y divide-border/40">
               {b.rows.map((r, j) => (
                 <div key={j} className="flex items-center justify-between gap-3 px-3 py-2">
-                  <span className="text-xs text-muted-foreground">{r.label}</span>
-                  <span className={cn("font-mono text-xs font-medium", r.highlight ? "text-emerald-500" : "text-foreground")}>
+                  <span className="text-base text-muted-foreground">{r.label}</span>
+                  <span className={cn("font-mono text-base font-medium", r.highlight ? "text-emerald-500" : "text-foreground")}>
                     {r.value}
                   </span>
                 </div>
@@ -64,19 +64,19 @@ function BlockRenderer({ blocks }: { blocks: Block[] }) {
           const full = `Para: ${b.to}\nAsunto: ${b.subject}\n\n${b.body}`;
           return (
             <div key={i} className="rounded-lg border border-primary/20 bg-primary/5 p-3 space-y-1.5">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-primary">Borrador de email</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="font-mono text-base uppercase tracking-wider text-primary">Borrador de email</p>
+              <p className="text-base text-muted-foreground">
                 <span className="font-medium text-foreground">Para:</span> {b.to}
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-base text-muted-foreground">
                 <span className="font-medium text-foreground">Asunto:</span> {b.subject}
               </p>
-              <p className="text-xs text-foreground whitespace-pre-wrap border-t border-primary/10 pt-2 mt-2">
+              <p className="text-base text-foreground whitespace-pre-wrap border-t border-primary/10 pt-2 mt-2">
                 {b.body}
               </p>
               <button
                 onClick={() => copy(full, `email-${i}`)}
-                className="mt-1 rounded bg-primary/10 px-2.5 py-1 text-[10px] font-medium text-primary hover:bg-primary/15"
+                className="mt-1 rounded bg-primary/10 px-2.5 py-1 text-base font-medium text-primary hover:bg-primary/15"
               >
                 {copied === `email-${i}` ? "Copiado ✓" : "Copiar"}
               </button>
@@ -90,7 +90,7 @@ function BlockRenderer({ blocks }: { blocks: Block[] }) {
                 <Link
                   key={j}
                   href={item.href}
-                  className="flex items-center gap-1.5 rounded-md bg-surface-2 px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-border"
+                  className="flex items-center gap-1.5 rounded-md bg-surface-2 px-3 py-1.5 text-base font-medium text-foreground transition-colors hover:bg-border"
                 >
                   {item.label}
                   <Icon icon={ExternalLink} size={10} className="text-muted-foreground" />
@@ -335,8 +335,8 @@ export function CopilotoPanel() {
             <Icon icon={Sparkles} size={16} className="text-primary" />
           </div>
           <div className="min-w-0 flex-1">
-            <p className="font-medium text-sm text-foreground leading-none">Manann IA · Copiloto</p>
-            <p className="mt-0.5 text-[10px] text-muted-foreground">Con acceso de lectura a tus datos</p>
+            <p className="font-medium text-base text-foreground leading-none">Manann IA · Copiloto</p>
+            <p className="mt-0.5 text-base text-muted-foreground">Con acceso de lectura a tus datos</p>
           </div>
           <button
             onClick={() => setOpen(false)}
@@ -350,7 +350,7 @@ export function CopilotoPanel() {
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
           {/* Loading context */}
           {loadingCtx && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2 text-base text-muted-foreground">
               <Loader2 className="size-3 animate-spin" />
               Cargando contexto de tus datos…
             </div>
@@ -360,26 +360,26 @@ export function CopilotoPanel() {
           {messages.length === 0 && !loadingCtx && (
             <div className="space-y-4">
               <div className="rounded-xl bg-surface-2/60 p-4">
-                <p className="text-sm text-foreground">
+                <p className="text-base text-foreground">
                   Hola. Puedo responder preguntas sobre tus expedientes, margen, clientes y generar borradores de emails.
                 </p>
                 {ctx && ctx.atRiskTotal > 0 && (
                   <div className="mt-2 flex items-center gap-2 rounded-md bg-destructive/10 px-2.5 py-2">
                     <Icon icon={AlertTriangle} size={12} className="text-destructive shrink-0" />
-                    <p className="text-xs text-destructive">
+                    <p className="text-base text-destructive">
                       Tienes {formatMoney(String(ctx.atRiskTotal), "EUR")} de margen en riesgo.
                     </p>
                   </div>
                 )}
               </div>
               <div>
-                <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Sugerencias</p>
+                <p className="mb-2 font-mono text-base uppercase tracking-wider text-muted-foreground">Sugerencias</p>
                 <div className="space-y-1.5">
                   {SUGGESTED.map((s) => (
                     <button
                       key={s}
                       onClick={() => sendMessage(s)}
-                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-left text-xs text-foreground transition-colors hover:bg-surface-2"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2 text-left text-base text-foreground transition-colors hover:bg-surface-2"
                     >
                       {s}
                     </button>
@@ -412,7 +412,7 @@ export function CopilotoPanel() {
                   : "bg-surface-2/60 text-foreground",
               )}>
                 {msg.role === "user" && (
-                  <p className="text-sm">{msg.text}</p>
+                  <p className="text-base">{msg.text}</p>
                 )}
                 {msg.role === "ai" && msg.blocks && (
                   <BlockRenderer blocks={msg.blocks} />
@@ -450,7 +450,7 @@ export function CopilotoPanel() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Pregunta sobre tus datos…"
-              className="flex-1 rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+              className="flex-1 rounded-lg border border-border bg-background px-3 py-2 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
             />
             <button
               type="submit"
@@ -460,7 +460,7 @@ export function CopilotoPanel() {
               <Icon icon={Send} size={15} />
             </button>
           </form>
-          <p className="mt-1.5 text-center font-mono text-[9px] text-muted-foreground/50">
+          <p className="mt-1.5 text-center font-mono text-base text-muted-foreground/50">
             ⌘J para abrir/cerrar · Respuestas basadas en tus datos reales
           </p>
         </div>
