@@ -4,7 +4,7 @@ import { cache } from "react";
 import { and, count, desc, eq, asc, or, ilike, gte, lt } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user } from "@/db/schema";
+import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string; memberId: string; onboarded: boolean };
@@ -18,15 +18,45 @@ export const getOrgContext = cache(async () => {
   return { user: session.user, org };
 });
 
-// Org activa del usuario (en el demo, su primera/única membresía).
+// Todas las orgs del usuario (para multi-org switcher).
+export async function getUserOrgs(userId: string) {
+  const memberships = await db
+    .select({
+      memberId: member.id,
+      role: member.role,
+      onboarded: member.onboarded,
+      orgId: organization.id,
+      orgName: organization.name,
+      orgSlug: organization.slug,
+    })
+    .from(member)
+    .innerJoin(organization, eq(member.organizationId, organization.id))
+    .where(eq(member.userId, userId))
+    .orderBy(organization.name);
+  return memberships;
+}
+
+// Org activa del usuario: respeta cookie `activeOrgId`; cae en la primera membresía.
 export async function getActiveOrg(userId: string): Promise<ActiveOrg | null> {
-  const m = await db.query.member.findFirst({
-    where: eq(member.userId, userId),
-    with: { organization: true },
-  });
-  if (!m?.organization) return null;
-  const o = m.organization;
-  return { id: o.id, name: o.name, slug: o.slug, memberId: m.id, onboarded: m.onboarded ?? false };
+  const { cookies } = await import("next/headers");
+  const jar = await cookies();
+  const activeOrgId = jar.get("activeOrgId")?.value;
+
+  const memberships = await getUserOrgs(userId);
+  if (memberships.length === 0) return null;
+
+  const preferred = activeOrgId
+    ? memberships.find((m) => m.orgId === activeOrgId)
+    : undefined;
+  const m = preferred ?? memberships[0];
+
+  return {
+    id: m.orgId,
+    name: m.orgName,
+    slug: m.orgSlug,
+    memberId: m.memberId,
+    onboarded: m.onboarded ?? false,
+  };
 }
 
 // Lista de expedientes de una org, con sus partes (para derivar consignatario).
@@ -135,6 +165,71 @@ export function computeStats(items: ShipmentListItem[]): DashboardStats {
     entregados: porEstado["entregado"] ?? 0,
     porEstado,
   };
+}
+
+export type OperationalStats = {
+  avgTransitDays: number | null;
+  onTimeRate: number | null;
+  topCarriers: { carrier: string; count: number }[];
+  byMode: { mode: string; count: number }[];
+};
+
+const MODE_LABELS: Record<string, string> = {
+  maritimo: "Marítimo",
+  aereo: "Aéreo",
+  terrestre: "Terrestre",
+  ferroviario: "Ferroviario",
+  multimodal: "Multimodal",
+};
+
+export function computeOperationalStats(items: ShipmentListItem[]): OperationalStats {
+  const now = Date.now();
+
+  // Transit time: avg days between etd and eta for shipments that have both
+  const withDates = items.filter((s) => s.etd && s.eta);
+  const avgTransitDays =
+    withDates.length > 0
+      ? Math.round(
+          withDates.reduce(
+            (sum, s) =>
+              sum +
+              (new Date(s.eta!).getTime() - new Date(s.etd!).getTime()) /
+                (1000 * 60 * 60 * 24),
+            0,
+          ) / withDates.length,
+        )
+      : null;
+
+  // On-time rate: % of non-terminal shipments with ETA still in the future (or no ETA set ignored)
+  const nonTerminal = items.filter(
+    (s) => s.status !== "entregado" && s.status !== "cerrado" && s.status !== "borrador",
+  );
+  const withEta = nonTerminal.filter((s) => s.eta);
+  const onTimeRate =
+    withEta.length > 0
+      ? Math.round((withEta.filter((s) => new Date(s.eta!).getTime() >= now).length / withEta.length) * 100)
+      : null;
+
+  // Top carriers
+  const carrierCount: Record<string, number> = {};
+  for (const s of items) {
+    if (s.carrier) carrierCount[s.carrier] = (carrierCount[s.carrier] ?? 0) + 1;
+  }
+  const topCarriers = Object.entries(carrierCount)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 5)
+    .map(([carrier, count]) => ({ carrier, count }));
+
+  // By mode
+  const modeCount: Record<string, number> = {};
+  for (const s of items) {
+    if (s.mode) modeCount[s.mode] = (modeCount[s.mode] ?? 0) + 1;
+  }
+  const byMode = Object.entries(modeCount)
+    .sort(([, a], [, b]) => b - a)
+    .map(([mode, count]) => ({ mode: MODE_LABELS[mode] ?? mode, count }));
+
+  return { avgTransitDays, onTimeRate, topCarriers, byMode };
 }
 
 // Historial de cambios del expediente (3.3)

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { FileStack, Ship, Landmark, CheckCircle2, ArrowRight } from "lucide-react";
 
-import { getOrgContext, listShipments, computeStats } from "@/lib/erp";
+import { getOrgContext, listShipments, computeStats, computeOperationalStats } from "@/lib/erp";
 import { KpiCard } from "@/components/app/kpi-card";
 import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
 import { ShipmentBarChart, StatusDonutChart } from "@/components/app/dashboard-charts";
 import { DemoResetButton } from "@/components/app/demo-reset-button";
 import { Icon } from "@/components/icon";
+import { OperationalMetrics } from "@/components/app/operational-metrics";
 
 const TERMINAL = new Set(["entregado", "cerrado"]);
 
@@ -30,6 +31,7 @@ export default async function DashboardPage() {
   const shipments = await listShipments(ctx.org.id);
   const confirmed = shipments.filter((s) => s.status !== "borrador");
   const stats = computeStats(confirmed);
+  const opStats = computeOperationalStats(confirmed);
   const active = confirmed.filter((s) => !TERMINAL.has(s.status));
 
   // Weekly buckets for bar chart (last 8 weeks)
@@ -110,6 +112,8 @@ export default async function DashboardPage() {
           </div>
         </section>
       )}
+
+      <OperationalMetrics stats={opStats} />
 
       <section>
         <div className="mb-3 flex items-center justify-between">

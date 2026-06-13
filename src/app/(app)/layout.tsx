@@ -1,12 +1,10 @@
 import { redirect } from "next/navigation";
 
-import { getOrgContext } from "@/lib/erp";
+import { getOrgContext, getUserOrgs } from "@/lib/erp";
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { CommandPalette } from "@/components/app/command-palette";
 import { OnboardingWizard } from "@/components/app/onboarding-wizard";
 
-// Guardia real de sesión (server-side). El middleware solo hace el chequeo
-// optimista de cookie; aquí validamos la sesión y cargamos la org del usuario.
 export default async function AppLayout({
   children,
 }: {
@@ -15,9 +13,16 @@ export default async function AppLayout({
   const ctx = await getOrgContext();
   if (!ctx) redirect("/login");
 
+  const userOrgs = await getUserOrgs(ctx.user.id);
+
   return (
     <div className="min-h-dvh bg-background">
-      <AppSidebar userEmail={ctx.user.email} orgName={ctx.org?.name ?? "—"} />
+      <AppSidebar
+        userEmail={ctx.user.email}
+        orgName={ctx.org?.name ?? "—"}
+        activeOrgId={ctx.org?.id ?? ""}
+        orgs={userOrgs}
+      />
       <div className="lg:pl-60">
         <main id="main-content" className="mx-auto w-full max-w-[1100px] px-5 py-8 sm:px-8">
           {children}

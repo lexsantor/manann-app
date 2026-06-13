@@ -28,6 +28,7 @@ import { Icon } from "@/components/icon";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LogoutButton } from "./logout-button";
 import { NotificationsBell } from "./notifications-bell";
+import { OrgSwitcher } from "./org-switcher";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -88,12 +89,19 @@ const BOTTOM_NAV: NavItem[] = [
   { label: "Ajustes", href: "/settings", icon: Settings },
 ];
 
-interface AppSidebarProps {
-  userEmail: string;
+interface OrgOption {
+  orgId: string;
   orgName: string;
 }
 
-export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
+interface AppSidebarProps {
+  userEmail: string;
+  orgName: string;
+  activeOrgId: string;
+  orgs: OrgOption[];
+}
+
+export function AppSidebar({ userEmail, orgName, activeOrgId, orgs }: AppSidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -213,11 +221,11 @@ export function AppSidebar({ userEmail, orgName }: AppSidebarProps) {
         </div>
 
         <div className="px-3 pb-3">
-          <div className="px-2 pb-2">
-            <p className="truncate text-sm font-medium text-foreground">{orgName}</p>
-            <p className="truncate text-xs text-muted-foreground">{userEmail}</p>
+          <div className="px-1 pb-1">
+            <OrgSwitcher orgs={orgs} activeOrgId={activeOrgId} activeOrgName={orgName} />
+            <p className="truncate px-2 text-xs text-muted-foreground">{userEmail}</p>
           </div>
-          <div className="flex items-center justify-between gap-2 px-1">
+          <div className="mt-1 flex items-center justify-between gap-2 px-1">
             <ThemeToggle />
             <LogoutButton />
           </div>
