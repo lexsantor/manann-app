@@ -13,6 +13,14 @@ export async function GET() {
     "Incoterm", "Flete", "ETD", "ETA", "Creado",
   ].join(",");
 
+  // Neutraliza CSV formula injection (CWE-1236): valores que empiezan por
+  // =, +, -, @, \t o \r se prefijan con ' para que la hoja los trate como texto.
+  function csvCell(v: unknown): string {
+    let s = String(v ?? "");
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+    return `"${s.replace(/"/g, '""')}"`;
+  }
+
   const rows = shipments.map((s) => [
     s.reference,
     s.status,
@@ -27,7 +35,7 @@ export async function GET() {
     s.etd ? new Date(s.etd).toLocaleDateString("es-ES") : "",
     s.eta ? new Date(s.eta).toLocaleDateString("es-ES") : "",
     new Date(s.createdAt).toLocaleDateString("es-ES"),
-  ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","));
+  ].map(csvCell).join(","));
 
   const csv = [header, ...rows].join("\r\n");
   const filename = `expedientes-${new Date().toISOString().slice(0, 10)}.csv`;
