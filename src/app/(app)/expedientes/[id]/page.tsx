@@ -110,6 +110,10 @@ export default async function ExpedienteDetailPage({
   if (!s) notFound();
 
   const mode = MODE[s.mode] ?? MODE.maritimo;
+  const podImgUrl = portImageUrl(s.pod ?? "");
+  const podImgGradient = s.mode === "aereo" ? "from-indigo-950 to-indigo-800"
+    : s.mode === "terrestre" ? "from-emerald-950 to-emerald-800"
+    : "from-sky-950 to-sky-800";
   const totalWeightKg = s.cargoLines.reduce((sum, l) => sum + (l.grossWeightKg ?? 0), 0);
   const co2 = estimateCo2(s.pol, s.pod, s.mode, totalWeightKg);
   const pol3    = s.pol?.slice(-3) ?? "???";
@@ -150,12 +154,21 @@ export default async function ExpedienteDetailPage({
         <div className="flex flex-col lg:grid lg:grid-cols-4">
           {/* Imagen: ancho completo en mobile, primera columna en desktop */}
           <div className="relative min-h-[192px] border-b border-border lg:min-h-[160px] lg:border-b-0 lg:border-r lg:border-border">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={portImageUrl(s.pod ?? "")}
-              alt={podCity}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+            {podImgUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={podImgUrl}
+                alt={podCity}
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : (
+              <>
+                <div className={cn("absolute inset-0 bg-gradient-to-b", podImgGradient)} />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Icon icon={mode.icon} size={48} className="text-white/15" />
+                </div>
+              </>
+            )}
           </div>
           {/* Origen + Destino: 2 col en mobile, display:contents en desktop */}
           <div className="grid grid-cols-2 border-b border-border lg:contents">

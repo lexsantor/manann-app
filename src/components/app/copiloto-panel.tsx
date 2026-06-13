@@ -323,7 +323,7 @@ export function CopilotoPanel() {
     <>
       {/* Scrim */}
       <div
-        className="fixed inset-0 z-40 bg-background/50 backdrop-blur-sm"
+        className="fixed inset-0 z-40"
         onClick={() => setOpen(false)}
       />
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { TrendingUp, TrendingDown, Plus, Trash2, Loader2, Receipt, AlertTriangle, ArrowRight, Scale } from "lucide-react";
+import { TrendingUp, TrendingDown, Plus, Trash2, Loader2, Receipt, AlertTriangle, ArrowRight, Scale, ChevronDown } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { formatMoney } from "@/lib/erp-format";
 import { addCharge, deleteCharge, updateChargeAccrual, type AddChargeInput } from "@/lib/erp-actions";
@@ -75,15 +75,18 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
   return (
     <form onSubmit={handleSubmit} className="mt-2 rounded-md border border-border/60 bg-surface-2/40 p-3 space-y-2">
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-[1fr_2fr_1fr_1fr]">
-        <select
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          className="rounded-md border border-border bg-background px-2 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
-        >
-          {CHARGE_TYPES.map(([val, label]) => (
-            <option key={val} value={val}>{label}</option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+            className="w-full appearance-none rounded-md border border-border bg-background px-2 py-1.5 pr-7 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+          >
+            {CHARGE_TYPES.map(([val, label]) => (
+              <option key={val} value={val}>{label}</option>
+            ))}
+          </select>
+          <ChevronDown className="pointer-events-none absolute right-2 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+        </div>
         <input
           type="text"
           placeholder="Descripción (opcional)"
@@ -100,7 +103,7 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
             min="0"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full rounded-md border border-border bg-background pl-10 pr-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            className="w-full rounded-md border border-border bg-background pl-10 pr-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
         <div className="relative">
@@ -113,7 +116,7 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
             value={passThrough ? amount : buyAmount}
             disabled={passThrough}
             onChange={(e) => setBuyAmount(e.target.value)}
-            className="w-full rounded-md border border-border bg-background pl-12 pr-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-40"
+            className="w-full rounded-md border border-border bg-background pl-12 pr-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-40 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
       </div>
@@ -127,7 +130,8 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
               setPassThrough(e.target.checked);
               if (e.target.checked) setBuyAmount("");
             }}
-            className="rounded border-border"
+            className="size-4 cursor-pointer rounded border-border"
+            style={{ accentColor: "hsl(var(--primary))" }}
           />
           Pass-through (sin margen)
         </label>
@@ -137,7 +141,8 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
               type="checkbox"
               checked={atRisk}
               onChange={(e) => setAtRisk(e.target.checked)}
-              className="rounded border-border"
+              className="size-4 cursor-pointer rounded border-border"
+            style={{ accentColor: "hsl(var(--primary))" }}
             />
             Sin facturar al cliente
           </label>

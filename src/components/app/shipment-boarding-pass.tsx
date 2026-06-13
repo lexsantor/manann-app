@@ -1,5 +1,8 @@
+"use client";
+
+import { useState, useEffect, useTransition } from "react";
 import Link from "next/link";
-import { MoveRight, AlertTriangle, Trash2 } from "lucide-react";
+import { MoveRight, AlertTriangle, Trash2, Ship, Plane, Truck, ImageOff, Loader2, type LucideIcon } from "lucide-react";
 import { deleteDraftShipment } from "@/lib/erp-actions";
 
 import { type ShipmentListItem } from "@/lib/erp";
@@ -36,6 +39,14 @@ function CarrierBadge({ carrier }: { carrier: string }) {
     </span>
   );
 }
+
+// ─── Placeholder por modo de transporte ─────────────────────────────────────
+
+const MODE_PLACEHOLDER: Record<string, { icon: LucideIcon; from: string; to: string }> = {
+  maritimo:  { icon: Ship,  from: "from-sky-950",     to: "to-sky-800" },
+  aereo:     { icon: Plane, from: "from-indigo-950",  to: "to-indigo-800" },
+  terrestre: { icon: Truck, from: "from-emerald-950", to: "to-emerald-800" },
+};
 
 // ─── Progreso del trayecto ───────────────────────────────────────────────────
 
@@ -99,6 +110,37 @@ function computeGP(charges: ShipmentListItem["charges"]): { gp: number | null; h
 // ─── Boarding pass card ──────────────────────────────────────────────────────
 
 export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [hideImages, setHideImages] = useState(false);
+  const [pending, startTransition] = useTransition();
+
+  useEffect(() => {
+    setHideImages(localStorage.getItem("hidePortImages") === "1");
+    const handler = () => setHideImages(localStorage.getItem("hidePortImages") === "1");
+    window.addEventListener("hidePortImagesChanged", handler);
+    return () => window.removeEventListener("hidePortImagesChanged", handler);
+  }, []);
+
+  function toggleImages(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    const next = !hideImages;
+    localStorage.setItem("hidePortImages", next ? "1" : "0");
+    window.dispatchEvent(new Event("hidePortImagesChanged"));
+  }
+
+  function handleDeleteClick(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowConfirm(true);
+  }
+
+  function confirmDelete() {
+    startTransition(async () => {
+      await deleteDraftShipment(s.id);
+    });
+  }
+
   const pol3      = s.pol?.slice(-3) ?? "???";
   const pod3      = s.pod?.slice(-3) ?? "???";
   const polCity   = cityOnly(s.pol);
@@ -110,19 +152,59 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
   const consignee = s.parties.find((p) => p.role === "consignee")?.name ?? null;
   const { gp, hasAtRisk } = computeGP(s.charges);
 
+  const ph = MODE_PLACEHOLDER[s.mode] ?? MODE_PLACEHOLDER.maritimo;
+  const showImg = imgUrl !== null && !hideImages;
+
   return (
     <div className="group relative">
+      {/* ── Botón borrar (solo borradores) ──────────────────── */}
       {s.status === "borrador" && (
-        <form action={deleteDraftShipment.bind(null, s.id)} className="absolute right-2 top-2 z-10">
-          <button
-            type="submit"
-            title="Eliminar expediente en borrador"
-            className="flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/80 text-muted-foreground opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
-          >
-            <Icon icon={Trash2} size={13} />
-          </button>
-        </form>
+        <button
+          onClick={handleDeleteClick}
+          title="Eliminar expediente en borrador"
+          className="absolute right-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/80 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
+        >
+          <Icon icon={Trash2} size={13} />
+        </button>
       )}
+
+      {/* ── Modal de confirmación ────────────────────────────── */}
+      {showConfirm && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowConfirm(false)}
+        >
+          <div className="absolute inset-0 bg-background/70" />
+          <div
+            className="relative z-10 w-full max-w-sm rounded-xl border border-border bg-card p-6 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="font-display text-lg font-semibold text-foreground">
+              ¿Estás seguro de realizar la siguiente acción?
+            </h2>
+            <p className="mt-1.5 text-base text-muted-foreground">
+              El expediente <span className="font-mono text-foreground">{s.reference}</span> se eliminará de forma permanente. Esta acción no se puede deshacer.
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="rounded-md px-4 py-2 text-base text-muted-foreground hover:text-foreground"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={pending}
+                className="flex items-center gap-1.5 rounded-md bg-destructive px-4 py-2 text-base font-medium text-destructive-foreground hover:bg-destructive/90 disabled:opacity-50"
+              >
+                {pending && <Loader2 className="size-3.5 animate-spin" />}
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     <Link
       href={`/expedientes/${s.id}`}
       prefetch={false}
@@ -132,13 +214,34 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
         {/* ── Foto de destino ──────────────────────────────────── */}
         <div className="relative h-[140px] overflow-hidden rounded-t-xl">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={imgUrl}
-            alt={podCity}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
+          {showImg ? (
+            <>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imgUrl}
+                alt={podCity}
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
+            </>
+          ) : (
+            <>
+              <div className={cn("h-full w-full bg-gradient-to-b", ph.from, ph.to)} />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Icon icon={ph.icon} size={48} className="text-white/15" />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+            </>
+          )}
+
+          {/* Toggle imagen */}
+          <button
+            onClick={toggleImages}
+            title={hideImages ? "Mostrar imágenes de puerto" : "Prescindir de la imagen"}
+            className="absolute left-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-md bg-black/40 text-white/60 opacity-0 transition-opacity group-hover:opacity-100 hover:text-white"
+          >
+            <Icon icon={ImageOff} size={13} />
+          </button>
 
           {/* Códigos de puerto */}
           <div className="absolute bottom-0 left-0 right-0 px-4 pb-2.5 transition-transform duration-700 group-hover:-translate-y-1">

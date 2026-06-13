@@ -12,8 +12,6 @@ const PORT_IMAGES: Record<string, string> = {
   ESVGO: "/images/vigo.webp",
 };
 
-const FALLBACK = "/images/barcelona.webp";
-
-export function portImageUrl(locode: string): string {
-  return PORT_IMAGES[locode] ?? FALLBACK;
+export function portImageUrl(locode: string): string | null {
+  return PORT_IMAGES[locode] ?? null;
 }

@@ -167,7 +167,7 @@ function FilterChip({
       prefetch={false}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-base transition-colors",
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition-colors",
         active
           ? "border-primary/40 bg-primary/10 text-foreground"
           : "border-border bg-card text-muted-foreground hover:text-foreground",
