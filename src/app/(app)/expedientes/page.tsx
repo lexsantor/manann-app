@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, LayoutGrid, Rows3 } from "lucide-react";
+import { Plus, LayoutGrid, Rows3, Download } from "lucide-react";
 import { Icon } from "@/components/icon";
 
 import { getOrgContext, listShipments, getActiveMemberId } from "@/lib/erp";
@@ -52,11 +52,20 @@ export default async function ExpedientesPage({
             {all.length} expediente{all.length !== 1 ? "s" : ""}
           </p>
         </div>
-        <form action={createDraftShipment}>
-          <Button type="submit" size="sm">
-            <Icon icon={Plus} size={16} /> Nuevo expediente
-          </Button>
-        </form>
+        <div className="flex items-center gap-2">
+          <a
+            href="/api/expedientes/export"
+            className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+          >
+            <Icon icon={Download} size={14} />
+            Exportar CSV
+          </a>
+          <form action={createDraftShipment}>
+            <Button type="submit" size="sm">
+              <Icon icon={Plus} size={16} /> Nuevo expediente
+            </Button>
+          </form>
+        </div>
       </header>
 
       <SearchInput defaultValue={q} estado={estado} />

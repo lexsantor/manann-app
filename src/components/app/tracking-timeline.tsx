@@ -2,6 +2,25 @@ import { TRACKING_TYPE, portLabel, formatDateTime } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 import type { ShipmentDetail } from "@/lib/erp";
 
+function SourceBadge({ source }: { source: string }) {
+  if (source === "shipsgo") {
+    return (
+      <span className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-primary/10 px-1.5 py-px font-mono text-[10px] font-medium text-primary">
+        <span className="size-1.5 rounded-full bg-primary" />
+        ShipsGo · real
+      </span>
+    );
+  }
+  if (source === "mock") {
+    return (
+      <span className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-muted px-1.5 py-px font-mono text-[10px] text-muted-foreground">
+        Simulación
+      </span>
+    );
+  }
+  return null;
+}
+
 export function TrackingTimeline({
   events,
 }: {
@@ -39,13 +58,14 @@ export function TrackingTimeline({
               <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                 <p
                   className={cn(
-                    "text-sm",
+                    "flex items-center text-sm",
                     current
                       ? "font-medium text-foreground"
                       : "text-muted-foreground",
                   )}
                 >
                   {TRACKING_TYPE[e.type] ?? e.type}
+                  <SourceBadge source={e.source} />
                 </p>
                 <p className="font-mono text-xs text-muted-foreground">
                   {formatDateTime(e.occurredAt)}

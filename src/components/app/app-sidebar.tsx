@@ -20,6 +20,7 @@ import {
   Plug,
   CreditCard,
   Settings,
+  Map,
   type LucideIcon,
 } from "lucide-react";
 
@@ -54,8 +55,8 @@ const NAV_GROUPS: NavGroup[] = [
       { label: "Expedientes", href: "/expedientes", icon: Package },
       { label: "Calendario", href: "/calendar", icon: CalendarDays },
       { label: "Documentos", href: "/documentos", icon: FolderOpen },
+      { label: "Mapa", href: "/mapa", icon: Map },
       { label: "Aduanas", icon: FileCheck2, soon: true },
-      { label: "Tracking", icon: Satellite, soon: true },
     ],
   },
   {
