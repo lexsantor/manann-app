@@ -11,7 +11,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://*.vercel-storage.com",
-  `connect-src 'self' https://vercel.com https://*.vercel-storage.com${isProd ? "" : " ws: http://localhost:*"}`,
+  `connect-src 'self' https://vercel.com https://*.vercel-storage.com https://cdn.jsdelivr.net${isProd ? "" : " ws: http://localhost:*"}`,
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "object-src 'none'",

@@ -92,6 +92,96 @@ export async function sendContactEmail({
   }
 }
 
+// ─── Alerta de ETA ───────────────────────────────────────────────────────────
+
+export interface EtaAlertShipment {
+  reference: string;
+  pol: string | null;
+  pod: string | null;
+  carrier: string | null;
+  eta: Date;
+  url: string;
+}
+
+export async function sendEtaAlertEmail(
+  to: string,
+  name: string,
+  shipments: EtaAlertShipment[],
+): Promise<void> {
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`\n[dev] ETA alert → ${to}: ${shipments.map((s) => s.reference).join(", ")}\n`);
+  }
+  if (!resend) {
+    if (process.env.NODE_ENV === "production") throw new Error("RESEND_API_KEY no configurada");
+    return;
+  }
+
+  const count = shipments.length;
+  const subject =
+    count === 1
+      ? `${shipments[0].reference} llega en menos de 48 h`
+      : `${count} expedientes llegan en menos de 48 h`;
+
+  const { error } = await resend.emails.send({
+    from,
+    to,
+    subject,
+    html: etaAlertHtml(name, shipments),
+    text: [
+      `Hola ${name},`,
+      "",
+      `${count === 1 ? "El siguiente expediente llega" : "Los siguientes expedientes llegan"} en menos de 48 horas:`,
+      "",
+      ...shipments.map(
+        (s) =>
+          `• ${s.reference} · ${s.pol ?? "—"} → ${s.pod ?? "—"} · ETA ${s.eta.toLocaleDateString("es-ES")}`,
+      ),
+      "",
+      "Accede a Manann para gestionar el despacho.",
+      "",
+      "— Manann ERP",
+    ].join("\n"),
+  });
+
+  if (error) throw new Error(`Resend ETA alert falló: ${error.message}`);
+}
+
+function etaAlertHtml(name: string, shipments: EtaAlertShipment[]): string {
+  const rows = shipments
+    .map(
+      (s) => `
+    <tr>
+      <td style="padding:10px 0;border-bottom:1px solid #f0f0f0">
+        <a href="${esc(s.url)}" style="font-family:monospace;font-size:13px;font-weight:700;color:${BRAND_GREEN};text-decoration:none">${esc(s.reference)}</a>
+        <span style="font-size:12px;color:${INK_MUTED}"> &mdash; ${esc(s.pol ?? "—")} → ${esc(s.pod ?? "—")}</span>
+        ${s.carrier ? `<span style="font-size:11px;color:${INK_FAINT}"> · ${esc(s.carrier)}</span>` : ""}
+      </td>
+      <td style="padding:10px 0 10px 16px;border-bottom:1px solid #f0f0f0;text-align:right;white-space:nowrap">
+        <span style="font-family:monospace;font-size:13px;font-weight:600;color:${INK}">ETA ${esc(s.eta.toLocaleDateString("es-ES"))}</span>
+      </td>
+    </tr>`,
+    )
+    .join("");
+
+  return `
+    <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;color:${INK}">
+      <div style="margin-bottom:24px">
+        <span style="font-size:15px;font-weight:700;color:${BRAND_GREEN}">Manann</span>
+      </div>
+      <h1 style="font-size:20px;font-weight:700;margin:0 0 6px;letter-spacing:-0.3px">
+        Llegada en menos de 48 h
+      </h1>
+      <p style="font-size:14px;color:${INK_MUTED};margin:0 0 20px">
+        Hola ${esc(name)}, ${shipments.length === 1 ? "este expediente llega" : "estos expedientes llegan"} pronto.
+      </p>
+      <table style="width:100%;border-collapse:collapse">${rows}</table>
+      <p style="font-size:12px;color:${INK_FAINT};margin:20px 0 0;border-top:1px solid #f0f0f0;padding-top:16px">
+        Manann ERP · Alerta automática de ETA
+      </p>
+    </div>
+  `;
+}
+
 // ─── Bienvenida ──────────────────────────────────────────────────────────────
 
 export async function sendWelcomeEmail(to: string, name: string): Promise<void> {
