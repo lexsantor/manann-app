@@ -54,7 +54,7 @@ function ExceptionRow({ ex, onResolve }: { ex: ChargeException; onResolve: (id: 
           <div className="min-w-0">
             <p className="truncate text-base font-medium text-foreground">{ex.chargeDescription}</p>
             <div className="mt-0.5 flex items-center gap-1.5">
-              <span className={cn("rounded border px-1.5 py-0.5 font-mono text-base font-semibold uppercase tracking-wide", meta.pill)}>
+              <span className={cn("rounded border px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide", meta.pill)}>
                 {meta.label}
               </span>
               <Link

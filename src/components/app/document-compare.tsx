@@ -102,7 +102,7 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
             </div>
           )}
           <div className="overflow-x-auto overflow-hidden rounded-lg border border-border/60">
-            <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-border/40 bg-surface-2/30 px-3 py-1.5 font-mono text-base uppercase tracking-wider text-muted-foreground/60">
+            <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-border/40 bg-surface-2/30 px-3 py-1.5 font-mono text-sm uppercase tracking-wider text-muted-foreground/60">
               <span>Campo</span>
               <span>BL</span>
               <span>Factura</span>

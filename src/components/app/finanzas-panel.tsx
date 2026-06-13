@@ -200,15 +200,15 @@ function ChargeRow({ charge: c, shipmentId, showBuyCol }: ChargeRowProps) {
         <div className="flex items-center gap-2 min-w-0">
           <span className="text-base text-foreground truncate">{c.description || typeLabel}</span>
           {c.description && (
-            <span className="shrink-0 font-mono text-base uppercase tracking-wider text-muted-foreground">{typeLabel}</span>
+            <span className="shrink-0 font-mono text-sm uppercase tracking-wider text-muted-foreground">{typeLabel}</span>
           )}
           {c.atRisk && (
-            <span className="shrink-0 inline-flex items-center gap-0.5 rounded-sm bg-destructive/10 px-1.5 py-0.5 font-mono text-base font-semibold uppercase tracking-wide text-destructive">
+            <span className="shrink-0 inline-flex items-center gap-0.5 rounded-sm bg-destructive/10 px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-destructive">
               <AlertTriangle className="size-2.5" /> sin facturar
             </span>
           )}
           {c.passThrough && !c.atRisk && (
-            <span className="shrink-0 rounded-sm bg-muted px-1.5 py-0.5 font-mono text-base uppercase tracking-wide text-muted-foreground">
+            <span className="shrink-0 rounded-sm bg-muted px-1.5 py-0.5 font-mono text-sm uppercase tracking-wide text-muted-foreground">
               pass-through
             </span>
           )}
@@ -308,13 +308,13 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
       {(totalSell > 0 || effectiveBuy > 0) && (
         <div className="mb-4 grid grid-cols-3 gap-2">
           <div className="rounded-lg border border-border/50 bg-surface-2/30 p-3">
-            <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Venta total</p>
+            <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Venta total</p>
             <p className="mt-1 font-mono text-base font-semibold text-foreground">
               {hasMixed ? "—" : formatMoney(String(totalSell), currency)}
             </p>
           </div>
           <div className="rounded-lg border border-border/50 bg-surface-2/30 p-3">
-            <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Compra total</p>
+            <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Compra total</p>
             <p className="mt-1 font-mono text-base font-semibold text-muted-foreground">
               {hasMixed ? "—" : formatMoney(String(effectiveBuy), currency)}
             </p>
@@ -324,7 +324,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
             gp >= 0 ? "border-emerald-500/20 bg-emerald-500/5" : "border-destructive/20 bg-destructive/5",
           )}>
             <div className="flex items-center justify-between">
-              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Gross Profit</p>
+              <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Gross Profit</p>
               {gp >= 0
                 ? <Icon icon={TrendingUp} size={13} className="text-emerald-500" />
                 : <Icon icon={TrendingDown} size={13} className="text-destructive" />}
@@ -357,7 +357,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
       {/* Tabla de ingresos */}
       <div className="mb-4">
         <div className="mb-1.5 flex items-center justify-between">
-          <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Líneas de ingreso</p>
+          <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Líneas de ingreso</p>
           <button
             onClick={() => { setAddingRevenue(true); setAddingCost(false); }}
             className="flex items-center gap-1 rounded text-base text-muted-foreground hover:text-foreground"
@@ -371,13 +371,13 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border/40 bg-surface-2/30">
-                  <th className="py-1.5 pl-3 pr-2 text-left font-mono text-base uppercase tracking-wider text-muted-foreground">Concepto</th>
-                  <th className="py-1.5 px-2 text-right font-mono text-base uppercase tracking-wider text-muted-foreground">Venta</th>
+                  <th className="py-1.5 pl-3 pr-2 text-left font-mono text-sm uppercase tracking-wider text-muted-foreground">Concepto</th>
+                  <th className="py-1.5 px-2 text-right font-mono text-sm uppercase tracking-wider text-muted-foreground">Venta</th>
                   {showBuyCol && (
-                    <th className="py-1.5 px-2 text-right font-mono text-base uppercase tracking-wider text-muted-foreground">Compra</th>
+                    <th className="py-1.5 px-2 text-right font-mono text-sm uppercase tracking-wider text-muted-foreground">Compra</th>
                   )}
                   {showBuyCol && (
-                    <th className="py-1.5 px-2 text-right font-mono text-base uppercase tracking-wider text-muted-foreground">GP</th>
+                    <th className="py-1.5 px-2 text-right font-mono text-sm uppercase tracking-wider text-muted-foreground">GP</th>
                   )}
                   <th className="w-8" />
                 </tr>
@@ -421,7 +421,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
       {(costs.length > 0 || addingCost) && (
         <div className="border-t border-dashed border-border/60 pt-4">
           <div className="mb-1.5 flex items-center justify-between">
-            <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Otros costes</p>
+            <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Otros costes</p>
             <button
               onClick={() => { setAddingCost(true); setAddingRevenue(false); }}
               className="flex items-center gap-1 rounded text-base text-muted-foreground hover:text-foreground"

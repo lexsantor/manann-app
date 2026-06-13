@@ -130,7 +130,7 @@ export default async function ExpedientesPage({
       {isKanban ? (
         <KanbanBoard shipments={visible} />
       ) : visible.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((s, i) => (
             <div
               key={s.id}

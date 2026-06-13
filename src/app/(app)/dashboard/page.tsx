@@ -102,13 +102,13 @@ export default async function DashboardPage() {
       {confirmed.length > 0 && (
         <section className="grid gap-4 lg:grid-cols-3">
           <div className="rounded-xl border border-border bg-card p-5 lg:col-span-2">
-            <p className="mb-4 font-mono text-base uppercase tracking-wide text-muted-foreground">
+            <p className="mb-4 font-mono text-sm uppercase tracking-wide text-muted-foreground">
               Expedientes por semana
             </p>
             <ShipmentBarChart data={weekBuckets} />
           </div>
           <div className="rounded-xl border border-border bg-card p-5">
-            <p className="mb-4 font-mono text-base uppercase tracking-wide text-muted-foreground">
+            <p className="mb-4 font-mono text-sm uppercase tracking-wide text-muted-foreground">
               Distribución por estado
             </p>
             {donutData.length > 0
@@ -170,12 +170,12 @@ export default async function DashboardPage() {
             <table className="w-full text-base">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="px-4 py-2.5 text-left font-mono text-base uppercase tracking-wide text-muted-foreground">Cliente</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-base uppercase tracking-wide text-muted-foreground">Expedientes</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-base uppercase tracking-wide text-muted-foreground">Venta</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-base uppercase tracking-wide text-muted-foreground">GP</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-base uppercase tracking-wide text-muted-foreground">Margen</th>
-                  <th className="px-4 py-2.5 text-center font-mono text-base uppercase tracking-wide text-muted-foreground">Tier</th>
+                  <th className="px-4 py-2.5 text-left font-mono text-sm uppercase tracking-wide text-muted-foreground">Cliente</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-sm uppercase tracking-wide text-muted-foreground">Expedientes</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-sm uppercase tracking-wide text-muted-foreground">Venta</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-sm uppercase tracking-wide text-muted-foreground">GP</th>
+                  <th className="px-4 py-2.5 text-right font-mono text-sm uppercase tracking-wide text-muted-foreground">Margen</th>
+                  <th className="px-4 py-2.5 text-center font-mono text-sm uppercase tracking-wide text-muted-foreground">Tier</th>
                 </tr>
               </thead>
               <tbody>

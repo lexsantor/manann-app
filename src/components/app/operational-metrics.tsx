@@ -58,7 +58,7 @@ export function OperationalMetrics({ stats }: Props) {
           {/* Top navieras */}
           {stats.topCarriers.length > 0 && (
             <div className="rounded-xl border border-border bg-card p-5 lg:col-span-2">
-              <p className="mb-4 font-mono text-base uppercase tracking-wide text-muted-foreground">
+              <p className="mb-4 font-mono text-sm uppercase tracking-wide text-muted-foreground">
                 Top navieras / transportistas
               </p>
               <div className="space-y-2.5">
@@ -88,7 +88,7 @@ export function OperationalMetrics({ stats }: Props) {
           {/* Por modo */}
           {stats.byMode.length > 0 && (
             <div className="rounded-xl border border-border bg-card p-5">
-              <p className="mb-4 font-mono text-base uppercase tracking-wide text-muted-foreground">
+              <p className="mb-4 font-mono text-sm uppercase tracking-wide text-muted-foreground">
                 Por modo de transporte
               </p>
               <div className="space-y-2.5">
@@ -124,7 +124,7 @@ function MetricCard({
     <div className="rounded-xl border border-border bg-card p-4">
       <div className="flex items-center gap-2 text-muted-foreground">
         <Icon icon={icon} size={14} />
-        <span className="font-mono text-base uppercase tracking-wide">{label}</span>
+        <span className="font-mono text-sm uppercase tracking-wide">{label}</span>
       </div>
       <p
         className={`mt-2 font-display text-2xl font-semibold tracking-tight ${

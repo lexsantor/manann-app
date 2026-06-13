@@ -122,7 +122,7 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
             {/* AI confidence strip — only when extracted/confirmed */}
             {doc.aiConfidence !== null && ["extracted", "confirmed"].includes(doc.status) && (
               <div className="flex items-center gap-2 border-b border-border bg-accent/5 px-5 py-2.5">
-                <span className="font-mono text-base uppercase tracking-wider text-muted-foreground">
+                <span className="font-mono text-sm uppercase tracking-wider text-muted-foreground">
                   Confianza IA
                 </span>
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-border">

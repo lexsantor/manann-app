@@ -150,7 +150,7 @@ export function ActivityPanel({ changes }: ActivityPanelProps) {
     <div>
       {grouped.map((group) => (
         <div key={group.date} className="mb-4">
-          <p className="mb-1 font-mono text-base uppercase tracking-wider text-muted-foreground">
+          <p className="mb-1 font-mono text-sm uppercase tracking-wider text-muted-foreground">
             {group.date}
           </p>
           <div className="divide-y divide-border/50 rounded-lg border border-border bg-card px-3">

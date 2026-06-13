@@ -76,7 +76,7 @@ export function DuaPanel({
           <span className="font-display text-base font-medium tracking-tight text-foreground">
             Declaración DUA
           </span>
-          <span className="rounded border border-amber-500/30 bg-amber-500/8 px-1.5 py-0.5 font-mono text-base font-semibold uppercase tracking-wide text-amber-500">
+          <span className="rounded border border-amber-500/30 bg-amber-500/8 px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-amber-500">
             Simulación
           </span>
           {missingCount > 0 && (
@@ -96,7 +96,7 @@ export function DuaPanel({
           </p>
 
           <div className="mb-4">
-            <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">
+            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Régimen aduanero
             </label>
             <select
@@ -121,7 +121,7 @@ export function DuaPanel({
                     : "border-border/60 bg-surface-2/30",
                 )}
               >
-                <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">
+                <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">
                   {f.label}
                 </p>
                 <p className={cn("mt-0.5 text-base", f.missing ? "text-amber-500/70 italic" : "text-foreground")}>

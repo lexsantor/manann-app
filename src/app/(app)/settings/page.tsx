@@ -25,7 +25,7 @@ export default async function SettingsPage() {
 
       {/* Organización */}
       <section className="space-y-4">
-        <h2 className="text-base font-semibold uppercase tracking-widest text-muted-foreground">
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
           Organización
         </h2>
         <div className="rounded-md border bg-card p-5">
@@ -36,7 +36,7 @@ export default async function SettingsPage() {
       {/* Equipo */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold uppercase tracking-widest text-muted-foreground">
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
             Equipo
           </h2>
           <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-base text-muted-foreground">

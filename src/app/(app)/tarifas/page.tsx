@@ -91,7 +91,7 @@ function RatesTable({
   return (
     <div>
       <p className={cn(
-        "mb-2 font-mono text-base uppercase tracking-wider",
+        "mb-2 font-mono text-sm uppercase tracking-wider",
         muted ? "text-muted-foreground/40" : "text-muted-foreground/60",
       )}>
         {title}
@@ -99,7 +99,7 @@ function RatesTable({
       <div className="overflow-hidden rounded-xl border border-border bg-card">
         {/* Cabecera */}
         <div
-          className="grid items-center gap-3 border-b border-border/60 px-5 py-2.5 font-mono text-base uppercase tracking-wider text-muted-foreground/60"
+          className="grid items-center gap-3 border-b border-border/60 px-5 py-2.5 font-mono text-sm uppercase tracking-wider text-muted-foreground/60"
           style={{ gridTemplateColumns: "1fr 110px 120px 110px 110px 90px 32px" }}
         >
           <span>Concepto</span>

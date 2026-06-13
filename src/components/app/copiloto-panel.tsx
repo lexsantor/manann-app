@@ -64,7 +64,7 @@ function BlockRenderer({ blocks }: { blocks: Block[] }) {
           const full = `Para: ${b.to}\nAsunto: ${b.subject}\n\n${b.body}`;
           return (
             <div key={i} className="rounded-lg border border-primary/20 bg-primary/5 p-3 space-y-1.5">
-              <p className="font-mono text-base uppercase tracking-wider text-primary">Borrador de email</p>
+              <p className="font-mono text-sm uppercase tracking-wider text-primary">Borrador de email</p>
               <p className="text-base text-muted-foreground">
                 <span className="font-medium text-foreground">Para:</span> {b.to}
               </p>
@@ -373,7 +373,7 @@ export function CopilotoPanel() {
                 )}
               </div>
               <div>
-                <p className="mb-2 font-mono text-base uppercase tracking-wider text-muted-foreground">Sugerencias</p>
+                <p className="mb-2 font-mono text-sm uppercase tracking-wider text-muted-foreground">Sugerencias</p>
                 <div className="space-y-1.5">
                   {SUGGESTED.map((s) => (
                     <button

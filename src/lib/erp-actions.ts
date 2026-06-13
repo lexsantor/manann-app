@@ -1432,6 +1432,23 @@ export async function resolveAtRiskCharge(chargeId: string): Promise<void> {
   revalidatePath("/excepciones");
 }
 
+export async function deleteDraftShipment(shipmentId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const row = await db.query.shipment.findFirst({
+    where: and(eq(shipment.id, shipmentId), eq(shipment.organizationId, ctx.org.id)),
+    columns: { id: true, status: true },
+  });
+  if (!row) throw new Error("No autorizado");
+  if (row.status !== "borrador") throw new Error("Solo se pueden eliminar expedientes en borrador");
+
+  await db.delete(shipment).where(eq(shipment.id, shipmentId));
+
+  revalidatePath("/expedientes");
+  redirect("/expedientes");
+}
+
 export async function updateChargeAccrual(
   chargeId: string,
   accrualAmount: string,

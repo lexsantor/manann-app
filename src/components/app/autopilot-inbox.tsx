@@ -119,12 +119,12 @@ function ActionCard({
               <div className="flex items-center gap-2 flex-wrap">
                 <p className="font-medium text-base text-foreground">{action.title}</p>
                 <span className={cn(
-                  "rounded-full px-2 py-0.5 font-mono text-base font-semibold uppercase tracking-wide",
+                  "rounded-full px-2 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide",
                   action.severity === "critical" ? "bg-destructive/10 text-destructive" : "bg-accent/10 text-accent",
                 )}>
                   {SEV_LABEL[action.severity]}
                 </span>
-                <span className="font-mono text-base text-primary bg-primary/10 px-1.5 py-0.5 rounded-full uppercase tracking-wide">
+                <span className="font-mono text-sm text-primary bg-primary/10 px-1.5 py-0.5 rounded-full uppercase tracking-wide">
                   IA 97%
                 </span>
               </div>
@@ -245,12 +245,12 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
             {actions.length} acción{actions.length > 1 ? "es" : ""} pendiente{actions.length > 1 ? "s" : ""}
           </span>
           {criticals.length > 0 && (
-            <span className="rounded-full bg-destructive/10 px-2 py-0.5 font-mono text-base font-semibold text-destructive uppercase tracking-wide">
+            <span className="rounded-full bg-destructive/10 px-2 py-0.5 font-mono text-sm font-semibold text-destructive uppercase tracking-wide">
               {criticals.length} crítica{criticals.length > 1 ? "s" : ""}
             </span>
           )}
           {executed > 0 && (
-            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-base font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
+            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-sm font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
               {executed} ejecutada{executed > 1 ? "s" : ""} · +{formatMoney(String(recovered), "EUR")}
             </span>
           )}

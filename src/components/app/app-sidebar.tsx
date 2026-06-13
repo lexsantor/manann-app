@@ -143,7 +143,7 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
         {NAV_GROUPS.map((group, gi) => (
           <div key={gi} className={cn(gi > 0 ? "mt-4" : "")}>
             {group.section && (
-              <p className="mb-1 px-3 font-mono text-base uppercase tracking-[0.18em] text-muted-foreground/40">
+              <p className="mb-1 px-3 font-mono text-sm uppercase tracking-[0.18em] text-muted-foreground/40">
                 {group.section}
               </p>
             )}

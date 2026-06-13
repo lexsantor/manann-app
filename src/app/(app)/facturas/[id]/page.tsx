@@ -83,7 +83,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
 
             {/* Número e identificador */}
             <div className="text-right">
-              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Factura</p>
+              <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Factura</p>
               <p className="mt-1 font-display text-2xl font-semibold tracking-tight text-foreground">{inv.reference}</p>
               <span className={cn(
                 "mt-1.5 inline-block rounded-full px-2 py-0.5 font-mono text-base font-semibold print:hidden",
@@ -97,7 +97,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
           {/* Datos cliente + fechas */}
           <div className="grid grid-cols-2 gap-6 py-6 border-b border-border/40">
             <div>
-              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground mb-2">Facturado a</p>
+              <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground mb-2">Facturado a</p>
               <p className="font-medium text-foreground">{inv.clientName || "—"}</p>
               {inv.clientNif && (
                 <p className="mt-0.5 font-mono text-base text-muted-foreground">{inv.clientNif}</p>
@@ -105,17 +105,17 @@ export default async function FacturaDetailPage({ params }: PageProps) {
             </div>
             <div className="text-right space-y-2">
               <div>
-                <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Fecha de emisión</p>
+                <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Fecha de emisión</p>
                 <p className="mt-0.5 font-mono text-base text-foreground">{formatDate(inv.issueDate)}</p>
               </div>
               {inv.dueDate && (
                 <div>
-                  <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Fecha de vencimiento</p>
+                  <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Fecha de vencimiento</p>
                   <p className="mt-0.5 font-mono text-base text-foreground">{formatDate(inv.dueDate)}</p>
                 </div>
               )}
               <div>
-                <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Expediente</p>
+                <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Expediente</p>
                 <Link
                   href={`/expedientes/${inv.shipment.id}`}
                   className="mt-0.5 font-mono text-base text-primary/75 hover:text-primary print:text-foreground print:no-underline"
@@ -130,7 +130,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
           <div className="py-6">
             {/* Cabecera tabla */}
             <div
-              className="grid gap-3 pb-2 font-mono text-base uppercase tracking-wider text-muted-foreground/60 border-b border-border/40"
+              className="grid gap-3 pb-2 font-mono text-sm uppercase tracking-wider text-muted-foreground/60 border-b border-border/40"
               style={{ gridTemplateColumns: "1fr 72px 100px 100px" }}
             >
               <span>Concepto</span>
@@ -178,7 +178,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
           {/* Notas */}
           {inv.notes && (
             <div className="mt-8 rounded-lg border border-border/40 bg-surface-2/30 p-4">
-              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground mb-1.5">Notas</p>
+              <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground mb-1.5">Notas</p>
               <p className="text-base text-muted-foreground whitespace-pre-line">{inv.notes}</p>
             </div>
           )}

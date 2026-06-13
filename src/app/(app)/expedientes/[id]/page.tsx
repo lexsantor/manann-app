@@ -73,7 +73,7 @@ const CARRIER_COLORS: Record<string, string> = {
 function CarrierBadge({ carrier }: { carrier: string }) {
   const cls = CARRIER_COLORS[carrier.toUpperCase()] ?? "bg-muted text-muted-foreground";
   return (
-    <span className={cn("rounded px-1.5 py-0.5 font-mono text-base font-semibold uppercase tracking-wide", cls)}>
+    <span className={cn("rounded px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide", cls)}>
       {carrier}
     </span>
   );
@@ -160,7 +160,7 @@ export default async function ExpedienteDetailPage({
           {/* Origen + Destino: 2 col en mobile, display:contents en desktop */}
           <div className="grid grid-cols-2 border-b border-border lg:contents">
             <div className="relative border-r border-border p-5">
-              <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">Origen</p>
+              <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">Origen</p>
               <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>{pol3}</p>
               <p className="mt-1.5 font-mono text-base text-muted-foreground ai-reveal" style={{ "--i": 1 } as React.CSSProperties}>{polCity}</p>
               <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-1/2 rounded-full bg-card px-0.5">
@@ -168,14 +168,14 @@ export default async function ExpedienteDetailPage({
               </div>
             </div>
             <div className="p-5 lg:border-r lg:border-border">
-              <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">Destino</p>
+              <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">Destino</p>
               <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground ai-reveal" style={{ "--i": 2 } as React.CSSProperties}>{pod3}</p>
               <p className="mt-1.5 font-mono text-base text-muted-foreground ai-reveal" style={{ "--i": 3 } as React.CSSProperties}>{podCity}</p>
             </div>
           </div>
           {/* Expediente: ancho completo en mobile, última columna en desktop */}
           <div className="p-5">
-            <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">Expediente</p>
+            <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">Expediente</p>
             <h1 className="mt-1 font-display text-xl font-medium tracking-tight text-foreground">{s.reference}</h1>
             <div className="mt-2 flex flex-wrap items-center gap-1.5 text-base text-muted-foreground">
               <Icon icon={mode.icon} size={12} />
@@ -191,19 +191,19 @@ export default async function ExpedienteDetailPage({
         {/* Fila 2: BL · Incoterm · Condiciones · ETD→ETA */}
         <div className="grid grid-cols-2 lg:grid-cols-4">
           <div className="p-5">
-            <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">BL</p>
+            <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">BL</p>
             <div className="mt-1.5 ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>
               <InlineField shipmentId={s.id} field="blNumber" value={s.blNumber} mono />
             </div>
           </div>
           <div className="border-l border-border p-5">
-            <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">Incoterm</p>
+            <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">Incoterm</p>
             <div className="mt-1.5 ai-reveal" style={{ "--i": 1 } as React.CSSProperties}>
               <InlineField shipmentId={s.id} field="incoterm" value={s.incoterm} />
             </div>
           </div>
           <div className="p-5 lg:border-l lg:border-border">
-            <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">Condiciones</p>
+            <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">Condiciones</p>
             <div className="mt-1.5 ai-reveal" style={{ "--i": 2 } as React.CSSProperties}>
               <InlineField shipmentId={s.id} field="freightTerms" value={s.freightTerms} />
             </div>
@@ -211,15 +211,15 @@ export default async function ExpedienteDetailPage({
           <div className="border-l border-border p-5">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1">
-                <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
+                <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
                 <p className="mt-1.5 font-sans text-base text-foreground ai-reveal" style={{ "--i": 3 } as React.CSSProperties}>{formatDate(s.etd)}</p>
               </div>
               <Icon icon={MoveRight} size={13} className="mt-4 shrink-0 text-muted-foreground/30" />
               <div className="flex-1 text-right">
                 <div className="flex items-center justify-end gap-1">
-                  <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">ETA</p>
+                  <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">ETA</p>
                   {etaOverdue && (
-                    <span className="rounded-sm bg-accent/15 px-1 py-0.5 font-mono text-base font-semibold uppercase tracking-wide text-accent">
+                    <span className="rounded-sm bg-accent/15 px-1 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-accent">
                       Vencida
                     </span>
                   )}
@@ -237,21 +237,21 @@ export default async function ExpedienteDetailPage({
         {/* Fila 3: Estado · Prioridad · Naviera · CO₂ */}
         <div className="grid grid-cols-2 lg:grid-cols-4">
           <div className="p-5">
-            <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">Estado</p>
+            <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">Estado</p>
             <div className="mt-2"><StatusPill status={s.status} /></div>
           </div>
           <div className="border-l border-border p-5">
-            <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">Prioridad</p>
+            <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">Prioridad</p>
             <div className="mt-2"><PriorityPill priority={s.priority} /></div>
           </div>
           <div className="p-5 lg:border-l lg:border-border">
-            <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">Naviera</p>
+            <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">Naviera</p>
             <div className="mt-2 ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>
               <InlineField shipmentId={s.id} field="carrier" value={s.carrier} />
             </div>
           </div>
           <div className="border-l border-border p-5">
-            <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">CO₂ estimado</p>
+            <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">CO₂ estimado</p>
             {co2 ? (
               <>
                 <p className="mt-1.5 font-sans text-base font-medium text-foreground">{formatCo2(co2)}</p>
@@ -400,7 +400,7 @@ function Parties({ parties }: { parties: ShipmentDetail["parties"] }) {
       <div className="grid gap-3 sm:grid-cols-2">
         {sorted.map((p, idx) => (
           <div key={p.id} className="rounded-md border border-border/60 bg-surface-2/40 p-3 transition-colors hover:bg-surface-2 ai-reveal" style={{ "--i": idx } as React.CSSProperties}>
-            <p className="font-mono text-base uppercase tracking-wide text-muted-foreground">
+            <p className="font-mono text-sm uppercase tracking-wide text-muted-foreground">
               {PARTY_ROLE[p.role] ?? p.role}
             </p>
             <p className="mt-0.5 text-base font-medium text-foreground">{p.name}</p>

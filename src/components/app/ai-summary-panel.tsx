@@ -54,7 +54,7 @@ export function AiSummaryPanel({
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-2">
           <Icon icon={Sparkles} size={14} className="shrink-0 text-accent" />
-          <span className="font-mono text-base uppercase tracking-wider text-accent">
+          <span className="font-mono text-sm uppercase tracking-wider text-accent">
             IA · resumen
           </span>
           {summaryAt && (

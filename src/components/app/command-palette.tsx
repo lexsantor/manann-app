@@ -97,7 +97,7 @@ export function CommandPalette() {
           Sin resultados.
         </CommandEmpty>
 
-        <CommandGroup heading="Navegar" className="px-1 py-1 text-base font-medium uppercase tracking-wide text-muted-foreground">
+        <CommandGroup heading="Navegar" className="px-1 py-1 text-sm font-medium uppercase tracking-wide text-muted-foreground">
           <CommandItem onSelect={() => go("/dashboard")} className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-base text-foreground hover:bg-surface-2 aria-selected:bg-surface-2">
             <Icon icon={LayoutDashboard} size={15} className="text-muted-foreground" />
             Panel
@@ -115,7 +115,7 @@ export function CommandPalette() {
         {hits.length > 0 && (
           <>
             <CommandSeparator className="my-1 h-px bg-border" />
-            <CommandGroup heading="Expedientes" className="px-1 py-1 text-base font-medium uppercase tracking-wide text-muted-foreground">
+            <CommandGroup heading="Expedientes" className="px-1 py-1 text-sm font-medium uppercase tracking-wide text-muted-foreground">
               {hits.map((s) => (
                 <CommandItem
                   key={s.id}
@@ -137,7 +137,7 @@ export function CommandPalette() {
         )}
 
         <CommandSeparator className="my-1 h-px bg-border" />
-        <CommandGroup heading="Tema" className="px-1 py-1 text-base font-medium uppercase tracking-wide text-muted-foreground">
+        <CommandGroup heading="Tema" className="px-1 py-1 text-sm font-medium uppercase tracking-wide text-muted-foreground">
           <CommandItem
             onSelect={() => { setTheme(resolvedTheme === "dark" ? "light" : "dark"); setOpen(false); }}
             className="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-base text-foreground hover:bg-surface-2 aria-selected:bg-surface-2"

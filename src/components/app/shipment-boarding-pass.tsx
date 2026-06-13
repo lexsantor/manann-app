@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { MoveRight, AlertTriangle } from "lucide-react";
+import { MoveRight, AlertTriangle, Trash2 } from "lucide-react";
+import { deleteDraftShipment } from "@/lib/erp-actions";
 
 import { type ShipmentListItem } from "@/lib/erp";
 import { portLabel, formatDate, MODE, formatMoney } from "@/lib/erp-format";
@@ -27,7 +28,7 @@ function CarrierBadge({ carrier }: { carrier: string }) {
   return (
     <span
       className={cn(
-        "rounded px-1.5 py-0.5 font-mono text-base font-semibold uppercase tracking-wide",
+        "rounded px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide",
         cls,
       )}
     >
@@ -110,10 +111,22 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
   const { gp, hasAtRisk } = computeGP(s.charges);
 
   return (
+    <div className="group relative">
+      {s.status === "borrador" && (
+        <form action={deleteDraftShipment.bind(null, s.id)} className="absolute right-2 top-2 z-10">
+          <button
+            type="submit"
+            title="Eliminar expediente en borrador"
+            className="flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/80 text-muted-foreground opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
+          >
+            <Icon icon={Trash2} size={13} />
+          </button>
+        </form>
+      )}
     <Link
       href={`/expedientes/${s.id}`}
       prefetch={false}
-      className="group block rounded-xl transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]"
+      className="block rounded-xl transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 active:scale-[0.98]"
     >
       <article className="relative w-full rounded-xl border border-border bg-card shadow-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
 
@@ -131,7 +144,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
           <div className="absolute bottom-0 left-0 right-0 px-4 pb-2.5 transition-transform duration-700 group-hover:-translate-y-1">
             <div className="flex items-center gap-2">
               <div className="flex-1">
-                <p className="font-mono text-base uppercase tracking-[0.15em] text-white">
+                <p className="font-mono text-sm uppercase tracking-[0.15em] text-white">
                   Origen
                 </p>
                 <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">
@@ -147,7 +160,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
                 className="shrink-0 text-white/40"
               />
               <div className="flex-1 text-right">
-                <p className="font-mono text-base uppercase tracking-[0.15em] text-white">
+                <p className="font-mono text-sm uppercase tracking-[0.15em] text-white">
                   Destino
                 </p>
                 <p className="font-display text-[1.9rem] font-bold leading-none tracking-tighter text-white">
@@ -180,13 +193,13 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             <div className="mt-2 space-y-2 border-t border-border pt-2">
               {s.blNumber && (
                 <div className="min-w-0">
-                  <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">BL</p>
+                  <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">BL</p>
                   <p className="mt-0.5 truncate font-sans text-base text-foreground">{s.blNumber}</p>
                 </div>
               )}
               {consignee && (
                 <div className="min-w-0">
-                  <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">Consignatario</p>
+                  <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">Consignatario</p>
                   <p className="mt-0.5 truncate font-sans text-base text-foreground">{consignee}</p>
                 </div>
               )}
@@ -203,14 +216,14 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             </div>
             <div className="mt-1.5 flex items-start justify-between">
               <div>
-                <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
+                <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
                 <p className="mt-0.5 font-sans text-base text-foreground">{formatDate(s.etd)}</p>
               </div>
               <div className="text-right">
                 <div className="flex items-center justify-end gap-1.5">
-                  <p className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground">ETA</p>
+                  <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">ETA</p>
                   {etaOverdue && (
-                    <span className="rounded-sm bg-accent/15 px-1 py-0.5 font-mono text-base font-semibold uppercase tracking-wide text-accent">
+                    <span className="rounded-sm bg-accent/15 px-1 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-accent">
                       Vencida
                     </span>
                   )}
@@ -225,7 +238,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
           {/* GP — solo si está disponible */}
           {gp !== null && (
             <div className="mt-2.5 flex items-center justify-between border-t border-border pt-2.5">
-              <span className="font-mono text-base uppercase tracking-[0.12em] text-muted-foreground flex items-center gap-1">
+              <span className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground flex items-center gap-1">
                 Gross Profit
                 {hasAtRisk && (
                   <Icon icon={AlertTriangle} size={10} className="text-destructive" />
@@ -254,5 +267,6 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
         </div>
       </article>
     </Link>
+    </div>
   );
 }

@@ -107,7 +107,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
 
           {/* Concepto */}
           <div>
-            <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">
+            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Concepto
             </label>
             <input
@@ -121,7 +121,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
 
           {/* Tipo de servicio */}
           <div>
-            <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">
+            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Tipo de servicio
             </label>
             <Select value={form.serviceType} onValueChange={(v) => set("serviceType", v as RateInput["serviceType"])}>
@@ -139,7 +139,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           {/* Unidad + Precio + Moneda */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">
+              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
                 Unidad
               </label>
               <Select value={form.unit} onValueChange={(v) => set("unit", v as RateInput["unit"])}>
@@ -154,7 +154,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
               </Select>
             </div>
             <div>
-              <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">
+              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
                 Moneda
               </label>
               <Select value={form.currency} onValueChange={(v) => set("currency", v)}>
@@ -169,7 +169,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           </div>
 
           <div>
-            <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">
+            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Precio base
             </label>
             <div className="relative">
@@ -191,7 +191,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           {/* Vigencia */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">
+              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
                 Válida desde
               </label>
               <input
@@ -202,7 +202,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
               />
             </div>
             <div>
-              <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">
+              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
                 Válida hasta
               </label>
               <input
@@ -216,7 +216,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
 
           {/* Notas */}
           <div>
-            <label className="mb-1.5 block font-mono text-base uppercase tracking-wider text-muted-foreground">
+            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Notas
             </label>
             <textarea

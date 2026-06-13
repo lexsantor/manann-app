@@ -84,7 +84,7 @@ export function OnboardingWizard() {
           </div>
 
           {/* Paso */}
-          <p className="mb-2 font-mono text-base uppercase tracking-[0.2em] text-muted-foreground/50">
+          <p className="mb-2 font-mono text-sm uppercase tracking-[0.2em] text-muted-foreground/50">
             Paso {step + 1} de {STEPS.length}
           </p>
 

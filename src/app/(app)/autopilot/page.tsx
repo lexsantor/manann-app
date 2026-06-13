@@ -30,7 +30,7 @@ export default async function AutopilotPage() {
           </div>
         </div>
         {critical > 0 && (
-          <span className="mt-1 rounded-full bg-destructive/10 px-3 py-1 font-mono text-base font-semibold text-destructive uppercase tracking-wide">
+          <span className="mt-1 rounded-full bg-destructive/10 px-3 py-1 font-mono text-sm font-semibold text-destructive uppercase tracking-wide">
             {critical} crítica{critical > 1 ? "s" : ""}
           </span>
         )}

@@ -121,7 +121,7 @@ export default async function CalendarPage({
               {["Lu", "Ma", "Mi", "Ju", "Vi", "Sá", "Do"].map((d) => (
                 <div
                   key={d}
-                  className="py-2 text-center font-mono text-base uppercase tracking-wider text-muted-foreground"
+                  className="py-2 text-center font-mono text-sm uppercase tracking-wider text-muted-foreground"
                 >
                   {d}
                 </div>

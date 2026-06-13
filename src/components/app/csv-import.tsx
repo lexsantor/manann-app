@@ -192,7 +192,7 @@ export function CsvImport() {
             <thead>
               <tr className="border-b border-border bg-card">
                 {["referencia", "modo", "pol", "pod", "naviera", "estado", "etd", "eta"].map((col) => (
-                  <th key={col} className="px-4 py-2.5 text-left font-mono text-base uppercase tracking-wider text-muted-foreground">
+                  <th key={col} className="px-4 py-2.5 text-left font-mono text-sm uppercase tracking-wider text-muted-foreground">
                     {col}
                   </th>
                 ))}
@@ -282,7 +282,7 @@ export function CsvImport() {
 
       {/* Formato esperado */}
       <div className="rounded-xl border border-border bg-card p-5">
-        <p className="mb-3 font-mono text-base uppercase tracking-widest text-muted-foreground">
+        <p className="mb-3 font-mono text-sm uppercase tracking-widest text-muted-foreground">
           Formato esperado
         </p>
         <div className="mb-4 flex flex-wrap gap-2">
@@ -299,7 +299,7 @@ export function CsvImport() {
           Solo <code className="font-mono">referencia</code> puede estar vacía (se genera automáticamente).
           Fechas en formato <code className="font-mono">YYYY-MM-DD</code>.
         </p>
-        <p className="mb-2 font-mono text-base uppercase tracking-widest text-muted-foreground">
+        <p className="mb-2 font-mono text-sm uppercase tracking-widest text-muted-foreground">
           Ejemplo
         </p>
         <pre className="overflow-x-auto rounded-md bg-background p-3 font-mono text-base text-muted-foreground">

@@ -68,7 +68,7 @@ export default async function CotizacionesPage({ searchParams }: PageProps) {
       ) : (
         <div className="overflow-hidden rounded-xl border border-border bg-card">
           <div
-            className="grid items-center gap-3 border-b border-border/60 px-5 py-2.5 font-mono text-base uppercase tracking-wider text-muted-foreground/60"
+            className="grid items-center gap-3 border-b border-border/60 px-5 py-2.5 font-mono text-sm uppercase tracking-wider text-muted-foreground/60"
             style={{ gridTemplateColumns: "1fr 140px 120px 100px 100px" }}
           >
             <span>Referencia</span>

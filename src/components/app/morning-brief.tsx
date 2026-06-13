@@ -165,7 +165,7 @@ export function MorningBrief({
     <div className="space-y-6">
       {/* Hero greeting */}
       <div className="rounded-xl border border-border bg-card p-6">
-        <p className="font-mono text-base uppercase tracking-widest text-muted-foreground">{greeting}</p>
+        <p className="font-mono text-sm uppercase tracking-widest text-muted-foreground">{greeting}</p>
         <h1 className="mt-1 font-display text-3xl font-medium tracking-tight text-foreground">
           {userName}.
         </h1>
@@ -228,7 +228,7 @@ export function MorningBrief({
         <div className="space-y-4">
           {/* Time Saved */}
           <div className="rounded-xl border border-border bg-card p-4">
-            <p className="mb-3 font-mono text-base uppercase tracking-wider text-muted-foreground">
+            <p className="mb-3 font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Tiempo ahorrado
             </p>
             <TimeSavedDonut breakdown={timeSaved.breakdown} total={timeSaved.total} />
@@ -239,7 +239,7 @@ export function MorningBrief({
 
           {/* Agenda */}
           <div className="rounded-xl border border-border bg-card p-4">
-            <p className="mb-3 font-mono text-base uppercase tracking-wider text-muted-foreground">
+            <p className="mb-3 font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Agenda de hoy
             </p>
             <div className="space-y-2">

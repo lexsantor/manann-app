@@ -48,7 +48,7 @@ export function KanbanBoard({ shipments }: KanbanBoardProps) {
         return (
           <div key={status} className="flex w-64 shrink-0 flex-col gap-2">
             <div className="flex items-center justify-between px-1">
-              <span className="text-base font-medium text-muted-foreground uppercase tracking-wide">{label}</span>
+              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">{label}</span>
               <span className="font-mono text-base text-ink-subtle">{items.length}</span>
             </div>
             <div className="space-y-2">

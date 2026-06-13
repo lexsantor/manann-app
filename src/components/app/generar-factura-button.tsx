@@ -138,7 +138,7 @@ export function GenerarFacturaButton({
               <div className="flex-1 space-y-5 p-5">
                 {/* Cliente */}
                 <fieldset className="space-y-3">
-                  <legend className="font-mono text-base uppercase tracking-wider text-muted-foreground">Cliente</legend>
+                  <legend className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Cliente</legend>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2">
                       <label className="mb-1 block text-base text-muted-foreground">Nombre / Razón social</label>
@@ -178,7 +178,7 @@ export function GenerarFacturaButton({
 
                 {/* Fechas */}
                 <fieldset className="space-y-3">
-                  <legend className="font-mono text-base uppercase tracking-wider text-muted-foreground">Fechas</legend>
+                  <legend className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Fechas</legend>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="mb-1 block text-base text-muted-foreground">Emisión</label>
@@ -204,14 +204,14 @@ export function GenerarFacturaButton({
                 {/* Líneas */}
                 <fieldset className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <legend className="font-mono text-base uppercase tracking-wider text-muted-foreground">Líneas</legend>
+                    <legend className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Líneas</legend>
                     <button type="button" onClick={addLine} className="flex items-center gap-1 text-base text-muted-foreground hover:text-foreground">
                       <Plus className="size-3" /> Añadir línea
                     </button>
                   </div>
 
                   {/* Cabecera de columnas */}
-                  <div className="grid grid-cols-[1fr_56px_88px_24px] gap-2 font-mono text-base uppercase tracking-wider text-muted-foreground/60 px-1">
+                  <div className="grid grid-cols-[1fr_56px_88px_24px] gap-2 font-mono text-sm uppercase tracking-wider text-muted-foreground/60 px-1">
                     <span>Concepto</span>
                     <span className="text-right">Cant.</span>
                     <span className="text-right">Precio</span>
@@ -259,7 +259,7 @@ export function GenerarFacturaButton({
 
                 {/* Notas */}
                 <fieldset>
-                  <legend className="mb-1 font-mono text-base uppercase tracking-wider text-muted-foreground">Notas (opcional)</legend>
+                  <legend className="mb-1 font-mono text-sm uppercase tracking-wider text-muted-foreground">Notas (opcional)</legend>
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}

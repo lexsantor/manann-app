@@ -78,7 +78,7 @@ export default async function CotizacionDetailPage({ params }: PageProps) {
               <p className="text-base text-muted-foreground">Valencia, España</p>
             </div>
             <div className="text-right">
-              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Cotización</p>
+              <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Cotización</p>
               <p className="mt-1 font-display text-2xl font-semibold tracking-tight text-foreground">{quot.reference}</p>
               <span className={cn(
                 "mt-1.5 inline-block rounded-full px-2 py-0.5 font-mono text-base font-semibold print:hidden",
@@ -92,7 +92,7 @@ export default async function CotizacionDetailPage({ params }: PageProps) {
           {/* Cliente + vigencia */}
           <div className="grid grid-cols-2 gap-6 py-6 border-b border-border/40">
             <div>
-              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground mb-2">Dirigido a</p>
+              <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground mb-2">Dirigido a</p>
               <p className="font-medium text-foreground">{quot.clientName || "—"}</p>
               {quot.clientEmail && (
                 <p className="mt-0.5 font-mono text-base text-muted-foreground">{quot.clientEmail}</p>
@@ -101,13 +101,13 @@ export default async function CotizacionDetailPage({ params }: PageProps) {
             <div className="text-right space-y-2">
               {quot.validUntil && (
                 <div>
-                  <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Válida hasta</p>
+                  <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Válida hasta</p>
                   <p className="mt-0.5 font-mono text-base text-foreground">{formatDate(quot.validUntil)}</p>
                 </div>
               )}
               {quot.shipmentId && (
                 <div>
-                  <p className="font-mono text-base uppercase tracking-wider text-muted-foreground">Expediente</p>
+                  <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Expediente</p>
                   <Link href={`/expedientes/${quot.shipmentId}`}
                     className="mt-0.5 font-mono text-base text-primary/75 hover:text-primary print:text-foreground print:no-underline">
                     Ver expediente →
@@ -119,7 +119,7 @@ export default async function CotizacionDetailPage({ params }: PageProps) {
 
           {/* Líneas */}
           <div className="py-6">
-            <div className="grid gap-3 pb-2 font-mono text-base uppercase tracking-wider text-muted-foreground/60 border-b border-border/40"
+            <div className="grid gap-3 pb-2 font-mono text-sm uppercase tracking-wider text-muted-foreground/60 border-b border-border/40"
               style={{ gridTemplateColumns: "1fr 72px 100px 100px" }}>
               <span>Concepto</span>
               <span className="text-right">Cant.</span>
@@ -167,7 +167,7 @@ export default async function CotizacionDetailPage({ params }: PageProps) {
           {/* Notas */}
           {quot.notes && (
             <div className="mt-8 rounded-lg border border-border/40 bg-surface-2/30 p-4">
-              <p className="font-mono text-base uppercase tracking-wider text-muted-foreground mb-1.5">Notas</p>
+              <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground mb-1.5">Notas</p>
               <p className="text-base text-muted-foreground whitespace-pre-line">{quot.notes}</p>
             </div>
           )}

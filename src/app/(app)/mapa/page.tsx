@@ -65,7 +65,7 @@ export default async function MapaPage() {
       {/* Listado de rutas activas */}
       {active.length > 0 && (
         <section className="space-y-2">
-          <h2 className="text-base font-medium uppercase tracking-widest text-muted-foreground">
+          <h2 className="text-sm font-medium uppercase tracking-widest text-muted-foreground">
             Expedientes activos
           </h2>
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">

@@ -164,7 +164,7 @@ export function AiExtractionPanel({
               )}
             >
               <div className="flex items-start justify-between gap-2">
-                <p className="text-base uppercase tracking-wide text-muted-foreground">
+                <p className="text-sm uppercase tracking-wide text-muted-foreground">
                   {f.label}
                 </p>
                 <span
