@@ -92,6 +92,74 @@ export async function sendContactEmail({
   }
 }
 
+// ─── Bienvenida ──────────────────────────────────────────────────────────────
+
+export async function sendWelcomeEmail(to: string, name: string): Promise<void> {
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`\n[dev] Bienvenida → ${to} (${name})\n`);
+  }
+  if (!resend) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("RESEND_API_KEY no está configurada");
+    }
+    return;
+  }
+
+  const { error } = await resend.emails.send({
+    from,
+    to,
+    subject: "Bienvenido a Manann",
+    text: [
+      `Hola ${name},`,
+      "",
+      "Ya tienes acceso a Manann.",
+      "",
+      "Para empezar, arrastra un Bill of Lading (BL), AWB o CMR a cualquier expediente.",
+      "La IA rellena los campos en segundos — tú solo confirmas.",
+      "",
+      "Si tienes dudas, el tour interactivo en el dashboard te guía en 2 minutos.",
+      "",
+      "— El equipo de Manann",
+    ].join("\n"),
+    html: welcomeHtml(name),
+  });
+
+  if (error) throw new Error(`Resend no pudo enviar la bienvenida: ${error.message}`);
+}
+
+function welcomeHtml(name: string): string {
+  return `
+    <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:${INK}">
+      <div style="margin-bottom:28px">
+        <span style="font-size:15px;font-weight:700;color:${BRAND_GREEN};letter-spacing:-0.3px">Manann</span>
+      </div>
+      <h1 style="font-size:22px;font-weight:700;margin:0 0 8px;letter-spacing:-0.4px">
+        Hola, ${esc(name)}
+      </h1>
+      <p style="font-size:14px;line-height:1.65;color:${INK_MUTED};margin:0 0 24px">
+        Ya tienes acceso a Manann. Aquí va lo único que necesitas saber para empezar:
+      </p>
+
+      <div style="background:#f6faf8;border-left:3px solid ${BRAND_GREEN};border-radius:0 8px 8px 0;padding:16px 20px;margin-bottom:24px">
+        <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:${INK}">El momento clave</p>
+        <p style="margin:0;font-size:13px;line-height:1.6;color:${INK_MUTED}">
+          Arrastra un BL, AWB o CMR a cualquier expediente.<br>
+          La IA rellena los campos en segundos. Tú solo confirmas.
+        </p>
+      </div>
+
+      <p style="font-size:13px;line-height:1.6;color:${INK_MUTED};margin:0 0 24px">
+        Si quieres una guía rápida, activa el tour interactivo desde el dashboard.
+        En 2 minutos verás todo lo que Manann puede hacer.
+      </p>
+
+      <p style="margin:0;font-size:12px;color:${INK_FAINT};border-top:1px solid #f0f0f0;padding-top:16px">
+        Manann ERP · Para transitarios que prefieren confirmar a teclear
+      </p>
+    </div>
+  `;
+}
+
 // ─── Factura ─────────────────────────────────────────────────────────────────
 
 interface InvoiceLine {

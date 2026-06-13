@@ -6,7 +6,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { magicLink } from "better-auth/plugins";
 import { db } from "@/db";
 import { user, session, account, verification } from "@/db/schema";
-import { sendMagicLinkEmail } from "@/lib/email";
+import { sendMagicLinkEmail, sendWelcomeEmail } from "@/lib/email";
 
 if (!process.env.BETTER_AUTH_SECRET) {
   throw new Error("BETTER_AUTH_SECRET no está configurada");
@@ -33,6 +33,19 @@ export const auth = betterAuth({
     enabled: true,
     window: 60, // segundos
     max: 5, // peticiones por ventana e IP
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (newUser) => {
+          // Enviar bienvenida solo al crear el usuario por primera vez.
+          // Fire-and-forget: un fallo de email no debe romper el login.
+          sendWelcomeEmail(newUser.email, newUser.name ?? "").catch((err) => {
+            console.error("[email] sendWelcomeEmail falló:", err);
+          });
+        },
+      },
+    },
   },
   plugins: [
     magicLink({
