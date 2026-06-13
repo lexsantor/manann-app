@@ -17,7 +17,7 @@ function PanelFrame({ children }: { children: React.ReactNode }) {
       className="rounded-xl border border-border overflow-hidden p-7"
       style={{
         background: "linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--background) / 0.95))",
-        boxShadow: "0 30px 90px -24px hsl(0 0% 0% / 0.75)",
+        boxShadow: "var(--shadow-product)",
       }}
     >
       {children}

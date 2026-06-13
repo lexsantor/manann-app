@@ -64,8 +64,8 @@ const ROWS = [
 
 const STATUS: Record<string, string> = {
   primary: "bg-primary/10 text-primary",
-  warn: "bg-yellow-500/10 text-yellow-400",
-  ok: "bg-emerald-500/10 text-emerald-400",
+  warn: "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400",
+  ok: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
   neutral: "bg-border/30 text-muted-foreground/60",
 };
 
@@ -78,7 +78,7 @@ export function HeroDashboard() {
         style={{
           background: "linear-gradient(180deg, hsl(var(--card) / 0.92), hsl(var(--background) / 0.97))",
           boxShadow:
-            "0 40px 120px -20px hsl(0 0% 0% / 0.8), inset 0 0 0 1px hsl(var(--foreground) / 0.03), inset 0 -1px 60px -20px hsl(var(--primary) / 0.22)",
+            "var(--shadow-card-hero), inset 0 0 0 1px hsl(var(--foreground) / 0.03), inset 0 -1px 60px -20px hsl(var(--primary) / 0.22)",
         }}
       >
         {/* Chrome bar */}
@@ -259,7 +259,7 @@ export function HeroDashboard() {
       </div>
 
       {/* Float card A — right */}
-      <div className="animate-float-a absolute -right-8 top-[80px] z-10 w-[214px] rounded-xl border border-border/65 bg-background/85 p-3.5 backdrop-blur-xl shadow-[0_20px_50px_-12px_hsl(0_0%_0%/0.65)]">
+      <div className="animate-float-a absolute -right-8 top-[80px] z-10 w-[214px] rounded-xl border border-border/65 bg-background/85 p-3.5 backdrop-blur-xl shadow-[var(--shadow-float)]">
         <div className="flex items-center justify-between">
           <span className="font-mono text-[9.5px] text-primary">MNN-84213</span>
           <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[8.5px] font-semibold text-primary/75">En tránsito</span>
@@ -282,7 +282,7 @@ export function HeroDashboard() {
       </div>
 
       {/* Float card B — left */}
-      <div className="animate-float-b absolute -left-8 bottom-[88px] z-10 w-[214px] rounded-xl border border-border/65 bg-background/85 p-3.5 backdrop-blur-xl shadow-[0_20px_50px_-12px_hsl(0_0%_0%/0.65)]">
+      <div className="animate-float-b absolute -left-8 bottom-[88px] z-10 w-[214px] rounded-xl border border-border/65 bg-background/85 p-3.5 backdrop-blur-xl shadow-[var(--shadow-float)]">
         <div className="flex items-center gap-2.5">
           <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-emerald-500/25 bg-emerald-500/10 text-[13px] text-emerald-400">
             ✓

@@ -4,6 +4,7 @@ import { Logo } from "@/components/logo";
 const NAV = [
   { name: "Cómo funciona", href: "/como-funciona" },
   { name: "El expediente", href: "/el-expediente" },
+  { name: "Precios", href: "/precios" },
   { name: "Nosotros", href: "/nosotros" },
   { name: "Contacto", href: "/contacto" },
 ];

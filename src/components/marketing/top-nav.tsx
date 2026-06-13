@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 const LINKS = [
   { label: "Cómo funciona", href: "/como-funciona" },
   { label: "El expediente", href: "/el-expediente" },
+  { label: "Precios", href: "/precios" },
   { label: "Nosotros", href: "/nosotros" },
 ];
 

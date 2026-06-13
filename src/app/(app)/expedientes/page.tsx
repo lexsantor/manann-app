@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, LayoutGrid, Rows3, Download } from "lucide-react";
+import { Plus, LayoutGrid, Rows3, Download, Upload } from "lucide-react";
 import { Icon } from "@/components/icon";
 
 import { getOrgContext, listShipments, getActiveMemberId } from "@/lib/erp";
@@ -53,6 +53,14 @@ export default async function ExpedientesPage({
           </p>
         </div>
         <div className="flex items-center gap-2">
+          <Link
+            href="/expedientes/importar"
+            prefetch={false}
+            className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+          >
+            <Icon icon={Upload} size={14} />
+            Importar CSV
+          </Link>
           <a
             href="/api/expedientes/export"
             className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"

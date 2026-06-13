@@ -35,18 +35,28 @@
 
 ## Tier 3 — Credibilidad operativa (M-L · 3–5 días)
 
-- [ ] **Integración ShipsGo real** — conectar la integración marcada como "Simulación" (PR-8); 3 créditos disponibles; el único dato vivo más allá de la extracción IA
-- [ ] **Resumen ejecutivo IA del expediente** — botón "Resumir" → llamada a Gemini Flash con contexto del expediente → párrafo en español en panel colapsable; segunda demostración de IA nativa tras el flujo wow
-- [ ] **Historial de cambios / auditoría** — tabla `field_changes(shipment_id, field, old_value, new_value, changed_by, changed_at)` + panel "Actividad" en el detalle; requisito regulatorio en sector transitario
-- [ ] **Calendario de ETAs** — vista `/calendar`; todos los expedientes activos con punto en su fecha ETA; con `react-day-picker` (ya en shadcn)
-- [ ] **Asignar expediente a agente** — campo `assigned_to` (FK a `members`) en `shipments` + selector en cabecera; la tabla `members` ya existe; precursor de la colaboración del Tier 4
+- [x] **Integración ShipsGo real** — conectar la integración marcada como "Simulación" (PR-8); 3 créditos disponibles; el único dato vivo más allá de la extracción IA
+- [x] **Resumen ejecutivo IA del expediente** — botón "Resumir" → llamada a Gemini Flash con contexto del expediente → párrafo en español en panel colapsable; segunda demostración de IA nativa tras el flujo wow
+- [x] **Historial de cambios / auditoría** — tabla `field_changes(shipment_id, field, old_value, new_value, changed_by, changed_at)` + panel "Actividad" en el detalle; requisito regulatorio en sector transitario
+- [x] **Calendario de ETAs** — vista `/calendar`; todos los expedientes activos con punto en su fecha ETA; con `react-day-picker` (ya en shadcn)
+- [x] **Asignar expediente a agente** — campo `assigned_to` (FK a `members`) en `shipments` + selector en cabecera; la tabla `members` ya existe; precursor de la colaboración del Tier 4
 
 ---
 
 ## Tier 4 — Diferenciación estructural (L · 5–8 días)
 
-- [ ] **Comparativa IA: BL vs. factura** — cruce automático de campos entre documentos ya subidos; discrepancias resaltadas en ámbar (peso, cantidad, valor, descripción); argumento más concreto contra "IA periférica"
-- [ ] **Flujo DUA/aduanas simulado** — botón "Preparar declaración" → panel con campos del DUA prellenados desde el expediente (HS code, valor en aduana, país de origen, régimen); etiqueta "Simulación — integración AEAT en producción"; el tipo `dua` y estado `en_aduana` ya están en schema
-- [ ] **Plantillas de extracción por tipo de envío** — schemas Zod + prompts para AWB aéreo y CMR terrestre, además del BL marítimo existente; detección automática del tipo de documento
-- [ ] **Colaboración: comentarios y @menciones** — tabla `comments(shipment_id, author_id, body, created_at)` + panel de comentarios en detalle; con `@nombre` que notifica al mencionado; requiere asignación del Tier 3
-- [ ] **Onboarding wizard primera vez** — overlay de 3 pasos al primer login (`onboarded = false`); guía hasta el flujo wow; contradice directamente la necesidad de academias que tienen todos los competidores
+- [x] **Comparativa IA: BL vs. factura** — cruce automático de campos entre documentos ya subidos; discrepancias resaltadas en ámbar (peso, cantidad, valor, descripción); argumento más concreto contra "IA periférica"
+- [x] **Flujo DUA/aduanas simulado** — botón "Preparar declaración" → panel con campos del DUA prellenados desde el expediente (HS code, valor en aduana, país de origen, régimen); etiqueta "Simulación — integración AEAT en producción"; el tipo `dua` y estado `en_aduana` ya están en schema
+- [x] **Plantillas de extracción por tipo de envío** — schemas Zod + prompts para AWB aéreo y CMR terrestre, además del BL marítimo existente; detección automática del tipo de documento
+- [x] **Colaboración: comentarios y @menciones** — tabla `comments(shipment_id, author_id, body, created_at)` + panel de comentarios en detalle; con `@nombre` que notifica al mencionado; requiere asignación del Tier 3
+- [x] **Onboarding wizard primera vez** — overlay de 3 pasos al primer login (`onboarded = false`); guía hasta el flujo wow; contradice directamente la necesidad de academias que tienen todos los competidores
+
+---
+
+## Tier 9 — Preparación demo + distribución (S-M)
+
+- [x] **Vercel Analytics** — `@vercel/analytics/next` en root layout; mide visitas y flujo wow sin configuración adicional
+- [x] **Página de precios pública** — `/precios` con 3 planes (Demo/Pro/Empresa), tabla comparativa de features, nota de honestidad; añadida a nav y footer
+- [x] **Importación masiva CSV** — `/expedientes/importar`; drag-and-drop o file picker; parse en cliente; preview de primeras 5 filas; bulk insert via server action; max 500 filas; auto-referencia si vacía; omite duplicados
+- [x] **Light mode landing** — tokens CSS `--shadow-card-hero`, `--shadow-float`, `--shadow-product` adaptativos (dark pesado, light suave); status colors en hero-dashboard con variante `dark:`
+- [ ] **Demo precacheada + vídeo de respaldo** — precachear extracción BL de demo y grabar vídeo 2 min para presentaciones sin API live
