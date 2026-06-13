@@ -30,6 +30,7 @@ import { DocumentUpload } from "@/components/app/document-upload";
 import { AiExtractionPanel } from "@/components/app/ai-extraction-panel";
 import { PdfViewer } from "@/components/app/pdf-viewer";
 import { HsCodeSuggest } from "@/components/app/hs-code-suggest";
+import { HsCodeSearch } from "@/components/app/hs-code-search";
 import { StatusTimeline } from "@/components/app/status-timeline";
 import { DemoTour } from "@/components/app/demo-tour";
 import { PrintButton } from "@/components/app/print-button";
@@ -470,7 +471,10 @@ function Containers({
                   {line.grossWeightKg ? ` · ${formatWeight(line.grossWeightKg)}` : ""}
                   {line.volumeCbm ? ` · ${line.volumeCbm} m³` : ""}
                 </p>
-                {!line.hsCode && <HsCodeSuggest cargoLineId={line.id} />}
+                <div className="mt-1 flex flex-wrap items-center gap-2">
+                  {!line.hsCode && <HsCodeSuggest cargoLineId={line.id} />}
+                  <HsCodeSearch cargoLineId={line.id} currentCode={line.hsCode} />
+                </div>
               </div>
             </div>
           ))}
