@@ -879,3 +879,50 @@ export const sanctionsScreeningRelations = relations(sanctionsScreening, ({ one 
     references: [organization.id],
   }),
 }));
+// ─── Tier Q: API pública ──────────────────────────────────────────────────────
+
+export const apiKey = pgTable(
+  "api_key",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    keyHash: text("key_hash").notNull().unique(),
+    prefix: text("prefix").notNull(),
+    lastUsedAt: timestamp("last_used_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("api_key_org_idx").on(t.organizationId)],
+);
+
+export const apiKeyRelations = relations(apiKey, ({ one }) => ({
+  organization: one(organization, {
+    fields: [apiKey.organizationId],
+    references: [organization.id],
+  }),
+}));
+
+export const webhook = pgTable(
+  "webhook",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    url: text("url").notNull(),
+    events: text("events").array().notNull().default([]),
+    secret: text("secret").notNull(),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("webhook_org_idx").on(t.organizationId)],
+);
+
+export const webhookRelations = relations(webhook, ({ one }) => ({
+  organization: one(organization, {
+    fields: [webhook.organizationId],
+    references: [organization.id],
+  }),
+}));

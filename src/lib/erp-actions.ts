@@ -9,7 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity, booking, accountingAccount, journalEntry, journalEntryLine, complianceDeclaration, partner, sanctionsScreening } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity, booking, accountingAccount, journalEntry, journalEntryLine, complianceDeclaration, partner, sanctionsScreening, apiKey, webhook } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode, isShipsGoEnabled } from "@/lib/tracking/shipsgo";
@@ -2256,4 +2256,104 @@ export async function runSanctionsScreening(name: string): Promise<{
   });
 
   return { result, matches };
+}
+
+
+// ─── Tier Q: API Keys & Webhooks ──────────────────────────────────────────────
+
+export async function listApiKeys(): Promise<{ id: string; name: string; prefix: string; lastUsedAt: Date | null; createdAt: Date }[]> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  return db
+    .select({ id: apiKey.id, name: apiKey.name, prefix: apiKey.prefix, lastUsedAt: apiKey.lastUsedAt, createdAt: apiKey.createdAt })
+    .from(apiKey)
+    .where(eq(apiKey.organizationId, ctx.org.id))
+    .orderBy(desc(apiKey.createdAt));
+}
+
+export async function createApiKey(name: string): Promise<{ raw: string }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const { generateApiKey, sha256hex } = await import("@/lib/api-auth");
+  const { raw, prefix } = generateApiKey();
+  const hash = await sha256hex(raw);
+
+  await db.insert(apiKey).values({
+    organizationId: ctx.org.id,
+    name: name.trim(),
+    keyHash: hash,
+    prefix,
+  });
+
+  revalidatePath("/settings");
+  return { raw };
+}
+
+export async function revokeApiKey(keyId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(keyId)) throw new Error("Key inválida");
+
+  await db.delete(apiKey).where(and(eq(apiKey.id, keyId), eq(apiKey.organizationId, ctx.org.id)));
+  revalidatePath("/settings");
+}
+
+export async function listWebhooks(): Promise<{ id: string; url: string; events: string[]; active: boolean; createdAt: Date }[]> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  return db
+    .select({ id: webhook.id, url: webhook.url, events: webhook.events, active: webhook.active, createdAt: webhook.createdAt })
+    .from(webhook)
+    .where(eq(webhook.organizationId, ctx.org.id))
+    .orderBy(desc(webhook.createdAt));
+}
+
+export async function deleteWebhook(webhookId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(webhookId)) throw new Error("Webhook inválido");
+
+  await db.delete(webhook).where(and(eq(webhook.id, webhookId), eq(webhook.organizationId, ctx.org.id)));
+  revalidatePath("/settings");
+}
+
+
+export async function bulkImportRates(rows: RateInput[]): Promise<{ imported: number; errors: string[] }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const errors: string[] = [];
+  const valid: RateInput[] = [];
+
+  for (const [i, row] of rows.entries()) {
+    const parsed = rateSchema.safeParse(row);
+    if (parsed.success) {
+      valid.push(parsed.data);
+    } else {
+      errors.push(`Fila ${i + 2}: ${parsed.error.issues[0]?.message ?? "inválida"}`);
+    }
+  }
+
+  if (valid.length > 0) {
+    await db.insert(rate).values(
+      valid.map((d) => ({
+        organizationId: ctx.org!.id,
+        concept: d.concept,
+        serviceType: d.serviceType,
+        unit: d.unit,
+        basePrice: d.basePrice,
+        currency: d.currency,
+        validFrom: d.validFrom ?? null,
+        validTo: d.validTo ?? null,
+        notes: d.notes ?? null,
+        active: true,
+      })),
+    );
+    revalidatePath("/tarifas");
+  }
+
+  return { imported: valid.length, errors };
 }

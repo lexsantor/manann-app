@@ -52,6 +52,7 @@ import { DuaPanel } from "@/components/app/dua-panel";
 import { DeclaracionesPanel } from "@/components/app/declaraciones-panel";
 import { BookingPanel } from "@/components/app/booking-panel";
 import { CourierPanel } from "@/components/app/courier-panel";
+import { RailPanel } from "@/components/app/rail-panel";
 import { AddPartyForm } from "@/components/app/add-party-form";
 import { CommentsPanel } from "@/components/app/comments-panel";
 import { DocumentCompare } from "@/components/app/document-compare";
@@ -387,6 +388,13 @@ export default async function ExpedienteDetailPage({
             defaultVessel={s.vessel}
             defaultVoyage={s.voyage}
           />
+          {s.mode === "ferroviario" && (
+            <RailPanel
+              pol={s.pol ?? null}
+              pod={s.pod ?? null}
+              blNumber={s.blNumber ?? null}
+            />
+          )}
           {s.courierProvider && (
             <CourierPanel
               shipmentId={s.id}

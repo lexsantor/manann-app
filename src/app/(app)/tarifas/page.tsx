@@ -5,6 +5,7 @@ import { formatMoney, formatDate } from "@/lib/erp-format";
 import { Icon } from "@/components/icon";
 import { RateFormTrigger, RateEditTrigger } from "@/components/app/rate-form";
 import { RateRowActions } from "@/components/app/rate-row-actions";
+import { RateCsvImport } from "@/components/app/rate-csv-import";
 import { cn } from "@/lib/utils";
 
 const SERVICE_LABEL: Record<string, string> = {
@@ -57,6 +58,12 @@ export default async function TarifasPage() {
           </p>
         </div>
         <RateFormTrigger />
+      </div>
+
+      {/* CSV import */}
+      <div className="rounded-xl border border-border bg-card p-5">
+        <p className="mb-3 font-mono text-sm uppercase tracking-wider text-muted-foreground/60">Importar desde CSV</p>
+        <RateCsvImport />
       </div>
 
       {rates.length === 0 ? (

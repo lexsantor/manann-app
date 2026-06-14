@@ -2,10 +2,12 @@ import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 
 import { getOrgSettings } from "@/lib/settings-actions";
+import { listApiKeys } from "@/lib/erp-actions";
 import { OrgNameForm } from "@/components/app/settings-org-name";
 import { MembersTable } from "@/components/app/settings-members";
 import { InviteForm } from "@/components/app/settings-invite";
 import { DisplayPrefsSection } from "@/components/app/settings-display-prefs";
+import { ApiKeysPanel } from "@/components/app/api-keys-panel";
 
 export const metadata: Metadata = { title: "Ajustes — Manann" };
 
@@ -14,6 +16,7 @@ export default async function SettingsPage() {
   if (!data?.org) redirect("/login");
 
   const isOwner = data.members.find((m) => m.memberId === data.currentMemberId)?.role === "owner";
+  const apiKeys = await listApiKeys();
 
   return (
     <main className="space-y-10 py-10">
@@ -58,6 +61,14 @@ export default async function SettingsPage() {
       </section>
 
       <DisplayPrefsSection />
+
+      {/* API */}
+      <section className="space-y-4">
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+          API pública
+        </h2>
+        <ApiKeysPanel keys={apiKeys} />
+      </section>
     </main>
   );
 }
