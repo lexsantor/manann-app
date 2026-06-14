@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { usePathname } from "next/navigation";
@@ -13,7 +13,6 @@ import {
   FolderOpen,
   Receipt,
   Tag,
-  Satellite,
   FileCheck2,
   FileText,
   BarChart3,
@@ -24,6 +23,7 @@ import {
   Settings,
   Map,
   ShieldAlert,
+  ChevronDown,
   type LucideIcon,
 } from "lucide-react";
 
@@ -41,64 +41,203 @@ interface NavItem {
   soon?: boolean;
 }
 
-interface NavGroup {
-  section: string | null;
+// ── Ítems fijos arriba (siempre visibles, sin accordion) ──────────────────────
+
+const TOP_ITEMS: NavItem[] = [
+  { label: "General",   href: "/dashboard", icon: LayoutDashboard },
+  { label: "Briefing",  href: "/briefing",  icon: Sunrise },
+  { label: "Autopilot", href: "/autopilot", icon: Zap },
+];
+
+// ── Secciones colapsables ─────────────────────────────────────────────────────
+
+interface NavSection {
+  key: string;
+  label: string;
   items: NavItem[];
 }
 
-const NAV_GROUPS: NavGroup[] = [
+const SECTIONS: NavSection[] = [
   {
-    section: null,
+    key: "operaciones",
+    label: "Operaciones",
     items: [
-      { label: "General", href: "/dashboard", icon: LayoutDashboard },
+      { label: "Expedientes", href: "/expedientes",  icon: Package },
+      { label: "Calendario",  href: "/calendar",     icon: CalendarDays },
+      { label: "Documentos",  href: "/documentos",   icon: FolderOpen },
+      { label: "Mapa",        href: "/mapa",         icon: Map },
+      { label: "Aduanas",     icon: FileCheck2,      soon: true },
     ],
   },
   {
-    section: "Operaciones",
+    key: "comercial",
+    label: "Comercial",
     items: [
-      { label: "Expedientes", href: "/expedientes", icon: Package },
-      { label: "Calendario", href: "/calendar", icon: CalendarDays },
-      { label: "Documentos", href: "/documentos", icon: FolderOpen },
-      { label: "Mapa", href: "/mapa", icon: Map },
-      { label: "Aduanas", icon: FileCheck2, soon: true },
+      { label: "Contactos",   href: "/contactos",   icon: Building2 },
+      { label: "Cotizaciones",href: "/cotizaciones", icon: FileText },
+      { label: "Pipeline",    href: "/pipeline",    icon: TrendingUp },
     ],
   },
   {
-    section: "Comercial",
-    items: [
-      { label: "Contactos", href: "/contactos", icon: Building2 },
-      { label: "Cotizaciones", href: "/cotizaciones", icon: FileText },
-      { label: "Pipeline", href: "/pipeline", icon: TrendingUp },
-    ],
-  },
-  {
-    section: "Finanzas",
+    key: "finanzas",
+    label: "Finanzas",
     items: [
       { label: "Excepciones", href: "/excepciones", icon: ShieldAlert },
-      { label: "Facturación", href: "/facturas", icon: Receipt },
-      { label: "Gastos", icon: CreditCard, soon: true },
-      { label: "Tarifas", href: "/tarifas", icon: Tag },
+      { label: "Facturación", href: "/facturas",    icon: Receipt },
+      { label: "Gastos",      icon: CreditCard,     soon: true },
+      { label: "Tarifas",     href: "/tarifas",     icon: Tag },
     ],
   },
   {
-    section: "IA",
-    items: [
-      { label: "Briefing", href: "/briefing", icon: Sunrise },
-      { label: "Autopilot", href: "/autopilot", icon: Zap },
-    ],
-  },
-  {
-    section: "Análisis",
+    key: "analisis",
+    label: "Análisis",
     items: [
       { label: "Reportes", href: "/reportes", icon: BarChart3 },
     ],
   },
+  {
+    key: "integraciones",
+    label: "Integraciones",
+    items: [
+      { label: "Conectores",  icon: Plug,     soon: true },
+    ],
+  },
 ];
 
-const BOTTOM_NAV: NavItem[] = [
-  { label: "Integraciones", icon: Plug, soon: true },
-  { label: "Ajustes", href: "/settings", icon: Settings },
-];
+// ── Ítem fijo abajo ───────────────────────────────────────────────────────────
+
+const AJUSTES: NavItem = { label: "Ajustes", href: "/settings", icon: Settings };
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function sectionForPath(pathname: string): string | null {
+  for (const s of SECTIONS) {
+    if (s.items.some((i) => i.href && (pathname === i.href || pathname.startsWith(`${i.href}/`)))) {
+      return s.key;
+    }
+  }
+  return null;
+}
+
+// ── Sub-componentes ───────────────────────────────────────────────────────────
+
+function NavLink({
+  item,
+  indent = false,
+  onClick,
+  pathname,
+}: {
+  item: NavItem;
+  indent?: boolean;
+  onClick?: () => void;
+  pathname: string;
+}) {
+  const active = !!item.href && (pathname === item.href || pathname.startsWith(`${item.href}/`));
+
+  if (item.soon || !item.href) {
+    return (
+      <span
+        className={cn(
+          "flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-base text-muted-foreground/40",
+          indent && "pl-9",
+        )}
+        title="Disponible en una próxima fase"
+      >
+        <Icon icon={item.icon} size={15} />
+        {item.label}
+        <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-sm text-muted-foreground/40">
+          pronto
+        </span>
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      href={item.href}
+      prefetch={false}
+      onClick={onClick}
+      aria-current={active ? "page" : undefined}
+      className={cn(
+        "flex items-center gap-3 rounded-md px-3 py-2 text-base transition-colors duration-150",
+        indent && "pl-9",
+        active
+          ? "bg-primary/10 font-medium text-foreground shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.2)]"
+          : "text-muted-foreground hover:bg-surface-2 hover:text-foreground",
+      )}
+    >
+      <Icon icon={item.icon} size={15} />
+      {item.label}
+    </Link>
+  );
+}
+
+function SectionAccordion({
+  section,
+  isOpen,
+  onToggle,
+  onNav,
+  pathname,
+}: {
+  section: NavSection;
+  isOpen: boolean;
+  onToggle: () => void;
+  onNav: () => void;
+  pathname: string;
+}) {
+  const hasActive = section.items.some(
+    (i) => i.href && (pathname === i.href || pathname.startsWith(`${i.href}/`)),
+  );
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={onToggle}
+        className={cn(
+          "flex w-full items-center gap-3 rounded-md px-3 py-2 text-base transition-colors duration-150",
+          hasActive
+            ? "font-medium text-foreground"
+            : "text-muted-foreground hover:bg-surface-2 hover:text-foreground",
+        )}
+      >
+        <span className="flex-1 text-left font-mono text-sm uppercase tracking-[0.14em]">
+          {section.label}
+        </span>
+        <ChevronDown
+          className={cn(
+            "size-3.5 shrink-0 text-muted-foreground/50 transition-transform duration-200",
+            isOpen && "rotate-180",
+          )}
+        />
+      </button>
+
+      {/* Smooth height transition via grid trick */}
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows] duration-200 ease-out",
+          isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+        )}
+      >
+        <div className="overflow-hidden">
+          <div className="pb-1 pt-0.5">
+            {section.items.map((item) => (
+              <NavLink
+                key={item.href ?? item.label}
+                item={item}
+                indent
+                onClick={onNav}
+                pathname={pathname}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Componente principal ──────────────────────────────────────────────────────
 
 interface OrgOption {
   orgId: string;
@@ -115,124 +254,92 @@ interface AppSidebarProps {
 
 export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: AppSidebarProps) {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Sección activa por pathname; las demás cerradas por defecto
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>(() => {
+    const active = sectionForPath(pathname);
+    const init: Record<string, boolean> = {};
+    for (const s of SECTIONS) init[s.key] = s.key === active;
+    return init;
+  });
+
+  // Cuando cambia la ruta, abre la sección activa (sin cerrar las que el usuario abrió)
+  useEffect(() => {
+    const active = sectionForPath(pathname);
+    if (active) {
+      setOpenSections((prev) => ({ ...prev, [active]: true }));
+    }
+  }, [pathname]);
 
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMobileOpen(false); };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [mobileOpen]);
+
+  const toggleSection = useCallback((key: string) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  }, []);
+
+  const closeMenu = useCallback(() => setMobileOpen(false), []);
 
   const isActive = (href?: string) =>
     !!href && (pathname === href || pathname.startsWith(`${href}/`));
 
   const Content = (
     <div className="flex h-full flex-col">
-      <div className="flex h-14 items-center px-5">
-        <Link
-          href="/dashboard"
-          onClick={() => setOpen(false)}
-          aria-label="Manann"
-        >
+      {/* Logo */}
+      <div className="flex h-14 shrink-0 items-center px-5">
+        <Link href="/dashboard" onClick={closeMenu} aria-label="Manann">
           <Logo className="h-7" />
         </Link>
       </div>
 
-      <nav aria-label="Navegación principal" className="flex-1 overflow-y-auto px-3 py-2">
-        {NAV_GROUPS.map((group, gi) => (
-          <div key={gi} className={cn(gi > 0 ? "mt-4" : "")}>
-            {group.section && (
-              <p className="mb-1 px-3 font-mono text-sm uppercase tracking-[0.18em] text-muted-foreground/40">
-                {group.section}
-              </p>
-            )}
-            {group.items.map((item) => {
-              const active = isActive(item.href);
-              if (item.soon || !item.href) {
-                return (
-                  <span
-                    key={item.label}
-                    className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-base text-muted-foreground/40"
-                    title="Disponible en una próxima fase"
-                  >
-                    <Icon icon={item.icon} size={16} />
-                    {item.label}
-                    <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-base text-muted-foreground/40">
-                      pronto
-                    </span>
-                  </span>
-                );
-              }
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  prefetch={false}
-                  onClick={() => setOpen(false)}
-                  aria-current={active ? "page" : undefined}
-                  className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 text-base transition-colors duration-150",
-                    active
-                      ? "bg-primary/10 font-medium text-foreground shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.2)]"
-                      : "text-muted-foreground hover:bg-surface-2 hover:text-foreground",
-                  )}
-                >
-                  <Icon icon={item.icon} size={16} />
-                  {item.label}
-                </Link>
-              );
-            })}
+      {/* Scroll container */}
+      <div className="flex-1 overflow-y-auto">
+        <nav aria-label="Navegación principal" className="px-3 py-2">
+
+          {/* ── Ítems fijos superiores ─────────────────────────────────── */}
+          <div className="space-y-0.5">
+            {TOP_ITEMS.map((item) => (
+              <NavLink key={item.href} item={item} onClick={closeMenu} pathname={pathname} />
+            ))}
+            <NotificationsBell />
           </div>
-        ))}
 
-        <NotificationsBell />
-      </nav>
+          {/* ── Divider ────────────────────────────────────────────────── */}
+          <div className="my-3 border-t border-border/60" />
 
-      <div className="border-t border-border">
-        {/* Bottom utilities */}
-        <div className="px-3 pt-3 pb-2">
-          {BOTTOM_NAV.map((item) => {
-            if (item.href && !item.soon) {
-              const active = isActive(item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  prefetch={false}
-                  onClick={() => setOpen(false)}
-                  aria-current={active ? "page" : undefined}
-                  className={cn(
-                    "flex items-center gap-3 rounded-md px-3 py-2 text-base transition-colors duration-150",
-                    active
-                      ? "bg-primary/10 font-medium text-foreground shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.2)]"
-                      : "text-muted-foreground hover:bg-surface-2 hover:text-foreground",
-                  )}
-                >
-                  <Icon icon={item.icon} size={16} />
-                  {item.label}
-                </Link>
-              );
-            }
-            return (
-              <span
-                key={item.label}
-                className="flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-base text-muted-foreground/40"
-                title="Disponible en una próxima fase"
-              >
-                <Icon icon={item.icon} size={16} />
-                {item.label}
-                <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-base text-muted-foreground/40">
-                  pronto
-                </span>
-              </span>
-            );
-          })}
+          {/* ── Secciones accordion ────────────────────────────────────── */}
+          <div className="space-y-0.5">
+            {SECTIONS.map((section, i) => (
+              <div key={section.key}>
+                <SectionAccordion
+                  section={section}
+                  isOpen={openSections[section.key] ?? false}
+                  onToggle={() => toggleSection(section.key)}
+                  onNav={closeMenu}
+                  pathname={pathname}
+                />
+                {/* Divider entre secciones (no after last) */}
+                {i < SECTIONS.length - 1 && (
+                  <div className="my-1.5 border-t border-border/40" />
+                )}
+              </div>
+            ))}
+          </div>
+        </nav>
+      </div>
+
+      {/* ── Footer fijo ────────────────────────────────────────────────── */}
+      <div className="shrink-0 border-t border-border">
+        <div className="px-3 pt-2 pb-1">
+          <NavLink item={AJUSTES} onClick={closeMenu} pathname={pathname} />
         </div>
 
-        <div className="border-t border-border px-3 py-3">
+        <div className="border-t border-border px-3 py-2.5">
           {orgs.length >= 2 ? (
             <OrgSwitcher orgs={orgs} activeOrgId={activeOrgId} activeOrgName={orgName} />
           ) : (
@@ -259,58 +366,32 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
 
       {/* Móvil: barra superior */}
       <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur-md lg:hidden">
-        <Link href="/dashboard" aria-label="Manann" onClick={() => setOpen(false)}>
+        <Link href="/dashboard" aria-label="Manann" onClick={closeMenu}>
           <Logo />
         </Link>
         <button
           type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={open}
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={mobileOpen}
           className="relative h-8 w-8 text-muted-foreground transition-colors hover:text-foreground"
         >
-          <span
-            className={cn(
-              "absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 rounded-full bg-current transition-all duration-200 ease-out",
-              open ? "-translate-y-px rotate-45" : "-translate-y-[6px]",
-            )}
-          />
-          <span
-            className={cn(
-              "absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 -translate-y-px rounded-full bg-current transition-all duration-200 ease-out",
-              open ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100",
-            )}
-          />
-          <span
-            className={cn(
-              "absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 rounded-full bg-current transition-all duration-200 ease-out",
-              open ? "-translate-y-px -rotate-45" : "translate-y-[4px]",
-            )}
-          />
+          <span className={cn("absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 rounded-full bg-current transition-all duration-200 ease-out", mobileOpen ? "-translate-y-px rotate-45" : "-translate-y-[6px]")} />
+          <span className={cn("absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 -translate-y-px rounded-full bg-current transition-all duration-200 ease-out", mobileOpen ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100")} />
+          <span className={cn("absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 rounded-full bg-current transition-all duration-200 ease-out", mobileOpen ? "-translate-y-px -rotate-45" : "translate-y-[4px]")} />
         </button>
       </header>
 
       {/* Móvil: drawer */}
       <div
-        aria-hidden={!open}
-        className={cn(
-          "fixed inset-x-0 bottom-0 top-14 z-40 lg:hidden",
-          open ? "pointer-events-auto visible" : "pointer-events-none invisible",
-        )}
+        aria-hidden={!mobileOpen}
+        className={cn("fixed inset-x-0 bottom-0 top-14 z-40 lg:hidden", mobileOpen ? "pointer-events-auto visible" : "pointer-events-none invisible")}
       >
         <div
-          className={cn(
-            "absolute inset-0 bg-background/70 backdrop-blur-sm transition-opacity duration-300 ease-out",
-            open ? "opacity-100" : "opacity-0",
-          )}
-          onClick={() => setOpen(false)}
+          className={cn("absolute inset-0 bg-background/70 backdrop-blur-sm transition-opacity duration-300 ease-out", mobileOpen ? "opacity-100" : "opacity-0")}
+          onClick={closeMenu}
         />
-        <aside
-          className={cn(
-            "absolute inset-y-0 left-0 w-64 border-r border-border bg-card transition-transform duration-300 ease-out",
-            open ? "translate-x-0" : "-translate-x-full",
-          )}
-        >
+        <aside className={cn("absolute inset-y-0 left-0 w-64 border-r border-border bg-card transition-transform duration-300 ease-out", mobileOpen ? "translate-x-0" : "-translate-x-full")}>
           {Content}
         </aside>
       </div>
