@@ -826,3 +826,56 @@ export const complianceDeclarationRelations = relations(complianceDeclaration, (
     references: [invoice.id],
   }),
 }));
+
+// ─── Tier P: Ecosistema & Partners ───────────────────────────────────────────
+
+export const partner = pgTable(
+  "partner",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    type: text("type").notNull().default("agente"),
+    region: text("region"),
+    country: text("country"),
+    services: text("services").array().notNull().default([]),
+    contactEmail: text("contact_email"),
+    contactPhone: text("contact_phone"),
+    taxId: text("tax_id"),
+    notes: text("notes"),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("partner_org_idx").on(t.organizationId)],
+);
+
+export const partnerRelations = relations(partner, ({ one }) => ({
+  organization: one(organization, {
+    fields: [partner.organizationId],
+    references: [organization.id],
+  }),
+}));
+
+export const sanctionsScreening = pgTable(
+  "sanctions_screening",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    result: text("result").notNull().default("clear"),
+    matches: jsonb("matches"),
+    screenedAt: timestamp("screened_at").defaultNow().notNull(),
+  },
+  (t) => [index("sanctions_screening_org_idx").on(t.organizationId)],
+);
+
+export const sanctionsScreeningRelations = relations(sanctionsScreening, ({ one }) => ({
+  organization: one(organization, {
+    fields: [sanctionsScreening.organizationId],
+    references: [organization.id],
+  }),
+}));

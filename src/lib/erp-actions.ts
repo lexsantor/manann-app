@@ -9,7 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity, booking, accountingAccount, journalEntry, journalEntryLine, complianceDeclaration } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity, booking, accountingAccount, journalEntry, journalEntryLine, complianceDeclaration, partner, sanctionsScreening } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode, isShipsGoEnabled } from "@/lib/tracking/shipsgo";
@@ -2156,4 +2156,104 @@ export async function submitDeclaration(
 
   revalidatePath(`/expedientes/${shipmentId}`);
   return { referenceNumber: refNumber };
+}
+
+
+// ─── Tier P: Partners ─────────────────────────────────────────────────────────
+
+type PartnerType = "agent" | "co-loader" | "subcontractor" | "carrier" | "customs" | "other";
+
+export async function createPartner(input: {
+  name: string;
+  type: PartnerType;
+  region: string;
+  services: string[];
+  contactEmail?: string;
+  taxId?: string;
+}): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  await db.insert(partner).values({
+    organizationId: ctx.org.id,
+    name: input.name.trim(),
+    type: input.type,
+    region: input.region.trim(),
+    services: input.services,
+    contactEmail: input.contactEmail?.trim() || null,
+    taxId: input.taxId?.trim() || null,
+    active: true,
+  });
+
+  revalidatePath("/partners");
+}
+
+export async function updatePartner(
+  partnerId: string,
+  input: Partial<{
+    name: string;
+    type: PartnerType;
+    region: string;
+    services: string[];
+    contactEmail: string;
+    taxId: string;
+    active: boolean;
+  }>,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(partnerId)) throw new Error("Partner inválido");
+
+  const [existing] = await db
+    .select({ id: partner.id })
+    .from(partner)
+    .where(and(eq(partner.id, partnerId), eq(partner.organizationId, ctx.org.id)));
+  if (!existing) throw new Error("No autorizado");
+
+  await db.update(partner).set(input).where(eq(partner.id, partnerId));
+  revalidatePath("/partners");
+}
+
+export async function deletePartner(partnerId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(partnerId)) throw new Error("Partner inválido");
+
+  const [existing] = await db
+    .select({ id: partner.id })
+    .from(partner)
+    .where(and(eq(partner.id, partnerId), eq(partner.organizationId, ctx.org.id)));
+  if (!existing) throw new Error("No autorizado");
+
+  await db.delete(partner).where(eq(partner.id, partnerId));
+  revalidatePath("/partners");
+}
+
+export async function runSanctionsScreening(name: string): Promise<{
+  result: "clear" | "match" | "review";
+  matches: { list: string; score: number }[];
+}> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const cleaned = name.trim();
+  // Deterministic simulation: names with known risky patterns flag for review
+  const riskyTokens = ["iran", "russia", "korea", "sanctioned", "ofac"];
+  const lc = cleaned.toLowerCase();
+  const hit = riskyTokens.find((t) => lc.includes(t));
+
+  const result = hit ? "match" : "clear";
+  const matches = hit
+    ? [{ list: "OFAC-SDN", score: 0.91 }, { list: "EU-SIRA", score: 0.84 }]
+    : [];
+
+  await db.insert(sanctionsScreening).values({
+    organizationId: ctx.org.id,
+    name: cleaned,
+    result,
+    matches,
+    screenedAt: new Date(),
+  });
+
+  return { result, matches };
 }

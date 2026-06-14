@@ -4,7 +4,7 @@ import { cache } from "react";
 import { and, count, desc, eq, asc, or, ilike, gte, lt, ne, sql, inArray } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity, booking, accountingAccount, journalEntry, journalEntryLine, complianceDeclaration } from "@/db/schema";
+import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity, booking, accountingAccount, journalEntry, journalEntryLine, complianceDeclaration, partner } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string; memberId: string; onboarded: boolean };
@@ -943,3 +943,42 @@ export async function getComplianceDeclarations(orgId: string, shipmentId?: stri
     .where(and(...conditions))
     .orderBy(desc(complianceDeclaration.createdAt));
 }
+
+// ─── Tier P: Partners ─────────────────────────────────────────────────────────
+
+export async function listPartners(orgId: string) {
+  return db
+    .select()
+    .from(partner)
+    .where(eq(partner.organizationId, orgId))
+    .orderBy(asc(partner.name));
+}
+
+export type PartnerRow = Awaited<ReturnType<typeof listPartners>>[number];
+
+export async function getCarrierScorecard(orgId: string) {
+  const rows = await db
+    .select({
+      carrier: shipment.carrier,
+      mode: shipment.mode,
+      total: count(),
+      withEta: sql<string>`count(*) filter (where ${shipment.eta} is not null)`,
+      delivered: sql<string>`count(*) filter (where ${shipment.status} = 'entregado')`,
+    })
+    .from(shipment)
+    .where(and(eq(shipment.organizationId, orgId), ne(shipment.status, "borrador")))
+    .groupBy(shipment.carrier, shipment.mode)
+    .orderBy(desc(count()));
+
+  return rows
+    .filter((r) => r.carrier)
+    .map((r) => ({
+      carrier: r.carrier!,
+      mode: r.mode,
+      total: r.total,
+      delivered: Number(r.delivered),
+      onTimeRate: r.total > 0 ? Math.round((Number(r.delivered) / r.total) * 100) : null,
+    }));
+}
+
+export type CarrierScorecardRow = Awaited<ReturnType<typeof getCarrierScorecard>>[number];

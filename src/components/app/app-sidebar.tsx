@@ -24,6 +24,7 @@ import {
   Map,
   ShieldAlert,
   BookOpen,
+  Handshake,
   ChevronDown,
   type LucideIcon,
 } from "lucide-react";
@@ -77,6 +78,7 @@ const SECTIONS: NavSection[] = [
       { label: "Contactos",   href: "/contactos",   icon: Building2 },
       { label: "Cotizaciones",href: "/cotizaciones", icon: FileText },
       { label: "Pipeline",    href: "/pipeline",    icon: TrendingUp },
+      { label: "Partners",    href: "/partners",    icon: Handshake },
     ],
   },
   {
