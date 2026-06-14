@@ -103,13 +103,12 @@ export function DuaPanel({
               <select
                 value={regimen}
                 onChange={(e) => setRegimen(e.target.value)}
-                className="w-full appearance-none rounded-md border border-border bg-surface-2/30 px-3 py-1.5 pr-8 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
               >
                 {REGIMEN_OPTIONS.map((r) => (
                   <option key={r.value} value={r.value}>{r.label}</option>
                 ))}
               </select>
-              <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             </div>
           </div>
 

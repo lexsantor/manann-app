@@ -169,7 +169,7 @@ function CreateBookingForm({
     });
   }
 
-  const inputCls = "w-full appearance-none rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary transition-colors";
+  const inputCls = "w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary transition-colors";
 
   return (
     <form onSubmit={handleSubmit} className="mt-3 space-y-3 rounded-md border border-border/60 bg-surface-2/30 p-3">

@@ -132,7 +132,7 @@ export function AddPartyForm({ shipmentId, contacts }: AddPartyFormProps) {
           name="role"
           value={role}
           onChange={(e) => setRole(e.target.value)}
-          className="w-full appearance-none rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+          className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
         >
           {ROLE_OPTIONS.map((r) => (
             <option key={r.value} value={r.value}>{r.label}</option>

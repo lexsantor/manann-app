@@ -165,7 +165,7 @@ export function GenerarFacturaButton({
                       <select
                         value={taxRate}
                         onChange={(e) => setTaxRate(e.target.value)}
-                        className="w-full appearance-none rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                       >
                         <option value="21">21% (general)</option>
                         <option value="10">10% (reducido)</option>
@@ -186,7 +186,7 @@ export function GenerarFacturaButton({
                         type="date"
                         value={issueDate}
                         onChange={(e) => setIssueDate(e.target.value)}
-                        className="w-full appearance-none rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                       />
                     </div>
                     <div>
@@ -195,7 +195,7 @@ export function GenerarFacturaButton({
                         type="date"
                         value={dueDate}
                         onChange={(e) => setDueDate(e.target.value)}
-                        className="w-full appearance-none rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
                       />
                     </div>
                   </div>

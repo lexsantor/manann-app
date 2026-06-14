@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { TrendingUp, TrendingDown, Plus, Trash2, Loader2, Receipt, AlertTriangle, ArrowRight, Scale, ChevronDown } from "lucide-react";
+import { TrendingUp, TrendingDown, Plus, Trash2, Loader2, Receipt, AlertTriangle, ArrowRight, Scale } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { formatMoney } from "@/lib/erp-format";
 import { addCharge, deleteCharge, updateChargeAccrual, type AddChargeInput } from "@/lib/erp-actions";
@@ -79,13 +79,12 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="w-full appearance-none rounded-md border border-border bg-background px-2 py-1.5 pr-7 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+            className="w-full rounded-md border border-border bg-background px-2 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
           >
             {CHARGE_TYPES.map(([val, label]) => (
               <option key={val} value={val}>{label}</option>
             ))}
           </select>
-          <ChevronDown className="pointer-events-none absolute right-2 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
         </div>
         <input
           type="text"
