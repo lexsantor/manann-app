@@ -2,7 +2,9 @@
 
 import { Download } from "lucide-react";
 import { Icon } from "@/components/icon";
-import type { EsgData } from "@/lib/erp";
+type EsgExportData = {
+  rows: { reference: string; pol: string; pod: string; mode: string; co2Kg: number; distanceKm: number }[];
+};
 
 const MODE_LABEL: Record<string, string> = {
   maritimo: "Marítimo",
@@ -12,7 +14,7 @@ const MODE_LABEL: Record<string, string> = {
   multimodal: "Multimodal",
 };
 
-export function EsgExportButton({ data, period }: { data: EsgData; period: string }) {
+export function EsgExportButton({ data, period }: { data: EsgExportData; period: string }) {
   function handleExport() {
     const header = ["Expediente", "POL", "POD", "Modo", "CO2 (kg)", "Distancia (km)"];
     const lines = data.rows.map((r) => [

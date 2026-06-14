@@ -6,7 +6,6 @@ import { and, count, desc, eq, asc, or, ilike, gte, lt, ne, sql } from "drizzle-
 import { db } from "@/db";
 import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity, booking } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
-import { estimateCo2 } from "@/lib/erp-format";
 
 export type ActiveOrg = { id: string; name: string; slug: string; memberId: string; onboarded: boolean };
 
@@ -793,7 +792,7 @@ export async function getOpportunityStats(orgId: string) {
 
 // ─── ESG ──────────────────────────────────────────────────────────────────────
 
-export async function getEsgData(orgId: string, from: Date) {
+export async function getEsgRaw(orgId: string, from: Date) {
   const rows = await db.query.shipment.findMany({
     where: and(
       eq(shipment.organizationId, orgId),
@@ -804,35 +803,13 @@ export async function getEsgData(orgId: string, from: Date) {
     with: { cargoLines: { columns: { grossWeightKg: true } } },
   });
 
-  const computed = rows.map((r) => {
-    const totalWeightKg = r.cargoLines.reduce((s, l) => s + (l.grossWeightKg ?? 0), 0);
-    const co2 = estimateCo2(r.pol, r.pod, r.mode, totalWeightKg);
-    return {
-      reference: r.reference,
-      pol: r.pol ?? "",
-      pod: r.pod ?? "",
-      mode: r.mode,
-      co2Kg: co2?.kg ?? 0,
-      distanceKm: co2?.distanceKm ?? 0,
-    };
-  });
-
-  const byMode = Object.entries(
-    computed.reduce<Record<string, { co2Kg: number; count: number }>>((acc, r) => {
-      if (!acc[r.mode]) acc[r.mode] = { co2Kg: 0, count: 0 };
-      acc[r.mode].co2Kg += r.co2Kg;
-      acc[r.mode].count += 1;
-      return acc;
-    }, {}),
-  )
-    .map(([mode, data]) => ({ mode, ...data }))
-    .sort((a, b) => b.co2Kg - a.co2Kg);
-
-  return {
-    totalCo2Kg: computed.reduce((s, r) => s + r.co2Kg, 0),
-    byMode,
-    rows: computed,
-  };
+  return rows.map((r) => ({
+    reference: r.reference,
+    pol: r.pol ?? "",
+    pod: r.pod ?? "",
+    mode: r.mode,
+    totalWeightKg: r.cargoLines.reduce((s, l) => s + (l.grossWeightKg ?? 0), 0),
+  }));
 }
 
-export type EsgData = Awaited<ReturnType<typeof getEsgData>>;
+export type EsgRawRow = Awaited<ReturnType<typeof getEsgRaw>>[number];

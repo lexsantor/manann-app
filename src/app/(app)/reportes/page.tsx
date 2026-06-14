@@ -8,8 +8,9 @@ import {
   getShipmentsByMode,
   getTopRoutes,
   getCarrierKPIs,
-  getEsgData,
+  getEsgRaw,
 } from "@/lib/erp";
+import { estimateCo2 } from "@/lib/erp-format";
 import { EsgExportButton } from "@/components/app/esg-export-button";
 import { Icon } from "@/components/icon";
 import { portLabel } from "@/lib/erp-format";
@@ -69,14 +70,29 @@ export default async function ReportesPage({
 
   const from = dateFrom(period);
 
-  const [monthlyGP, topClients, byMode, topRoutes, carriers, esg] = await Promise.all([
+  const [monthlyGP, topClients, byMode, topRoutes, carriers, esgRaw] = await Promise.all([
     getMonthlyGP(ctx.org.id, 12),
     getTopClientsByGP(ctx.org.id, from, 10),
     getShipmentsByMode(ctx.org.id, from),
     getTopRoutes(ctx.org.id, from, 8),
     getCarrierKPIs(ctx.org.id, from, 8),
-    getEsgData(ctx.org.id, from),
+    getEsgRaw(ctx.org.id, from),
   ]);
+
+  // Compute CO₂ in the server component (keeps erp.ts free of erp-format imports)
+  const esgRows = esgRaw.map((r) => {
+    const co2 = estimateCo2(r.pol, r.pod, r.mode, r.totalWeightKg);
+    return { ...r, co2Kg: co2?.kg ?? 0, distanceKm: co2?.distanceKm ?? 0 };
+  });
+  const esgTotalCo2 = esgRows.reduce((s, r) => s + r.co2Kg, 0);
+  const esgByMode = Object.entries(
+    esgRows.reduce<Record<string, { co2Kg: number; count: number }>>((acc, r) => {
+      if (!acc[r.mode]) acc[r.mode] = { co2Kg: 0, count: 0 };
+      acc[r.mode].co2Kg += r.co2Kg;
+      acc[r.mode].count += 1;
+      return acc;
+    }, {}),
+  ).map(([mode, data]) => ({ mode, ...data })).sort((a, b) => b.co2Kg - a.co2Kg);
 
   // Totales del período
   const totalGP = topClients.reduce((s, c) => s + Number(c.gp), 0);
@@ -302,10 +318,10 @@ export default async function ReportesPage({
             <Icon icon={Leaf} size={14} className="text-emerald-500" />
             <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">ESG — Huella de carbono</p>
           </div>
-          <EsgExportButton data={esg} period={period} />
+          <EsgExportButton data={{ rows: esgRows }} period={period} />
         </div>
 
-        {esg.totalCo2Kg === 0 ? (
+        {esgTotalCo2 === 0 ? (
           <div className="px-5 py-8 text-center">
             <p className="text-sm text-muted-foreground">Sin datos de rutas con peso declarado en el período</p>
           </div>
@@ -315,17 +331,17 @@ export default async function ReportesPage({
             <div className="bg-card px-5 py-5 flex flex-col justify-center">
               <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">CO₂ total estimado</p>
               <p className="mt-1 font-display text-2xl font-semibold text-foreground">
-                {esg.totalCo2Kg >= 1000
-                  ? `${(esg.totalCo2Kg / 1000).toFixed(1)} t`
-                  : `${Math.round(esg.totalCo2Kg)} kg`}
+                {esgTotalCo2 >= 1000
+                  ? `${(esgTotalCo2 / 1000).toFixed(1)} t`
+                  : `${Math.round(esgTotalCo2)} kg`}
               </p>
               <p className="mt-0.5 font-mono text-xs text-muted-foreground">CO₂e · GLEC Framework</p>
             </div>
 
             {/* Breakdown por modo */}
             <div className="bg-card px-5 py-5 space-y-3">
-              {esg.byMode.map((m) => {
-                const pct = esg.totalCo2Kg > 0 ? Math.round((m.co2Kg / esg.totalCo2Kg) * 100) : 0;
+              {esgByMode.map((m) => {
+                const pct = esgTotalCo2 > 0 ? Math.round((m.co2Kg / esgTotalCo2) * 100) : 0;
                 const modeLabels: Record<string, string> = {
                   maritimo: "Marítimo", aereo: "Aéreo", terrestre: "Terrestre",
                   ferroviario: "Ferroviario", multimodal: "Multimodal",
