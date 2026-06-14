@@ -131,3 +131,19 @@ export const bookingStatus = pgEnum("booking_status", [
   "confirmado",
   "rechazado",
 ]);
+
+// ─── Contabilidad (Tier L) ────────────────────────────────────────────────────
+
+export const accountType = pgEnum("account_type", [
+  "activo",
+  "pasivo",
+  "patrimonio",
+  "ingreso",
+  "gasto",
+]);
+
+export const journalEntryStatus = pgEnum("journal_entry_status", [
+  "borrador",
+  "contabilizado",
+  "anulado",
+]);

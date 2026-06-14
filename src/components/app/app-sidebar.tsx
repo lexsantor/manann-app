@@ -23,6 +23,7 @@ import {
   Settings,
   Map,
   ShieldAlert,
+  BookOpen,
   ChevronDown,
   type LucideIcon,
 } from "lucide-react";
@@ -82,10 +83,11 @@ const SECTIONS: NavSection[] = [
     key: "finanzas",
     label: "Finanzas",
     items: [
-      { label: "Excepciones", href: "/excepciones", icon: ShieldAlert },
-      { label: "Facturación", href: "/facturas",    icon: Receipt },
-      { label: "Gastos",      icon: CreditCard,     soon: true },
-      { label: "Tarifas",     href: "/tarifas",     icon: Tag },
+      { label: "Excepciones",   href: "/excepciones",   icon: ShieldAlert },
+      { label: "Facturación",   href: "/facturas",      icon: Receipt },
+      { label: "Contabilidad",  href: "/contabilidad",  icon: BookOpen },
+      { label: "Gastos",        icon: CreditCard,       soon: true },
+      { label: "Tarifas",       href: "/tarifas",       icon: Tag },
     ],
   },
   {

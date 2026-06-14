@@ -34,6 +34,8 @@ import {
   quotationStatus,
   opportunityStage,
   bookingStatus,
+  accountType,
+  journalEntryStatus,
 } from "./enums";
 
 // ─── Tenant ───────────────────────────────────────────────────────────────
@@ -423,6 +425,7 @@ export const invoiceRelations = relations(invoice, ({ one, many }) => ({
     references: [shipment.id],
   }),
   lines: many(invoiceLine),
+  journalEntries: many(journalEntry),
 }));
 
 export const invoiceLineRelations = relations(invoiceLine, ({ one }) => ({
@@ -698,4 +701,87 @@ export const booking = pgTable(
 export const bookingRelations = relations(booking, ({ one }) => ({
   organization: one(organization, { fields: [booking.organizationId], references: [organization.id] }),
   shipment: one(shipment, { fields: [booking.shipmentId], references: [shipment.id] }),
+}));
+
+// ─── Contabilidad — Plan de cuentas PGC 2007 (Tier L) ───────────────────────
+
+export const accountingAccount = pgTable(
+  "accounting_account",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    code: text("code").notNull(),       // "430", "705", "477"…
+    name: text("name").notNull(),
+    type: accountType("type").notNull(), // activo/pasivo/patrimonio/ingreso/gasto
+    isSystem: boolean("is_system").notNull().default(false),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [
+    unique("accounting_account_org_code").on(t.organizationId, t.code),
+    index("accounting_account_org_idx").on(t.organizationId),
+  ],
+);
+
+export const accountingAccountRelations = relations(accountingAccount, ({ one }) => ({
+  organization: one(organization, {
+    fields: [accountingAccount.organizationId],
+    references: [organization.id],
+  }),
+}));
+
+// ─── Contabilidad — Asientos contables (Tier L) ──────────────────────────────
+
+export const journalEntry = pgTable(
+  "journal_entry",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    reference: text("reference").notNull(),   // "AST-2026-001"
+    date: date("date").notNull(),
+    description: text("description").notNull(),
+    period: text("period").notNull(),         // "2026-06"
+    status: journalEntryStatus("status").notNull().default("borrador"),
+    invoiceId: uuid("invoice_id").references(() => invoice.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [
+    index("journal_entry_org_idx").on(t.organizationId),
+    index("journal_entry_period_idx").on(t.period),
+  ],
+);
+
+export const journalEntryRelations = relations(journalEntry, ({ one, many }) => ({
+  organization: one(organization, {
+    fields: [journalEntry.organizationId],
+    references: [organization.id],
+  }),
+  invoice: one(invoice, {
+    fields: [journalEntry.invoiceId],
+    references: [invoice.id],
+  }),
+  lines: many(journalEntryLine),
+}));
+
+export const journalEntryLine = pgTable("journal_entry_line", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  journalEntryId: uuid("journal_entry_id")
+    .notNull()
+    .references(() => journalEntry.id, { onDelete: "cascade" }),
+  accountCode: text("account_code").notNull(),
+  accountName: text("account_name").notNull(),
+  debit: numeric("debit", { precision: 14, scale: 2 }).notNull().default("0"),
+  credit: numeric("credit", { precision: 14, scale: 2 }).notNull().default("0"),
+  description: text("description"),
+  sortOrder: integer("sort_order").notNull().default(0),
+});
+
+export const journalEntryLineRelations = relations(journalEntryLine, ({ one }) => ({
+  entry: one(journalEntry, {
+    fields: [journalEntryLine.journalEntryId],
+    references: [journalEntry.id],
+  }),
 }));

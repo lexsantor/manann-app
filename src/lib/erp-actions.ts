@@ -9,12 +9,12 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity, booking } from "@/db/schema";
-import { importContactsFromParties as importContactsQuery } from "@/lib/erp";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity, booking, accountingAccount, journalEntry, journalEntryLine } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode, isShipsGoEnabled } from "@/lib/tracking/shipsgo";
 import {
+  PGC_ACCOUNTS,
   getOrgContext,
   shipmentBelongsToOrg,
   getOwnedDocument,
@@ -23,6 +23,7 @@ import {
   getInvoiceDetail,
   countOrgQuotations,
   getQuotationDetail,
+  importContactsFromParties as importContactsQuery,
 } from "@/lib/erp";
 import { sendInvoiceEmail, sendQuotationEmail } from "@/lib/email";
 import {
@@ -949,6 +950,10 @@ export async function updateInvoiceStatus(
   if (!row || row.shipment.organizationId !== ctx.org.id) throw new Error("No autorizado");
 
   await db.update(invoice).set({ status, updatedAt: new Date() }).where(eq(invoice.id, invoiceId));
+
+  if (status === "emitida") {
+    await autoPostInvoiceJournal(invoiceId, ctx.org.id);
+  }
 
   revalidatePath("/facturas");
   revalidatePath(`/expedientes/${row.shipment.id}`);
@@ -1958,4 +1963,114 @@ export async function updateCourierInfo(
     })
     .where(and(eq(shipment.id, shipmentId), eq(shipment.organizationId, ctx.org.id)));
   revalidatePath(`/expedientes/${shipmentId}`);
+}
+
+// ─── Tier L: Contabilidad ─────────────────────────────────────────────────────
+
+export async function initPGCAccounts(): Promise<{ created: number }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const existing = await db
+    .select({ code: accountingAccount.code })
+    .from(accountingAccount)
+    .where(eq(accountingAccount.organizationId, ctx.org.id));
+
+  const existingCodes = new Set(existing.map((r) => r.code));
+  const toInsert = PGC_ACCOUNTS.filter((a) => !existingCodes.has(a.code)).map((a) => ({
+    organizationId: ctx.org!.id,
+    code: a.code,
+    name: a.name,
+    type: a.type,
+    isSystem: true,
+  }));
+
+  if (toInsert.length > 0) {
+    await db.insert(accountingAccount).values(toInsert);
+  }
+
+  revalidatePath("/contabilidad");
+  return { created: toInsert.length };
+}
+
+export async function createJournalEntry(data: {
+  reference: string;
+  date: string;
+  description: string;
+  period: string;
+  lines: { accountCode: string; accountName: string; debit: number; credit: number; description?: string }[];
+}): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+
+  const totalDebit = data.lines.reduce((s, l) => s + l.debit, 0);
+  const totalCredit = data.lines.reduce((s, l) => s + l.credit, 0);
+  if (Math.abs(totalDebit - totalCredit) > 0.01) {
+    throw new Error("El asiento no está cuadrado (debe ≠ haber)");
+  }
+
+  const [entry] = await db
+    .insert(journalEntry)
+    .values({
+      organizationId: ctx.org.id,
+      reference: data.reference.trim(),
+      date: data.date,
+      description: data.description.trim(),
+      period: data.period,
+      status: "contabilizado",
+    })
+    .returning({ id: journalEntry.id });
+
+  await db.insert(journalEntryLine).values(
+    data.lines.map((l, i) => ({
+      journalEntryId: entry.id,
+      accountCode: l.accountCode,
+      accountName: l.accountName,
+      debit: String(l.debit),
+      credit: String(l.credit),
+      description: l.description ?? null,
+      sortOrder: i,
+    })),
+  );
+
+  revalidatePath("/contabilidad");
+}
+
+export async function autoPostInvoiceJournal(invoiceId: string, orgId: string): Promise<void> {
+  const inv = await db.query.invoice.findFirst({
+    where: eq(invoice.id, invoiceId),
+    with: { lines: true },
+  });
+  if (!inv) return;
+
+  const subtotal = inv.lines.reduce((s, l) => s + Number(l.quantity) * Number(l.unitPrice), 0);
+  const ivaAmount = subtotal * (Number(inv.taxRate) / 100);
+  const total = subtotal + ivaAmount;
+  const issueDate = inv.issueDate ? new Date(inv.issueDate) : new Date();
+  const period = `${issueDate.getFullYear()}-${String(issueDate.getMonth() + 1).padStart(2, "0")}`;
+
+  const [entry] = await db
+    .insert(journalEntry)
+    .values({
+      organizationId: orgId,
+      reference: `FAC-${inv.reference ?? invoiceId.slice(0, 8)}`,
+      date: issueDate.toISOString().slice(0, 10),
+      description: `Factura emitida ${inv.reference ?? invoiceId.slice(0, 8)}`,
+      period,
+      status: "contabilizado",
+      invoiceId,
+    })
+    .returning({ id: journalEntry.id });
+
+  const entryLines = [
+    { accountCode: "430", accountName: "Clientes", debit: String(total), credit: "0", sortOrder: 0 },
+    { accountCode: "705", accountName: "Prestaciones de servicios", debit: "0", credit: String(subtotal), sortOrder: 1 },
+  ];
+  if (ivaAmount > 0) {
+    entryLines.push({ accountCode: "477", accountName: "Hacienda Pública, IVA repercutido", debit: "0", credit: String(ivaAmount), sortOrder: 2 });
+  }
+
+  await db.insert(journalEntryLine).values(
+    entryLines.map((l) => ({ ...l, journalEntryId: entry.id, description: null })),
+  );
 }

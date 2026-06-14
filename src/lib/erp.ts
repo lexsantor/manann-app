@@ -1,10 +1,10 @@
 // Capa de datos del ERP. REGLA ANTI-IDOR: toda query se filtra por la org del
 // usuario; nunca se confía en un id del cliente sin comprobar ownership.
 import { cache } from "react";
-import { and, count, desc, eq, asc, or, ilike, gte, lt, ne, sql } from "drizzle-orm";
+import { and, count, desc, eq, asc, or, ilike, gte, lt, ne, sql, inArray } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity, booking } from "@/db/schema";
+import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity, booking, accountingAccount, journalEntry, journalEntryLine } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string; memberId: string; onboarded: boolean };
@@ -813,3 +813,119 @@ export async function getEsgRaw(orgId: string, from: Date) {
 }
 
 export type EsgRawRow = Awaited<ReturnType<typeof getEsgRaw>>[number];
+
+// ─── Tier L: Contabilidad ─────────────────────────────────────────────────────
+
+export const PGC_ACCOUNTS = [
+  { code: "100", name: "Capital social", type: "patrimonio" as const },
+  { code: "129", name: "Resultado del ejercicio", type: "patrimonio" as const },
+  { code: "170", name: "Deudas a largo plazo con entidades de crédito", type: "pasivo" as const },
+  { code: "400", name: "Proveedores", type: "pasivo" as const },
+  { code: "410", name: "Acreedores por prestaciones de servicios", type: "pasivo" as const },
+  { code: "430", name: "Clientes", type: "activo" as const },
+  { code: "431", name: "Clientes, efectos comerciales a cobrar", type: "activo" as const },
+  { code: "475", name: "Hacienda Pública, acreedora por IVA", type: "pasivo" as const },
+  { code: "477", name: "Hacienda Pública, IVA repercutido", type: "pasivo" as const },
+  { code: "572", name: "Bancos e instituciones de crédito c/c", type: "activo" as const },
+  { code: "700", name: "Ventas de mercaderías", type: "ingreso" as const },
+  { code: "705", name: "Prestaciones de servicios", type: "ingreso" as const },
+  { code: "708", name: "Devoluciones de ventas y operaciones similares", type: "ingreso" as const },
+  { code: "600", name: "Compras de mercaderías", type: "gasto" as const },
+  { code: "621", name: "Arrendamientos y cánones", type: "gasto" as const },
+  { code: "623", name: "Servicios de profesionales independientes", type: "gasto" as const },
+  { code: "624", name: "Transportes", type: "gasto" as const },
+  { code: "626", name: "Servicios bancarios y similares", type: "gasto" as const },
+  { code: "628", name: "Suministros", type: "gasto" as const },
+  { code: "629", name: "Otros servicios", type: "gasto" as const },
+  { code: "640", name: "Sueldos y salarios", type: "gasto" as const },
+  { code: "662", name: "Intereses de deudas", type: "gasto" as const },
+];
+
+export async function getAccountingAccounts(orgId: string) {
+  return db
+    .select()
+    .from(accountingAccount)
+    .where(eq(accountingAccount.organizationId, orgId))
+    .orderBy(asc(accountingAccount.code));
+}
+
+export async function getJournalEntries(orgId: string) {
+  const entries = await db
+    .select({
+      id: journalEntry.id,
+      reference: journalEntry.reference,
+      date: journalEntry.date,
+      description: journalEntry.description,
+      period: journalEntry.period,
+      status: journalEntry.status,
+      invoiceId: journalEntry.invoiceId,
+      createdAt: journalEntry.createdAt,
+    })
+    .from(journalEntry)
+    .where(eq(journalEntry.organizationId, orgId))
+    .orderBy(desc(journalEntry.date));
+
+  if (entries.length === 0) return [];
+
+  const ids = entries.map((e) => e.id);
+  const lines = await db
+    .select()
+    .from(journalEntryLine)
+    .where(inArray(journalEntryLine.journalEntryId, ids));
+
+  const lineMap = new Map<string, typeof lines>();
+  for (const l of lines) {
+    if (!lineMap.has(l.journalEntryId)) lineMap.set(l.journalEntryId, []);
+    lineMap.get(l.journalEntryId)!.push(l);
+  }
+
+  return entries.map((e) => ({
+    ...e,
+    lines: (lineMap.get(e.id) ?? []).sort((a, b) => a.sortOrder - b.sortOrder),
+    totalDebit: (lineMap.get(e.id) ?? []).reduce((s, l) => s + Number(l.debit), 0),
+  }));
+}
+
+export type JournalEntryRow = Awaited<ReturnType<typeof getJournalEntries>>[number];
+
+export async function getTreasuryProjection(orgId: string) {
+  const [pendingInvoices, pendingCharges] = await Promise.all([
+    db
+      .select({
+        id: invoice.id,
+        reference: invoice.reference,
+        total: invoice.total,
+        dueDate: invoice.dueDate,
+        status: invoice.status,
+      })
+      .from(invoice)
+      .innerJoin(shipment, eq(invoice.shipmentId, shipment.id))
+      .where(
+        and(
+          eq(shipment.organizationId, orgId),
+          sql`${invoice.status} IN ('emitida', 'enviada')`,
+        ),
+      )
+      .orderBy(asc(invoice.dueDate)),
+    db
+      .select({
+        id: charge.id,
+        description: charge.description,
+        amount: charge.amount,
+        direction: charge.direction,
+      })
+      .from(charge)
+      .leftJoin(shipment, eq(charge.shipmentId, shipment.id))
+      .where(
+        and(
+          eq(shipment.organizationId, orgId),
+          eq(charge.direction, "cost"),
+        ),
+      ),
+  ]);
+
+  const totalCobrar = pendingInvoices.reduce((s, i) => s + Number(i.total), 0);
+  const totalPagar = pendingCharges.reduce((s, c) => s + Number(c.amount), 0);
+
+  return { pendingInvoices, pendingCharges, totalCobrar, totalPagar };
+}
