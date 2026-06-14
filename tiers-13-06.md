@@ -105,24 +105,24 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 ---
 
-## [ ] Tier N — Operativo Avanzado (L · 5-7 días)
+## [X] Tier N — Operativo Avanzado (L · 5-7 días)
 
 *Módulos de carga específicos. Sin impacto en expediciones marítimas FCL ya construidas.*
 
-- [ ] Bookings DCSA 2.0: crear booking por buque/ruta, estados (RECEIVED / CONFIRMED / PENDING / REJECTED)
-- [ ] VGM (Verified Gross Mass): campo, validación y registro según regulación IMO SOLAS
-- [ ] LCL / grupaje: W/M, consolidación multi-envío en un mismo contenedor o vuelo
-- [ ] Módulo courier: envíos UPS / DHL / FedEx con tracking nativo (API real o mock etiquetado)
+- [X] Bookings DCSA 2.0: crear booking por buque/ruta, estados (RECEIVED / CONFIRMED / PENDING / REJECTED)
+- [X] VGM (Verified Gross Mass): campo, validación y registro según regulación IMO SOLAS
+- [X] LCL / grupaje: W/M, consolidación multi-envío en un mismo contenedor o vuelo
+- [X] Módulo courier: envíos UPS / DHL / FedEx con tracking nativo (API real o mock etiquetado)
 
 ---
 
-## [ ] Tier O — ESG & Sostenibilidad (S · 1-2 días)
+## [X] Tier O — ESG & Sostenibilidad (S · 1-2 días)
 
 *`estimateCo2` ya existe en código — solo falta exponer la UI.*
 
-- [ ] Badge CO₂ estimado en detalle de expediente (kg CO₂e, basado en modo + peso + km ruta)
-- [ ] Dashboard ESG en `/reportes`: CO₂ total por período, comparativa por modo
-- [ ] Exportar informe ESG (CSV / PDF)
+- [X] Badge CO₂ estimado en detalle de expediente (kg CO₂e, basado en modo + peso + km ruta)
+- [X] Dashboard ESG en `/reportes`: CO₂ total por período, comparativa por modo
+- [X] Exportar informe ESG (CSV / PDF)
 
 ---
 

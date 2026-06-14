@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Printer, TrendingUp, Users, Ship, MapPin } from "lucide-react";
+import { Printer, TrendingUp, Users, Ship, MapPin, Leaf } from "lucide-react";
 import {
   getOrgContext,
   getMonthlyGP,
@@ -8,7 +8,9 @@ import {
   getShipmentsByMode,
   getTopRoutes,
   getCarrierKPIs,
+  getEsgData,
 } from "@/lib/erp";
+import { EsgExportButton } from "@/components/app/esg-export-button";
 import { Icon } from "@/components/icon";
 import { portLabel } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
@@ -67,12 +69,13 @@ export default async function ReportesPage({
 
   const from = dateFrom(period);
 
-  const [monthlyGP, topClients, byMode, topRoutes, carriers] = await Promise.all([
+  const [monthlyGP, topClients, byMode, topRoutes, carriers, esg] = await Promise.all([
     getMonthlyGP(ctx.org.id, 12),
     getTopClientsByGP(ctx.org.id, from, 10),
     getShipmentsByMode(ctx.org.id, from),
     getTopRoutes(ctx.org.id, from, 8),
     getCarrierKPIs(ctx.org.id, from, 8),
+    getEsgData(ctx.org.id, from),
   ]);
 
   // Totales del período
@@ -291,6 +294,70 @@ export default async function ReportesPage({
           </div>
         </div>
       )}
+
+      {/* ESG & Sostenibilidad */}
+      <div className="overflow-hidden rounded-xl border border-border bg-card">
+        <div className="flex items-center justify-between border-b border-border px-5 py-3">
+          <div className="flex items-center gap-2">
+            <Icon icon={Leaf} size={14} className="text-emerald-500" />
+            <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">ESG — Huella de carbono</p>
+          </div>
+          <EsgExportButton data={esg} period={period} />
+        </div>
+
+        {esg.totalCo2Kg === 0 ? (
+          <div className="px-5 py-8 text-center">
+            <p className="text-sm text-muted-foreground">Sin datos de rutas con peso declarado en el período</p>
+          </div>
+        ) : (
+          <div className="grid gap-px bg-border sm:grid-cols-[200px_1fr]">
+            {/* KPI total */}
+            <div className="bg-card px-5 py-5 flex flex-col justify-center">
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">CO₂ total estimado</p>
+              <p className="mt-1 font-display text-2xl font-semibold text-foreground">
+                {esg.totalCo2Kg >= 1000
+                  ? `${(esg.totalCo2Kg / 1000).toFixed(1)} t`
+                  : `${Math.round(esg.totalCo2Kg)} kg`}
+              </p>
+              <p className="mt-0.5 font-mono text-xs text-muted-foreground">CO₂e · GLEC Framework</p>
+            </div>
+
+            {/* Breakdown por modo */}
+            <div className="bg-card px-5 py-5 space-y-3">
+              {esg.byMode.map((m) => {
+                const pct = esg.totalCo2Kg > 0 ? Math.round((m.co2Kg / esg.totalCo2Kg) * 100) : 0;
+                const modeLabels: Record<string, string> = {
+                  maritimo: "Marítimo", aereo: "Aéreo", terrestre: "Terrestre",
+                  ferroviario: "Ferroviario", multimodal: "Multimodal",
+                };
+                const co2Fmt = m.co2Kg >= 1000
+                  ? `${(m.co2Kg / 1000).toFixed(1)} t CO₂e`
+                  : `${Math.round(m.co2Kg)} kg CO₂e`;
+                return (
+                  <div key={m.mode}>
+                    <div className="flex items-center justify-between gap-4 mb-1">
+                      <span className="font-mono text-sm text-foreground">{modeLabels[m.mode] ?? m.mode}</span>
+                      <span className="font-mono text-sm text-muted-foreground">{co2Fmt} · {pct}%</span>
+                    </div>
+                    <div className="h-1.5 overflow-hidden rounded-full bg-border">
+                      <div
+                        className="h-full rounded-full bg-emerald-500 transition-all"
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        <div className="border-t border-border/40 px-5 py-2">
+          <p className="font-mono text-[10px] text-muted-foreground/50">
+            Estimación basada en distancia haversine, peso declarado en líneas de carga y factores de emisión GLEC (marítimo 10 g/t·km, aéreo 602 g/t·km, terrestre 96 g/t·km). No constituye informe oficial GHG.
+          </p>
+        </div>
+      </div>
 
       {/* Print footer */}
       <div className="hidden print:block text-center text-xs text-muted-foreground pt-4">
