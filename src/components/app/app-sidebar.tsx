@@ -9,6 +9,7 @@ import {
   Package,
   CalendarDays,
   Building2,
+  TrendingUp,
   FolderOpen,
   Receipt,
   Tag,
@@ -67,6 +68,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Contactos", href: "/contactos", icon: Building2 },
       { label: "Cotizaciones", href: "/cotizaciones", icon: FileText },
+      { label: "Pipeline", href: "/pipeline", icon: TrendingUp },
     ],
   },
   {

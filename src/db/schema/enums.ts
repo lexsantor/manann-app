@@ -115,3 +115,11 @@ export const quotationStatus = pgEnum("quotation_status", [
   "rechazada",
   "expirada",
 ]);
+
+export const opportunityStage = pgEnum("opportunity_stage", [
+  "prospecto",
+  "propuesta",
+  "negociacion",
+  "ganado",
+  "perdido",
+]);

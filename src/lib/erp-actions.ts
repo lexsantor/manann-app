@@ -9,7 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity } from "@/db/schema";
 import { importContactsFromParties as importContactsQuery } from "@/lib/erp";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
@@ -1733,4 +1733,78 @@ export async function addPartyToShipment(
     country: data.country || null,
   });
   revalidatePath(`/expedientes/${shipmentId}`);
+}
+
+// ── Oportunidades (CRM Pipeline) ──────────────────────────────────────────────
+
+type OppStage = "prospecto" | "propuesta" | "negociacion" | "ganado" | "perdido";
+
+export async function createOpportunity(formData: FormData): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  await db.insert(opportunity).values({
+    organizationId: ctx.org.id,
+    title: (formData.get("title") as string).trim(),
+    stage: ((formData.get("stage") as string) || "prospecto") as OppStage,
+    contactId: (formData.get("contactId") as string) || null,
+    mode: ((formData.get("mode") as string) || null) as any,
+    pol: (formData.get("pol") as string) || null,
+    pod: (formData.get("pod") as string) || null,
+    cargoType: (formData.get("cargoType") as string) || null,
+    estimatedValue: (formData.get("estimatedValue") as string) || null,
+    currency: (formData.get("currency") as string) || "EUR",
+    notes: (formData.get("notes") as string) || null,
+  });
+  revalidatePath("/pipeline");
+}
+
+export async function updateOpportunity(id: string, formData: FormData): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  const [row] = await db
+    .select({ id: opportunity.id })
+    .from(opportunity)
+    .where(and(eq(opportunity.id, id), eq(opportunity.organizationId, ctx.org.id)))
+    .limit(1);
+  if (!row) throw new Error("No encontrado");
+  await db
+    .update(opportunity)
+    .set({
+      title: (formData.get("title") as string).trim(),
+      stage: (formData.get("stage") as OppStage),
+      contactId: (formData.get("contactId") as string) || null,
+      mode: ((formData.get("mode") as string) || null) as any,
+      pol: (formData.get("pol") as string) || null,
+      pod: (formData.get("pod") as string) || null,
+      cargoType: (formData.get("cargoType") as string) || null,
+      estimatedValue: (formData.get("estimatedValue") as string) || null,
+      currency: (formData.get("currency") as string) || "EUR",
+      notes: (formData.get("notes") as string) || null,
+      updatedAt: new Date(),
+    })
+    .where(eq(opportunity.id, id));
+  revalidatePath("/pipeline");
+}
+
+export async function deleteOpportunity(id: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  await db
+    .delete(opportunity)
+    .where(and(eq(opportunity.id, id), eq(opportunity.organizationId, ctx.org.id)));
+  revalidatePath("/pipeline");
+}
+
+export async function moveOpportunityStage(id: string, stage: OppStage): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  await db
+    .update(opportunity)
+    .set({
+      stage,
+      closedAt: stage === "ganado" || stage === "perdido" ? new Date() : null,
+      updatedAt: new Date(),
+    })
+    .where(and(eq(opportunity.id, id), eq(opportunity.organizationId, ctx.org.id)));
+  revalidatePath("/pipeline");
 }

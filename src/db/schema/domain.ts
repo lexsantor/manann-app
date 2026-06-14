@@ -32,6 +32,7 @@ import {
   invoiceStatus,
   rateUnit,
   quotationStatus,
+  opportunityStage,
 } from "./enums";
 
 // ─── Tenant ───────────────────────────────────────────────────────────────
@@ -609,4 +610,39 @@ export const invitation = pgTable(
 
 export const invitationRelations = relations(invitation, ({ one }) => ({
   organization: one(organization, { fields: [invitation.organizationId], references: [organization.id] }),
+}));
+
+// ─── Pipeline / Oportunidades CRM ────────────────────────────────────────────
+
+export const opportunity = pgTable(
+  "opportunity",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    contactId: uuid("contact_id").references(
+      () => contact.id,
+      { onDelete: "set null" },
+    ),
+    title: text("title").notNull(),
+    stage: opportunityStage("stage").notNull().default("prospecto"),
+    mode: transportMode("mode"),
+    pol: text("pol"),
+    pod: text("pod"),
+    cargoType: text("cargo_type"),
+    estimatedValue: numeric("estimated_value", { precision: 12, scale: 2 }),
+    currency: text("currency").notNull().default("EUR"),
+    notes: text("notes"),
+    assignedTo: uuid("assigned_to"),
+    closedAt: timestamp("closed_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [index("opportunity_org_id_idx").on(t.organizationId)],
+);
+
+export const opportunityRelations = relations(opportunity, ({ one }) => ({
+  organization: one(organization, { fields: [opportunity.organizationId], references: [organization.id] }),
+  contact: one(contact, { fields: [opportunity.contactId], references: [contact.id] }),
 }));

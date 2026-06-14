@@ -4,7 +4,7 @@ import { cache } from "react";
 import { and, count, desc, eq, asc, or, ilike, gte, lt, sql } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge } from "@/db/schema";
+import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string; memberId: string; onboarded: boolean };
@@ -713,3 +713,47 @@ export async function getShipmentComments(orgId: string, shipmentId: string) {
 }
 
 export type ShipmentComment = Awaited<ReturnType<typeof getShipmentComments>>[number];
+
+// ── Oportunidades (CRM Pipeline) ──────────────────────────────────────────────
+
+export async function listOpportunities(orgId: string) {
+  return db
+    .select({
+      id: opportunity.id,
+      title: opportunity.title,
+      stage: opportunity.stage,
+      mode: opportunity.mode,
+      pol: opportunity.pol,
+      pod: opportunity.pod,
+      cargoType: opportunity.cargoType,
+      estimatedValue: opportunity.estimatedValue,
+      currency: opportunity.currency,
+      notes: opportunity.notes,
+      closedAt: opportunity.closedAt,
+      createdAt: opportunity.createdAt,
+      contactId: opportunity.contactId,
+      contactName: contact.name,
+    })
+    .from(opportunity)
+    .leftJoin(contact, eq(opportunity.contactId, contact.id))
+    .where(eq(opportunity.organizationId, orgId))
+    .orderBy(asc(opportunity.createdAt));
+}
+
+export type OpportunityRow = Awaited<ReturnType<typeof listOpportunities>>[number];
+
+export async function getOpportunityStats(orgId: string) {
+  const rows = await db
+    .select({
+      stage: opportunity.stage,
+      cnt: count(),
+      total: sql<string>`coalesce(sum(${opportunity.estimatedValue}), 0)`,
+    })
+    .from(opportunity)
+    .where(eq(opportunity.organizationId, orgId))
+    .groupBy(opportunity.stage);
+
+  const map: Record<string, { count: number; total: number }> = {};
+  for (const r of rows) map[r.stage] = { count: r.cnt, total: Number(r.total) };
+  return map;
+}
