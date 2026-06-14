@@ -182,97 +182,134 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 ---
 
-## GAP ANALYSIS — Ítems del menú objetivo no cubiertos en roadmap anterior
+## Política de simulación (Mock-first)
 
-> Añadidos el 15-06-2026 tras contraste exhaustivo con la navegación funcional objetivo.
-> Los tiers R–V son puramente aditivos sobre el estado actual.
+> Cualquier ítem que dependa de una integración externa de pago, un proveedor SaaS o credenciales de terceros se implementa en modo **simulación**: UI y lógica de negocio completas, datos generados internamente, badge `Simulación — integración [X] en producción`.
+>
+> El código queda listo para enchufar el proveedor real cambiando únicamente la capa de datos (un archivo de servicio, una env var). La experiencia del stakeholder es idéntica a la versión real.
+
+| Ítem | Por qué se mockea | Qué se construye |
+|------|-------------------|-----------------|
+| Monedas / tipos de cambio | API ECB/Fixer de pago o requiere rotación de clave | Tabla editable manualmente + lógica de conversión real en toda la app |
+| Power BI | Power BI Embedded requiere workspace Microsoft 365 | Sección en `/reportes` con recharts como placeholder, iframe preparado, llamadas SDK comentadas |
+| e-BL electrónico | ESSDOCS/Bolero/WAVE requieren contrato comercial | Hash SHA-256 real del PDF, estado (Original/Endorsed/Surrendered), UI completa |
+| Vuelos (schedule) | APIs IATA/OAG son de pago | Catálogo propio de vuelos sin feed externo en tiempo real |
+| Tender a la red | Marketplace real requeriría multi-tenant externo | Flujo completo en DB propia, emails vía Resend (funcional) |
+| Multiidioma | next-intl sin romper UI existente — riesgo alto para demo | Aplazado explícitamente — no se mockea, se omite |
+
+---
+
+## Orden de ejecución — Tiers R a I
+
+```
+R → S → U → T → V → I
+```
+
+Cada tier es **puramente aditivo**: no modifica schema ni rutas ya existentes. Solo añade.
+
+**Dependencia única:** Tier S requiere el catálogo de aeropuertos de Tier R para el módulo aéreo. El resto de tiers son independientes entre sí y podrían ejecutarse en distinto orden a partir de R.
 
 ---
 
 ## [ ] Tier R — Tablas Maestras & Administración (L · 4-6 días)
 
-*Cubre todos los catálogos maestros ausentes y la configuración de sistema. Sin dependencias de tiers anteriores.*
+*Dependencias: ninguna. Primer tier del bloque nuevo — establece los catálogos que Tier S y el resto consumen.*
 
-### Terceros / Catálogos
-- [ ] Puertos · UN/LOCODE: UI de gestión (añadir/editar/desactivar), búsqueda por código o nombre — los datos ya existen en `port-coords.ts`
-- [ ] Aeropuertos: catálogo IATA (código, ciudad, país, zona horaria) — necesario para módulo aéreo
-- [ ] Conceptos de cargo: catálogo editable de líneas de coste (flete, THC, seguro, handling…) reutilizable en expedientes
-- [ ] Países: listado ISO 3166-1, zona económica (EU / non-EU), moneda por defecto
-- [ ] Monedas: catálogo ISO 4217 + tipo de cambio manual (base EUR), con histórico y fecha de actualización
-- [ ] Regímenes aduaneros: tabla maestrа de regímenes HS/TARIC (40, 42, 61…) con descripción y restricciones
+### Terceros / catálogos maestros
 
-### Sistema / Administración
-- [ ] Parámetros del sistema: moneda base, SCAC/NIF propio, país de la empresa, idioma de facturas, días de crédito por defecto
-- [ ] Series y numeración de documentos: configurar series (FAC-2025-###, EXP-###) y contadores por tipo de documento
-- [ ] Empresas y sucursales: soporte multi-sucursal (CIF diferente, domicilio fiscal, delegación comercial) vinculadas a la misma org
+- [ ] **Puertos · UN/LOCODE** — UI de gestión sobre `port-coords.ts` ya existente: añadir, editar, activar/desactivar, buscar por código o nombre. Nueva página `/maestros/puertos`.
+- [ ] **Aeropuertos** — catálogo IATA pre-cargado (seed top-300: código IATA, ciudad, país, zona horaria). UI gestionable. Nueva página `/maestros/aeropuertos`. *Requerido por Tier S (vuelos y AWB).*
+- [ ] **Conceptos de cargo** — catálogo editable de líneas de coste (Flete, THC, Seguro, Handling, Demurrage…) reutilizable al crear cargos en expedientes. Página `/maestros/conceptos-cargo`.
+- [ ] **Países** — listado ISO 3166-1 pre-cargado: zona económica (UE / no-UE), moneda por defecto, restricciones de exportación. Activar/desactivar por el owner; no edición libre de campos core.
+- [ ] **Monedas y tipos de cambio** *(simulación)* — catálogo ISO 4217 con tipo de cambio editable manualmente (base EUR). Lógica de conversión real en toda la app. Badge `Simulación — integración ECB/Fixer en producción`. Página `/maestros/monedas`.
+- [ ] **Regímenes aduaneros** — tabla maestra HS/TARIC (40 importación, 42 perfeccionamiento activo, 61 reimportación…): código, descripción, restricciones, modo aplicable. Pre-cargado, gestionable.
+
+### Sistema / administración
+
+- [ ] **Parámetros del sistema** — pantalla en `/settings/parametros`: moneda base de la org, SCAC/NIF propio, país, idioma por defecto de facturas, días de crédito por defecto, logo para documentos PDF.
+- [ ] **Series y numeración** — configurar series por tipo de documento (ej. `FAC-{YYYY}-{###}`, `EXP-{###}`, `COT-{YYYY}-{###}`) con contador auto-incremental en DB. Página `/settings/series`.
+- [ ] **Empresas y sucursales** — multi-sucursal bajo la misma org: CIF diferente, domicilio fiscal, serie propia. CRUD en `/settings/sucursales`. *(Una org, varias sucursales — no multi-empresa)*
+- [ ] **Tablas maestras unificadas** — sección `/maestros` en el sidebar que agrupa todas las tablas (puertos, aeropuertos, navieras, contenedores, incoterms, conceptos de cargo, países, monedas, regímenes). Las navieras, contenedores e incoterms ya construidos en Tier G se enlazan aquí.
 
 ---
 
 ## [ ] Tier S — Módulos Operativos Faltantes (M · 3-5 días)
 
-*Aéreo completo, Terrestre real y gaps menores en Marítimo y Courier. Sin cambios de schema en lo ya construido.*
+*Dependencias: Tier R (aeropuertos para vuelos/manifiestos). Resto de sub-ítems son independientes.*
 
 ### Aéreo — extensión
-- [ ] Vuelos: catálogo de vuelos operativos (aerolínea, número, origen/destino, horario), vinculable a expediente aéreo
-- [ ] Manifiestos aéreos: manifiesto de carga (Cargo Manifest) agrupa HAWB bajo un MAWB; listado imprimible
+
+- [ ] **Vuelos** *(simulación parcial)* — catálogo propio sin feed externo: aerolínea, número, IATA origen/destino (del catálogo de aeropuertos de Tier R), horario, días operativos, vinculable a expediente. Página `/vuelos`. Badge `Sin feed en tiempo real — actualización manual`.
+- [ ] **Manifiestos aéreos** — manifiesto de carga: agrupa HAWB bajo un MAWB con peso, bultos y descripción. Listado imprimible (PDF exportable con marca Manann). Vista en `/documentos/manifiestos`.
 
 ### Terrestre — módulo real
-- [ ] Órdenes de transporte: OT vinculada a expediente (transportista, matrícula, conductor, fecha recogida/entrega, CMR referenciado)
-- [ ] Gestión de rutas: definición de rutas habituales (origen→destino, distancia km, tiempo estimado, coste por km)
+
+- [ ] **Órdenes de transporte** — OT vinculada a expediente: transportista (del directorio de partners), matrícula, conductor, fechas recogida/entrega, CMR referenciado, estado (pendiente / en ruta / entregado). Página `/terrestre/ordenes`.
+- [ ] **Gestión de rutas** — rutas habituales: origen→destino, distancia km, tiempo estimado, coste por km como referencia tarifaria. Tabla editable. Página `/terrestre/rutas`.
 
 ### Courier — extensión
-- [ ] Etiquetas: generación de etiqueta de envío courier (formato A6, código de barras/QR, datos remitente/destinatario, número de seguimiento)
+
+- [ ] **Etiquetas** — generación de etiqueta de envío (formato A6, código de barras 128 / QR con número de seguimiento, remitente/destinatario, peso, referencia interna). Exportable a PDF. Botón "Generar etiqueta" en el panel courier del expediente.
 
 ### Marítimo — extensión
-- [ ] Consolidaciones: vista dedicada que agrupa varios expedientes LCL bajo un mismo contenedor/buque (manifiesto de consolidación)
+
+- [ ] **Consolidaciones LCL** — vista dedicada que agrupa expedientes LCL bajo un mismo contenedor/buque: referencia de consolidación, POL, POD, naviera, ETD, lista de HBL con peso/volumen, manifiesto imprimible. Página `/maritimo/consolidaciones`.
 
 ### Ferrocarril — módulo independiente
-- [ ] Expediciones ferroviarias: página propia `/ferroviario` con listado de expediciones, filtros por corredor y estado — actualmente solo existe como panel dentro del expediente
 
----
-
-## [ ] Tier T — Calidad & Procesos (S · 2-3 días)
-
-*Nuevo módulo de calidad y UI de gestión de procesos internos.*
-
-### Calidad
-- [ ] Incidencias: registro de incidencias operativas vinculadas a expediente (tipo, descripción, responsable, estado abierto/cerrado, fecha resolución)
-- [ ] No conformidades: registro formal de NC (categoría, causa raíz, acción correctiva, evidencia adjunta, seguimiento)
-- [ ] SLA y objetivos: definición de SLAs por tipo de envío/cliente (tiempo respuesta cotización, tiempo gestión DUA…) y semáforo de cumplimiento
-
-### Procesos
-- [ ] Cola de eventos: UI que muestra webhooks disparados, payload, estado (entregado / fallido / reintentando), historial de reintentos
+- [ ] **Expediciones ferroviarias** — página propia `/ferroviario` con listado de expediciones, filtros por corredor (China-Europa, intra-UE) y estado. Reutiliza datos del `rail-panel.tsx` ya construido. El panel en expediente se mantiene; esta página añade la vista global.
 
 ---
 
 ## [ ] Tier U — Contabilidad Completa (M · 3-4 días)
 
-*Cierra los ítems pendientes de Tier L que quedaron marcados `[ ]`.*
+*Dependencias: Tier L (ya construido). Cierra los tres ítems que quedaron `[ ]` en Tier L.*
 
-- [ ] Cierre mensual: flujo de cierre con checklist automático (facturas sin asiento, cargos sin liquidar, descuadres), bloqueo de período cerrado
-- [ ] Impuestos: módulo de IVA — acumulado repercutido / soportado por período, conciliación con facturas, generación de resumen para modelo 303
-- [ ] Conciliación avanzada accrual ↔ factura real con reverso automático (umbral de desvío configurable)
+- [ ] **Cierre mensual** — flujo guiado con checklist automático (facturas sin asiento, cargos sin liquidar, descuadres en tesorería), confirmación con bloqueo de período cerrado (no se pueden editar asientos del mes cerrado), botón de reapertura solo para owner.
+- [ ] **Impuestos / IVA** — módulo de IVA repercutido/soportado: acumulado por período, desglose por tipo (21% / 10% / 0% / exento), conciliación con facturas emitidas y recibidas. Resumen exportable compatible con modelo 303. Página `/contabilidad/impuestos`.
+- [ ] **Conciliación avanzada** — accrual ↔ factura real con reverso automático cuando la diferencia supera el umbral configurable (parámetro del sistema de Tier R). Alerta visual en el expediente cuando hay desvío.
+
+---
+
+## [ ] Tier T — Calidad & Procesos (S · 2-3 días)
+
+*Dependencias: ninguna. Módulo aislado que solo lee expedientes ya existentes.*
+
+### Calidad
+
+- [ ] **Incidencias** — registro de incidencias operativas vinculadas a expediente: tipo (retraso / daño / pérdida / documental), descripción, responsable, estado (abierto / en gestión / cerrado), fecha resolución, coste de impacto. Página `/calidad/incidencias`.
+- [ ] **No conformidades** — registro formal de NC: categoría, causa raíz (proceso / proveedor / cliente / externo), acción correctiva, evidencia adjunta (Vercel Blob), seguimiento con historial de cambios. Página `/calidad/no-conformidades`.
+- [ ] **SLA y objetivos** — definición de SLAs por tipo de envío o cliente (tiempo respuesta cotización, tiempo gestión DUA, tiempo confirmación booking…). Semáforo verde/ámbar/rojo de cumplimiento por expediente y resumen global. Página `/calidad/sla`.
+- [ ] **Power BI** *(simulación)* — sección "Power BI" dentro de `/reportes`: dashboard estático con recharts como placeholder visual, iframe preparado con dimensiones reales, llamadas al SDK de Power BI Embedded comentadas y listas para activar con workspace. Badge `Simulación — Power BI Embedded en producción`.
+
+### Procesos
+
+- [ ] **Cola de eventos** — UI que muestra webhooks disparados: payload, URL destino, código HTTP de respuesta, timestamp, estado (entregado / fallido / reintentando). Botón de reintento manual. Lee tabla `webhook` + log de disparos. Página `/procesos/eventos`.
 
 ---
 
 ## [ ] Tier V — Red & Partners Completo (M · 3-4 días)
 
-*Extiende Tier P. Convierte el directorio básico en una red colaborativa real.*
+*Dependencias: Tier P (ya construido). Extiende `partner-directory.tsx` y `carrier-scorecard.tsx`.*
 
-- [ ] Por qué te contratan: perfil público de la empresa dentro de la red — especialidades, corredores habituales, certificaciones, idiomas, capacidad
-- [ ] Red de agentes: marketplace interno — buscar agentes corresponsales por país/corredor/modo, solicitar colaboración
-- [ ] Tender a la red: envío de RFQ a múltiples partners de la red con plazo de respuesta, comparador de ofertas recibidas
-- [ ] Documentos digitales (e-BL): soporte de eBL electrónico — hash del documento registrado, estado (original / endorsed / surrendered), vinculado al expediente
+- [ ] **Por qué te contratan** — perfil público de la organización dentro de la red: especialidades logísticas, corredores habituales, certificaciones (ISO, OEA…), idiomas, capacidad mensual estimada. Editable en settings, visible para otros miembros. Sección `/partners/perfil`.
+- [ ] **Red de agentes** — directorio ampliado de corresponsales: buscar por país, corredor o modo; ver perfil completo; solicitar colaboración (genera notificación interna). Datos en DB propia. Página `/partners/red`.
+- [ ] **Tender a la red** *(parcialmente simulado)* — envío de RFQ a múltiples partners seleccionados: descripción de carga, ruta, fecha, condiciones. Plazo de respuesta configurable. Comparador de ofertas recibidas. Notificación por email vía Resend (funcional). Página `/partners/tender`.
+- [ ] **e-BL electrónico** *(simulación)* — eBL vinculado al expediente: hash SHA-256 del PDF del BL como huella digital, estado del título (Original / Endorsed / Surrendered / Void), historial de transferencias con fecha y firmante de cada cambio. Sin blockchain real. Badge `Simulación — integración ESSDOCS/Bolero/WAVE en producción`. Panel adicional en el expediente marítimo.
 
 ---
 
-## Gaps parciales ya registrados — pendientes de completar
+## [ ] Tier I — Landing Completar (S · 1-2 días)
 
-*(Ítems que tienen algo construido pero no están completos)*
+*Dependencias: ninguna. Cero impacto en la app privada. Se ejecuta al final, cuando el producto está pulido.*
 
-- [ ] **Puertos UI** — datos existen en `port-coords.ts`, falta pantalla de gestión (cubierto en Tier R)
-- [ ] **Tablas maestras unificadas** — navieras / contenedores / incoterms dispersos; falta sección `/maestros` que los agrupe junto con los nuevos de Tier R
-- [ ] **Roles y permisos granulares** — 3 roles fijos; falta configuración de permisos por sección (ver / editar / admin) (Tier R, si se decide implementar)
-- [ ] **Power BI** — `/reportes` tiene charts nativos; conector Power BI real requeriría workspace + credencial (no free tier — decisión pendiente)
-- [ ] **Multiidioma** (Tier Q) — explícitamente aplazado; EN/ES con next-intl
+- [ ] Actualizar `/el-expediente` con módulos financieros (GP, accrual, at-risk, margen fugado)
+- [ ] Actualizar `/como-funciona` con copiloto IA, portal cliente y analítica avanzada
+- [ ] Demo sandbox público: expediente de ejemplo con datos reales, navegable sin login (shareToken fijo)
 
+---
+
+## Pendiente explícito — no en ningún tier
+
+- **Multiidioma EN/ES** (next-intl) — aplazado indefinidamente. Riesgo alto de romper UI existente para una demo. No se mockea, no se incluye.
+- **Roles y permisos granulares** — 3 roles fijos (owner/admin/member) suficientes para la demo. Si se decide implementar, va dentro de Tier R como extensión de `/settings`. No está en scope actual.
