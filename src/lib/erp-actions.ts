@@ -2261,27 +2261,36 @@ export async function runSanctionsScreening(name: string): Promise<{
 
 // ─── Tier Q: API Keys & Webhooks ──────────────────────────────────────────────
 
-export async function listApiKeys(): Promise<{ id: string; name: string; prefix: string; lastUsedAt: Date | null; createdAt: Date }[]> {
+async function requireOwner() {
   const ctx = await getOrgContext();
   if (!ctx?.org) throw new Error("No autorizado");
+  const [me] = await db
+    .select({ role: member.role })
+    .from(member)
+    .where(and(eq(member.userId, ctx.user.id), eq(member.organizationId, ctx.org.id)));
+  if (me?.role !== "owner") throw new Error("Solo el owner puede gestionar API keys y webhooks");
+  return ctx;
+}
+
+export async function listApiKeys(): Promise<{ id: string; name: string; prefix: string; lastUsedAt: Date | null; createdAt: Date }[]> {
+  const ctx = await requireOwner();
 
   return db
     .select({ id: apiKey.id, name: apiKey.name, prefix: apiKey.prefix, lastUsedAt: apiKey.lastUsedAt, createdAt: apiKey.createdAt })
     .from(apiKey)
-    .where(eq(apiKey.organizationId, ctx.org.id))
+    .where(eq(apiKey.organizationId, ctx.org!.id))
     .orderBy(desc(apiKey.createdAt));
 }
 
 export async function createApiKey(name: string): Promise<{ raw: string }> {
-  const ctx = await getOrgContext();
-  if (!ctx?.org) throw new Error("No autorizado");
+  const ctx = await requireOwner();
 
   const { generateApiKey, sha256hex } = await import("@/lib/api-auth");
   const { raw, prefix } = generateApiKey();
   const hash = await sha256hex(raw);
 
   await db.insert(apiKey).values({
-    organizationId: ctx.org.id,
+    organizationId: ctx.org!.id,
     name: name.trim(),
     keyHash: hash,
     prefix,
@@ -2292,31 +2301,28 @@ export async function createApiKey(name: string): Promise<{ raw: string }> {
 }
 
 export async function revokeApiKey(keyId: string): Promise<void> {
-  const ctx = await getOrgContext();
-  if (!ctx?.org) throw new Error("No autorizado");
+  const ctx = await requireOwner();
   if (!UUID_RE.test(keyId)) throw new Error("Key inválida");
 
-  await db.delete(apiKey).where(and(eq(apiKey.id, keyId), eq(apiKey.organizationId, ctx.org.id)));
+  await db.delete(apiKey).where(and(eq(apiKey.id, keyId), eq(apiKey.organizationId, ctx.org!.id)));
   revalidatePath("/settings");
 }
 
 export async function listWebhooks(): Promise<{ id: string; url: string; events: string[]; active: boolean; createdAt: Date }[]> {
-  const ctx = await getOrgContext();
-  if (!ctx?.org) throw new Error("No autorizado");
+  const ctx = await requireOwner();
 
   return db
     .select({ id: webhook.id, url: webhook.url, events: webhook.events, active: webhook.active, createdAt: webhook.createdAt })
     .from(webhook)
-    .where(eq(webhook.organizationId, ctx.org.id))
+    .where(eq(webhook.organizationId, ctx.org!.id))
     .orderBy(desc(webhook.createdAt));
 }
 
 export async function deleteWebhook(webhookId: string): Promise<void> {
-  const ctx = await getOrgContext();
-  if (!ctx?.org) throw new Error("No autorizado");
+  const ctx = await requireOwner();
   if (!UUID_RE.test(webhookId)) throw new Error("Webhook inválido");
 
-  await db.delete(webhook).where(and(eq(webhook.id, webhookId), eq(webhook.organizationId, ctx.org.id)));
+  await db.delete(webhook).where(and(eq(webhook.id, webhookId), eq(webhook.organizationId, ctx.org!.id)));
   revalidatePath("/settings");
 }
 

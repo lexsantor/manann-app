@@ -16,7 +16,7 @@ export default async function SettingsPage() {
   if (!data?.org) redirect("/login");
 
   const isOwner = data.members.find((m) => m.memberId === data.currentMemberId)?.role === "owner";
-  const apiKeys = await listApiKeys();
+  const apiKeys = isOwner ? await listApiKeys() : [];
 
   return (
     <main className="space-y-10 py-10">
@@ -62,13 +62,15 @@ export default async function SettingsPage() {
 
       <DisplayPrefsSection />
 
-      {/* API */}
-      <section className="space-y-4">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-          API pública
-        </h2>
-        <ApiKeysPanel keys={apiKeys} />
-      </section>
+      {/* API — solo owner */}
+      {isOwner && (
+        <section className="space-y-4">
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+            API pública
+          </h2>
+          <ApiKeysPanel keys={apiKeys} />
+        </section>
+      )}
     </main>
   );
 }
