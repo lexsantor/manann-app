@@ -302,7 +302,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
             <select
               value={form.stage}
               onChange={field("stage")}
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+              className="w-full appearance-none rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
             >
               {STAGES.map((s) => (
                 <option key={s.key} value={s.key}>{s.label}</option>
@@ -316,7 +316,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
             <select
               value={form.contactId}
               onChange={field("contactId")}
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+              className="w-full appearance-none rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
             >
               <option value="">— Sin contacto —</option>
               {contacts.map((c) => (
@@ -331,7 +331,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
             <select
               value={form.mode}
               onChange={field("mode")}
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+              className="w-full appearance-none rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
             >
               <option value="">— Sin especificar —</option>
               {Object.entries(MODE_LABELS).map(([k, v]) => (
@@ -376,7 +376,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
               <select
                 value={form.currency}
                 onChange={field("currency")}
-                className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                className="w-full appearance-none rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
               >
                 <option value="EUR">EUR</option>
                 <option value="USD">USD</option>

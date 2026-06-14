@@ -80,7 +80,7 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
             </div>
             <div>
               <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Rol *</label>
-              <select name="role" defaultValue={c?.role ?? "consignee"} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60">
+              <select name="role" defaultValue={c?.role ?? "consignee"} className="w-full appearance-none rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors">
                 {ROLE_OPTIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
               </select>
             </div>

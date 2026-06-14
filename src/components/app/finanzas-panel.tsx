@@ -79,7 +79,7 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="w-full appearance-none rounded-md border border-border bg-background px-2 py-1.5 pr-7 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            className="w-full appearance-none rounded-md border border-border bg-background px-2 py-1.5 pr-7 font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
           >
             {CHARGE_TYPES.map(([val, label]) => (
               <option key={val} value={val}>{label}</option>
