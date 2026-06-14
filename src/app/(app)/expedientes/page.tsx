@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { Plus, LayoutGrid, Rows3, Download, Upload } from "lucide-react";
+import { Plus, LayoutGrid, Rows3, Table2, Download, Upload } from "lucide-react";
 import { Icon } from "@/components/icon";
 
-import { getOrgContext, listShipments, getActiveMemberId } from "@/lib/erp";
+import { getOrgContext, listShipments, getActiveMemberId, getOrgMembers } from "@/lib/erp";
 import { createDraftShipment } from "@/lib/erp-actions";
-import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
+import { ShipmentListClient } from "@/components/app/shipment-list-client";
 import { SearchInput } from "@/components/app/search-input";
 import { KanbanBoard } from "@/components/app/kanban-board";
 import { Button } from "@/components/ui/button";
@@ -30,16 +30,31 @@ export default async function ExpedientesPage({
   }
 
   const myMemberId = mis === "1" ? await getActiveMemberId(ctx.org.id, ctx.user.id) : null;
-  const all = await listShipments(ctx.org.id, q || undefined, myMemberId ?? undefined);
+  const [all, members] = await Promise.all([
+    listShipments(ctx.org.id, q || undefined, myMemberId ?? undefined),
+    getOrgMembers(ctx.org.id),
+  ]);
+
   const counts = all.reduce<Record<string, number>>((acc, s) => {
     acc[s.status] = (acc[s.status] ?? 0) + 1;
     return acc;
   }, {});
   const visible = estado ? all.filter((s) => s.status === estado) : all;
   const isKanban = vista === "kanban";
+  const isTabla = vista === "tabla";
 
-  // Solo chips para estados presentes en los datos.
   const chips = Object.keys(STATUS).filter((k) => counts[k]);
+
+  // Construye href preservando q y mis
+  function vistHref(v: string | null) {
+    const params = new URLSearchParams();
+    if (v) params.set("vista", v);
+    if (estado) params.set("estado", estado);
+    if (q) params.set("q", q);
+    if (mis === "1") params.set("mis", "1");
+    const qs = params.toString();
+    return `/expedientes${qs ? `?${qs}` : ""}`;
+  }
 
   return (
     <div className="space-y-6">
@@ -78,7 +93,7 @@ export default async function ExpedientesPage({
 
       <SearchInput defaultValue={q} estado={estado} />
 
-      {/* filtro por estado (URL como estado) */}
+      {/* Filtros por estado */}
       <div className="flex flex-wrap gap-2">
         <FilterChip href="/expedientes" active={!estado && !mis}>
           Todos <Count n={all.length} />
@@ -97,15 +112,15 @@ export default async function ExpedientesPage({
         ))}
       </div>
 
-      {/* Vista toggle */}
+      {/* Vista toggle: tarjetas | tabla | kanban */}
       <div className="flex items-center gap-1.5 self-end">
         <Link
-          href={estado ? `/expedientes?estado=${estado}${q ? `&q=${q}` : ""}` : `/expedientes${q ? `?q=${q}` : ""}`}
+          href={vistHref(null)}
           prefetch={false}
-          aria-label="Vista lista"
+          aria-label="Vista tarjetas"
           className={cn(
             "flex h-7 w-7 items-center justify-center rounded-md border transition-colors",
-            !isKanban
+            !isKanban && !isTabla
               ? "border-primary/40 bg-primary/10 text-foreground"
               : "border-border bg-card text-muted-foreground hover:text-foreground",
           )}
@@ -113,7 +128,20 @@ export default async function ExpedientesPage({
           <Icon icon={Rows3} size={14} />
         </Link>
         <Link
-          href={`/expedientes?vista=kanban${estado ? `&estado=${estado}` : ""}${q ? `&q=${q}` : ""}`}
+          href={vistHref("tabla")}
+          prefetch={false}
+          aria-label="Vista tabla"
+          className={cn(
+            "flex h-7 w-7 items-center justify-center rounded-md border transition-colors",
+            isTabla
+              ? "border-primary/40 bg-primary/10 text-foreground"
+              : "border-border bg-card text-muted-foreground hover:text-foreground",
+          )}
+        >
+          <Icon icon={Table2} size={14} />
+        </Link>
+        <Link
+          href={vistHref("kanban")}
           prefetch={false}
           aria-label="Vista kanban"
           className={cn(
@@ -129,24 +157,12 @@ export default async function ExpedientesPage({
 
       {isKanban ? (
         <KanbanBoard shipments={visible} />
-      ) : visible.length > 0 ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((s, i) => (
-            <div
-              key={s.id}
-              className="card-stagger"
-              style={{ "--i": Math.min(i, 5) } as React.CSSProperties}
-            >
-              <ShipmentBoardingPass s={s} />
-            </div>
-          ))}
-        </div>
       ) : (
-        <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-          <p className="text-base text-muted-foreground">
-            No hay expedientes con ese estado.
-          </p>
-        </div>
+        <ShipmentListClient
+          shipments={visible}
+          members={members}
+          view={isTabla ? "tabla" : "cards"}
+        />
       )}
     </div>
   );

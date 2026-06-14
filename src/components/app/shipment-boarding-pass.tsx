@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useTransition } from "react";
 import Link from "next/link";
-import { MoveRight, AlertTriangle, Trash2, Ship, Plane, Truck, ImageOff, Loader2, type LucideIcon } from "lucide-react";
-import { deleteDraftShipment } from "@/lib/erp-actions";
+import { MoveRight, AlertTriangle, Trash2, Ship, Plane, Truck, ImageOff, Loader2, Copy, type LucideIcon } from "lucide-react";
+import { deleteDraftShipment, duplicateShipment } from "@/lib/erp-actions";
 
 import { type ShipmentListItem } from "@/lib/erp";
 import { portLabel, formatDate, MODE, formatMoney } from "@/lib/erp-format";
@@ -113,6 +113,15 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [hideImages, setHideImages] = useState(false);
   const [pending, startTransition] = useTransition();
+  const [dupPending, startDupTransition] = useTransition();
+
+  function handleDuplicate(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    startDupTransition(async () => {
+      await duplicateShipment(s.id);
+    });
+  }
 
   useEffect(() => {
     setHideImages(localStorage.getItem("hidePortImages") === "1");
@@ -158,6 +167,19 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
   return (
     <div className="group relative">
+      {/* ── Duplicar (siempre visible en hover) ─────────────── */}
+      <button
+        onClick={handleDuplicate}
+        disabled={dupPending}
+        title="Duplicar expediente"
+        className={cn(
+          "absolute top-2 z-10 flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/80 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:bg-surface-2/80 hover:text-foreground disabled:opacity-50",
+          s.status === "borrador" ? "right-10" : "right-2",
+        )}
+      >
+        {dupPending ? <Loader2 size={13} className="animate-spin" /> : <Icon icon={Copy} size={13} />}
+      </button>
+
       {/* ── Botón borrar (solo borradores) ──────────────────── */}
       {s.status === "borrador" && (
         <button

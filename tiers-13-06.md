@@ -21,14 +21,16 @@ Los tiers 1–4 y A–C están 100 % cerrados:
 
 ---
 
-## [ ] Tier D — UX Power User (S · ≤2 días)
+Orden: D → E → G → F → J → K → H → N → O → L → M → P → I → Q
+
+## [X] Tier D — UX Power User (S · ≤2 días)
 
 *Interacciones avanzadas sobre vistas existentes. Sin cambios de schema ni nuevas rutas.*
 
-- [ ] Bulk actions en lista: checkbox multi-select → asignar agente / cambiar estado / exportar selección
-- [ ] Duplicar expediente (clona campos base, status = borrador)
-- [ ] Keyboard nav en lista (J/K o ↑↓ para navegar entre cards, Enter para abrir detalle)
-- [ ] Vista tabla densa con columnas configurables (referencia, POL→POD, naviera, ETD, ETA, GP, estado)
+- [X] Bulk actions en lista: checkbox multi-select → asignar agente / cambiar estado / exportar selección
+- [X] Duplicar expediente (clona campos base + partes, status = borrador)
+- [X] Keyboard nav en lista (J/K o ↑↓ para navegar entre filas, Enter para abrir detalle)
+- [X] Vista tabla densa (referencia, POL→POD, naviera, ETD, ETA, GP, estado) — toggle `vista=tabla`
 
 ---
 

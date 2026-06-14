@@ -1,62 +1,152 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowRight, MoveRight } from "lucide-react";
+import { ArrowRight, MoveRight, Copy, Loader2 } from "lucide-react";
+import { useTransition } from "react";
 
 import { Icon } from "@/components/icon";
 import { StatusPill } from "./status-pill";
-import { PriorityPill } from "./priority-pill";
-import { MODE, portLabel, formatDate } from "@/lib/erp-format";
+import { MODE, portLabel, formatDate, formatMoney } from "@/lib/erp-format";
+import { duplicateShipment } from "@/lib/erp-actions";
 import type { ShipmentListItem } from "@/lib/erp";
+import { cn } from "@/lib/utils";
 
-export function ShipmentRow({ s }: { s: ShipmentListItem }) {
+// GP desde cargos (igual que en boarding-pass)
+function computeGP(charges: ShipmentListItem["charges"]): number | null {
+  const revenues = charges.filter((c) => c.direction === "revenue");
+  if (!revenues.length) return null;
+  const totalSell = revenues.reduce((s, c) => s + Number(c.amount), 0);
+  const hasAnyBuy = revenues.some((c) => c.buyAmount != null);
+  const costs = charges.filter((c) => c.direction === "cost");
+  if (!hasAnyBuy && !costs.length) return null;
+  const totalBuy = hasAnyBuy
+    ? revenues.reduce((s, c) => s + (c.buyAmount != null ? Number(c.buyAmount) : 0), 0)
+    : costs.reduce((s, c) => s + Number(c.amount), 0);
+  return totalSell - totalBuy;
+}
+
+interface ShipmentRowSelectableProps {
+  s: ShipmentListItem;
+  selected?: boolean;
+  onSelect?: (id: string, checked: boolean) => void;
+}
+
+export function ShipmentRowSelectable({ s, selected = false, onSelect }: ShipmentRowSelectableProps) {
   const mode = MODE[s.mode] ?? MODE.maritimo;
   const consignee = s.parties.find((p) => p.role === "consignee");
+  const gp = computeGP(s.charges);
+  const [pending, startTransition] = useTransition();
+
+  function handleDuplicate(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    startTransition(async () => {
+      await duplicateShipment(s.id);
+    });
+  }
 
   return (
-    <Link
-      href={`/expedientes/${s.id}`}
-      prefetch={false}
-      data-shipment-row
-      className="group grid grid-cols-1 gap-3 rounded-md border border-border bg-card px-4 py-3 transition-colors hover:bg-surface-2 hover:border-hairline-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:grid-cols-[180px_1fr_auto] sm:items-center sm:gap-4"
+    <div
+      className={cn(
+        "group flex items-center rounded-md border transition-colors",
+        selected
+          ? "border-primary/30 bg-primary/5"
+          : "border-border bg-card hover:border-hairline-strong hover:bg-surface-2",
+      )}
     >
-      {/* referencia + consignatario */}
-      <div className="min-w-0">
-        <p className="font-mono text-base text-foreground">{s.reference}</p>
-        <p className="truncate text-base text-muted-foreground">
-          {consignee?.name ?? "Sin consignatario"}
-        </p>
+      {/* Checkbox */}
+      <div className="shrink-0 pl-3">
+        <input
+          type="checkbox"
+          checked={selected}
+          onChange={(e) => onSelect?.(s.id, e.target.checked)}
+          onClick={(e) => e.stopPropagation()}
+          className="size-3.5 cursor-pointer accent-primary"
+          aria-label={selected ? "Deseleccionar" : "Seleccionar"}
+        />
       </div>
 
-      {/* ruta + naviera */}
-      <div className="min-w-0">
-        <div className="flex items-center gap-2 text-base text-foreground">
-          <Icon icon={mode.icon} size={15} className="shrink-0 text-muted-foreground" />
-          <span className="truncate">{portLabel(s.pol)}</span>
-          <Icon icon={MoveRight} size={14} className="shrink-0 text-ink-subtle" />
-          <span className="truncate">{portLabel(s.pod)}</span>
+      {/* Link principal */}
+      <Link
+        href={`/expedientes/${s.id}`}
+        prefetch={false}
+        data-shipment-row
+        className="flex min-w-0 flex-1 items-center gap-4 px-3 py-3 focus-visible:outline-none"
+      >
+        {/* Referencia + consignatario */}
+        <div className="w-[160px] shrink-0 min-w-0">
+          <p className="font-mono text-base text-foreground truncate">{s.reference}</p>
+          <p className="truncate text-base text-muted-foreground">
+            {consignee?.name ?? "Sin consignatario"}
+          </p>
         </div>
-        <p className="truncate text-base text-muted-foreground">
-          {s.carrier}
-          {s.vessel ? ` · ${s.vessel}` : ""}
-        </p>
-      </div>
 
-      {/* estado, prioridad, ETA, flecha */}
-      <div className="flex items-center justify-between gap-3 sm:justify-end">
-        <div className="flex items-center gap-2">
+        {/* Ruta + naviera */}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 text-base text-foreground">
+            <Icon icon={mode.icon} size={14} className="shrink-0 text-muted-foreground" />
+            <span className="truncate">{portLabel(s.pol)}</span>
+            <Icon icon={MoveRight} size={13} className="shrink-0 text-ink-subtle" />
+            <span className="truncate">{portLabel(s.pod)}</span>
+          </div>
+          <p className="truncate text-base text-muted-foreground">
+            {s.carrier ?? "—"}{s.vessel ? ` · ${s.vessel}` : ""}
+          </p>
+        </div>
+
+        {/* ETD */}
+        <div className="hidden w-[76px] shrink-0 text-right sm:block">
+          <span className="font-mono text-base text-muted-foreground">{formatDate(s.etd)}</span>
+        </div>
+
+        {/* ETA */}
+        <div className="hidden w-[76px] shrink-0 text-right sm:block">
+          <span className="font-mono text-base text-muted-foreground">{formatDate(s.eta)}</span>
+        </div>
+
+        {/* GP */}
+        <div className="hidden w-[90px] shrink-0 text-right md:block">
+          {gp !== null ? (
+            <span className={cn("font-mono text-base font-semibold", gp >= 0 ? "text-emerald-500" : "text-destructive")}>
+              {formatMoney(String(gp), "EUR")}
+            </span>
+          ) : (
+            <span className="text-base text-ink-subtle">—</span>
+          )}
+        </div>
+
+        {/* Estado */}
+        <div className="w-[110px] shrink-0">
           <StatusPill status={s.status} />
-          <PriorityPill priority={s.priority} />
         </div>
-        <div className="flex items-center gap-2 sm:w-[120px] sm:justify-end">
-          <span className="font-mono text-base text-muted-foreground">
-            ETA {formatDate(s.eta)}
-          </span>
-          <Icon
-            icon={ArrowRight}
-            size={16}
-            className="text-ink-subtle transition-transform group-hover:translate-x-0.5 group-hover:text-foreground"
-          />
-        </div>
+      </Link>
+
+      {/* Acciones */}
+      <div className="flex shrink-0 items-center pr-2">
+        <button
+          type="button"
+          onClick={handleDuplicate}
+          disabled={pending}
+          title="Duplicar expediente"
+          className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:bg-surface-2/60 hover:text-foreground disabled:opacity-50"
+        >
+          {pending ? (
+            <Loader2 size={13} className="animate-spin" />
+          ) : (
+            <Icon icon={Copy} size={13} />
+          )}
+        </button>
+        <Icon
+          icon={ArrowRight}
+          size={14}
+          className="text-ink-subtle opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100"
+        />
       </div>
-    </Link>
+    </div>
   );
+}
+
+// Compatibilidad con usos existentes (dashboard, etc.)
+export function ShipmentRow({ s }: { s: ShipmentListItem }) {
+  return <ShipmentRowSelectable s={s} />;
 }

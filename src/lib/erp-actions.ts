@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq, desc, and, isNull } from "drizzle-orm";
+import { eq, desc, and, isNull, inArray } from "drizzle-orm";
 import { del } from "@vercel/blob";
 import { z } from "zod";
 import { generateObject } from "ai";
@@ -1466,4 +1466,130 @@ export async function updateChargeAccrual(
   await db.update(charge).set({ accrualAmount }).where(eq(charge.id, chargeId));
 
   revalidatePath(`/expedientes/${row.shipment.id}`);
+}
+
+// ─── Tier D: Duplicar expediente ─────────────────────────────────────────────
+
+export async function duplicateShipment(shipmentId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Expediente inválido");
+
+  const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
+  if (!owned) throw new Error("No autorizado");
+
+  const original = await db.query.shipment.findFirst({
+    where: and(eq(shipment.id, shipmentId), eq(shipment.organizationId, ctx.org.id)),
+    columns: {
+      mode: true, pol: true, pod: true, carrier: true, vessel: true,
+      voyage: true, incoterm: true, freightTerms: true, priority: true,
+    },
+    with: {
+      parties: {
+        columns: { role: true, name: true, taxId: true, address: true, city: true, country: true },
+      },
+    },
+  });
+  if (!original) throw new Error("Expediente no encontrado");
+
+  const year = new Date().getFullYear();
+  const existing = await db
+    .select({ ref: shipment.reference })
+    .from(shipment)
+    .where(eq(shipment.organizationId, ctx.org.id));
+  const max = existing.reduce((m, r) => {
+    const n = Number(r.ref.match(/(\d+)$/)?.[1] ?? 0);
+    return n > m ? n : m;
+  }, 0);
+  const reference = `EXP-${year}-${String(max + 1).padStart(4, "0")}`;
+
+  await db.transaction(async (tx) => {
+    const [row] = await tx
+      .insert(shipment)
+      .values({
+        organizationId: ctx.org!.id,
+        reference,
+        status: "borrador",
+        mode: original.mode,
+        priority: original.priority,
+        pol: original.pol,
+        pod: original.pod,
+        carrier: original.carrier,
+        vessel: original.vessel,
+        voyage: original.voyage,
+        incoterm: original.incoterm,
+        freightTerms: original.freightTerms,
+        createdBy: ctx.user.id,
+      })
+      .returning({ id: shipment.id });
+
+    if (original.parties.length > 0) {
+      await tx.insert(party).values(
+        original.parties.map((p) => ({
+          shipmentId: row.id,
+          role: p.role,
+          name: p.name,
+          taxId: p.taxId ?? null,
+          address: p.address ?? null,
+          city: p.city ?? null,
+          country: p.country ?? null,
+        })),
+      );
+    }
+  });
+
+  revalidatePath("/expedientes");
+}
+
+// ─── Tier D: Bulk update status ───────────────────────────────────────────────
+
+type ShipmentStatusValue = "borrador" | "confirmado" | "en_transito" | "en_aduana" | "entregado" | "facturado" | "cerrado";
+const VALID_BULK_STATUSES = new Set<string>([
+  "borrador", "confirmado", "en_transito", "en_aduana", "entregado", "facturado", "cerrado",
+]);
+
+export async function bulkUpdateShipmentStatus(
+  shipmentIds: string[],
+  newStatus: string,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!VALID_BULK_STATUSES.has(newStatus)) throw new Error("Estado inválido");
+
+  const validIds = shipmentIds.filter((id) => UUID_RE.test(id));
+  if (!validIds.length) return;
+
+  const owned = await db.query.shipment.findMany({
+    where: and(eq(shipment.organizationId, ctx.org.id), inArray(shipment.id, validIds)),
+    columns: { id: true },
+  });
+  const ownedIds = owned.map((s) => s.id);
+  if (!ownedIds.length) return;
+
+  await db.update(shipment).set({ status: newStatus as ShipmentStatusValue }).where(inArray(shipment.id, ownedIds));
+  revalidatePath("/expedientes");
+}
+
+// ─── Tier D: Bulk assign agent ────────────────────────────────────────────────
+
+export async function bulkAssignShipments(
+  shipmentIds: string[],
+  memberId: string | null,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (memberId !== null && !UUID_RE.test(memberId)) throw new Error("Miembro inválido");
+
+  const validIds = shipmentIds.filter((id) => UUID_RE.test(id));
+  if (!validIds.length) return;
+
+  const owned = await db.query.shipment.findMany({
+    where: and(eq(shipment.organizationId, ctx.org.id), inArray(shipment.id, validIds)),
+    columns: { id: true },
+  });
+  const ownedIds = owned.map((s) => s.id);
+  if (!ownedIds.length) return;
+
+  await db.update(shipment).set({ assignedTo: memberId }).where(inArray(shipment.id, ownedIds));
+  revalidatePath("/expedientes");
 }
