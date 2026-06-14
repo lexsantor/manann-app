@@ -28,7 +28,6 @@ import { sendInvoiceEmail, sendQuotationEmail } from "@/lib/email";
 import {
   overallConfidence,
   pickExtractionSchema,
-  type BlExtraction,
   type BlField,
 } from "@/lib/bl-extraction";
 
@@ -1758,7 +1757,7 @@ export async function createOpportunity(formData: FormData): Promise<void> {
     title: (formData.get("title") as string).trim(),
     stage: ((formData.get("stage") as string) || "prospecto") as OppStage,
     contactId: rawContactId,
-    mode: ((formData.get("mode") as string) || null) as any,
+    mode: ((formData.get("mode") as string) || null) as "maritimo" | "aereo" | "terrestre" | "ferroviario" | "multimodal" | null,
     pol: (formData.get("pol") as string) || null,
     pod: (formData.get("pod") as string) || null,
     cargoType: (formData.get("cargoType") as string) || null,
@@ -1795,7 +1794,7 @@ export async function updateOpportunity(id: string, formData: FormData): Promise
       title: (formData.get("title") as string).trim(),
       stage: (formData.get("stage") as OppStage),
       contactId: rawContactId,
-      mode: ((formData.get("mode") as string) || null) as any,
+      mode: ((formData.get("mode") as string) || null) as "maritimo" | "aereo" | "terrestre" | "ferroviario" | "multimodal" | null,
       pol: (formData.get("pol") as string) || null,
       pod: (formData.get("pod") as string) || null,
       cargoType: (formData.get("cargoType") as string) || null,
