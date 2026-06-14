@@ -122,6 +122,10 @@ export async function getShipmentByToken(token: string) {
       parties: true,
       containers: { with: { cargoLines: true } },
       trackingEvents: { orderBy: (t) => [desc(t.occurredAt)] },
+      documents: {
+        where: (d, { notInArray }) => notInArray(d.status, ["processing", "error"]),
+        columns: { id: true, filename: true, type: true, blobUrl: true, mimeType: true, createdAt: true },
+      },
     },
   });
 }

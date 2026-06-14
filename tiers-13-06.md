@@ -34,13 +34,13 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 ---
 
-## [ ] Tier E — Portal de Seguimiento para Cliente (S · 1-2 días)
+## [X] Tier E — Portal de Seguimiento para Cliente (S · 1-2 días)
 
 *Ruta pública ya existe; completar la vista stripped. Sin tocar la app privada.*
 
 - [X] Link público `/seguimiento/[token]` sin auth — expediente accesible sin login
 - [X] Botón "Compartir con cliente" en cabecera del expediente
-- [ ] Vista stripped completa: estado visual + countdown ETA + documentos descargables + timeline tracking
+- [X] Vista stripped completa: estado visual + countdown ETA + documentos descargables + timeline tracking
 
 ---
 
