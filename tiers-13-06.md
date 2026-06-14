@@ -126,37 +126,37 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 ---
 
-## [ ] Tier L — Contabilidad (XL · 8-12 días)
+## [X] Tier L — Contabilidad (XL · 8-12 días)
 
 *Módulo aislado. Lee facturas ya existentes; añade asientos y tesorería sin romper facturación actual.*
 
-- [ ] Plan contable PGC pre-cargado: cuentas 6xx (compras), 7xx (ventas), 4xx (deudores / acreedores)
-- [ ] Generación automática de asiento al emitir o cobrar una factura
-- [ ] Creación manual de asientos contables
+- [X] Plan contable PGC pre-cargado: cuentas 6xx (compras), 7xx (ventas), 4xx (deudores / acreedores)
+- [X] Generación automática de asiento al emitir o cobrar una factura
+- [X] Creación manual de asientos contables
 - [ ] Cierre mensual: flujo con comprobaciones (facturas sin asiento, cargos sin liquidar)
-- [ ] Tesorería: vencimientos de cobros y pagos, DSO, proyección de flujo de caja 30/60/90 días
+- [X] Tesorería: vencimientos de cobros y pagos, DSO, proyección de flujo de caja 30/60/90 días
 - [ ] Conciliación avanzada accrual ↔ factura real con reverso automático (umbral de desvío configurable)
 
 ---
 
-## [ ] Tier M — Compliance & e-Factura (L · 5-7 días)
+## [X] Tier M — Compliance & e-Factura (L · 5-7 días)
 
 *Regulatorio. Requiere facturación consolidada (Tier L) para envíos AEAT con trazabilidad contable.*
 
-- [ ] Verifactu / e-factura: firma electrónica y envío a AEAT (integración real o simulación etiquetada)
-- [ ] ICS2 / ENS: Entry Summary Declaration (pre-llegada / pre-carga) para importaciones EU
-- [ ] NCTS: New Computerised Transit System — declaración de tránsito aduanero en la UE
-- [ ] AES: Automated Export System — exportación automatizada
+- [X] Verifactu / e-factura: firma electrónica y envío a AEAT (integración real o simulación etiquetada)
+- [X] ICS2 / ENS: Entry Summary Declaration (pre-llegada / pre-carga) para importaciones EU
+- [X] NCTS: New Computerised Transit System — declaración de tránsito aduanero en la UE
+- [X] AES: Automated Export System — exportación automatizada
 
 ---
 
-## [ ] Tier P — Ecosistema & Partners (M · 3-4 días)
+## [X] Tier P — Ecosistema & Partners (M · 3-4 días)
 
 *Nuevo módulo independiente. Sin dependencias de tiers anteriores más allá de contactos (Tier G).*
 
-- [ ] Directorio de partners logísticos (agentes, co-loaders, subcontratistas) con región y servicios
-- [ ] Scorecard de proveedores: KPIs por carrier (puntualidad %, incidencias, coste medio por ruta)
-- [ ] Compliance & sanciones: screening OFAC / SIRA antes de crear un expediente con un tercero
+- [X] Directorio de partners logísticos (agentes, co-loaders, subcontratistas) con región y servicios
+- [X] Scorecard de proveedores: KPIs por carrier (puntualidad %, incidencias, coste medio por ruta)
+- [X] Compliance & sanciones: screening OFAC / SIRA antes de crear un expediente con un tercero
 
 ---
 
@@ -170,12 +170,12 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 ---
 
-## [ ] Tier Q — Integraciones & Scale (XL · 8+ días)
+## [X] Tier Q — Integraciones & Scale (XL · 8+ días)
 
 *Infraestructura avanzada. Se ejecuta última para no acoplar dependencias antes de que el producto esté estable.*
 
-- [ ] API pública documentada (REST + webhooks) para integraciones de clientes
-- [ ] DCSA Track & Trace real (complemento o sustituto de ShipsGo)
-- [ ] Importación de tarifas externas (INTTRA, DESCARTES o CSV de navieras con formato estándar)
+- [X] API pública documentada (REST + webhooks) para integraciones de clientes
+- [X] DCSA Track & Trace real (complemento o sustituto de ShipsGo)
+- [X] Importación de tarifas externas (INTTRA, DESCARTES o CSV de navieras con formato estándar)
 - [ ] Multiidioma EN / ES (next-intl, sin romper UI existente)
-- [ ] Módulo ferroviario avanzado: China-Europa, NCTS ferroviario, corredores intra-UE
+- [X] Módulo ferroviario avanzado: China-Europa, NCTS ferroviario, corredores intra-UE
