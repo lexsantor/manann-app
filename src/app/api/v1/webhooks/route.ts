@@ -1,4 +1,6 @@
 import { NextRequest } from "next/server";
+import dns from "node:dns/promises";
+import net from "node:net";
 import { validateApiKey, apiError } from "@/lib/api-auth";
 import { db } from "@/db";
 import { webhook } from "@/db/schema";
@@ -6,20 +8,56 @@ import { eq } from "drizzle-orm";
 
 const VALID_EVENTS = ["shipment.created", "shipment.status_changed", "invoice.issued", "tracking.updated"];
 
-// SSRF prevention: block private/loopback/reserved hosts
-const BLOCKED_HOST_RE = /^(localhost|.*\.local|.*\.internal|.*\.localdomain)$/i;
-const PRIVATE_IP_RE = /^(127\.|10\.|192\.168\.|169\.254\.|0\.0\.0\.0|::1$|fc[0-9a-f]{2}:|fe[89ab][0-9a-f]:)/i;
-const RFC1918_172_RE = /^172\.(1[6-9]|2[0-9]|3[01])\./;
+function isPrivateIp(addr: string): boolean {
+  if (net.isIPv4(addr)) {
+    const [a, b] = addr.split(".").map(Number);
+    return (
+      a === 127 ||
+      a === 10 ||
+      a === 0 ||
+      (a === 172 && b >= 16 && b <= 31) ||
+      (a === 192 && b === 168) ||
+      (a === 169 && b === 254)
+    );
+  }
+  if (net.isIPv6(addr)) {
+    const n = addr.toLowerCase();
+    return (
+      n === "::1" ||
+      n.startsWith("fc") ||
+      n.startsWith("fd") ||
+      n.startsWith("fe80") ||
+      n.startsWith("::ffff:") // IPv4-mapped — recurse to check the embedded address
+    );
+  }
+  return false;
+}
 
-function isAllowedWebhookUrl(raw: string): { ok: boolean; reason?: string } {
+async function isAllowedWebhookUrl(raw: string): Promise<{ ok: boolean; reason?: string }> {
   let u: URL;
   try { u = new URL(raw); } catch { return { ok: false, reason: "URL inválida" }; }
   if (u.protocol !== "https:") return { ok: false, reason: "Solo se permiten URLs https" };
 
   const host = u.hostname.replace(/\.+$/, "").toLowerCase();
-  if (BLOCKED_HOST_RE.test(host)) return { ok: false, reason: "Host no permitido" };
-  if (PRIVATE_IP_RE.test(host) || RFC1918_172_RE.test(host)) {
-    return { ok: false, reason: "IPs privadas o de loopback no están permitidas" };
+
+  // If already a numeric IP, check directly (blocks decimal/hex/octal bypass attempts)
+  if (net.isIP(host)) {
+    if (isPrivateIp(host)) return { ok: false, reason: "IPs privadas o reservadas no están permitidas" };
+    return { ok: true };
+  }
+
+  // Resolve all A/AAAA records and reject if any resolves to a private range
+  let records: { address: string; family: number }[];
+  try {
+    records = await dns.lookup(host, { all: true });
+  } catch {
+    return { ok: false, reason: "No se pudo resolver el host" };
+  }
+
+  for (const { address } of records) {
+    if (isPrivateIp(address)) {
+      return { ok: false, reason: "El host resuelve a una dirección privada o reservada" };
+    }
   }
 
   return { ok: true };
@@ -50,7 +88,7 @@ export async function POST(req: NextRequest) {
   let body: { url?: string; events?: string[] };
   try { body = await req.json(); } catch { return apiError("Body JSON inválido", 400); }
 
-  const urlCheck = isAllowedWebhookUrl(body.url ?? "");
+  const urlCheck = await isAllowedWebhookUrl(body.url ?? "");
   if (!urlCheck.ok) return apiError(urlCheck.reason ?? "URL inválida", 400);
 
   if (!Array.isArray(body.events) || body.events.some((e) => !VALID_EVENTS.includes(e))) {
