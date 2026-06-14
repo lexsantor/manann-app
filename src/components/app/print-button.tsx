@@ -6,12 +6,11 @@ import { Icon } from "@/components/icon";
 export function PrintButton() {
   return (
     <button
-      type="button"
       onClick={() => window.print()}
-      className="print:hidden inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-base text-muted-foreground transition-colors hover:text-foreground"
+      className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground print:hidden"
     >
-      <Icon icon={Printer} size={14} />
-      Exportar PDF
+      <Icon icon={Printer} size={13} />
+      PDF
     </button>
   );
 }

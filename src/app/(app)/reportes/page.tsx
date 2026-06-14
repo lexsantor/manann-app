@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Printer, TrendingUp, Users, Ship, MapPin, Leaf } from "lucide-react";
+import { TrendingUp, Users, Ship, MapPin, Leaf } from "lucide-react";
 import {
   getOrgContext,
   getMonthlyGP,
@@ -12,6 +12,7 @@ import {
 } from "@/lib/erp";
 import { estimateCo2 } from "@/lib/erp-format";
 import { EsgExportButton } from "@/components/app/esg-export-button";
+import { PrintButton } from "@/components/app/print-button";
 import { Icon } from "@/components/icon";
 import { portLabel } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
@@ -144,13 +145,7 @@ export default async function ReportesPage({
             ))}
           </div>
           {/* Print / Export PDF */}
-          <button
-            onClick={() => typeof window !== "undefined" && window.print()}
-            className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground print:hidden"
-          >
-            <Icon icon={Printer} size={13} />
-            PDF
-          </button>
+          <PrintButton />
         </div>
       </div>
 
