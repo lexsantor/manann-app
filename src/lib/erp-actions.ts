@@ -1742,11 +1742,22 @@ type OppStage = "prospecto" | "propuesta" | "negociacion" | "ganado" | "perdido"
 export async function createOpportunity(formData: FormData): Promise<void> {
   const ctx = await getOrgContext();
   if (!ctx?.org) throw new Error("No session");
+
+  const rawContactId = (formData.get("contactId") as string) || null;
+  if (rawContactId) {
+    const [c] = await db
+      .select({ id: contact.id })
+      .from(contact)
+      .where(and(eq(contact.id, rawContactId), eq(contact.organizationId, ctx.org.id)))
+      .limit(1);
+    if (!c) throw new Error("Contacto inválido");
+  }
+
   await db.insert(opportunity).values({
     organizationId: ctx.org.id,
     title: (formData.get("title") as string).trim(),
     stage: ((formData.get("stage") as string) || "prospecto") as OppStage,
-    contactId: (formData.get("contactId") as string) || null,
+    contactId: rawContactId,
     mode: ((formData.get("mode") as string) || null) as any,
     pol: (formData.get("pol") as string) || null,
     pod: (formData.get("pod") as string) || null,
@@ -1767,12 +1778,23 @@ export async function updateOpportunity(id: string, formData: FormData): Promise
     .where(and(eq(opportunity.id, id), eq(opportunity.organizationId, ctx.org.id)))
     .limit(1);
   if (!row) throw new Error("No encontrado");
+
+  const rawContactId = (formData.get("contactId") as string) || null;
+  if (rawContactId) {
+    const [c] = await db
+      .select({ id: contact.id })
+      .from(contact)
+      .where(and(eq(contact.id, rawContactId), eq(contact.organizationId, ctx.org.id)))
+      .limit(1);
+    if (!c) throw new Error("Contacto inválido");
+  }
+
   await db
     .update(opportunity)
     .set({
       title: (formData.get("title") as string).trim(),
       stage: (formData.get("stage") as OppStage),
-      contactId: (formData.get("contactId") as string) || null,
+      contactId: rawContactId,
       mode: ((formData.get("mode") as string) || null) as any,
       pol: (formData.get("pol") as string) || null,
       pod: (formData.get("pod") as string) || null,
@@ -1782,7 +1804,7 @@ export async function updateOpportunity(id: string, formData: FormData): Promise
       notes: (formData.get("notes") as string) || null,
       updatedAt: new Date(),
     })
-    .where(eq(opportunity.id, id));
+    .where(and(eq(opportunity.id, id), eq(opportunity.organizationId, ctx.org.id)));
   revalidatePath("/pipeline");
 }
 
