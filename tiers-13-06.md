@@ -84,7 +84,7 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 ---
 
-## [ ] Tier K — CRM & Pipeline Comercial (M · 3-4 días)
+## [X] Tier K — CRM & Pipeline Comercial (M · 3-4 días)
 
 *Nuevo módulo. Requiere contactos completos (Tier G).*
 
@@ -95,7 +95,7 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 ---
 
-## [ ] Tier H — IA 2.0 (M · 3-5 días)
+## [X] Tier H — IA 2.0 (M · 3-5 días)
 
 *Mejoras sobre infraestructura IA existente. Se beneficia de los datos acumulados en tiers anteriores.*
 

@@ -20,8 +20,11 @@ import {
   getTrackingSubscriptions,
   getShipmentComments,
   listMasterContacts,
+  getRateAverages,
   type ShipmentDetail,
 } from "@/lib/erp";
+import { computeDelayRisk } from "@/lib/delay-risk";
+import { BatchExtractButton } from "@/components/app/batch-extract-button";
 import { Icon } from "@/components/icon";
 import { StatusPill } from "@/components/app/status-pill";
 import { PriorityPill } from "@/components/app/priority-pill";
@@ -102,13 +105,14 @@ export default async function ExpedienteDetailPage({
   // Sincronizar eventos ShipsGo antes de cargar la página (no-op si sync < 30 min)
   if (shipsgoEnabled) await syncTrackingEvents(id);
 
-  const [s, activity, members, trackingSubs, comments, allContacts] = await Promise.all([
+  const [s, activity, members, trackingSubs, comments, allContacts, rateAverages] = await Promise.all([
     getShipmentDetail(ctx.org.id, id),
     getShipmentActivity(ctx.org.id, id),
     getOrgMembers(ctx.org.id),
     getTrackingSubscriptions(ctx.org.id, id),
     getShipmentComments(ctx.org.id, id),
     listMasterContacts(ctx.org.id),
+    getRateAverages(ctx.org.id),
   ]);
   if (!s) notFound();
 
@@ -119,6 +123,7 @@ export default async function ExpedienteDetailPage({
     : "from-sky-950 to-sky-800";
   const totalWeightKg = s.cargoLines.reduce((sum, l) => sum + (l.grossWeightKg ?? 0), 0);
   const co2 = estimateCo2(s.pol, s.pod, s.mode, totalWeightKg);
+  const delayRisk = computeDelayRisk(s.carrier, s.pol, s.pod, s.etd ? new Date(s.etd) : null, s.mode);
   const pol3    = s.pol?.slice(-3) ?? "???";
   const pod3    = s.pod?.slice(-3) ?? "???";
   const polCity = portLabel(s.pol).split(" · ")[0];
@@ -265,6 +270,21 @@ export default async function ExpedienteDetailPage({
             <div className="mt-2 ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>
               <InlineField shipmentId={s.id} field="carrier" value={s.carrier} />
             </div>
+            {s.carrier && (
+              <div className="mt-2">
+                <span className={cn(
+                  "inline-flex items-center gap-1 rounded-sm px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide",
+                  delayRisk.level === "alto"
+                    ? "bg-destructive/10 text-destructive"
+                    : delayRisk.level === "medio"
+                      ? "bg-accent/10 text-accent"
+                      : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+                )}>
+                  Retraso {delayRisk.pct}%
+                </span>
+                <p className="mt-0.5 text-sm text-muted-foreground leading-snug">{delayRisk.reason}</p>
+              </div>
+            )}
           </div>
           <div className="border-l border-border p-5">
             <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">CO₂ estimado</p>
@@ -318,6 +338,7 @@ export default async function ExpedienteDetailPage({
             shipmentId={s.id}
             charges={s.charges}
             clientName={s.parties.find((p) => p.role === "consignee")?.name ?? ""}
+            rateAverages={rateAverages}
           />
           <DuaPanel
             shipmentId={s.id}
@@ -529,6 +550,16 @@ function Documents({
           Sube la factura comercial para comparar automáticamente con el BL.
         </p>
       )}
+
+      {/* Batch extract: visible cuando hay ≥2 docs sin extraer */}
+      {(() => {
+        const pending = documents.filter((d) => d.blobUrl && d.status === "uploaded").map((d) => d.id);
+        return pending.length >= 2 ? (
+          <div className="mt-3">
+            <BatchExtractButton documentIds={pending} />
+          </div>
+        ) : null;
+      })()}
 
       {/* Lista de documentos — aparece debajo al subir el primero */}
       {documents.length > 0 && (

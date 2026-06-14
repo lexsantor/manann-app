@@ -660,6 +660,24 @@ export async function listRates(orgId: string) {
 
 export type RateItem = Awaited<ReturnType<typeof listRates>>[number];
 
+export async function getRateAverages(orgId: string): Promise<Record<string, { avg: number; count: number }>> {
+  const rows = await db
+    .select({
+      serviceType: rate.serviceType,
+      avgPrice: sql<string>`avg(${rate.basePrice})::text`,
+      cnt: count(),
+    })
+    .from(rate)
+    .where(and(eq(rate.organizationId, orgId), eq(rate.active, true)))
+    .groupBy(rate.serviceType);
+
+  const result: Record<string, { avg: number; count: number }> = {};
+  for (const r of rows) {
+    result[r.serviceType] = { avg: Number(r.avgPrice), count: r.cnt };
+  }
+  return result;
+}
+
 // ─── Cotizaciones ─────────────────────────────────────────────────────────────
 
 export async function listQuotations(orgId: string) {

@@ -180,14 +180,18 @@ interface ChargeRowProps {
   charge: Charge;
   shipmentId: string;
   showBuyCol: boolean;
+  rateAvg?: { avg: number; count: number };
 }
 
-function ChargeRow({ charge: c, shipmentId, showBuyCol }: ChargeRowProps) {
+function ChargeRow({ charge: c, shipmentId, showBuyCol, rateAvg }: ChargeRowProps) {
   const [pending, startTransition] = useTransition();
   const typeLabel = CHARGE_TYPE_LABELS[c.type] ?? c.type;
   const sell = Number(c.amount);
   const buy = c.buyAmount != null ? Number(c.buyAmount) : null;
   const gp = buy != null ? sell - buy : null;
+  const anomalyPct = rateAvg && rateAvg.avg > 0 && rateAvg.count >= 1
+    ? Math.round(((sell / rateAvg.avg) - 1) * 100)
+    : null;
 
   function handleDelete() {
     startTransition(async () => {
@@ -215,6 +219,11 @@ function ChargeRow({ charge: c, shipmentId, showBuyCol }: ChargeRowProps) {
           {c.passThrough && !c.atRisk && (
             <span className="shrink-0 rounded-sm bg-muted px-1.5 py-0.5 font-mono text-sm uppercase tracking-wide text-muted-foreground">
               pass-through
+            </span>
+          )}
+          {anomalyPct !== null && anomalyPct > 20 && (
+            <span className="shrink-0 inline-flex items-center gap-0.5 rounded-sm bg-accent/10 px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-accent">
+              <TrendingUp className="size-2.5" /> ↑{anomalyPct}% vs. tarifa ref.
             </span>
           )}
         </div>
@@ -263,9 +272,10 @@ interface FinanzasPanelProps {
   shipmentId: string;
   charges: Charge[];
   clientName?: string;
+  rateAverages?: Record<string, { avg: number; count: number }>;
 }
 
-export function FinanzasPanel({ shipmentId, charges, clientName = "" }: FinanzasPanelProps) {
+export function FinanzasPanel({ shipmentId, charges, clientName = "", rateAverages }: FinanzasPanelProps) {
   const [addingRevenue, setAddingRevenue] = useState(false);
   const [addingCost, setAddingCost] = useState(false);
 
@@ -389,7 +399,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "" }: Finanzas
               </thead>
               <tbody>
                 {revenues.map((c) => (
-                  <ChargeRow key={c.id} charge={c} shipmentId={shipmentId} showBuyCol={showBuyCol} />
+                  <ChargeRow key={c.id} charge={c} shipmentId={shipmentId} showBuyCol={showBuyCol} rateAvg={rateAverages?.[c.type]} />
                 ))}
               </tbody>
               {showBuyCol && revenues.length > 1 && (

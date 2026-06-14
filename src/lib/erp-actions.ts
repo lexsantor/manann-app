@@ -317,6 +317,11 @@ export async function deleteDocument(documentId: string): Promise<void> {
   revalidatePath(`/expedientes/${doc.shipmentId}`);
 }
 
+// Extrae múltiples documentos en paralelo (batch).
+export async function extractDocumentsBatch(documentIds: string[]): Promise<void> {
+  await Promise.all(documentIds.map((id) => extractDocument(id)));
+}
+
 // Descartar la propuesta: vuelve a estado uploaded.
 export async function discardExtraction(documentId: string): Promise<void> {
   const ctx = await getOrgContext();
