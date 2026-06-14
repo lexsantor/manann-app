@@ -405,7 +405,7 @@ export async function getContactHistory(contactName: string, orgId: string) {
       eta: shipment.eta,
       createdAt: shipment.createdAt,
       gp: sql<number>`COALESCE(
-        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END) -
+        SUM(CASE WHEN ${charge.direction} = 'revenue' THEN ${charge.amount}::numeric ELSE 0 END) -
         SUM(CASE WHEN ${charge.direction} = 'cost'   THEN ${charge.amount}::numeric ELSE 0 END),
         0
       )`,
@@ -424,12 +424,12 @@ export async function getContactGPStats(contactName: string, orgId: string) {
     .select({
       totalExpedientes: count(sql`DISTINCT ${shipment.id}`),
       totalGP: sql<number>`COALESCE(
-        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END) -
+        SUM(CASE WHEN ${charge.direction} = 'revenue' THEN ${charge.amount}::numeric ELSE 0 END) -
         SUM(CASE WHEN ${charge.direction} = 'cost'   THEN ${charge.amount}::numeric ELSE 0 END),
         0
       )`,
       totalRevenue: sql<number>`COALESCE(
-        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END),
+        SUM(CASE WHEN ${charge.direction} = 'revenue' THEN ${charge.amount}::numeric ELSE 0 END),
         0
       )`,
     })
@@ -488,7 +488,7 @@ export async function listContactsWithGP(orgId: string) {
       .select({
         name: party.name,
         totalGP: sql<number>`COALESCE(
-          SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END) -
+          SUM(CASE WHEN ${charge.direction} = 'revenue' THEN ${charge.amount}::numeric ELSE 0 END) -
           SUM(CASE WHEN ${charge.direction} = 'cost'   THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
         expedientes: count(sql`DISTINCT ${shipment.id}`),
       })
@@ -515,10 +515,10 @@ export async function getMonthlyGP(orgId: string, months = 12) {
     .select({
       month: sql<string>`TO_CHAR(DATE_TRUNC('month', ${shipment.createdAt}), 'YYYY-MM')`,
       gp: sql<number>`COALESCE(
-        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END) -
+        SUM(CASE WHEN ${charge.direction} = 'revenue' THEN ${charge.amount}::numeric ELSE 0 END) -
         SUM(CASE WHEN ${charge.direction} = 'cost'   THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
       revenue: sql<number>`COALESCE(
-        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
+        SUM(CASE WHEN ${charge.direction} = 'revenue' THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
     })
     .from(shipment)
     .leftJoin(charge, eq(charge.shipmentId, shipment.id))
@@ -537,9 +537,9 @@ export async function getTopClientsByGP(orgId: string, dateFrom: Date, limit = 1
     .select({
       name: party.name,
       shipments: count(sql`DISTINCT ${shipment.id}`),
-      revenue: sql<number>`COALESCE(SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
+      revenue: sql<number>`COALESCE(SUM(CASE WHEN ${charge.direction} = 'revenue' THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
       gp: sql<number>`COALESCE(
-        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END) -
+        SUM(CASE WHEN ${charge.direction} = 'revenue' THEN ${charge.amount}::numeric ELSE 0 END) -
         SUM(CASE WHEN ${charge.direction} = 'cost'   THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
     })
     .from(party)
