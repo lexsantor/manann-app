@@ -12,22 +12,31 @@ function isPrivateIp(addr: string): boolean {
   if (net.isIPv4(addr)) {
     const [a, b] = addr.split(".").map(Number);
     return (
-      a === 127 ||
-      a === 10 ||
       a === 0 ||
-      (a === 172 && b >= 16 && b <= 31) ||
-      (a === 192 && b === 168) ||
-      (a === 169 && b === 254)
+      a === 10 ||
+      a === 127 ||
+      (a === 100 && b >= 64 && b <= 127) || // CGNAT RFC 6598
+      (a === 169 && b === 254) ||            // link-local
+      (a === 172 && b >= 16 && b <= 31) ||   // RFC 1918
+      (a === 192 && b === 168) ||            // RFC 1918
+      a >= 224                                // multicast (224-239) + reserved (240-255)
     );
   }
   if (net.isIPv6(addr)) {
     const n = addr.toLowerCase();
+    if (n.startsWith("::ffff:")) {
+      const embedded = n.slice(7);
+      if (net.isIPv4(embedded)) return isPrivateIp(embedded);
+    }
     return (
+      n === "::" ||
       n === "::1" ||
-      n.startsWith("fc") ||
-      n.startsWith("fd") ||
-      n.startsWith("fe80") ||
-      n.startsWith("::ffff:") // IPv4-mapped — recurse to check the embedded address
+      n.startsWith("fc") ||       // ULA
+      n.startsWith("fd") ||       // ULA
+      n.startsWith("fe80") ||     // link-local
+      n.startsWith("2002:") ||    // 6to4
+      n.startsWith("64:ff9b:") || // NAT64
+      n.startsWith("ff")          // multicast
     );
   }
   return false;
