@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { formatMoney } from "@/lib/erp-format";
 import type { OpportunityRow, RateItem } from "@/lib/erp";
@@ -299,45 +300,36 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
           {/* Etapa */}
           <div className="space-y-1.5">
             <label className="text-xs font-medium">Etapa</label>
-            <select
-              value={form.stage}
-              onChange={field("stage")}
-              className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-            >
-              {STAGES.map((s) => (
-                <option key={s.key} value={s.key}>{s.label}</option>
-              ))}
-            </select>
+            <Select value={form.stage} onValueChange={(v) => setForm((f) => ({ ...f, stage: v as OppStage }))}>
+              <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {STAGES.map((s) => (<SelectItem key={s.key} value={s.key}>{s.label}</SelectItem>))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Contacto */}
           <div className="space-y-1.5">
             <label className="text-xs font-medium">Contacto</label>
-            <select
-              value={form.contactId}
-              onChange={field("contactId")}
-              className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-            >
-              <option value="">— Sin contacto —</option>
-              {contacts.map((c) => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
+            <Select value={form.contactId || "__none__"} onValueChange={(v) => setForm((f) => ({ ...f, contactId: v === "__none__" ? "" : v }))}>
+              <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__none__">— Sin contacto —</SelectItem>
+                {contacts.map((c) => (<SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Modo */}
           <div className="space-y-1.5">
             <label className="text-xs font-medium">Modo de transporte</label>
-            <select
-              value={form.mode}
-              onChange={field("mode")}
-              className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-            >
-              <option value="">— Sin especificar —</option>
-              {Object.entries(MODE_LABELS).map(([k, v]) => (
-                <option key={k} value={k}>{v}</option>
-              ))}
-            </select>
+            <Select value={form.mode || "__none__"} onValueChange={(v) => setForm((f) => ({ ...f, mode: v === "__none__" ? "" : v }))}>
+              <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__none__">— Sin especificar —</SelectItem>
+                {Object.entries(MODE_LABELS).map(([k, v]) => (<SelectItem key={k} value={k}>{v}</SelectItem>))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Ruta */}
@@ -373,15 +365,14 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-medium">Moneda</label>
-              <select
-                value={form.currency}
-                onChange={field("currency")}
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-              >
-                <option value="EUR">EUR</option>
-                <option value="USD">USD</option>
-                <option value="GBP">GBP</option>
-              </select>
+              <Select value={form.currency} onValueChange={(v) => setForm((f) => ({ ...f, currency: v }))}>
+                <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="EUR">EUR</SelectItem>
+                  <SelectItem value="USD">USD</SelectItem>
+                  <SelectItem value="GBP">GBP</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

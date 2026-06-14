@@ -6,6 +6,7 @@ import { Plus, Pencil, Trash2, Download, MapPin } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import { createContact, updateContact, deleteContact, importContactsAction } from "@/lib/erp-actions";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { ContactWithGP } from "@/lib/erp";
 
 const ROLE_LABEL: Record<string, string> = {
@@ -50,6 +51,7 @@ interface ContactFormProps {
 function ContactForm({ mode, onClose }: ContactFormProps) {
   const [pending, start] = useTransition();
   const c = mode?.type === "edit" ? mode.contact : null;
+  const [role, setRole] = useState<string>(c?.role ?? "consignee");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -80,9 +82,13 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
             </div>
             <div>
               <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Rol *</label>
-              <select name="role" defaultValue={c?.role ?? "consignee"} className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors">
-                {ROLE_OPTIONS.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
-              </select>
+              <Select value={role} onValueChange={setRole}>
+                <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {ROLE_OPTIONS.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
+                </SelectContent>
+              </Select>
+              <input type="hidden" name="role" value={role} />
             </div>
             <div>
               <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">NIF / EORI</label>
