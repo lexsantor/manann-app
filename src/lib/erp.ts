@@ -508,6 +508,98 @@ export async function listContactsWithGP(orgId: string) {
 
 export type ContactWithGP = Awaited<ReturnType<typeof listContactsWithGP>>[number];
 
+// ─── Analítica / Reportes (Tier F) ────────────────────────────────────────────
+
+export async function getMonthlyGP(orgId: string, months = 12) {
+  return db
+    .select({
+      month: sql<string>`TO_CHAR(DATE_TRUNC('month', ${shipment.createdAt}), 'YYYY-MM')`,
+      gp: sql<number>`COALESCE(
+        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END) -
+        SUM(CASE WHEN ${charge.direction} = 'cost'   THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
+      revenue: sql<number>`COALESCE(
+        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
+    })
+    .from(shipment)
+    .leftJoin(charge, eq(charge.shipmentId, shipment.id))
+    .where(
+      and(
+        eq(shipment.organizationId, orgId),
+        gte(shipment.createdAt, sql`NOW() - INTERVAL '${sql.raw(String(months))} months'`),
+      ),
+    )
+    .groupBy(sql`DATE_TRUNC('month', ${shipment.createdAt})`)
+    .orderBy(sql`DATE_TRUNC('month', ${shipment.createdAt})`);
+}
+
+export async function getTopClientsByGP(orgId: string, dateFrom: Date, limit = 10) {
+  return db
+    .select({
+      name: party.name,
+      shipments: count(sql`DISTINCT ${shipment.id}`),
+      revenue: sql<number>`COALESCE(SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
+      gp: sql<number>`COALESCE(
+        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END) -
+        SUM(CASE WHEN ${charge.direction} = 'cost'   THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
+    })
+    .from(party)
+    .innerJoin(shipment, and(eq(shipment.id, party.shipmentId), eq(shipment.organizationId, orgId), gte(shipment.createdAt, dateFrom)))
+    .leftJoin(charge, eq(charge.shipmentId, shipment.id))
+    .where(eq(party.role, "consignee"))
+    .groupBy(party.name)
+    .orderBy(sql`gp DESC`)
+    .limit(limit);
+}
+
+export async function getShipmentsByMode(orgId: string, dateFrom: Date) {
+  return db
+    .select({
+      mode: shipment.mode,
+      total: count(shipment.id),
+    })
+    .from(shipment)
+    .where(and(eq(shipment.organizationId, orgId), gte(shipment.createdAt, dateFrom)))
+    .groupBy(shipment.mode)
+    .orderBy(desc(count(shipment.id)));
+}
+
+export async function getTopRoutes(orgId: string, dateFrom: Date, limit = 8) {
+  return db
+    .select({
+      pol: shipment.pol,
+      pod: shipment.pod,
+      total: count(shipment.id),
+    })
+    .from(shipment)
+    .where(and(eq(shipment.organizationId, orgId), gte(shipment.createdAt, dateFrom)))
+    .groupBy(shipment.pol, shipment.pod)
+    .orderBy(desc(count(shipment.id)))
+    .limit(limit);
+}
+
+export async function getCarrierKPIs(orgId: string, dateFrom: Date, limit = 8) {
+  return db
+    .select({
+      carrier: shipment.carrier,
+      total: count(shipment.id),
+      avgTransitDays: sql<number>`ROUND(AVG(EXTRACT(DAY FROM (${shipment.eta} - ${shipment.etd}))), 1)`,
+      delayed: sql<number>`SUM(CASE WHEN ${shipment.eta} < NOW() AND ${shipment.status} NOT IN ('entregado','facturado','cerrado') THEN 1 ELSE 0 END)`,
+    })
+    .from(shipment)
+    .where(
+      and(
+        eq(shipment.organizationId, orgId),
+        gte(shipment.createdAt, dateFrom),
+        sql`${shipment.carrier} IS NOT NULL`,
+        sql`${shipment.etd} IS NOT NULL`,
+        sql`${shipment.eta} IS NOT NULL`,
+      ),
+    )
+    .groupBy(shipment.carrier)
+    .orderBy(desc(count(shipment.id)))
+    .limit(limit);
+}
+
 // ─── Facturas ────────────────────────────────────────────────────────────────
 
 export async function listInvoices(orgId: string) {

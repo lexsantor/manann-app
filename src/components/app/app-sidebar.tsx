@@ -88,7 +88,7 @@ const NAV_GROUPS: NavGroup[] = [
   {
     section: "Análisis",
     items: [
-      { label: "Reportes", icon: BarChart3, soon: true },
+      { label: "Reportes", href: "/reportes", icon: BarChart3 },
     ],
   },
 ];

@@ -59,7 +59,7 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 ---
 
-## [ ] Tier F — Analítica Avanzada (M · 3-4 días)
+## [X] Tier F — Analítica Avanzada (M · 3-4 días)
 
 *Nueva página `/reportes`. Lee datos existentes — cero cambios de schema.*
 
