@@ -179,3 +179,100 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 - [X] Importación de tarifas externas (INTTRA, DESCARTES o CSV de navieras con formato estándar)
 - [ ] Multiidioma EN / ES (next-intl, sin romper UI existente)
 - [X] Módulo ferroviario avanzado: China-Europa, NCTS ferroviario, corredores intra-UE
+
+---
+
+## GAP ANALYSIS — Ítems del menú objetivo no cubiertos en roadmap anterior
+
+> Añadidos el 15-06-2026 tras contraste exhaustivo con la navegación funcional objetivo.
+> Los tiers R–V son puramente aditivos sobre el estado actual.
+
+---
+
+## [ ] Tier R — Tablas Maestras & Administración (L · 4-6 días)
+
+*Cubre todos los catálogos maestros ausentes y la configuración de sistema. Sin dependencias de tiers anteriores.*
+
+### Terceros / Catálogos
+- [ ] Puertos · UN/LOCODE: UI de gestión (añadir/editar/desactivar), búsqueda por código o nombre — los datos ya existen en `port-coords.ts`
+- [ ] Aeropuertos: catálogo IATA (código, ciudad, país, zona horaria) — necesario para módulo aéreo
+- [ ] Conceptos de cargo: catálogo editable de líneas de coste (flete, THC, seguro, handling…) reutilizable en expedientes
+- [ ] Países: listado ISO 3166-1, zona económica (EU / non-EU), moneda por defecto
+- [ ] Monedas: catálogo ISO 4217 + tipo de cambio manual (base EUR), con histórico y fecha de actualización
+- [ ] Regímenes aduaneros: tabla maestrа de regímenes HS/TARIC (40, 42, 61…) con descripción y restricciones
+
+### Sistema / Administración
+- [ ] Parámetros del sistema: moneda base, SCAC/NIF propio, país de la empresa, idioma de facturas, días de crédito por defecto
+- [ ] Series y numeración de documentos: configurar series (FAC-2025-###, EXP-###) y contadores por tipo de documento
+- [ ] Empresas y sucursales: soporte multi-sucursal (CIF diferente, domicilio fiscal, delegación comercial) vinculadas a la misma org
+
+---
+
+## [ ] Tier S — Módulos Operativos Faltantes (M · 3-5 días)
+
+*Aéreo completo, Terrestre real y gaps menores en Marítimo y Courier. Sin cambios de schema en lo ya construido.*
+
+### Aéreo — extensión
+- [ ] Vuelos: catálogo de vuelos operativos (aerolínea, número, origen/destino, horario), vinculable a expediente aéreo
+- [ ] Manifiestos aéreos: manifiesto de carga (Cargo Manifest) agrupa HAWB bajo un MAWB; listado imprimible
+
+### Terrestre — módulo real
+- [ ] Órdenes de transporte: OT vinculada a expediente (transportista, matrícula, conductor, fecha recogida/entrega, CMR referenciado)
+- [ ] Gestión de rutas: definición de rutas habituales (origen→destino, distancia km, tiempo estimado, coste por km)
+
+### Courier — extensión
+- [ ] Etiquetas: generación de etiqueta de envío courier (formato A6, código de barras/QR, datos remitente/destinatario, número de seguimiento)
+
+### Marítimo — extensión
+- [ ] Consolidaciones: vista dedicada que agrupa varios expedientes LCL bajo un mismo contenedor/buque (manifiesto de consolidación)
+
+### Ferrocarril — módulo independiente
+- [ ] Expediciones ferroviarias: página propia `/ferroviario` con listado de expediciones, filtros por corredor y estado — actualmente solo existe como panel dentro del expediente
+
+---
+
+## [ ] Tier T — Calidad & Procesos (S · 2-3 días)
+
+*Nuevo módulo de calidad y UI de gestión de procesos internos.*
+
+### Calidad
+- [ ] Incidencias: registro de incidencias operativas vinculadas a expediente (tipo, descripción, responsable, estado abierto/cerrado, fecha resolución)
+- [ ] No conformidades: registro formal de NC (categoría, causa raíz, acción correctiva, evidencia adjunta, seguimiento)
+- [ ] SLA y objetivos: definición de SLAs por tipo de envío/cliente (tiempo respuesta cotización, tiempo gestión DUA…) y semáforo de cumplimiento
+
+### Procesos
+- [ ] Cola de eventos: UI que muestra webhooks disparados, payload, estado (entregado / fallido / reintentando), historial de reintentos
+
+---
+
+## [ ] Tier U — Contabilidad Completa (M · 3-4 días)
+
+*Cierra los ítems pendientes de Tier L que quedaron marcados `[ ]`.*
+
+- [ ] Cierre mensual: flujo de cierre con checklist automático (facturas sin asiento, cargos sin liquidar, descuadres), bloqueo de período cerrado
+- [ ] Impuestos: módulo de IVA — acumulado repercutido / soportado por período, conciliación con facturas, generación de resumen para modelo 303
+- [ ] Conciliación avanzada accrual ↔ factura real con reverso automático (umbral de desvío configurable)
+
+---
+
+## [ ] Tier V — Red & Partners Completo (M · 3-4 días)
+
+*Extiende Tier P. Convierte el directorio básico en una red colaborativa real.*
+
+- [ ] Por qué te contratan: perfil público de la empresa dentro de la red — especialidades, corredores habituales, certificaciones, idiomas, capacidad
+- [ ] Red de agentes: marketplace interno — buscar agentes corresponsales por país/corredor/modo, solicitar colaboración
+- [ ] Tender a la red: envío de RFQ a múltiples partners de la red con plazo de respuesta, comparador de ofertas recibidas
+- [ ] Documentos digitales (e-BL): soporte de eBL electrónico — hash del documento registrado, estado (original / endorsed / surrendered), vinculado al expediente
+
+---
+
+## Gaps parciales ya registrados — pendientes de completar
+
+*(Ítems que tienen algo construido pero no están completos)*
+
+- [ ] **Puertos UI** — datos existen en `port-coords.ts`, falta pantalla de gestión (cubierto en Tier R)
+- [ ] **Tablas maestras unificadas** — navieras / contenedores / incoterms dispersos; falta sección `/maestros` que los agrupe junto con los nuevos de Tier R
+- [ ] **Roles y permisos granulares** — 3 roles fijos; falta configuración de permisos por sección (ver / editar / admin) (Tier R, si se decide implementar)
+- [ ] **Power BI** — `/reportes` tiene charts nativos; conector Power BI real requeriría workspace + credencial (no free tier — decisión pendiente)
+- [ ] **Multiidioma** (Tier Q) — explícitamente aplazado; EN/ES con next-intl
+
