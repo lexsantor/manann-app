@@ -785,3 +785,44 @@ export const journalEntryLineRelations = relations(journalEntryLine, ({ one }) =
     references: [journalEntry.id],
   }),
 }));
+
+// ─── Tier M: Compliance & e-Factura ──────────────────────────────────────────
+
+export const complianceDeclaration = pgTable(
+  "compliance_declaration",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    shipmentId: uuid("shipment_id").references(() => shipment.id, { onDelete: "set null" }),
+    invoiceId: uuid("invoice_id").references(() => invoice.id, { onDelete: "set null" }),
+    type: text("type").notNull(),
+    referenceNumber: text("reference_number"),
+    status: text("status").notNull().default("pendiente"),
+    xmlHash: text("xml_hash"),
+    submittedAt: timestamp("submitted_at"),
+    data: jsonb("data"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [
+    index("compliance_declaration_org_idx").on(t.organizationId),
+    index("compliance_declaration_shipment_idx").on(t.shipmentId),
+    index("compliance_declaration_invoice_idx").on(t.invoiceId),
+  ],
+);
+
+export const complianceDeclarationRelations = relations(complianceDeclaration, ({ one }) => ({
+  organization: one(organization, {
+    fields: [complianceDeclaration.organizationId],
+    references: [organization.id],
+  }),
+  shipment: one(shipment, {
+    fields: [complianceDeclaration.shipmentId],
+    references: [shipment.id],
+  }),
+  invoice: one(invoice, {
+    fields: [complianceDeclaration.invoiceId],
+    references: [invoice.id],
+  }),
+}));

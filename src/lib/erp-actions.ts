@@ -9,7 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity, booking, accountingAccount, journalEntry, journalEntryLine } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity, booking, accountingAccount, journalEntry, journalEntryLine, complianceDeclaration } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode, isShipsGoEnabled } from "@/lib/tracking/shipsgo";
@@ -2073,4 +2073,87 @@ export async function autoPostInvoiceJournal(invoiceId: string, orgId: string): 
   await db.insert(journalEntryLine).values(
     entryLines.map((l) => ({ ...l, journalEntryId: entry.id, description: null })),
   );
+}
+
+// ─── Tier M: Compliance & e-Factura ──────────────────────────────────────────
+
+function fakeHash(input: string): string {
+  let h = 0;
+  for (let i = 0; i < input.length; i++) {
+    h = (Math.imul(31, h) + input.charCodeAt(i)) | 0;
+  }
+  const hex = Math.abs(h).toString(16).padStart(8, "0");
+  return `SHA256:${hex}${hex}${hex}${hex}${hex}${hex}${hex}${hex}`.slice(0, 71);
+}
+
+export async function submitVerifactu(invoiceId: string): Promise<{ referenceNumber: string; hash: string }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(invoiceId)) throw new Error("Factura inválida");
+
+  const inv = await db.query.invoice.findFirst({
+    where: eq(invoice.id, invoiceId),
+    with: { shipment: { columns: { id: true, organizationId: true } } },
+  });
+  if (!inv || inv.shipment.organizationId !== ctx.org.id) throw new Error("No autorizado");
+
+  const existing = await db
+    .select({ id: complianceDeclaration.id })
+    .from(complianceDeclaration)
+    .where(and(eq(complianceDeclaration.invoiceId, invoiceId), eq(complianceDeclaration.type, "verifactu")));
+
+  if (existing.length > 0) throw new Error("Ya registrada en Verifactu");
+
+  const hash = fakeHash(`${invoiceId}-${inv.reference}-${inv.total}-${inv.issueDate}`);
+  const refNumber = `VERI-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
+
+  await db.insert(complianceDeclaration).values({
+    organizationId: ctx.org.id,
+    invoiceId,
+    type: "verifactu",
+    referenceNumber: refNumber,
+    status: "aceptada",
+    xmlHash: hash,
+    submittedAt: new Date(),
+    data: { invoiceRef: inv.reference, total: inv.total, taxRate: inv.taxRate },
+  });
+
+  revalidatePath(`/facturas/${invoiceId}`);
+  return { referenceNumber: refNumber, hash };
+}
+
+export async function submitDeclaration(
+  shipmentId: string,
+  type: "ens" | "ncts" | "aes",
+  data: Record<string, string>,
+): Promise<{ referenceNumber: string }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No autorizado");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Expediente inválido");
+
+  const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
+  if (!owned) throw new Error("No autorizado");
+
+  const existing = await db
+    .select({ id: complianceDeclaration.id })
+    .from(complianceDeclaration)
+    .where(and(eq(complianceDeclaration.shipmentId, shipmentId), eq(complianceDeclaration.type, type)));
+
+  if (existing.length > 0) throw new Error("Declaración ya enviada");
+
+  const prefixes: Record<string, string> = { ens: "ENS", ncts: "NCTS", aes: "AES" };
+  const refNumber = `${prefixes[type]}-${new Date().getFullYear()}-${String(Date.now()).slice(-6)}`;
+
+  await db.insert(complianceDeclaration).values({
+    organizationId: ctx.org.id,
+    shipmentId,
+    type,
+    referenceNumber: refNumber,
+    status: "aceptada",
+    submittedAt: new Date(),
+    data,
+  });
+
+  revalidatePath(`/expedientes/${shipmentId}`);
+  return { referenceNumber: refNumber };
 }

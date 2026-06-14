@@ -4,7 +4,7 @@ import { cache } from "react";
 import { and, count, desc, eq, asc, or, ilike, gte, lt, ne, sql, inArray } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity, booking, accountingAccount, journalEntry, journalEntryLine } from "@/db/schema";
+import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity, booking, accountingAccount, journalEntry, journalEntryLine, complianceDeclaration } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string; memberId: string; onboarded: boolean };
@@ -928,4 +928,18 @@ export async function getTreasuryProjection(orgId: string) {
   const totalPagar = pendingCharges.reduce((s, c) => s + Number(c.amount), 0);
 
   return { pendingInvoices, pendingCharges, totalCobrar, totalPagar };
+}
+
+// ─── Tier M: Compliance ───────────────────────────────────────────────────────
+
+export async function getComplianceDeclarations(orgId: string, shipmentId?: string, invoiceId?: string) {
+  const conditions = [eq(complianceDeclaration.organizationId, orgId)];
+  if (shipmentId) conditions.push(eq(complianceDeclaration.shipmentId, shipmentId));
+  if (invoiceId) conditions.push(eq(complianceDeclaration.invoiceId, invoiceId));
+
+  return db
+    .select()
+    .from(complianceDeclaration)
+    .where(and(...conditions))
+    .orderBy(desc(complianceDeclaration.createdAt));
 }

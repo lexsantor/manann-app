@@ -21,6 +21,7 @@ import {
   getShipmentComments,
   listMasterContacts,
   getRateAverages,
+  getComplianceDeclarations,
   type ShipmentDetail,
 } from "@/lib/erp";
 import { computeDelayRisk } from "@/lib/delay-risk";
@@ -48,6 +49,7 @@ import { ShipsGoPanel } from "@/components/app/shipsgo-panel";
 import { syncTrackingEvents } from "@/lib/erp-actions";
 import { FinanzasPanel } from "@/components/app/finanzas-panel";
 import { DuaPanel } from "@/components/app/dua-panel";
+import { DeclaracionesPanel } from "@/components/app/declaraciones-panel";
 import { BookingPanel } from "@/components/app/booking-panel";
 import { CourierPanel } from "@/components/app/courier-panel";
 import { AddPartyForm } from "@/components/app/add-party-form";
@@ -107,7 +109,7 @@ export default async function ExpedienteDetailPage({
   // Sincronizar eventos ShipsGo antes de cargar la página (no-op si sync < 30 min)
   if (shipsgoEnabled) await syncTrackingEvents(id);
 
-  const [s, activity, members, trackingSubs, comments, allContacts, rateAverages] = await Promise.all([
+  const [s, activity, members, trackingSubs, comments, allContacts, rateAverages, complianceDecls] = await Promise.all([
     getShipmentDetail(ctx.org.id, id),
     getShipmentActivity(ctx.org.id, id),
     getOrgMembers(ctx.org.id),
@@ -115,6 +117,7 @@ export default async function ExpedienteDetailPage({
     getShipmentComments(ctx.org.id, id),
     listMasterContacts(ctx.org.id),
     getRateAverages(ctx.org.id),
+    getComplianceDeclarations(ctx.org.id, id),
   ]);
   if (!s) notFound();
 
@@ -362,6 +365,18 @@ export default async function ExpedienteDetailPage({
             cargoDescription={s.cargoLines[0]?.description}
             grossWeightKg={s.cargoLines.reduce((sum, l) => sum + (l.grossWeightKg ?? 0), 0) || undefined}
             packages={s.cargoLines.reduce((sum, l) => sum + (l.packages ?? 0), 0) || undefined}
+          />
+          <DeclaracionesPanel
+            shipmentId={s.id}
+            mode={s.mode}
+            pol={s.pol}
+            pod={s.pod}
+            blNumber={s.blNumber}
+            shipper={s.parties.find((p) => p.role === "shipper")?.name}
+            consignee={s.parties.find((p) => p.role === "consignee")?.name}
+            hsCode={s.cargoLines.find((l) => l.hsCode)?.hsCode}
+            grossWeightKg={s.cargoLines.reduce((sum, l) => sum + (l.grossWeightKg ?? 0), 0) || null}
+            declarations={complianceDecls}
           />
           <BookingPanel
             shipmentId={s.id}

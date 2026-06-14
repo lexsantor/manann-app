@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { getOrgContext, getInvoiceDetail } from "@/lib/erp";
+import { getOrgContext, getInvoiceDetail, getComplianceDeclarations } from "@/lib/erp";
+import { VerifactuPanel } from "@/components/app/verifactu-panel";
 import { formatMoney, formatDate } from "@/lib/erp-format";
 import { FacturaActions } from "@/components/app/factura-actions";
 import { cn } from "@/lib/utils";
@@ -37,6 +38,8 @@ export default async function FacturaDetailPage({ params }: PageProps) {
   if (!inv) notFound();
 
   const taxAmount = Number(inv.total) - Number(inv.subtotal);
+  const complianceDecls = await getComplianceDeclarations(ctx.org.id, undefined, id);
+  const verifactuDecl = complianceDecls.find((d) => d.type === "verifactu") ?? null;
 
   return (
     <div className="min-h-full">
@@ -190,6 +193,17 @@ export default async function FacturaDetailPage({ params }: PageProps) {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Verifactu — fuera del área de impresión */}
+      <div className="mx-auto max-w-4xl px-5 pb-8 print:hidden">
+        <VerifactuPanel
+          invoiceId={id}
+          invoiceRef={inv.reference}
+          invoiceTotal={inv.total}
+          issueDate={inv.issueDate ?? null}
+          declaration={verifactuDecl}
+        />
       </div>
     </div>
   );
