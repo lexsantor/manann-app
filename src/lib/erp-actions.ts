@@ -29,6 +29,7 @@ import {
   overallConfidence,
   pickExtractionSchema,
   type BlExtraction,
+  type BlField,
 } from "@/lib/bl-extraction";
 
 const UUID_RE =
@@ -157,9 +158,13 @@ export async function extractDocument(documentId: string): Promise<void> {
     });
 
     const conf = overallConfidence(object);
+    const mode = shipmentRow?.mode ?? "maritimo";
+    const docType = mode === "aereo" ? "awb" : mode === "terrestre" ? "cmr" : "bl";
+    const docLabel = mode === "aereo" ? "AWB" : mode === "terrestre" ? "CMR" : "BL";
     await db
       .update(document)
       .set({
+        type: docType,
         status: "extracted",
         extraction: object,
         aiConfidence: conf.toFixed(3),
@@ -167,7 +172,7 @@ export async function extractDocument(documentId: string): Promise<void> {
       .where(eq(document.id, documentId));
 
     const [s] = await db.select({ id: shipment.id, reference: shipment.reference, organizationId: shipment.organizationId }).from(shipment).where(eq(shipment.id, doc.shipmentId));
-    if (s) await createNotification(s.organizationId, `IA extrajo el BL del expediente ${s.reference}`, s.id, s.reference);
+    if (s) await createNotification(s.organizationId, `IA extrajo el ${docLabel} del expediente ${s.reference}`, s.id, s.reference);
   } catch (error) {
     console.error("Extracción IA falló:", error);
     await db
@@ -189,12 +194,15 @@ export async function applyExtraction(documentId: string): Promise<void> {
 
   const doc = await getOwnedDocument(ctx.org.id, documentId);
   if (!doc || !doc.extraction) throw new Error("No hay propuesta que confirmar");
-  const ex = doc.extraction as BlExtraction;
+  const ex = doc.extraction as Record<string, BlField | undefined>;
   const sid = doc.shipmentId;
+
+  const [shipmentModeRow] = await db.select({ mode: shipment.mode }).from(shipment).where(eq(shipment.id, sid));
+  const mode = shipmentModeRow?.mode ?? "maritimo";
 
   // 1) Campos de cabecera del expediente (solo los que la IA propuso).
   const upd: Record<string, unknown> = {};
-  const map: [keyof BlExtraction, string][] = [
+  const map: [string, string][] = [
     ["carrier", "carrier"],
     ["vessel", "vessel"],
     ["voyage", "voyage"],
@@ -204,6 +212,11 @@ export async function applyExtraction(documentId: string): Promise<void> {
     ["incoterm", "incoterm"],
     ["freightTerms", "freightTerms"],
   ];
+  // AWB: awbNumber → blNumber (referencia principal), flightNumber → voyage
+  if (mode === "aereo") {
+    if (ex.awbNumber?.value && !ex.blNumber?.value) upd.blNumber = ex.awbNumber.value;
+    if (ex.flightNumber?.value && !ex.voyage?.value) upd.voyage = ex.flightNumber.value;
+  }
   for (const [k, col] of map) {
     const v = val(ex[k]);
     if (v) upd[col] = v;
@@ -278,7 +291,8 @@ export async function applyExtraction(documentId: string): Promise<void> {
     .where(eq(document.id, documentId));
 
   const [sRow] = await db.select({ reference: shipment.reference, organizationId: shipment.organizationId }).from(shipment).where(eq(shipment.id, sid));
-  if (sRow) await createNotification(sRow.organizationId, `Datos del BL incorporados al expediente ${sRow.reference}`, sid, sRow.reference);
+  const appliedLabel = mode === "aereo" ? "AWB" : mode === "terrestre" ? "CMR" : "BL";
+  if (sRow) await createNotification(sRow.organizationId, `Datos del ${appliedLabel} incorporados al expediente ${sRow.reference}`, sid, sRow.reference);
 
   revalidatePath(`/expedientes/${sid}`);
 }

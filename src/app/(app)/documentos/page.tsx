@@ -9,6 +9,8 @@ export const metadata = { title: "Documentos — Manann" };
 
 const DOC_TYPE_LABEL: Record<string, string> = {
   bl: "Bill of Lading",
+  awb: "Air Waybill",
+  cmr: "CMR",
   factura_comercial: "Factura comercial",
   packing_list: "Packing List",
   dua: "DUA",

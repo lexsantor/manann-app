@@ -72,7 +72,7 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 ---
 
-## [ ] Tier J — Documentos Modo-Específico (M · 3-4 días)
+## [X] Tier J — Documentos Modo-Específico (M · 3-4 días)
 
 *Extiende el flujo de documentos existente. El flow de BL marítimo no se toca.*
 

@@ -43,6 +43,8 @@ export const partyRole = pgEnum("party_role", [
 
 export const documentType = pgEnum("document_type", [
   "bl",
+  "awb",
+  "cmr",
   "factura_comercial",
   "packing_list",
   "dua",

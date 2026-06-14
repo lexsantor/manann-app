@@ -553,6 +553,15 @@ function Documents({
                     </p>
                     <p className="text-base text-muted-foreground">
                       {DOC_TYPE[d.type] ?? d.type}
+                      {(d.type === "awb" || d.type === "cmr") && d.status === "confirmed" && (
+                        <Link
+                          href={`/documentos/${d.type}/${d.id}`}
+                          className="ml-2 font-mono text-[10px] uppercase tracking-wider text-primary hover:underline"
+                          target="_blank"
+                        >
+                          Plantilla ↗
+                        </Link>
+                      )}
                     </p>
                   </div>
                   {d.blobUrl && (
@@ -560,6 +569,7 @@ function Documents({
                       documentId={d.id}
                       status={d.status}
                       extraction={d.extraction}
+                      docType={d.type}
                       compact
                     />
                   )}
@@ -574,6 +584,7 @@ function Documents({
                     documentId={d.id}
                     status={d.status}
                     extraction={d.extraction}
+                    docType={d.type}
                   />
                 )}
               </div>

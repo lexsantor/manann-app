@@ -77,6 +77,8 @@ export const TRACKING_TYPE: Record<string, string> = {
 // ─── Documentos ─────────────────────────────────────────────────────────────
 export const DOC_TYPE: Record<string, string> = {
   bl: "Bill of Lading",
+  awb: "Air Waybill",
+  cmr: "CMR",
   factura_comercial: "Factura comercial",
   packing_list: "Packing list",
   dua: "DUA",

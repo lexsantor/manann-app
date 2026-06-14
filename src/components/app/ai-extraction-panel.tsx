@@ -12,9 +12,10 @@ import {
 } from "@/lib/erp-actions";
 import {
   FIELD_LABELS,
+  AWB_FIELD_LABELS,
+  CMR_FIELD_LABELS,
   LOW_CONFIDENCE,
   overallConfidence,
-  type BlExtraction,
 } from "@/lib/bl-extraction";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +23,7 @@ interface Props {
   documentId: string;
   status: string;
   extraction: unknown;
+  docType?: string;
   /** Compact mode: renders an inline button/chip for the filename row. */
   compact?: boolean;
 }
@@ -30,8 +32,10 @@ export function AiExtractionPanel({
   documentId,
   status,
   extraction,
+  docType,
   compact = false,
 }: Props) {
+  const fieldLabels = docType === "awb" ? AWB_FIELD_LABELS : docType === "cmr" ? CMR_FIELD_LABELS : FIELD_LABELS;
   const [pending, start] = useTransition();
   const [error, setError] = useState("");
 
@@ -107,8 +111,8 @@ export function AiExtractionPanel({
   // ── Confirmed mode: success card with extraction metrics ─────────────────
 
   if (status === "confirmed" && extraction) {
-    const ex = extraction as BlExtraction;
-    const filled = Object.values(ex).filter((f) => f.value != null).length;
+    const ex = extraction as Record<string, { value: string | null; confidence: number }>;
+    const filled = Object.values(ex).filter((f) => f?.value != null).length;
     const conf = Math.round(overallConfidence(ex) * 100);
     return (
       <div className="mt-2 rounded-md border border-success/30 bg-success/10 px-4 py-3">
@@ -133,11 +137,11 @@ export function AiExtractionPanel({
 
   if (status !== "extracted") return null;
 
-  const ex = extraction as BlExtraction | null;
+  const ex = extraction as Record<string, { value: string | null; confidence: number }> | null;
   if (!ex) return null;
-  const fields = FIELD_LABELS.map((f) => ({ ...f, ...ex[f.key] })).filter(
-    (f) => f.value,
-  );
+  const fields = fieldLabels
+    .map((f) => ({ ...f, ...(ex[f.key] ?? { value: null, confidence: 0 }) }))
+    .filter((f) => f.value);
 
   return (
     <div className="mt-2 rounded-md border border-accent bg-accent-soft p-4">
