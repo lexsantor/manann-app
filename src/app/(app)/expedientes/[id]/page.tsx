@@ -19,6 +19,7 @@ import {
   getOrgMembers,
   getTrackingSubscriptions,
   getShipmentComments,
+  listMasterContacts,
   type ShipmentDetail,
 } from "@/lib/erp";
 import { Icon } from "@/components/icon";
@@ -44,6 +45,7 @@ import { ShipsGoPanel } from "@/components/app/shipsgo-panel";
 import { syncTrackingEvents } from "@/lib/erp-actions";
 import { FinanzasPanel } from "@/components/app/finanzas-panel";
 import { DuaPanel } from "@/components/app/dua-panel";
+import { AddPartyForm } from "@/components/app/add-party-form";
 import { CommentsPanel } from "@/components/app/comments-panel";
 import { DocumentCompare } from "@/components/app/document-compare";
 import {
@@ -100,12 +102,13 @@ export default async function ExpedienteDetailPage({
   // Sincronizar eventos ShipsGo antes de cargar la página (no-op si sync < 30 min)
   if (shipsgoEnabled) await syncTrackingEvents(id);
 
-  const [s, activity, members, trackingSubs, comments] = await Promise.all([
+  const [s, activity, members, trackingSubs, comments, allContacts] = await Promise.all([
     getShipmentDetail(ctx.org.id, id),
     getShipmentActivity(ctx.org.id, id),
     getOrgMembers(ctx.org.id),
     getTrackingSubscriptions(ctx.org.id, id),
     getShipmentComments(ctx.org.id, id),
+    listMasterContacts(ctx.org.id),
   ]);
   if (!s) notFound();
 
@@ -309,7 +312,7 @@ export default async function ExpedienteDetailPage({
             hasBl={s.documents.some((d) => d.type === "bl" && d.blobUrl)}
             hasFactura={s.documents.some((d) => d.type === "factura_comercial" && d.blobUrl)}
           />
-          <Parties parties={s.parties} />
+          <Parties parties={s.parties} shipmentId={s.id} contacts={allContacts} />
           <Containers containers={s.containers} cargo={s.cargoLines} mode={s.mode} />
           <FinanzasPanel
             shipmentId={s.id}
@@ -393,37 +396,43 @@ function Panel({
 }
 
 
-function Parties({ parties }: { parties: ShipmentDetail["parties"] }) {
+function Parties({
+  parties,
+  shipmentId,
+  contacts,
+}: {
+  parties: ShipmentDetail["parties"];
+  shipmentId: string;
+  contacts: { id: string; name: string; role: string; taxId: string | null; city: string | null; country: string | null }[];
+}) {
   const order = ["shipper", "consignee", "notify"];
   const sorted = [...parties].sort(
     (a, b) => order.indexOf(a.role) - order.indexOf(b.role),
   );
-  if (!parties.length) {
-    return (
-      <Panel title="Partes" icon={Users}>
-        <p className="text-base text-muted-foreground">
-          Aún sin partes — se rellenan al confirmar la extracción del BL.
-        </p>
-      </Panel>
-    );
-  }
 
   return (
     <Panel title="Partes" icon={Users}>
-      <div className="grid gap-3 sm:grid-cols-2">
-        {sorted.map((p, idx) => (
-          <div key={p.id} className="rounded-md border border-border/60 bg-surface-2/40 p-3 transition-colors hover:bg-surface-2 ai-reveal" style={{ "--i": idx } as React.CSSProperties}>
-            <p className="font-mono text-sm uppercase tracking-wide text-muted-foreground">
-              {PARTY_ROLE[p.role] ?? p.role}
-            </p>
-            <p className="mt-0.5 text-base font-medium text-foreground">{p.name}</p>
-            <p className="text-base text-muted-foreground">
-              {[p.city, p.country].filter(Boolean).join(", ")}
-              {p.taxId ? ` · ${p.taxId}` : ""}
-            </p>
-          </div>
-        ))}
-      </div>
+      {parties.length === 0 ? (
+        <p className="text-base text-muted-foreground">
+          Sin partes registradas — se rellenan al extraer el BL o añade manualmente.
+        </p>
+      ) : (
+        <div className="grid gap-3 sm:grid-cols-2">
+          {sorted.map((p, idx) => (
+            <div key={p.id} className="rounded-md border border-border/60 bg-surface-2/40 p-3 transition-colors hover:bg-surface-2 ai-reveal" style={{ "--i": idx } as React.CSSProperties}>
+              <p className="font-mono text-sm uppercase tracking-wide text-muted-foreground">
+                {PARTY_ROLE[p.role] ?? p.role}
+              </p>
+              <p className="mt-0.5 text-base font-medium text-foreground">{p.name}</p>
+              <p className="text-base text-muted-foreground">
+                {[p.city, p.country].filter(Boolean).join(", ")}
+                {p.taxId ? ` · ${p.taxId}` : ""}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+      <AddPartyForm shipmentId={shipmentId} contacts={contacts} />
     </Panel>
   );
 }

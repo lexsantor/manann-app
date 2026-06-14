@@ -136,6 +136,35 @@ export const party = pgTable(
   (t) => [index("party_shipment_id_idx").on(t.shipmentId)],
 );
 
+// ─── Tabla maestra de contactos ─────────────────────────────────────────────
+
+export const contact = pgTable(
+  "contact",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    role: partyRole("role").notNull().default("consignee"),
+    taxId: text("tax_id"),
+    email: text("email"),
+    phone: text("phone"),
+    address: text("address"),
+    city: text("city"),
+    country: text("country"),
+    creditLimit: numeric("credit_limit", { precision: 12, scale: 2 }),
+    active: boolean("active").notNull().default(true),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (t) => [index("contact_org_id_idx").on(t.organizationId)],
+);
+
 // ─── Contenedores ───────────────────────────────────────────────────────────
 
 export const container = pgTable(
@@ -325,6 +354,13 @@ export const partyRelations = relations(party, ({ one }) => ({
   shipment: one(shipment, {
     fields: [party.shipmentId],
     references: [shipment.id],
+  }),
+}));
+
+export const contactRelations = relations(contact, ({ one }) => ({
+  organization: one(organization, {
+    fields: [contact.organizationId],
+    references: [organization.id],
   }),
 }));
 

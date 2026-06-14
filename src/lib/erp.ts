@@ -1,10 +1,10 @@
 // Capa de datos del ERP. REGLA ANTI-IDOR: toda query se filtra por la org del
 // usuario; nunca se confía en un id del cliente sin comprobar ownership.
 import { cache } from "react";
-import { and, count, desc, eq, asc, or, ilike, gte, lt } from "drizzle-orm";
+import { and, count, desc, eq, asc, or, ilike, gte, lt, sql } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user } from "@/db/schema";
+import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string; memberId: string; onboarded: boolean };
@@ -376,6 +376,137 @@ export async function listContacts(orgId: string) {
 
 export type ContactItem = Awaited<ReturnType<typeof listContacts>>[number];
 export type DocumentItem = Awaited<ReturnType<typeof listDocuments>>[number];
+
+export async function listMasterContacts(orgId: string) {
+  return db
+    .select()
+    .from(contact)
+    .where(eq(contact.organizationId, orgId))
+    .orderBy(asc(contact.name));
+}
+
+export async function getContactById(id: string, orgId: string) {
+  const rows = await db
+    .select()
+    .from(contact)
+    .where(and(eq(contact.id, id), eq(contact.organizationId, orgId)))
+    .limit(1);
+  return rows[0] ?? null;
+}
+
+export async function getContactHistory(contactName: string, orgId: string) {
+  return db
+    .select({
+      id: shipment.id,
+      reference: shipment.reference,
+      status: shipment.status,
+      pol: shipment.pol,
+      pod: shipment.pod,
+      eta: shipment.eta,
+      createdAt: shipment.createdAt,
+      gp: sql<number>`COALESCE(
+        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END) -
+        SUM(CASE WHEN ${charge.direction} = 'cost'   THEN ${charge.amount}::numeric ELSE 0 END),
+        0
+      )`,
+    })
+    .from(shipment)
+    .innerJoin(party, and(eq(party.shipmentId, shipment.id), eq(party.name, contactName)))
+    .leftJoin(charge, eq(charge.shipmentId, shipment.id))
+    .where(eq(shipment.organizationId, orgId))
+    .groupBy(shipment.id, shipment.reference, shipment.status, shipment.pol, shipment.pod, shipment.eta, shipment.createdAt)
+    .orderBy(desc(shipment.createdAt))
+    .limit(10);
+}
+
+export async function getContactGPStats(contactName: string, orgId: string) {
+  const rows = await db
+    .select({
+      totalExpedientes: count(sql`DISTINCT ${shipment.id}`),
+      totalGP: sql<number>`COALESCE(
+        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END) -
+        SUM(CASE WHEN ${charge.direction} = 'cost'   THEN ${charge.amount}::numeric ELSE 0 END),
+        0
+      )`,
+      totalRevenue: sql<number>`COALESCE(
+        SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END),
+        0
+      )`,
+    })
+    .from(shipment)
+    .innerJoin(party, and(eq(party.shipmentId, shipment.id), eq(party.name, contactName)))
+    .leftJoin(charge, eq(charge.shipmentId, shipment.id))
+    .where(eq(shipment.organizationId, orgId));
+  return rows[0] ?? { totalExpedientes: 0, totalGP: 0, totalRevenue: 0 };
+}
+
+export async function searchContacts(orgId: string, q: string) {
+  return db
+    .select({ id: contact.id, name: contact.name, role: contact.role, taxId: contact.taxId })
+    .from(contact)
+    .where(and(eq(contact.organizationId, orgId), eq(contact.active, true), ilike(contact.name, `%${q}%`)))
+    .orderBy(asc(contact.name))
+    .limit(10);
+}
+
+export async function importContactsFromParties(orgId: string) {
+  const parties = await db
+    .select({ name: party.name, role: party.role, taxId: party.taxId, city: party.city, country: party.country })
+    .from(party)
+    .innerJoin(shipment, eq(party.shipmentId, shipment.id))
+    .where(eq(shipment.organizationId, orgId))
+    .groupBy(party.name, party.role, party.taxId, party.city, party.country);
+
+  const existing = await db
+    .select({ name: contact.name, role: contact.role })
+    .from(contact)
+    .where(eq(contact.organizationId, orgId));
+
+  const existingKeys = new Set(existing.map((e) => `${e.name}::${e.role}`));
+  const toCreate = parties.filter((p) => !existingKeys.has(`${p.name}::${p.role}`));
+  if (toCreate.length === 0) return { created: 0 };
+
+  await db.insert(contact).values(
+    toCreate.map((p) => ({
+      organizationId: orgId,
+      name: p.name,
+      role: p.role,
+      taxId: p.taxId ?? null,
+      city: p.city ?? null,
+      country: p.country ?? null,
+    })),
+  );
+  return { created: toCreate.length };
+}
+
+export type MasterContact = Awaited<ReturnType<typeof listMasterContacts>>[number];
+
+export async function listContactsWithGP(orgId: string) {
+  const [contacts, gpRows] = await Promise.all([
+    db.select().from(contact).where(eq(contact.organizationId, orgId)).orderBy(asc(contact.name)),
+    db
+      .select({
+        name: party.name,
+        totalGP: sql<number>`COALESCE(
+          SUM(CASE WHEN ${charge.direction} = 'income' THEN ${charge.amount}::numeric ELSE 0 END) -
+          SUM(CASE WHEN ${charge.direction} = 'cost'   THEN ${charge.amount}::numeric ELSE 0 END), 0)`,
+        expedientes: count(sql`DISTINCT ${shipment.id}`),
+      })
+      .from(party)
+      .innerJoin(shipment, eq(party.shipmentId, shipment.id))
+      .leftJoin(charge, eq(charge.shipmentId, shipment.id))
+      .where(eq(shipment.organizationId, orgId))
+      .groupBy(party.name),
+  ]);
+  const gpMap = new Map(gpRows.map((r) => [r.name, r]));
+  return contacts.map((c) => ({
+    ...c,
+    totalGP: gpMap.get(c.name)?.totalGP ?? 0,
+    expedientes: gpMap.get(c.name)?.expedientes ?? 0,
+  }));
+}
+
+export type ContactWithGP = Awaited<ReturnType<typeof listContactsWithGP>>[number];
 
 // ─── Facturas ────────────────────────────────────────────────────────────────
 

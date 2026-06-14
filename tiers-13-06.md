@@ -44,18 +44,18 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 ---
 
-## [ ] Tier G — Contactos & Tablas Maestras (M · 2-3 días)
+## [X] Tier G — Contactos & Tablas Maestras (M · 2-3 días)
 
 *Extiende el módulo de contactos existente. Fundación para Tier K (CRM).*
 
 - [X] `/contactos` — listado con filtros por rol
-- [ ] CRUD completo: crear / editar / eliminar contacto con NIF/EORI, país, límite de crédito, estado activo
-- [ ] Historial de expedientes por contacto (los últimos N, con GP por cada uno)
-- [ ] GP acumulado y margen % por contacto
-- [ ] Autocompletar al asignar partes (shipper, consignee, notify) en un expediente
-- [ ] Navieras maestras: SCAC, alianza (Gemini / Ocean Alliance / Premier), estado integración API
-- [ ] Tipos de contenedor: ISO 6346, clase (Dry / Reefer / Especial), tara, payload, volumen
-- [ ] Incoterms 2020: los 10 términos con grupo (E/F/C/D), modo aplicable, quién asume el riesgo
+- [X] CRUD completo: crear / editar / eliminar contacto con NIF/EORI, país, límite de crédito, estado activo
+- [X] Historial de expedientes por contacto (los últimos N, con GP por cada uno)
+- [X] GP acumulado y margen % por contacto
+- [X] Autocompletar al asignar partes (shipper, consignee, notify) en un expediente
+- [X] Navieras maestras: SCAC, alianza (Gemini / Ocean Alliance / Premier), estado integración API
+- [X] Tipos de contenedor: ISO 6346, clase (Dry / Reefer / Especial), tara, payload, volumen
+- [X] Incoterms 2020: los 10 términos con grupo (E/F/C/D), modo aplicable, quién asume el riesgo
 
 ---
 

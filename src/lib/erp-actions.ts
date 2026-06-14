@@ -9,7 +9,8 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact } from "@/db/schema";
+import { importContactsFromParties as importContactsQuery } from "@/lib/erp";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
 import { subscribeContainer, fetchContainerEvents, mapEventCode, isShipsGoEnabled } from "@/lib/tracking/shipsgo";
@@ -1592,4 +1593,130 @@ export async function bulkAssignShipments(
 
   await db.update(shipment).set({ assignedTo: memberId }).where(inArray(shipment.id, ownedIds));
   revalidatePath("/expedientes");
+}
+
+// ─── Contactos CRUD ──────────────────────────────────────────────────────────
+
+const ContactSchema = z.object({
+  name: z.string().min(1),
+  role: z.enum(["shipper", "consignee", "notify", "carrier", "agent", "forwarder"]),
+  taxId: z.string().optional(),
+  email: z.string().email().optional().or(z.literal("")),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+  city: z.string().optional(),
+  country: z.string().optional(),
+  creditLimit: z.string().optional(),
+  notes: z.string().optional(),
+});
+
+export async function createContact(formData: FormData): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+
+  const data = ContactSchema.parse({
+    name: formData.get("name"),
+    role: formData.get("role"),
+    taxId: formData.get("taxId") ?? undefined,
+    email: formData.get("email") ?? undefined,
+    phone: formData.get("phone") ?? undefined,
+    address: formData.get("address") ?? undefined,
+    city: formData.get("city") ?? undefined,
+    country: formData.get("country") ?? undefined,
+    creditLimit: formData.get("creditLimit") ?? undefined,
+    notes: formData.get("notes") ?? undefined,
+  });
+
+  await db.insert(contact).values({
+    organizationId: ctx.org.id,
+    name: data.name,
+    role: data.role,
+    taxId: data.taxId || null,
+    email: data.email || null,
+    phone: data.phone || null,
+    address: data.address || null,
+    city: data.city || null,
+    country: data.country || null,
+    creditLimit: data.creditLimit || null,
+    notes: data.notes || null,
+  });
+  revalidatePath("/contactos");
+}
+
+export async function updateContact(id: string, formData: FormData): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+
+  const data = ContactSchema.partial().parse({
+    name: formData.get("name") ?? undefined,
+    role: formData.get("role") ?? undefined,
+    taxId: formData.get("taxId") ?? undefined,
+    email: formData.get("email") ?? undefined,
+    phone: formData.get("phone") ?? undefined,
+    address: formData.get("address") ?? undefined,
+    city: formData.get("city") ?? undefined,
+    country: formData.get("country") ?? undefined,
+    creditLimit: formData.get("creditLimit") ?? undefined,
+    notes: formData.get("notes") ?? undefined,
+  });
+
+  const active = formData.get("active");
+
+  await db
+    .update(contact)
+    .set({
+      ...data,
+      ...(active !== null ? { active: active === "true" } : {}),
+      taxId: data.taxId || null,
+      email: data.email || null,
+      phone: data.phone || null,
+      address: data.address || null,
+      city: data.city || null,
+      country: data.country || null,
+      creditLimit: data.creditLimit || null,
+      notes: data.notes || null,
+    })
+    .where(and(eq(contact.id, id), eq(contact.organizationId, ctx.org.id)));
+
+  revalidatePath("/contactos");
+  revalidatePath(`/contactos/${id}`);
+}
+
+export async function deleteContact(id: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  await db.delete(contact).where(and(eq(contact.id, id), eq(contact.organizationId, ctx.org.id)));
+  revalidatePath("/contactos");
+}
+
+export async function importContactsAction(): Promise<{ created: number }> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  const result = await importContactsQuery(ctx.org.id);
+  revalidatePath("/contactos");
+  return result;
+}
+
+export async function addPartyToShipment(
+  shipmentId: string,
+  data: { name: string; role: string; taxId?: string; city?: string; country?: string },
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+
+  const [s] = await db
+    .select({ id: shipment.id })
+    .from(shipment)
+    .where(and(eq(shipment.id, shipmentId), eq(shipment.organizationId, ctx.org.id)));
+  if (!s) throw new Error("Expediente no encontrado");
+
+  await db.insert(party).values({
+    shipmentId,
+    role: data.role as "shipper" | "consignee" | "notify" | "carrier" | "agent" | "forwarder",
+    name: data.name,
+    taxId: data.taxId || null,
+    city: data.city || null,
+    country: data.country || null,
+  });
+  revalidatePath(`/expedientes/${shipmentId}`);
 }
