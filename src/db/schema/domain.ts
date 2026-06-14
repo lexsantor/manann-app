@@ -33,6 +33,7 @@ import {
   rateUnit,
   quotationStatus,
   opportunityStage,
+  bookingStatus,
 } from "./enums";
 
 // ─── Tenant ───────────────────────────────────────────────────────────────
@@ -101,6 +102,12 @@ export const shipment = pgTable(
     // 3.5 — agente asignado (FK a member, no a user: es un rol en la org)
     assignedTo: uuid("assigned_to"),
     shareToken: text("share_token").unique(),
+    // Tier N — LCL / grupaje
+    loadType: text("load_type").default("fcl"), // 'fcl' | 'lcl' | 'bulk'
+    // Tier N — módulo courier
+    courierProvider: text("courier_provider"), // 'ups' | 'dhl' | 'fedex'
+    courierTrackingNumber: text("courier_tracking_number"),
+    courierEstimatedDelivery: date("courier_estimated_delivery"),
     createdBy: text("created_by").references(() => user.id, {
       onDelete: "set null",
     }),
@@ -180,6 +187,10 @@ export const container = pgTable(
     isoType: text("iso_type"), // 22G1, 45G1…
     tareKg: integer("tare_kg"),
     grossWeightKg: integer("gross_weight_kg"),
+    // Tier N — VGM (Verified Gross Mass) per IMO SOLAS
+    vgmWeightKg: integer("vgm_weight_kg"),
+    vgmMethod: text("vgm_method"), // 'method_1' (pesaje directo) | 'method_2' (cálculo)
+    vgmDeclaredAt: timestamp("vgm_declared_at"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [index("container_shipment_id_idx").on(t.shipmentId)],
@@ -349,6 +360,7 @@ export const shipmentRelations = relations(shipment, ({ one, many }) => ({
   trackingEvents: many(trackingEvent),
   charges: many(charge),
   invoices: many(invoice),
+  bookings: many(booking),
 }));
 
 export const partyRelations = relations(party, ({ one }) => ({
@@ -645,4 +657,45 @@ export const opportunity = pgTable(
 export const opportunityRelations = relations(opportunity, ({ one }) => ({
   organization: one(organization, { fields: [opportunity.organizationId], references: [organization.id] }),
   contact: one(contact, { fields: [opportunity.contactId], references: [contact.id] }),
+}));
+
+// ─── Bookings DCSA 2.0 (Tier N) ──────────────────────────────────────────────
+
+export const booking = pgTable(
+  "booking",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    shipmentId: uuid("shipment_id").references(() => shipment.id, { onDelete: "set null" }),
+    // Referencia del booking (asignada por la naviera al confirmar)
+    carrierBookingRef: text("carrier_booking_ref"),
+    carrierCode: text("carrier_code").notNull(), // SCAC
+    vesselName: text("vessel_name"),
+    voyageNumber: text("voyage_number"),
+    pol: text("pol"),
+    pod: text("pod"),
+    etd: timestamp("etd"),
+    eta: timestamp("eta"),
+    // Cutoff VGM/carga (deadline para entregar el contenedor)
+    cutoffDate: timestamp("cutoff_date"),
+    status: bookingStatus("status").notNull().default("pendiente"),
+    notes: text("notes"),
+    createdBy: text("created_by").references(() => user.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (t) => [
+    index("booking_org_id_idx").on(t.organizationId),
+    index("booking_shipment_id_idx").on(t.shipmentId),
+  ],
+);
+
+export const bookingRelations = relations(booking, ({ one }) => ({
+  organization: one(organization, { fields: [booking.organizationId], references: [organization.id] }),
+  shipment: one(shipment, { fields: [booking.shipmentId], references: [shipment.id] }),
 }));

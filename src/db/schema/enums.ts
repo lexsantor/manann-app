@@ -123,3 +123,11 @@ export const opportunityStage = pgEnum("opportunity_stage", [
   "ganado",
   "perdido",
 ]);
+
+// DCSA 2.0 booking states
+export const bookingStatus = pgEnum("booking_status", [
+  "pendiente",
+  "recibido",
+  "confirmado",
+  "rechazado",
+]);

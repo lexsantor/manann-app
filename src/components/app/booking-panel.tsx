@@ -1,0 +1,296 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import { BookOpen, Plus, Trash2 } from "lucide-react";
+import { Icon } from "@/components/icon";
+import { cn } from "@/lib/utils";
+import { createBooking, updateBookingStatus, deleteBooking } from "@/lib/erp-actions";
+
+type BookingStatus = "pendiente" | "recibido" | "confirmado" | "rechazado";
+
+interface Booking {
+  id: string;
+  carrierCode: string;
+  carrierBookingRef: string | null;
+  vesselName: string | null;
+  voyageNumber: string | null;
+  pol: string | null;
+  pod: string | null;
+  etd: Date | null;
+  eta: Date | null;
+  cutoffDate: Date | null;
+  status: BookingStatus;
+  notes: string | null;
+  createdAt: Date;
+}
+
+interface BookingPanelProps {
+  shipmentId: string;
+  bookings: Booking[];
+  defaultPol?: string | null;
+  defaultPod?: string | null;
+  defaultCarrier?: string | null;
+  defaultVessel?: string | null;
+  defaultVoyage?: string | null;
+}
+
+const STATUS_CONFIG: Record<BookingStatus, { label: string; cls: string }> = {
+  pendiente: {
+    label: "Pendiente",
+    cls: "bg-muted text-muted-foreground",
+  },
+  recibido: {
+    label: "Recibido",
+    cls: "bg-sky-500/10 text-sky-600 dark:text-sky-400",
+  },
+  confirmado: {
+    label: "Confirmado",
+    cls: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+  },
+  rechazado: {
+    label: "Rechazado",
+    cls: "bg-destructive/10 text-destructive",
+  },
+};
+
+const STATUS_NEXT: Record<BookingStatus, BookingStatus[]> = {
+  pendiente: ["recibido", "rechazado"],
+  recibido: ["confirmado", "rechazado"],
+  confirmado: [],
+  rechazado: [],
+};
+
+function fmt(d: Date | null): string {
+  if (!d) return "—";
+  return new Date(d).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "numeric" });
+}
+
+function BookingCard({ b, shipmentId }: { b: Booking; shipmentId: string }) {
+  const [pending, startTransition] = useTransition();
+  const cfg = STATUS_CONFIG[b.status];
+  const nextStates = STATUS_NEXT[b.status];
+
+  return (
+    <div className="rounded-md border border-border/60 bg-surface-2/40 p-3 space-y-2">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className="font-mono text-base font-semibold text-foreground">
+              {b.carrierCode}
+            </span>
+            {b.carrierBookingRef && (
+              <span className="font-mono text-sm text-muted-foreground">
+                #{b.carrierBookingRef}
+              </span>
+            )}
+            <span className={cn("rounded-sm px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide", cfg.cls)}>
+              {cfg.label}
+            </span>
+            <span className="text-sm text-muted-foreground/50">DCSA 2.0</span>
+          </div>
+          <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 font-mono text-sm text-muted-foreground">
+            {b.vesselName && <span>{b.vesselName}{b.voyageNumber ? ` / ${b.voyageNumber}` : ""}</span>}
+            {(b.pol || b.pod) && <span>{[b.pol, b.pod].filter(Boolean).join(" → ")}</span>}
+            {b.cutoffDate && <span>Cutoff: {fmt(b.cutoffDate)}</span>}
+            {b.etd && <span>ETD: {fmt(b.etd)}</span>}
+          </div>
+          {b.notes && <p className="mt-1 text-sm text-muted-foreground">{b.notes}</p>}
+        </div>
+        <button
+          disabled={pending}
+          onClick={() =>
+            startTransition(() => deleteBooking(b.id, shipmentId))
+          }
+          className="shrink-0 rounded p-1 text-muted-foreground/40 hover:text-destructive hover:bg-destructive/10 transition-colors"
+        >
+          <Icon icon={Trash2} size={13} />
+        </button>
+      </div>
+
+      {nextStates.length > 0 && (
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-sm text-muted-foreground">Avanzar a:</span>
+          {nextStates.map((s) => (
+            <button
+              key={s}
+              disabled={pending}
+              onClick={() => startTransition(() => updateBookingStatus(b.id, s))}
+              className={cn(
+                "rounded-sm px-2 py-0.5 font-mono text-sm font-medium transition-opacity",
+                STATUS_CONFIG[s].cls,
+                "opacity-80 hover:opacity-100 disabled:opacity-40",
+              )}
+            >
+              {STATUS_CONFIG[s].label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CreateBookingForm({
+  shipmentId,
+  defaultPol,
+  defaultPod,
+  defaultCarrier,
+  defaultVessel,
+  defaultVoyage,
+  onDone,
+}: {
+  shipmentId: string;
+  defaultPol?: string | null;
+  defaultPod?: string | null;
+  defaultCarrier?: string | null;
+  defaultVessel?: string | null;
+  defaultVoyage?: string | null;
+  onDone: () => void;
+}) {
+  const [pending, startTransition] = useTransition();
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    startTransition(async () => {
+      await createBooking({
+        shipmentId,
+        carrierCode: (fd.get("carrierCode") as string) || "",
+        vesselName: (fd.get("vesselName") as string) || undefined,
+        voyageNumber: (fd.get("voyageNumber") as string) || undefined,
+        pol: (fd.get("pol") as string) || undefined,
+        pod: (fd.get("pod") as string) || undefined,
+        etd: (fd.get("etd") as string) || undefined,
+        eta: (fd.get("eta") as string) || undefined,
+        cutoffDate: (fd.get("cutoffDate") as string) || undefined,
+        notes: (fd.get("notes") as string) || undefined,
+      });
+      onDone();
+    });
+  }
+
+  const inputCls = "w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary";
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-3 space-y-3 rounded-md border border-border/60 bg-surface-2/30 p-3">
+      <p className="font-mono text-sm font-medium text-foreground uppercase tracking-wide">Nuevo booking DCSA 2.0</p>
+      <div className="grid grid-cols-2 gap-2">
+        <div>
+          <label className="mb-1 block font-mono text-sm text-muted-foreground">Naviera (SCAC) *</label>
+          <input name="carrierCode" required placeholder="MSC" defaultValue={defaultCarrier ?? ""} className={inputCls} />
+        </div>
+        <div>
+          <label className="mb-1 block font-mono text-sm text-muted-foreground">Buque</label>
+          <input name="vesselName" placeholder="MSC IRINA" defaultValue={defaultVessel ?? ""} className={inputCls} />
+        </div>
+        <div>
+          <label className="mb-1 block font-mono text-sm text-muted-foreground">Viaje</label>
+          <input name="voyageNumber" placeholder="043E" defaultValue={defaultVoyage ?? ""} className={inputCls} />
+        </div>
+        <div>
+          <label className="mb-1 block font-mono text-sm text-muted-foreground">Cutoff VGM/carga</label>
+          <input name="cutoffDate" type="date" className={inputCls} />
+        </div>
+        <div>
+          <label className="mb-1 block font-mono text-sm text-muted-foreground">POL</label>
+          <input name="pol" placeholder="ESBCN" defaultValue={defaultPol ?? ""} className={inputCls} />
+        </div>
+        <div>
+          <label className="mb-1 block font-mono text-sm text-muted-foreground">POD</label>
+          <input name="pod" placeholder="NLRTM" defaultValue={defaultPod ?? ""} className={inputCls} />
+        </div>
+        <div>
+          <label className="mb-1 block font-mono text-sm text-muted-foreground">ETD</label>
+          <input name="etd" type="date" className={inputCls} />
+        </div>
+        <div>
+          <label className="mb-1 block font-mono text-sm text-muted-foreground">ETA</label>
+          <input name="eta" type="date" className={inputCls} />
+        </div>
+      </div>
+      <div>
+        <label className="mb-1 block font-mono text-sm text-muted-foreground">Notas</label>
+        <input name="notes" placeholder="Instrucciones especiales…" className={inputCls} />
+      </div>
+      <div className="flex items-center gap-2">
+        <button
+          type="submit"
+          disabled={pending}
+          className="rounded-md bg-primary px-3 py-1.5 font-mono text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
+        >
+          {pending ? "Creando…" : "Crear booking"}
+        </button>
+        <button
+          type="button"
+          onClick={onDone}
+          className="rounded-md px-3 py-1.5 font-mono text-sm text-muted-foreground hover:text-foreground"
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  );
+}
+
+export function BookingPanel({
+  shipmentId,
+  bookings,
+  defaultPol,
+  defaultPod,
+  defaultCarrier,
+  defaultVessel,
+  defaultVoyage,
+}: BookingPanelProps) {
+  const [showForm, setShowForm] = useState(false);
+
+  return (
+    <section className="rounded-xl border border-border bg-card p-5">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Icon icon={BookOpen} size={16} className="text-muted-foreground" />
+          <h2 className="font-display text-base font-medium tracking-tight text-foreground">
+            Bookings DCSA 2.0
+          </h2>
+          {bookings.length > 0 && (
+            <span className="rounded-full bg-muted px-1.5 py-0.5 font-mono text-sm text-muted-foreground">
+              {bookings.length}
+            </span>
+          )}
+        </div>
+        <button
+          onClick={() => setShowForm((v) => !v)}
+          className="inline-flex items-center gap-1 rounded-md px-2 py-1 font-mono text-sm text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+        >
+          <Icon icon={Plus} size={13} />
+          Nuevo
+        </button>
+      </div>
+
+      {bookings.length === 0 && !showForm && (
+        <p className="text-base text-muted-foreground">
+          Sin bookings — crea uno para confirmar el espacio con la naviera según DCSA 2.0.
+        </p>
+      )}
+
+      {bookings.length > 0 && (
+        <div className="space-y-2">
+          {bookings.map((b) => (
+            <BookingCard key={b.id} b={b} shipmentId={shipmentId} />
+          ))}
+        </div>
+      )}
+
+      {showForm && (
+        <CreateBookingForm
+          shipmentId={shipmentId}
+          defaultPol={defaultPol}
+          defaultPod={defaultPod}
+          defaultCarrier={defaultCarrier}
+          defaultVessel={defaultVessel}
+          defaultVoyage={defaultVoyage}
+          onDone={() => setShowForm(false)}
+        />
+      )}
+    </section>
+  );
+}

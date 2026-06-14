@@ -4,7 +4,7 @@ import { cache } from "react";
 import { and, count, desc, eq, asc, or, ilike, gte, lt, sql } from "drizzle-orm";
 
 import { db } from "@/db";
-import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity } from "@/db/schema";
+import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity, booking } from "@/db/schema";
 import { getCurrentSession } from "@/lib/session";
 
 export type ActiveOrg = { id: string; name: string; slug: string; memberId: string; onboarded: boolean };
@@ -106,6 +106,7 @@ export async function getShipmentDetail(orgId: string, shipmentId: string) {
       documents: true,
       charges: true,
       trackingEvents: { orderBy: (t) => [desc(t.occurredAt)] },
+      bookings: { orderBy: (b) => [desc(b.createdAt)] },
     },
   });
 }
@@ -113,6 +114,19 @@ export async function getShipmentDetail(orgId: string, shipmentId: string) {
 export type ShipmentDetail = NonNullable<
   Awaited<ReturnType<typeof getShipmentDetail>>
 >;
+
+// Bookings DCSA 2.0 de un expediente.
+export async function listBookings(orgId: string, shipmentId: string) {
+  const owned = await shipmentBelongsToOrg(orgId, shipmentId);
+  if (!owned) return [];
+  return db
+    .select()
+    .from(booking)
+    .where(and(eq(booking.shipmentId, shipmentId), eq(booking.organizationId, orgId)))
+    .orderBy(desc(booking.createdAt));
+}
+
+export type BookingRow = Awaited<ReturnType<typeof listBookings>>[number];
 
 // Vista pública de expediente por token (sin auth de org).
 export async function getShipmentByToken(token: string) {

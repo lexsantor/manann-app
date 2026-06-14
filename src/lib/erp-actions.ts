@@ -9,7 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
-import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity } from "@/db/schema";
+import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity, booking } from "@/db/schema";
 import { importContactsFromParties as importContactsQuery } from "@/lib/erp";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
@@ -1833,4 +1833,129 @@ export async function moveOpportunityStage(id: string, stage: OppStage): Promise
     })
     .where(and(eq(opportunity.id, id), eq(opportunity.organizationId, ctx.org.id)));
   revalidatePath("/pipeline");
+}
+
+// ─── Tier N: Bookings DCSA 2.0 ───────────────────────────────────────────────
+
+type BookingStatus = "pendiente" | "recibido" | "confirmado" | "rechazado";
+
+export interface CreateBookingInput {
+  shipmentId: string;
+  carrierCode: string;
+  vesselName?: string;
+  voyageNumber?: string;
+  pol?: string;
+  pod?: string;
+  etd?: string; // ISO date string
+  eta?: string;
+  cutoffDate?: string;
+  notes?: string;
+}
+
+export async function createBooking(input: CreateBookingInput): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  if (!UUID_RE.test(input.shipmentId)) throw new Error("Expediente inválido");
+  const owned = await shipmentBelongsToOrg(ctx.org.id, input.shipmentId);
+  if (!owned) throw new Error("No autorizado");
+
+  await db.insert(booking).values({
+    organizationId: ctx.org.id,
+    shipmentId: input.shipmentId,
+    carrierCode: input.carrierCode.trim().toUpperCase(),
+    vesselName: input.vesselName?.trim() || null,
+    voyageNumber: input.voyageNumber?.trim() || null,
+    pol: input.pol?.trim() || null,
+    pod: input.pod?.trim() || null,
+    etd: input.etd ? new Date(input.etd) : null,
+    eta: input.eta ? new Date(input.eta) : null,
+    cutoffDate: input.cutoffDate ? new Date(input.cutoffDate) : null,
+    notes: input.notes?.trim() || null,
+    createdBy: ctx.user.id,
+  });
+  revalidatePath(`/expedientes/${input.shipmentId}`);
+}
+
+export async function updateBookingStatus(bookingId: string, status: BookingStatus): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  if (!UUID_RE.test(bookingId)) throw new Error("Booking inválido");
+  await db
+    .update(booking)
+    .set({ status, updatedAt: new Date() })
+    .where(and(eq(booking.id, bookingId), eq(booking.organizationId, ctx.org.id)));
+  revalidatePath("/expedientes");
+}
+
+export async function deleteBooking(bookingId: string, shipmentId: string): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  await db
+    .delete(booking)
+    .where(and(eq(booking.id, bookingId), eq(booking.organizationId, ctx.org.id)));
+  revalidatePath(`/expedientes/${shipmentId}`);
+}
+
+// ─── Tier N: VGM (Verified Gross Mass) ───────────────────────────────────────
+
+export async function updateContainerVgm(
+  containerId: string,
+  shipmentId: string,
+  vgmWeightKg: number | null,
+  vgmMethod: "method_1" | "method_2" | null,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  if (!UUID_RE.test(containerId)) throw new Error("Contenedor inválido");
+  const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
+  if (!owned) throw new Error("No autorizado");
+
+  await db
+    .update(container)
+    .set({
+      vgmWeightKg: vgmWeightKg ?? null,
+      vgmMethod: vgmMethod ?? null,
+      vgmDeclaredAt: vgmWeightKg ? new Date() : null,
+    })
+    .where(eq(container.id, containerId));
+  revalidatePath(`/expedientes/${shipmentId}`);
+}
+
+// ─── Tier N: LCL / load type ─────────────────────────────────────────────────
+
+export async function updateShipmentLoadType(
+  shipmentId: string,
+  loadType: "fcl" | "lcl" | "bulk",
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Expediente inválido");
+  await db
+    .update(shipment)
+    .set({ loadType, updatedAt: new Date() })
+    .where(and(eq(shipment.id, shipmentId), eq(shipment.organizationId, ctx.org.id)));
+  revalidatePath(`/expedientes/${shipmentId}`);
+}
+
+// ─── Tier N: Courier ──────────────────────────────────────────────────────────
+
+export async function updateCourierInfo(
+  shipmentId: string,
+  provider: "ups" | "dhl" | "fedex" | null,
+  trackingNumber: string | null,
+  estimatedDelivery: string | null,
+): Promise<void> {
+  const ctx = await getOrgContext();
+  if (!ctx?.org) throw new Error("No session");
+  if (!UUID_RE.test(shipmentId)) throw new Error("Expediente inválido");
+  await db
+    .update(shipment)
+    .set({
+      courierProvider: provider,
+      courierTrackingNumber: trackingNumber?.trim() || null,
+      courierEstimatedDelivery: estimatedDelivery || null,
+      updatedAt: new Date(),
+    })
+    .where(and(eq(shipment.id, shipmentId), eq(shipment.organizationId, ctx.org.id)));
+  revalidatePath(`/expedientes/${shipmentId}`);
 }

@@ -48,6 +48,8 @@ import { ShipsGoPanel } from "@/components/app/shipsgo-panel";
 import { syncTrackingEvents } from "@/lib/erp-actions";
 import { FinanzasPanel } from "@/components/app/finanzas-panel";
 import { DuaPanel } from "@/components/app/dua-panel";
+import { BookingPanel } from "@/components/app/booking-panel";
+import { CourierPanel } from "@/components/app/courier-panel";
 import { AddPartyForm } from "@/components/app/add-party-form";
 import { CommentsPanel } from "@/components/app/comments-panel";
 import { DocumentCompare } from "@/components/app/document-compare";
@@ -204,6 +206,13 @@ export default async function ExpedienteDetailPage({
               {s.vessel && <><span>·</span><span className="truncate">{s.vessel}</span></>}
               {s.voyage && <span className="shrink-0 text-ink-subtle">({s.voyage})</span>}
             </div>
+            {s.loadType && s.loadType !== "fcl" && (
+              <div className="mt-2">
+                <span className="rounded-sm bg-muted px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                  {s.loadType.toUpperCase()}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -354,6 +363,23 @@ export default async function ExpedienteDetailPage({
             grossWeightKg={s.cargoLines.reduce((sum, l) => sum + (l.grossWeightKg ?? 0), 0) || undefined}
             packages={s.cargoLines.reduce((sum, l) => sum + (l.packages ?? 0), 0) || undefined}
           />
+          <BookingPanel
+            shipmentId={s.id}
+            bookings={s.bookings ?? []}
+            defaultPol={s.pol}
+            defaultPod={s.pod}
+            defaultCarrier={s.carrier}
+            defaultVessel={s.vessel}
+            defaultVoyage={s.voyage}
+          />
+          {s.courierProvider && (
+            <CourierPanel
+              shipmentId={s.id}
+              courierProvider={s.courierProvider}
+              courierTrackingNumber={s.courierTrackingNumber ?? null}
+              courierEstimatedDelivery={s.courierEstimatedDelivery ?? null}
+            />
+          )}
         </div>
 
         <div className="space-y-5">
@@ -489,6 +515,12 @@ function Containers({
               <div className="flex items-center gap-3 font-mono text-base text-muted-foreground">
                 {c.sealNumber && <span>precinto {c.sealNumber}</span>}
                 <span>{formatWeight(c.grossWeightKg)}</span>
+                {c.vgmWeightKg && (
+                  <span className="rounded-sm bg-emerald-500/10 px-1.5 py-0.5 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                    VGM {c.vgmWeightKg.toLocaleString("es-ES")} kg
+                    {c.vgmMethod ? ` · M${c.vgmMethod === "method_1" ? "1" : "2"}` : ""}
+                  </span>
+                )}
               </div>
             </div>
           ))}

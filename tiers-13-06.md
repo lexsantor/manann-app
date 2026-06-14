@@ -63,12 +63,12 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 *Nueva página `/reportes`. Lee datos existentes — cero cambios de schema.*
 
-- [ ] Selector de período (semana / mes / trimestre / año)
-- [ ] GP mensual — area chart, 12 meses de histórico
-- [ ] Top clientes por margen — tabla ordenable con tier A/B/C
-- [ ] Distribución de expedientes por ruta y modo (bar chart o treemap)
-- [ ] KPIs de tránsito: ETD estimado vs. real por naviera, días medios de retraso
-- [ ] Exportar PDF del informe de período
+- [X] Selector de período (semana / mes / trimestre / año)
+- [X] GP mensual — area chart, 12 meses de histórico
+- [X] Top clientes por margen — tabla ordenable con tier A/B/C
+- [X] Distribución de expedientes por ruta y modo (bar chart o treemap)
+- [X] KPIs de tránsito: ETD estimado vs. real por naviera, días medios de retraso
+- [X] Exportar PDF del informe de período
 
 ---
 
@@ -76,11 +76,11 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 *Extiende el flujo de documentos existente. El flow de BL marítimo no se toca.*
 
-- [ ] AWB (Air Waybill): MAWB/HAWB, esquema Zod específico (vuelo, aerolínea, aeropuertos, HAWB, peso)
-- [ ] CMR (transporte por carretera): campos conductor, matrícula, punto de carga/descarga, régimen
-- [ ] Detección automática del tipo de documento al subir (BL / AWB / CMR / Invoice / Packing List)
-- [ ] Plantilla imprimible AWB (PDF exportable con marca Manann)
-- [ ] Plantilla imprimible CMR (PDF exportable con marca Manann)
+- [X] AWB (Air Waybill): MAWB/HAWB, esquema Zod específico (vuelo, aerolínea, aeropuertos, HAWB, peso)
+- [X] CMR (transporte por carretera): campos conductor, matrícula, punto de carga/descarga, régimen
+- [X] Detección automática del tipo de documento al subir (BL / AWB / CMR / Invoice / Packing List)
+- [X] Plantilla imprimible AWB (PDF exportable con marca Manann)
+- [X] Plantilla imprimible CMR (PDF exportable con marca Manann)
 
 ---
 
@@ -88,10 +88,10 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 *Nuevo módulo. Requiere contactos completos (Tier G).*
 
-- [ ] `/pipeline` — oportunidades en embudo: prospecto → propuesta → negociación → ganado / perdido
-- [ ] Crear oportunidad desde un contacto existente (tipo carga, modo, ruta, importe estimado)
-- [ ] Rate search: búsqueda en catálogo propio de tarifas con filtros ruta / modo / período
-- [ ] Benchmarking de tarifas: alerta cuando el precio propuesto supera el histórico propio en esa ruta
+- [X] `/pipeline` — oportunidades en embudo: prospecto → propuesta → negociación → ganado / perdido
+- [X] Crear oportunidad desde un contacto existente (tipo carga, modo, ruta, importe estimado)
+- [X] Rate search: búsqueda en catálogo propio de tarifas con filtros ruta / modo / período
+- [X] Benchmarking de tarifas: alerta cuando el precio propuesto supera el histórico propio en esa ruta
 
 ---
 
@@ -99,9 +99,9 @@ Orden: D → E → G → F → J → K → H → N → O → L → M → P → I
 
 *Mejoras sobre infraestructura IA existente. Se beneficia de los datos acumulados en tiers anteriores.*
 
-- [ ] Price anomaly: "Este flete está un 40 % sobre tu histórico para BCN→RTM" (compara charge vs. tarifas maestras)
-- [ ] Predicción de riesgo de retraso por ruta / naviera / temporada (simulada con datos históricos)
-- [ ] Batch extraction: subir hasta 5 BL / AWB a la vez, extracción en paralelo, revisión multi-doc
+- [X] Price anomaly: "Este flete está un 40 % sobre tu histórico para BCN→RTM" (compara charge vs. tarifas maestras)
+- [X] Predicción de riesgo de retraso por ruta / naviera / temporada (simulada con datos históricos)
+- [X] Batch extraction: subir hasta 5 BL / AWB a la vez, extracción en paralelo, revisión multi-doc
 
 ---
 
