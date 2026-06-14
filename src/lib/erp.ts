@@ -561,7 +561,7 @@ export async function getTopClientsByGP(orgId: string, dateFrom: Date, limit = 1
     .leftJoin(charge, eq(charge.shipmentId, shipment.id))
     .where(eq(party.role, "consignee"))
     .groupBy(party.name)
-    .orderBy(sql`gp DESC`)
+    .orderBy(sql`COALESCE(SUM(CASE WHEN ${charge.direction} = 'revenue' THEN ${charge.amount}::numeric ELSE 0 END) - SUM(CASE WHEN ${charge.direction} = 'cost' THEN ${charge.amount}::numeric ELSE 0 END), 0) DESC`)
     .limit(limit);
 }
 
