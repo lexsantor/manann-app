@@ -141,6 +141,13 @@
       "when": 1781503618730,
       "tag": "0019_clumsy_calypso",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1781505199073,
+      "tag": "0020_silky_retro_girl",
+      "breakpoints": true
     }
   ]
 }

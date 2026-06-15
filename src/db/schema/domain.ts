@@ -1059,3 +1059,155 @@ export const branchRelations = relations(branch, ({ one }) => ({
     references: [organization.id],
   }),
 }));
+
+// ─── Tier S: Módulos Operativos Faltantes ─────────────────────────────────────
+
+export const flight = pgTable(
+  "flight",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    flightNumber: text("flight_number").notNull(),
+    airline: text("airline").notNull(),
+    originIata: text("origin_iata").notNull(),
+    destIata: text("dest_iata").notNull(),
+    departureDate: date("departure_date").notNull(),
+    arrivalDate: date("arrival_date").notNull(),
+    aircraftType: text("aircraft_type"),
+    capacityKg: integer("capacity_kg"),
+    availableKg: integer("available_kg"),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("flight_org_idx").on(t.organizationId)],
+);
+
+export const flightRelations = relations(flight, ({ one }) => ({
+  organization: one(organization, {
+    fields: [flight.organizationId],
+    references: [organization.id],
+  }),
+}));
+
+export const airManifest = pgTable(
+  "air_manifest",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    mawbNumber: text("mawb_number").notNull(),
+    flightId: uuid("flight_id").references(() => flight.id, { onDelete: "set null" }),
+    originIata: text("origin_iata").notNull(),
+    destIata: text("dest_iata").notNull(),
+    carrier: text("carrier").notNull(),
+    totalPieces: integer("total_pieces").notNull().default(0),
+    totalWeightKg: numeric("total_weight_kg", { precision: 10, scale: 2 }).notNull().default("0"),
+    status: text("status").notNull().default("open"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("air_manifest_org_idx").on(t.organizationId)],
+);
+
+export const airManifestRelations = relations(airManifest, ({ one, many }) => ({
+  organization: one(organization, {
+    fields: [airManifest.organizationId],
+    references: [organization.id],
+  }),
+  flight: one(flight, {
+    fields: [airManifest.flightId],
+    references: [flight.id],
+  }),
+  entries: many(airManifestEntry),
+}));
+
+export const airManifestEntry = pgTable(
+  "air_manifest_entry",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    manifestId: uuid("manifest_id")
+      .notNull()
+      .references(() => airManifest.id, { onDelete: "cascade" }),
+    shipmentId: uuid("shipment_id").references(() => shipment.id, { onDelete: "set null" }),
+    hawbNumber: text("hawb_number").notNull(),
+    consignee: text("consignee"),
+    pieces: integer("pieces").notNull().default(1),
+    weightKg: numeric("weight_kg", { precision: 10, scale: 2 }).notNull().default("0"),
+    description: text("description"),
+  },
+  (t) => [index("air_manifest_entry_manifest_idx").on(t.manifestId)],
+);
+
+export const airManifestEntryRelations = relations(airManifestEntry, ({ one }) => ({
+  manifest: one(airManifest, {
+    fields: [airManifestEntry.manifestId],
+    references: [airManifest.id],
+  }),
+  shipment: one(shipment, {
+    fields: [airManifestEntry.shipmentId],
+    references: [shipment.id],
+  }),
+}));
+
+export const transportOrder = pgTable(
+  "transport_order",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    reference: text("reference").notNull(),
+    shipmentId: uuid("shipment_id").references(() => shipment.id, { onDelete: "set null" }),
+    carrier: text("carrier").notNull(),
+    driverName: text("driver_name"),
+    licensePlate: text("license_plate"),
+    origin: text("origin").notNull(),
+    destination: text("destination").notNull(),
+    pickupDate: date("pickup_date"),
+    deliveryDate: date("delivery_date"),
+    status: text("status").notNull().default("pendiente"),
+    notes: text("notes"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [
+    index("transport_order_org_idx").on(t.organizationId),
+    uniqueIndex("transport_order_org_ref_idx").on(t.organizationId, t.reference),
+  ],
+);
+
+export const transportOrderRelations = relations(transportOrder, ({ one }) => ({
+  organization: one(organization, {
+    fields: [transportOrder.organizationId],
+    references: [organization.id],
+  }),
+  shipment: one(shipment, {
+    fields: [transportOrder.shipmentId],
+    references: [shipment.id],
+  }),
+}));
+
+export const routeTemplate = pgTable(
+  "route_template",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    mode: transportMode("mode").notNull().default("maritimo"),
+    legs: jsonb("legs").notNull().default([]),
+    transitDays: integer("transit_days"),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("route_template_org_idx").on(t.organizationId)],
+);
+
+export const routeTemplateRelations = relations(routeTemplate, ({ one }) => ({
+  organization: one(organization, {
+    fields: [routeTemplate.organizationId],
+    references: [organization.id],
+  }),
+}));

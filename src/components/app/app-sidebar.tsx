@@ -32,6 +32,11 @@ import {
   DollarSign,
   Hash,
   Database,
+  Train,
+  Layers,
+  FileStack,
+  Truck,
+  Route,
   type LucideIcon,
 } from "lucide-react";
 
@@ -73,8 +78,14 @@ const SECTIONS: NavSection[] = [
       { label: "Expedientes", href: "/expedientes",  icon: Package },
       { label: "Calendario",  href: "/calendar",     icon: CalendarDays },
       { label: "Documentos",  href: "/documentos",   icon: FolderOpen },
-      { label: "Mapa",        href: "/mapa",         icon: Map },
-      { label: "Aduanas",     icon: FileCheck2,      soon: true },
+      { label: "Mapa",             href: "/mapa",               icon: Map },
+      { label: "Ferroviario",      href: "/ferroviario",         icon: Train },
+      { label: "Consolidaciones",  href: "/consolidaciones",     icon: Layers },
+      { label: "Vuelos",           href: "/vuelos",              icon: Plane },
+      { label: "Manifiestos",      href: "/manifiestos",         icon: FileStack },
+      { label: "Transporte",       href: "/ordenes-transporte",  icon: Truck },
+      { label: "Rutas",            href: "/rutas",               icon: Route },
+      { label: "Aduanas",          icon: FileCheck2,             soon: true },
     ],
   },
   {
