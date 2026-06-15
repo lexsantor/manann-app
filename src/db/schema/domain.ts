@@ -106,6 +106,7 @@ export const shipment = pgTable(
     // 3.5 — agente asignado (FK a member, no a user: es un rol en la org)
     assignedTo: uuid("assigned_to"),
     shareToken: text("share_token").unique(),
+    shareTokenExpiresAt: timestamp("share_token_expires_at"),
     // Tier N — LCL / grupaje
     loadType: text("load_type").default("fcl"), // 'fcl' | 'lcl' | 'bulk'
     // Tier N — módulo courier

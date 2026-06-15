@@ -789,12 +789,22 @@ export async function getOrCreateShareToken(
     .limit(1);
 
   if (!row) throw new Error("Expediente no encontrado");
-  if (row.shareToken) return row.shareToken;
+
+  // El enlace público caduca a los 30 días; al re-compartir se renueva.
+  const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+
+  if (row.shareToken) {
+    await db
+      .update(shipment)
+      .set({ shareTokenExpiresAt: expiresAt })
+      .where(eq(shipment.id, shipmentId));
+    return row.shareToken;
+  }
 
   const token = crypto.randomUUID();
   await db
     .update(shipment)
-    .set({ shareToken: token })
+    .set({ shareToken: token, shareTokenExpiresAt: expiresAt })
     .where(eq(shipment.id, shipmentId));
 
   return token;

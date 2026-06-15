@@ -1,7 +1,7 @@
 // Capa de datos del ERP. REGLA ANTI-IDOR: toda query se filtra por la org del
 // usuario; nunca se confía en un id del cliente sin comprobar ownership.
 import { cache } from "react";
-import { and, count, desc, eq, asc, or, ilike, gte, lt, ne, sql, inArray } from "drizzle-orm";
+import { and, count, desc, eq, asc, or, ilike, gte, gt, lt, ne, isNull, sql, inArray } from "drizzle-orm";
 
 import { db } from "@/db";
 import { member, organization, party, shipment, document, fieldChange, trackingSubscription, invoice, rate, quotation, comment, user, contact, charge, opportunity, booking, accountingAccount, journalEntry, journalEntryLine, complianceDeclaration, partner } from "@/db/schema";
@@ -132,7 +132,11 @@ export type BookingRow = Awaited<ReturnType<typeof listBookings>>[number];
 // Vista pública de expediente por token (sin auth de org).
 export async function getShipmentByToken(token: string) {
   return db.query.shipment.findFirst({
-    where: eq(shipment.shareToken, token),
+    where: and(
+      eq(shipment.shareToken, token),
+      // Válido si no caduca (enlaces antiguos) o aún no ha caducado.
+      or(isNull(shipment.shareTokenExpiresAt), gt(shipment.shareTokenExpiresAt, new Date())),
+    ),
     with: {
       // Enlace público: exponer solo lo que muestra la vista de seguimiento.
       // NUNCA taxId ni dirección de las partes (PII de clientes/proveedores).
