@@ -9,8 +9,8 @@ import { auth } from "@/lib/auth";
 // Acceso directo de demostración para stakeholders, sin magic link.
 // La credencial vive SOLO en el servidor (este módulo "use server" nunca llega
 // al cliente). Cuenta pública sobre datos simulados, aislada en la org demo.
-const DEMO_EMAIL = "demo@manann.app";
-const DEMO_PASSWORD = "manann-demo-acceso-2026";
+const DEMO_EMAIL = process.env.DEMO_EMAIL ?? "demo@manann.app";
+const DEMO_PASSWORD = process.env.DEMO_PASSWORD ?? "manann-demo-acceso-2026";
 const DEMO_ORG_SLUG = "atlantica";
 
 export async function enterDemo() {
@@ -37,26 +37,28 @@ export async function enterDemo() {
   // 2) Asegurar membresía en una org con datos seeded (la demo "atlantica";
   //    si no existe, la primera org disponible).
   if (demoUser) {
-    let org = await db.query.organization.findFirst({
+    // Membresía SOLO en la org demo identificada por slug EXACTO. SIN fallback a
+    // "la primera org que exista": adjuntaría la cuenta demo (pública) a una org
+    // real → fuga de aislamiento multi-tenant. Si la demo no está sembrada,
+    // fallar fuerte en vez de adivinar.
+    const org = await db.query.organization.findFirst({
       where: eq(organization.slug, DEMO_ORG_SLUG),
       columns: { id: true },
     });
     if (!org) {
-      org = await db.query.organization.findFirst({ columns: { id: true } });
+      throw new Error("La organización demo no está sembrada (slug 'atlantica').");
     }
-    if (org) {
-      const existing = await db.query.member.findFirst({
-        where: and(eq(member.organizationId, org.id), eq(member.userId, demoUser.id)),
-        columns: { id: true },
+    const existing = await db.query.member.findFirst({
+      where: and(eq(member.organizationId, org.id), eq(member.userId, demoUser.id)),
+      columns: { id: true },
+    });
+    if (!existing) {
+      await db.insert(member).values({
+        organizationId: org.id,
+        userId: demoUser.id,
+        role: "member",
+        onboarded: true,
       });
-      if (!existing) {
-        await db.insert(member).values({
-          organizationId: org.id,
-          userId: demoUser.id,
-          role: "member",
-          onboarded: true,
-        });
-      }
     }
   }
 
