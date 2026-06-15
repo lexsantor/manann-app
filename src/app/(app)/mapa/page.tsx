@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { MapPin } from "lucide-react";
+import { MapPin, Map } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { getOrgContext, listShipments } from "@/lib/erp";
 import { WorldMap } from "@/components/app/world-map";
@@ -51,13 +51,16 @@ export default async function MapaPage() {
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">
-          Mapa de rutas
-        </h1>
-        <p className="mt-1 text-base text-muted-foreground">
-          {mappable.length} expediente{mappable.length !== 1 ? "s" : ""} activo{mappable.length !== 1 ? "s" : ""} en tránsito
-        </p>
+      <header className="flex items-center gap-3">
+        <Map className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
+        <div>
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+            Mapa de rutas
+          </h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            {mappable.length} expediente{mappable.length !== 1 ? "s" : ""} activo{mappable.length !== 1 ? "s" : ""} en tránsito
+          </p>
+        </div>
       </header>
 
       <WorldMap routes={routes} />

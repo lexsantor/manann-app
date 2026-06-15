@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus, LayoutGrid, Rows3, Table2, Download, Upload } from "lucide-react";
+import { Plus, LayoutGrid, Rows3, Table2, Download, Upload, Package } from "lucide-react";
 import { Icon } from "@/components/icon";
 
 import { getOrgContext, listShipments, getActiveMemberId, getOrgMembers } from "@/lib/erp";
@@ -59,13 +59,16 @@ export default async function ExpedientesPage({
   return (
     <div className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">
-            Expedientes
-          </h1>
-          <p className="mt-1 text-base text-muted-foreground">
-            {all.length} expediente{all.length !== 1 ? "s" : ""}
-          </p>
+        <div className="flex items-center gap-3">
+          <Package className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
+          <div>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+              Expedientes
+            </h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              {all.length} expediente{all.length !== 1 ? "s" : ""}
+            </p>
+          </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Link
