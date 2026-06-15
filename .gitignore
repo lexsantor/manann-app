@@ -41,6 +41,8 @@ yarn-error.log*
 next-env.d.ts
 
 # --- Manann: NOT for the public repo ---
+# Archivo local de referencia / planificación — no va al repo
+/no-operacional/
 # Licensed templates (mainline/fundpulse/etc.) — reference only, never redistribute
 /_DASHBOARDS/
 /scaffold-tmp/
