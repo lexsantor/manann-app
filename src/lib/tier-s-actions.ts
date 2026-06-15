@@ -88,7 +88,17 @@ export async function updateManifestStatus(id: string, status: string) {
   revalidatePath("/manifiestos");
 }
 
+async function resolveManifest(manifestId: string, orgId: string) {
+  const m = await db.query.airManifest.findFirst({
+    where: and(eq(airManifest.id, manifestId), eq(airManifest.organizationId, orgId)),
+  });
+  if (!m) throw new Error("Manifiesto no encontrado");
+  return m;
+}
+
 export async function listManifestEntries(manifestId: string) {
+  const orgId = await requireOrg();
+  await resolveManifest(manifestId, orgId);
   return db.query.airManifestEntry.findMany({
     where: eq(airManifestEntry.manifestId, manifestId),
   });
@@ -102,29 +112,37 @@ export async function addManifestEntry(data: {
   weightKg: string;
   description?: string;
 }) {
+  const orgId = await requireOrg();
+  await resolveManifest(data.manifestId, orgId);
   await db.insert(airManifestEntry).values(data);
   // update totals
-  const entries = await listManifestEntries(data.manifestId);
-  const totalPieces = entries.reduce((s, e) => s + e.pieces, 0) + data.pieces;
-  const totalWeightKg = (
-    entries.reduce((s, e) => s + Number(e.weightKg), 0) + Number(data.weightKg)
-  ).toFixed(2);
-  await db
-    .update(airManifest)
-    .set({ totalPieces, totalWeightKg })
-    .where(eq(airManifest.id, data.manifestId));
-  revalidatePath("/manifiestos");
-}
-
-export async function deleteManifestEntry(id: string, manifestId: string) {
-  await db.delete(airManifestEntry).where(eq(airManifestEntry.id, id));
-  const entries = await listManifestEntries(manifestId);
+  const entries = await db.query.airManifestEntry.findMany({
+    where: eq(airManifestEntry.manifestId, data.manifestId),
+  });
   const totalPieces = entries.reduce((s, e) => s + e.pieces, 0);
   const totalWeightKg = entries.reduce((s, e) => s + Number(e.weightKg), 0).toFixed(2);
   await db
     .update(airManifest)
     .set({ totalPieces, totalWeightKg })
-    .where(eq(airManifest.id, manifestId));
+    .where(and(eq(airManifest.id, data.manifestId), eq(airManifest.organizationId, orgId)));
+  revalidatePath("/manifiestos");
+}
+
+export async function deleteManifestEntry(id: string, manifestId: string) {
+  const orgId = await requireOrg();
+  await resolveManifest(manifestId, orgId);
+  await db
+    .delete(airManifestEntry)
+    .where(and(eq(airManifestEntry.id, id), eq(airManifestEntry.manifestId, manifestId)));
+  const entries = await db.query.airManifestEntry.findMany({
+    where: eq(airManifestEntry.manifestId, manifestId),
+  });
+  const totalPieces = entries.reduce((s, e) => s + e.pieces, 0);
+  const totalWeightKg = entries.reduce((s, e) => s + Number(e.weightKg), 0).toFixed(2);
+  await db
+    .update(airManifest)
+    .set({ totalPieces, totalWeightKg })
+    .where(and(eq(airManifest.id, manifestId), eq(airManifest.organizationId, orgId)));
   revalidatePath("/manifiestos");
 }
 
