@@ -33,21 +33,21 @@ export const metadata: Metadata = {
 };
 
 const LOGOS = [
-  "Agencia Navarro Hnos.",
-  "TransIbérica S.L.",
-  "Forwarders Levante",
-  "Borges Trading",
-  "Valenciaport Agency",
-  "Cadena Europa S.A.",
-  "MarLog España",
-  "Iberfreight",
+  "Bill of Lading",
+  "Air Waybill",
+  "CMR",
+  "Booking Confirmation",
+  "Packing List",
+  "DUA",
+  "Manifiesto",
+  "e-BL",
 ];
 
 const METRICS = [
-  { target: 2.4, decimals: 1, suffix: "M", label: "embarques gestionados" },
-  { target: 38, decimals: 0, suffix: "", label: "países operativos" },
-  { target: 99.98, decimals: 2, suffix: "%", label: "uptime garantizado" },
-  { target: 4.9, decimals: 1, suffix: "/5", label: "satisfacción media" },
+  { target: 3, decimals: 0, suffix: "", label: "documentos con lectura IA · BL · AWB · CMR" },
+  { target: 4, decimals: 0, suffix: "", label: "modos: marítimo, aéreo, terrestre, ferroviario" },
+  { target: 6, decimals: 0, suffix: "+", label: "módulos en un mismo expediente" },
+  { target: 1, decimals: 0, suffix: "", label: "documento basta para crear el expediente" },
 ];
 
 const PROBLEMS = [
@@ -129,17 +129,17 @@ const INTEGRATIONS = [
 ];
 
 const RESULTS = [
-  { value: "−62%", label: "tiempo en documentación", sub: "frente al proceso manual" },
-  { value: "3.4×", label: "más cotizaciones por operativo", sub: "con la misma plantilla" },
-  { value: "−28%", label: "en costes operativos", sub: "primer año de uso" },
-  { value: "+44", label: "puntos de NPS", sub: "satisfacción de cliente" },
+  { value: "40+", label: "campos por expediente", sub: "que la competencia te hace teclear" },
+  { value: "1", label: "documento de entrada", sub: "BL, AWB o CMR en PDF" },
+  { value: "0", label: "reintroducción de datos", sub: "lo que la IA lee no se vuelve a teclear" },
+  { value: "100%", label: "de los cambios, trazados", sub: "humano, IA o sistema — siempre registrado" },
 ];
 
 const ENTERPRISE = [
-  { icon: Shield, title: "Seguridad enterprise", body: "Cifrado AES-256 en reposo y en tránsito. Autenticación multifactor. Logs de acceso inmutables." },
-  { icon: Zap, title: "Infraestructura edge", body: "Desplegado en edge nodes globales. Latencia < 80ms desde Europa y Latinoamérica." },
-  { icon: Lock, title: "Cumplimiento normativo", body: "RGPD, NIS2 y DAC7 desde el diseño. Residencia de datos en UE. Auditoría lista para inspección." },
-  { icon: TrendingUp, title: "Disponibilidad 99.98%", body: "SLA contractual. Sin ventanas de mantenimiento programadas. Redundancia activa en todas las capas." },
+  { icon: Shield, title: "Seguridad por defecto", body: "HTTPS/HSTS, CSP estricta y X-Frame-Options DENY. Cifrado en reposo del proveedor (Neon). Acceso por enlace mágico, sin contraseñas que filtrar." },
+  { icon: Zap, title: "Infraestructura serverless", body: "Desplegado en Vercel con escalado automático. Base de datos Neon con residencia configurable en la UE." },
+  { icon: Lock, title: "Pensado para el RGPD", body: "Minimización de datos, trazabilidad de cambios y derecho al borrado. NIS2 y DAC7, en la hoja de ruta de cumplimiento." },
+  { icon: TrendingUp, title: "Trazabilidad total", body: "Cada cambio queda registrado: quién, cuándo y si fue humano, IA o sistema. Sin lagunas en el historial." },
 ];
 
 export default function HomePage() {
@@ -410,7 +410,7 @@ export default function HomePage() {
                 {[
                   "Lee BL, AWB, booking confirmations y packing lists en PDF",
                   "Extrae cada campo con su nivel de confianza individual",
-                  "Aprende de tus correcciones para mejorar en cada expediente",
+                  "Guarda cada corrección en el historial de trazabilidad del expediente",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
                     <span className="mt-1 flex size-4 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -485,12 +485,13 @@ export default function HomePage() {
       <section className="border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
-            <span className="eyebrow">Integraciones</span>
+            <span className="eyebrow">Integraciones · hoja de ruta</span>
             <h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
-              Conectado con el ecosistema.
+              Pensada para tu ecosistema.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-              Navieras, aduanas, contabilidad y comunicación — sin configuración manual ni APIs de pago.
+              Hoy: tracking en vivo con ShipsGo e IA documental con Gemini. El resto de conectores
+              están en la hoja de ruta — esto es hacia dónde va.
             </p>
           </FadeUp>
 
@@ -520,14 +521,14 @@ export default function HomePage() {
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/60">API REST</p>
                 <p className="mt-1 font-display text-base font-medium text-foreground">
-                  ¿Tienes un sistema propio? Conecta vía API.
+                  ¿Tienes un sistema propio? Habrá API.
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Documentación OpenAPI, webhooks y SDKs para Node y Python disponibles desde el panel.
+                  Endpoints REST y webhooks ya en marcha. Documentación OpenAPI y SDKs para Node y Python, en la hoja de ruta.
                 </p>
               </div>
               <span className="shrink-0 rounded-md border border-primary/20 bg-background px-4 py-2 font-mono text-[11px] text-primary">
-                Ver docs →
+                En desarrollo
               </span>
             </div>
           </FadeUp>
@@ -538,9 +539,9 @@ export default function HomePage() {
       <section className="border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
-            <span className="eyebrow">Resultados</span>
+            <span className="eyebrow">Qué cambia</span>
             <h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
-              Números de operativos reales.
+              El trabajo que Manann te quita.
             </h2>
           </FadeUp>
 
@@ -564,10 +565,10 @@ export default function HomePage() {
           <FadeUp delay={0.35}>
             <blockquote className="mt-12 rounded-xl border border-border bg-surface-2 px-8 py-8">
               <p className="font-display text-xl font-medium leading-relaxed tracking-tight text-foreground sm:text-2xl">
-                &ldquo;Antes tardábamos tres horas en crear un expediente desde un BL. Ahora son cuatro minutos — y los errores de transcripción han desaparecido.&rdquo;
+                &ldquo;Crear un expediente desde un BL debería costar minutos, no horas — y sin un solo error de transcripción.&rdquo;
               </p>
               <footer className="mt-5 font-mono text-[11px] text-muted-foreground/50">
-                Responsable de operaciones · Agencia transitaria, Valencia
+                La tesis de producto de Manann
               </footer>
             </blockquote>
           </FadeUp>
@@ -578,9 +579,9 @@ export default function HomePage() {
       <section className="border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
-            <span className="eyebrow">Enterprise</span>
+            <span className="eyebrow">Producción seria</span>
             <h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
-              Listo para el regulador y para el auditor.
+              Diseñado para el regulador y el auditor.
             </h2>
           </FadeUp>
 
