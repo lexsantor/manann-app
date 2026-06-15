@@ -97,7 +97,7 @@ export default async function MaestrosPage() {
   if (!ctx?.org) notFound();
 
   return (
-    <div className="mx-auto max-w-4xl px-5 py-8 space-y-8">
+    <div className="mx-auto max-w-4xl space-y-8">
       <div>
         <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
           Tablas maestras

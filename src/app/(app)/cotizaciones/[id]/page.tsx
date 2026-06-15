@@ -64,7 +64,7 @@ export default async function CotizacionDetailPage({ params }: PageProps) {
       </div>
 
       {/* Documento */}
-      <div className="mx-auto max-w-4xl px-5 py-8 print:px-0 print:py-0">
+      <div className="mx-auto max-w-4xl print:px-0 print:py-0">
         <div className="rounded-xl border border-border bg-card p-8 shadow-sm print:rounded-none print:border-0 print:shadow-none print:p-0">
 
           {/* Cabecera */}

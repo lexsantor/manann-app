@@ -17,7 +17,7 @@ export default async function ManifiestosPage() {
   );
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-8 space-y-6">
+    <div className="mx-auto max-w-5xl space-y-6">
       <div className="flex items-center gap-3">
         <FileStack className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
         <div>

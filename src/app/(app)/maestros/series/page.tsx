@@ -12,7 +12,7 @@ export default async function SeriesPage() {
   const series = await listDocumentSeries();
 
   return (
-    <div className="mx-auto max-w-3xl px-5 py-8 space-y-6">
+    <div className="mx-auto max-w-3xl space-y-6">
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/maestros" className="hover:text-foreground transition-colors">Maestros</Link>
         <span>/</span>

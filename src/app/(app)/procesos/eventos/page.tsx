@@ -12,7 +12,7 @@ export default async function EventosPage() {
   const items = await listWebhookEvents();
 
   return (
-    <div className="mx-auto max-w-4xl px-5 py-8 space-y-6">
+    <div className="mx-auto max-w-4xl space-y-6">
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/procesos" className="hover:text-foreground transition-colors">
           Procesos

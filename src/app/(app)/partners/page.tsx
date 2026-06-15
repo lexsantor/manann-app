@@ -15,7 +15,7 @@ export default async function PartnersPage() {
   ]);
 
   return (
-    <div className="mx-auto max-w-4xl px-5 py-8 space-y-8">
+    <div className="mx-auto max-w-4xl space-y-8">
       <div>
         <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Partners & Proveedores</h1>
         <p className="mt-1 text-base text-muted-foreground">

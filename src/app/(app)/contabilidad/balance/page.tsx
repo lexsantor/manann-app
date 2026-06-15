@@ -9,7 +9,7 @@ export default async function BalancePage() {
   if (!ctx?.org) notFound();
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-8 space-y-6">
+    <div className="mx-auto max-w-5xl space-y-6">
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/contabilidad" className="hover:text-foreground transition-colors">Contabilidad</Link>
         <span>/</span>
