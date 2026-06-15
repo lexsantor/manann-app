@@ -4,6 +4,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { magicLink } from "better-auth/plugins";
+import { nextCookies } from "better-auth/next-js";
 import { db } from "@/db";
 import { user, session, account, verification } from "@/db/schema";
 import { sendMagicLinkEmail, sendWelcomeEmail } from "@/lib/email";
@@ -22,6 +23,9 @@ export const auth = betterAuth({
     provider: "pg",
     schema: { user, session, account, verification },
   }),
+  // Habilitado SOLO para la cuenta demo de acceso directo (ver lib/demo-login.ts).
+  // El acceso principal sigue siendo magic-link; no hay formulario de contraseña en la UI.
+  emailAndPassword: { enabled: true },
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 días
     updateAge: 60 * 60 * 24, // refresca la sesión cada 24 h de uso
@@ -54,5 +58,6 @@ export const auth = betterAuth({
         await sendMagicLinkEmail({ to: email, url });
       },
     }),
+    nextCookies(), // debe ir el ÚLTIMO de la lista de plugins
   ],
 });

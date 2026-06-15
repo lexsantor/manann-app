@@ -5,6 +5,7 @@ import { MailCheck } from "lucide-react";
 import Link from "next/link";
 
 import { signIn } from "@/lib/auth-client";
+import { enterDemo } from "@/lib/demo-login";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/icon";
 
@@ -127,6 +128,23 @@ export default function LoginPage() {
                     {status === "loading" ? "Enviando…" : "Enviar enlace de acceso"}
                   </Button>
                 </form>
+
+                <div className="my-5 flex items-center gap-3">
+                  <span className="h-px flex-1 bg-border" />
+                  <span className="text-[11px] uppercase tracking-wider text-muted-foreground">
+                    o
+                  </span>
+                  <span className="h-px flex-1 bg-border" />
+                </div>
+
+                <form action={enterDemo}>
+                  <Button type="submit" variant="secondary" size="lg" className="w-full">
+                    Entrar a la demo
+                  </Button>
+                </form>
+                <p className="mt-2 text-center text-[11px] text-muted-foreground">
+                  Acceso directo a una cuenta de demostración con datos simulados.
+                </p>
 
                 <p className="mt-6 text-center text-xs text-muted-foreground">
                   ¿Primera vez?{" "}
