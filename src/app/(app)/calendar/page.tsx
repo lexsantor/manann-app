@@ -78,7 +78,7 @@ export default async function CalendarPage({
     <div className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div className="flex items-center gap-3">
-          <CalendarDays className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+          <CalendarDays className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
           <div>
             <h1 className="font-display text-2xl font-semibold capitalize tracking-tight text-foreground">
               {monthLabel}

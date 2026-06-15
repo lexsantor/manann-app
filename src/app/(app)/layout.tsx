@@ -29,7 +29,7 @@ export default async function AppLayout({
         memberCount={members.length}
         city={profile?.city ?? null}
       />
-      <div className="lg:pl-60">
+      <div className="lg:pl-64">
         <AppTopbar userName={ctx.user.name ?? ""} userEmail={ctx.user.email} />
         <main id="main-content" className="mx-auto w-full max-w-[1200px] px-5 py-8 sm:px-8">
           {children}

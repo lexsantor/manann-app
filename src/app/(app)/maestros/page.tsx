@@ -100,7 +100,7 @@ export default async function MaestrosPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-8">
       <div className="flex items-center gap-3">
-        <Database className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+        <Database className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
         <div>
           <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
             Tablas maestras

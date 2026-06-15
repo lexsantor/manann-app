@@ -21,7 +21,7 @@ export default async function PipelinePage() {
     <div className="flex flex-col gap-6 p-6 min-h-screen">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
-          <TrendingUp className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+          <TrendingUp className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
           <div>
             <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Pipeline Comercial</h1>
             <p className="mt-0.5 text-sm text-muted-foreground">Oportunidades por etapa · {opps.length} en total</p>

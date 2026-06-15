@@ -40,7 +40,7 @@ export default async function FacturasPage({ searchParams }: PageProps) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Receipt className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+          <Receipt className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
           <div>
             <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Facturación</h1>
             <p className="mt-0.5 text-sm text-muted-foreground">{invoices.length} facturas</p>

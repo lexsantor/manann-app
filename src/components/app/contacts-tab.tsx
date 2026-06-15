@@ -266,7 +266,7 @@ export function ContactsTab({ contacts }: ContactsTabProps) {
                 </div>
 
                 {/* Role badge */}
-                <span className={cn("hidden rounded-full px-2 py-0.5 font-mono text-xs sm:inline-flex", ROLE_COLOR[c.role] ?? "text-muted-foreground bg-muted/60")}>
+                <span className={cn("hidden w-fit rounded-full px-2 py-0.5 font-mono text-xs sm:inline-flex", ROLE_COLOR[c.role] ?? "text-muted-foreground bg-muted/60")}>
                   {ROLE_LABEL[c.role] ?? c.role}
                 </span>
 

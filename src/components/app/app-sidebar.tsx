@@ -195,12 +195,12 @@ function NavLink({
     return (
       <span
         className={cn(
-          "flex cursor-default items-center gap-3 rounded-md px-3 py-2 text-base text-muted-foreground/40",
+          "flex cursor-default items-center gap-3 whitespace-nowrap rounded-md px-3 py-2 text-base text-muted-foreground/40",
           indent && "pl-9",
         )}
         title="Disponible en una próxima fase"
       >
-        <Icon icon={item.icon} size={15} />
+        <Icon icon={item.icon} size={15} className="shrink-0" />
         {item.label}
         <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-sm text-muted-foreground/40">
           pronto
@@ -216,14 +216,14 @@ function NavLink({
       onClick={onClick}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "flex items-center gap-3 rounded-md px-3 py-2 text-base transition-colors duration-150",
+        "flex items-center gap-3 whitespace-nowrap rounded-md px-3 py-2 text-base transition-colors duration-150",
         indent && "pl-9",
         active
           ? "bg-primary/10 font-medium text-foreground shadow-[inset_0_0_0_1px_hsl(var(--primary)/0.2)]"
           : "text-muted-foreground hover:bg-surface-2 hover:text-foreground",
       )}
     >
-      <Icon icon={item.icon} size={15} />
+      <Icon icon={item.icon} size={15} className="shrink-0" />
       {item.label}
     </Link>
   );
@@ -427,7 +427,7 @@ export function AppSidebar({ orgName, activeOrgId, orgs, memberCount, city }: Ap
   return (
     <>
       {/* Desktop: columna fija */}
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 border-r border-border bg-background/80 backdrop-blur-md lg:block">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 border-r border-border bg-background/80 backdrop-blur-md lg:block">
         {Content}
       </aside>
 

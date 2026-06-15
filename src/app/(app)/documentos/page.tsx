@@ -42,7 +42,7 @@ export default async function DocumentosPage({
     <div className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div className="flex items-center gap-3">
-          <FolderOpen className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+          <FolderOpen className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
           <div>
             <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
               Documentos

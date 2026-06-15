@@ -17,7 +17,7 @@ export default async function PartnersPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-8">
       <div className="flex items-center gap-3">
-        <Handshake className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+        <Handshake className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
         <div>
           <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Partners & Proveedores</h1>
           <p className="mt-0.5 text-sm text-muted-foreground">
