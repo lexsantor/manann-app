@@ -1369,3 +1369,114 @@ export const webhookEventRelations = relations(webhookEvent, ({ one }) => ({
   organization: one(organization, { fields: [webhookEvent.organizationId], references: [organization.id] }),
   webhook: one(webhook, { fields: [webhookEvent.webhookId], references: [webhook.id] }),
 }));
+
+// ─── Tier V — Red & Partners ─────────────────────────────────────────────────
+
+export const orgProfile = pgTable("org_profile", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  organizationId: uuid("organization_id").notNull().unique().references(() => organization.id, { onDelete: "cascade" }),
+  specialties: text("specialties").array().notNull().default([]),
+  corridors: text("corridors").array().notNull().default([]),
+  certifications: text("certifications").array().notNull().default([]),
+  languages: text("languages").array().notNull().default([]),
+  monthlyCapacity: integer("monthly_capacity"),
+  bio: text("bio"),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const orgProfileRelations = relations(orgProfile, ({ one }) => ({
+  organization: one(organization, { fields: [orgProfile.organizationId], references: [organization.id] }),
+}));
+
+export const networkAgent = pgTable("network_agent", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  country: text("country").notNull(),
+  city: text("city"),
+  modes: text("modes").array().notNull().default([]),
+  corridors: text("corridors").array().notNull().default([]),
+  specialties: text("specialties").array().notNull().default([]),
+  languages: text("languages").array().notNull().default([]),
+  contactName: text("contact_name"),
+  contactEmail: text("contact_email"),
+  verifiedAt: timestamp("verified_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (t) => [
+  index("network_agent_country_idx").on(t.country),
+]);
+
+export const tender = pgTable("tender", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  organizationId: uuid("organization_id").notNull().references(() => organization.id, { onDelete: "cascade" }),
+  title: text("title").notNull(),
+  origin: text("origin").notNull(),
+  destination: text("destination").notNull(),
+  mode: text("mode").notNull(),
+  cargoDescription: text("cargo_description"),
+  weight: numeric("weight", { precision: 10, scale: 2 }),
+  volume: numeric("volume", { precision: 10, scale: 2 }),
+  targetDate: date("target_date"),
+  responseDeadline: date("response_deadline"),
+  status: text("status").notNull().default("abierto"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (t) => [
+  index("tender_org_idx").on(t.organizationId),
+]);
+
+export const tenderRelations = relations(tender, ({ one, many }) => ({
+  organization: one(organization, { fields: [tender.organizationId], references: [organization.id] }),
+  bids: many(tenderBid),
+}));
+
+export const tenderBid = pgTable("tender_bid", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  tenderId: uuid("tender_id").notNull().references(() => tender.id, { onDelete: "cascade" }),
+  agentId: uuid("agent_id").references(() => networkAgent.id, { onDelete: "set null" }),
+  agentName: text("agent_name").notNull(),
+  price: numeric("price", { precision: 12, scale: 2 }).notNull(),
+  currency: text("currency").notNull().default("EUR"),
+  transitDays: integer("transit_days"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (t) => [
+  index("tender_bid_tender_idx").on(t.tenderId),
+]);
+
+export const tenderBidRelations = relations(tenderBid, ({ one }) => ({
+  tender: one(tender, { fields: [tenderBid.tenderId], references: [tender.id] }),
+  agent: one(networkAgent, { fields: [tenderBid.agentId], references: [networkAgent.id] }),
+}));
+
+export const eBl = pgTable("ebl", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  shipmentId: uuid("shipment_id").notNull().references(() => shipment.id, { onDelete: "cascade" }),
+  organizationId: uuid("organization_id").notNull().references(() => organization.id, { onDelete: "cascade" }),
+  blHash: text("bl_hash").notNull(),
+  status: text("status").notNull().default("Original"),
+  currentHolder: text("current_holder"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (t) => [
+  index("ebl_shipment_idx").on(t.shipmentId),
+  index("ebl_org_idx").on(t.organizationId),
+]);
+
+export const eBlRelations = relations(eBl, ({ one, many }) => ({
+  shipment: one(shipment, { fields: [eBl.shipmentId], references: [shipment.id] }),
+  organization: one(organization, { fields: [eBl.organizationId], references: [organization.id] }),
+  transfers: many(eBlTransfer),
+}));
+
+export const eBlTransfer = pgTable("ebl_transfer", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  eblId: uuid("ebl_id").notNull().references(() => eBl.id, { onDelete: "cascade" }),
+  fromParty: text("from_party").notNull(),
+  toParty: text("to_party").notNull(),
+  action: text("action").notNull(),
+  signedAt: timestamp("signed_at").defaultNow().notNull(),
+}, (t) => [
+  index("ebl_transfer_ebl_idx").on(t.eblId),
+]);
+
+export const eBlTransferRelations = relations(eBlTransfer, ({ one }) => ({
+  eBl: one(eBl, { fields: [eBlTransfer.eblId], references: [eBl.id] }),
+}));

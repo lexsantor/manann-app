@@ -42,6 +42,8 @@ import {
   ClipboardList,
   Timer,
   Workflow,
+  UserCircle,
+  FileSearch,
   type LucideIcon,
 } from "lucide-react";
 
@@ -100,7 +102,10 @@ const SECTIONS: NavSection[] = [
       { label: "Contactos",   href: "/contactos",   icon: Building2 },
       { label: "Cotizaciones",href: "/cotizaciones", icon: FileText },
       { label: "Pipeline",    href: "/pipeline",    icon: TrendingUp },
-      { label: "Partners",    href: "/partners",    icon: Handshake },
+      { label: "Partners",    href: "/partners",     icon: Handshake },
+      { label: "Mi perfil",   href: "/partners/perfil", icon: UserCircle },
+      { label: "Red",         href: "/partners/red",    icon: Globe },
+      { label: "Tender",      href: "/partners/tender", icon: FileSearch },
     ],
   },
   {

@@ -9,6 +9,7 @@ import {
   MapPinned,
   FileText,
   Sparkles,
+  FileKey2,
   type LucideIcon,
 } from "lucide-react";
 
@@ -50,6 +51,8 @@ import { syncTrackingEvents } from "@/lib/erp-actions";
 import { FinanzasPanel } from "@/components/app/finanzas-panel";
 import { DuaPanel } from "@/components/app/dua-panel";
 import { DeclaracionesPanel } from "@/components/app/declaraciones-panel";
+import { EblPanel } from "@/components/app/ebl-panel";
+import { getEblForShipment } from "@/lib/tier-v-actions";
 import { BookingPanel } from "@/components/app/booking-panel";
 import { CourierPanel } from "@/components/app/courier-panel";
 import { RailPanel } from "@/components/app/rail-panel";
@@ -110,7 +113,7 @@ export default async function ExpedienteDetailPage({
   // Sincronizar eventos ShipsGo antes de cargar la página (no-op si sync < 30 min)
   if (shipsgoEnabled) await syncTrackingEvents(id);
 
-  const [s, activity, members, trackingSubs, comments, allContacts, rateAverages, complianceDecls] = await Promise.all([
+  const [s, activity, members, trackingSubs, comments, allContacts, rateAverages, complianceDecls, shipmentEbl] = await Promise.all([
     getShipmentDetail(ctx.org.id, id),
     getShipmentActivity(ctx.org.id, id),
     getOrgMembers(ctx.org.id),
@@ -119,6 +122,7 @@ export default async function ExpedienteDetailPage({
     listMasterContacts(ctx.org.id),
     getRateAverages(ctx.org.id),
     getComplianceDeclarations(ctx.org.id, id),
+    getEblForShipment(id).catch(() => undefined),
   ]);
   if (!s) notFound();
 
@@ -388,6 +392,11 @@ export default async function ExpedienteDetailPage({
             defaultVessel={s.vessel}
             defaultVoyage={s.voyage}
           />
+          {s.mode === "maritimo" && (
+            <Panel title="e-BL electrónico" icon={FileKey2}>
+              <EblPanel shipmentId={s.id} initialEbl={shipmentEbl} />
+            </Panel>
+          )}
           {s.mode === "ferroviario" && (
             <RailPanel
               pol={s.pol ?? null}
