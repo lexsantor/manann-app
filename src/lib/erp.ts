@@ -133,7 +133,9 @@ export async function getShipmentByToken(token: string) {
   return db.query.shipment.findFirst({
     where: eq(shipment.shareToken, token),
     with: {
-      parties: true,
+      // Enlace público: exponer solo lo que muestra la vista de seguimiento.
+      // NUNCA taxId ni dirección de las partes (PII de clientes/proveedores).
+      parties: { columns: { id: true, name: true, role: true, city: true, country: true } },
       containers: { with: { cargoLines: true } },
       trackingEvents: { orderBy: (t) => [desc(t.occurredAt)] },
       documents: {
@@ -539,7 +541,7 @@ export async function getMonthlyGP(orgId: string, months = 12) {
     .where(
       and(
         eq(shipment.organizationId, orgId),
-        gte(shipment.createdAt, sql`NOW() - INTERVAL '${sql.raw(String(months))} months'`),
+        gte(shipment.createdAt, sql`NOW() - (${months} * INTERVAL '1 month')`),
       ),
     )
     .groupBy(sql`DATE_TRUNC('month', ${shipment.createdAt})`)

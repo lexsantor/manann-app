@@ -1746,34 +1746,72 @@ export async function addPartyToShipment(
 
 // ── Oportunidades (CRM Pipeline) ──────────────────────────────────────────────
 
-type OppStage = "prospecto" | "propuesta" | "negociacion" | "ganado" | "perdido";
+const OPP_STAGES = ["prospecto", "propuesta", "negociacion", "ganado", "perdido"] as const;
+type OppStage = (typeof OPP_STAGES)[number];
+const OPP_MODES = ["maritimo", "aereo", "terrestre", "ferroviario", "multimodal"] as const;
+
+// Validación en runtime del formulario de oportunidad. El tipo TS no protege
+// contra datos malformados del cliente: sin esto un title null reventaba y
+// stage/mode aceptaban valores fuera del enum de la DB.
+const opportunityFormSchema = z.object({
+  title: z.string().trim().min(1, "El título es obligatorio").max(200),
+  stage: z.enum(OPP_STAGES).catch("prospecto"),
+  contactId: z.string().trim().min(1).nullable(),
+  mode: z.enum(OPP_MODES).nullable().catch(null),
+  pol: z.string().trim().max(100).nullable(),
+  pod: z.string().trim().max(100).nullable(),
+  cargoType: z.string().trim().max(200).nullable(),
+  estimatedValue: z.string().trim().max(30).nullable(),
+  currency: z.string().trim().max(8).catch("EUR"),
+  notes: z.string().trim().max(5000).nullable(),
+});
+
+function parseOpportunityForm(formData: FormData) {
+  const field = (k: string) => {
+    const v = formData.get(k);
+    return typeof v === "string" && v.trim() !== "" ? v.trim() : null;
+  };
+  return opportunityFormSchema.parse({
+    title: field("title") ?? "",
+    stage: field("stage") ?? "prospecto",
+    contactId: field("contactId"),
+    mode: field("mode"),
+    pol: field("pol"),
+    pod: field("pod"),
+    cargoType: field("cargoType"),
+    estimatedValue: field("estimatedValue"),
+    currency: field("currency") ?? "EUR",
+    notes: field("notes"),
+  });
+}
 
 export async function createOpportunity(formData: FormData): Promise<void> {
   const ctx = await getOrgContext();
   if (!ctx?.org) throw new Error("No session");
 
-  const rawContactId = (formData.get("contactId") as string) || null;
-  if (rawContactId) {
+  const data = parseOpportunityForm(formData);
+
+  if (data.contactId) {
     const [c] = await db
       .select({ id: contact.id })
       .from(contact)
-      .where(and(eq(contact.id, rawContactId), eq(contact.organizationId, ctx.org.id)))
+      .where(and(eq(contact.id, data.contactId), eq(contact.organizationId, ctx.org.id)))
       .limit(1);
     if (!c) throw new Error("Contacto inválido");
   }
 
   await db.insert(opportunity).values({
     organizationId: ctx.org.id,
-    title: (formData.get("title") as string).trim(),
-    stage: ((formData.get("stage") as string) || "prospecto") as OppStage,
-    contactId: rawContactId,
-    mode: ((formData.get("mode") as string) || null) as "maritimo" | "aereo" | "terrestre" | "ferroviario" | "multimodal" | null,
-    pol: (formData.get("pol") as string) || null,
-    pod: (formData.get("pod") as string) || null,
-    cargoType: (formData.get("cargoType") as string) || null,
-    estimatedValue: (formData.get("estimatedValue") as string) || null,
-    currency: (formData.get("currency") as string) || "EUR",
-    notes: (formData.get("notes") as string) || null,
+    title: data.title,
+    stage: data.stage,
+    contactId: data.contactId,
+    mode: data.mode,
+    pol: data.pol,
+    pod: data.pod,
+    cargoType: data.cargoType,
+    estimatedValue: data.estimatedValue,
+    currency: data.currency,
+    notes: data.notes,
   });
   revalidatePath("/pipeline");
 }
@@ -1788,12 +1826,13 @@ export async function updateOpportunity(id: string, formData: FormData): Promise
     .limit(1);
   if (!row) throw new Error("No encontrado");
 
-  const rawContactId = (formData.get("contactId") as string) || null;
-  if (rawContactId) {
+  const data = parseOpportunityForm(formData);
+
+  if (data.contactId) {
     const [c] = await db
       .select({ id: contact.id })
       .from(contact)
-      .where(and(eq(contact.id, rawContactId), eq(contact.organizationId, ctx.org.id)))
+      .where(and(eq(contact.id, data.contactId), eq(contact.organizationId, ctx.org.id)))
       .limit(1);
     if (!c) throw new Error("Contacto inválido");
   }
@@ -1801,16 +1840,16 @@ export async function updateOpportunity(id: string, formData: FormData): Promise
   await db
     .update(opportunity)
     .set({
-      title: (formData.get("title") as string).trim(),
-      stage: (formData.get("stage") as OppStage),
-      contactId: rawContactId,
-      mode: ((formData.get("mode") as string) || null) as "maritimo" | "aereo" | "terrestre" | "ferroviario" | "multimodal" | null,
-      pol: (formData.get("pol") as string) || null,
-      pod: (formData.get("pod") as string) || null,
-      cargoType: (formData.get("cargoType") as string) || null,
-      estimatedValue: (formData.get("estimatedValue") as string) || null,
-      currency: (formData.get("currency") as string) || "EUR",
-      notes: (formData.get("notes") as string) || null,
+      title: data.title,
+      stage: data.stage,
+      contactId: data.contactId,
+      mode: data.mode,
+      pol: data.pol,
+      pod: data.pod,
+      cargoType: data.cargoType,
+      estimatedValue: data.estimatedValue,
+      currency: data.currency,
+      notes: data.notes,
       updatedAt: new Date(),
     })
     .where(and(eq(opportunity.id, id), eq(opportunity.organizationId, ctx.org.id)));
@@ -1829,11 +1868,12 @@ export async function deleteOpportunity(id: string): Promise<void> {
 export async function moveOpportunityStage(id: string, stage: OppStage): Promise<void> {
   const ctx = await getOrgContext();
   if (!ctx?.org) throw new Error("No session");
+  const validStage = z.enum(OPP_STAGES).parse(stage);
   await db
     .update(opportunity)
     .set({
-      stage,
-      closedAt: stage === "ganado" || stage === "perdido" ? new Date() : null,
+      stage: validStage,
+      closedAt: validStage === "ganado" || validStage === "perdido" ? new Date() : null,
       updatedAt: new Date(),
     })
     .where(and(eq(opportunity.id, id), eq(opportunity.organizationId, ctx.org.id)));
@@ -1922,7 +1962,7 @@ export async function updateContainerVgm(
       vgmMethod: vgmMethod ?? null,
       vgmDeclaredAt: vgmWeightKg ? new Date() : null,
     })
-    .where(eq(container.id, containerId));
+    .where(and(eq(container.id, containerId), eq(container.shipmentId, shipmentId)));
   revalidatePath(`/expedientes/${shipmentId}`);
 }
 

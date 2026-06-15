@@ -160,6 +160,12 @@ export async function acceptInvitation(token: string) {
   if (!invite) return { error: "Invitación no válida o expirada" };
   if (invite.usedAt) return { error: "Esta invitación ya fue utilizada" };
 
+  // La invitación es nominal: el email del usuario logueado debe coincidir con
+  // el destinatario. Sin esto, cualquiera con un token válido entraría en la org.
+  if (invite.email.trim().toLowerCase() !== ctx.user.email.trim().toLowerCase()) {
+    return { error: "Esta invitación no corresponde a tu cuenta" };
+  }
+
   // Comprobar si ya es miembro
   const existing = await db.query.member.findFirst({
     where: and(
