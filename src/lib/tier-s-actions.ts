@@ -11,15 +11,7 @@ import {
   routeTemplate,
   shipment,
 } from "@/db/schema";
-import { getOrgContext } from "@/lib/erp";
-
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
-async function requireOrg() {
-  const ctx = await getOrgContext();
-  if (!ctx?.org?.id) throw new Error("No org");
-  return ctx.org.id;
-}
+import { requireOrg } from "@/lib/auth-guards";
 
 // ── Flights ───────────────────────────────────────────────────────────────────
 

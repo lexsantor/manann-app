@@ -57,7 +57,9 @@ export function BankReconciliationPanel({
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
-      const parsed = parseCSV(ev.target?.result as string);
+      const text = typeof ev.target?.result === "string" ? ev.target.result : "";
+      if (!text) return;
+      const parsed = parseCSV(text);
       if (parsed.length === 0) return;
       start(async () => {
         await importBankLines(parsed);

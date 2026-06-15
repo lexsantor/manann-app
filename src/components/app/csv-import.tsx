@@ -62,9 +62,12 @@ export function CsvImport() {
     setParseError("");
     setFileName(file.name);
     const reader = new FileReader();
+    reader.onerror = () => setParseError("Error al leer el archivo.");
     reader.onload = (e) => {
       try {
-        const parsed = parseCSV(e.target?.result as string);
+        const text = typeof e.target?.result === "string" ? e.target.result : "";
+        if (!text) throw new Error("El archivo está vacío o no se pudo leer.");
+        const parsed = parseCSV(text);
         if (parsed.length === 0) throw new Error("El archivo no contiene filas válidas.");
         if (parsed.length > 500) throw new Error("Máximo 500 filas por importación.");
         setRows(parsed);

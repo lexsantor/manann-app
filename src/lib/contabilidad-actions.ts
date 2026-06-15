@@ -11,26 +11,8 @@ import {
   invoice,
   invoiceLine,
   shipment,
-  member,
 } from "@/db/schema";
-import { getOrgContext } from "@/lib/erp";
-
-async function requireOrg() {
-  const ctx = await getOrgContext();
-  if (!ctx?.org?.id) throw new Error("No org");
-  return ctx.org.id;
-}
-
-async function requireOwner() {
-  const ctx = await getOrgContext();
-  if (!ctx?.org?.id) throw new Error("No org");
-  const m = await db.query.member.findFirst({
-    where: eq(member.id, ctx.org.memberId),
-    columns: { role: true },
-  });
-  if (m?.role !== "owner") throw new Error("Solo el propietario puede realizar esta acción");
-  return ctx.org.id;
-}
+import { requireOrg, requireOwner } from "@/lib/auth-guards";
 
 // ── Períodos contables ────────────────────────────────────────────────────────
 

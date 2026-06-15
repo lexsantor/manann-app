@@ -4,13 +4,7 @@ import { revalidatePath } from "next/cache";
 import { desc, eq, and } from "drizzle-orm";
 import { db } from "@/db";
 import { incident, nonConformity, slaDefinition, shipment } from "@/db/schema";
-import { getOrgContext } from "@/lib/erp";
-
-async function requireOrg() {
-  const ctx = await getOrgContext();
-  if (!ctx?.org?.id) throw new Error("No org");
-  return ctx.org.id;
-}
+import { requireOrg } from "@/lib/auth-guards";
 
 // ── Incidencias ───────────────────────────────────────────────────────────────
 
