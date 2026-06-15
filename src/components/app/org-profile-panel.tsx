@@ -14,6 +14,7 @@ type OrgProfile = {
   languages: string[];
   monthlyCapacity: number | null;
   bio: string | null;
+  city: string | null;
 };
 
 function TagInput({
@@ -81,6 +82,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
     languages: initialProfile?.languages ?? [],
     monthlyCapacity: String(initialProfile?.monthlyCapacity ?? ""),
     bio: initialProfile?.bio ?? "",
+    city: initialProfile?.city ?? "",
   });
   const [saved, setSaved] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -94,6 +96,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
         languages: form.languages,
         monthlyCapacity: form.monthlyCapacity ? Number(form.monthlyCapacity) : undefined,
         bio: form.bio || undefined,
+        city: form.city || undefined,
       });
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
@@ -111,6 +114,16 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
             onChange={(e) => setForm({ ...form, bio: e.target.value })}
             placeholder="Breve descripción de vuestra empresa y propuesta de valor para la red"
             className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-foreground">Ciudad / sede</label>
+          <Input
+            value={form.city}
+            onChange={(e) => setForm({ ...form, city: e.target.value })}
+            placeholder="ej. Barcelona"
+            className="max-w-xs"
           />
         </div>
 

@@ -1381,6 +1381,7 @@ export const orgProfile = pgTable("org_profile", {
   certifications: text("certifications").array().notNull().default([]),
   languages: text("languages").array().notNull().default([]),
   monthlyCapacity: integer("monthly_capacity"),
+  city: text("city"),
   bio: text("bio"),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

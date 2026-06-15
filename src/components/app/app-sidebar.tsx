@@ -306,9 +306,10 @@ interface AppSidebarProps {
   activeOrgId: string;
   orgs: OrgOption[];
   memberCount: number;
+  city: string | null;
 }
 
-export function AppSidebar({ orgName, activeOrgId, orgs, memberCount }: AppSidebarProps) {
+export function AppSidebar({ orgName, activeOrgId, orgs, memberCount, city }: AppSidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -413,7 +414,7 @@ export function AppSidebar({ orgName, activeOrgId, orgs, memberCount }: AppSideb
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-foreground">{orgName}</p>
                 <p className="truncate text-xs text-muted-foreground">
-                  {memberCount} usuario{memberCount !== 1 ? "s" : ""}
+                  {city ? `${city} · ` : ""}{memberCount} usuario{memberCount !== 1 ? "s" : ""}
                 </p>
               </div>
             </div>

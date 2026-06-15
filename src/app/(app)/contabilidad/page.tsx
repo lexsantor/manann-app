@@ -18,15 +18,13 @@ export default async function ContabilidadPage() {
   ]);
 
   return (
-    <div className="space-y-6 p-5 lg:p-8">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <span className="flex size-9 items-center justify-center rounded-lg border border-border bg-card">
-          <Icon icon={BookOpen} size={16} className="text-muted-foreground" />
-        </span>
+        <BookOpen className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
         <div>
-          <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">Contabilidad</h1>
-          <p className="text-sm text-muted-foreground">Plan contable PGC · Diario · Tesorería</p>
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Contabilidad</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">Plan contable PGC · Diario · Tesorería</p>
         </div>
       </div>
 

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { getOrgContext, getUserOrgs, getOrgMembers } from "@/lib/erp";
+import { getOrgProfile } from "@/lib/tier-v-actions";
 import { AppSidebar } from "@/components/app/app-sidebar";
 import { AppTopbar } from "@/components/app/app-topbar";
 import { CommandPalette } from "@/components/app/command-palette";
@@ -17,6 +18,7 @@ export default async function AppLayout({
 
   const userOrgs = await getUserOrgs(ctx.user.id);
   const members = ctx.org ? await getOrgMembers(ctx.org.id) : [];
+  const profile = ctx.org ? await getOrgProfile() : null;
 
   return (
     <div className="min-h-dvh bg-background">
@@ -25,6 +27,7 @@ export default async function AppLayout({
         activeOrgId={ctx.org?.id ?? ""}
         orgs={userOrgs}
         memberCount={members.length}
+        city={profile?.city ?? null}
       />
       <div className="lg:pl-60">
         <AppTopbar userName={ctx.user.name ?? ""} userEmail={ctx.user.email} />

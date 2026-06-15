@@ -31,6 +31,7 @@ export async function upsertOrgProfile(data: {
   languages: string[];
   monthlyCapacity?: number;
   bio?: string;
+  city?: string;
 }) {
   const orgId = await requireOwner();
   await db
@@ -43,6 +44,7 @@ export async function upsertOrgProfile(data: {
       languages: data.languages,
       monthlyCapacity: data.monthlyCapacity ?? null,
       bio: data.bio ?? null,
+      city: data.city ?? null,
     })
     .onConflictDoUpdate({
       target: [orgProfile.organizationId],
@@ -53,6 +55,7 @@ export async function upsertOrgProfile(data: {
         languages: data.languages,
         monthlyCapacity: data.monthlyCapacity ?? null,
         bio: data.bio ?? null,
+        city: data.city ?? null,
         updatedAt: new Date(),
       },
     });

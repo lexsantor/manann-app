@@ -8,13 +8,11 @@ export default async function ProcesosPage() {
   if (!ctx?.org) notFound();
 
   return (
-    <div className="space-y-6 p-5 lg:p-8">
+    <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <span className="flex size-9 items-center justify-center rounded-lg border border-border bg-card">
-          <Workflow className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
-        </span>
+        <Workflow className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
         <div>
-          <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
             Procesos
           </h1>
           <p className="text-sm text-muted-foreground">Integraciones · Eventos · Webhooks</p>

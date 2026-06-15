@@ -176,6 +176,13 @@
       "when": 1781539272452,
       "tag": "0024_pink_vindicator",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1781558516591,
+      "tag": "0025_military_runaways",
+      "breakpoints": true
     }
   ]
 }
