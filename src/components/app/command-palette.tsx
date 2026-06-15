@@ -49,8 +49,13 @@ export function CommandPalette() {
         setOpen((v) => !v);
       }
     }
+    function onOpen() { setOpen(true); }
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    window.addEventListener("manann:open-command", onOpen);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      window.removeEventListener("manann:open-command", onOpen);
+    };
   }, []);
 
   // Load expedientes on open

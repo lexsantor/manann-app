@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getOrgContext, listContactsWithGP } from "@/lib/erp";
 import { ContactsTab } from "@/components/app/contacts-tab";
@@ -94,13 +95,16 @@ export default async function ContactosPage({
 
   return (
     <div className="space-y-6">
-      <header>
-        <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">
-          Tablas Maestras
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Directorio de contactos y datos de referencia del sector
-        </p>
+      <header className="flex items-center gap-3">
+        <Building2 className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+        <div>
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+            Tablas Maestras
+          </h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            Directorio de contactos y datos de referencia del sector
+          </p>
+        </div>
       </header>
 
       {/* Tab nav */}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { FileText, ExternalLink } from "lucide-react";
+import { FileText, ExternalLink, Receipt } from "lucide-react";
 import { getOrgContext, listInvoices } from "@/lib/erp";
 import { formatMoney, formatDate } from "@/lib/erp-format";
 import { Icon } from "@/components/icon";
@@ -39,9 +39,12 @@ export default async function FacturasPage({ searchParams }: PageProps) {
     <div className="space-y-5 p-5 lg:p-8">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">Facturación</h1>
-          <p className="mt-0.5 text-base text-muted-foreground">{invoices.length} facturas</p>
+        <div className="flex items-center gap-3">
+          <Receipt className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+          <div>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Facturación</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">{invoices.length} facturas</p>
+          </div>
         </div>
       </div>
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { FolderOpen } from "lucide-react";
 
 import { getOrgContext, listDocuments } from "@/lib/erp";
 import { cn } from "@/lib/utils";
@@ -40,13 +41,16 @@ export default async function DocumentosPage({
   return (
     <div className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">
-            Documentos
-          </h1>
-          <p className="mt-1 text-base text-muted-foreground">
-            {all.length} documento{all.length !== 1 ? "s" : ""} en total
-          </p>
+        <div className="flex items-center gap-3">
+          <FolderOpen className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+          <div>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+              Documentos
+            </h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              {all.length} documento{all.length !== 1 ? "s" : ""} en total
+            </p>
+          </div>
         </div>
       </header>
 

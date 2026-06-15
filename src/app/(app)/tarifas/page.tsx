@@ -49,13 +49,16 @@ export default async function TarifasPage() {
     <div className="space-y-5 p-5 lg:p-8">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">
-            Tarifas
-          </h1>
-          <p className="mt-0.5 text-base text-muted-foreground">
-            {active.length} activas · {inactive.length} inactivas
-          </p>
+        <div className="flex items-center gap-3">
+          <Tag className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+          <div>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+              Tarifas
+            </h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              {active.length} activas · {inactive.length} inactivas
+            </p>
+          </div>
         </div>
         <RateFormTrigger />
       </div>

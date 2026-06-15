@@ -41,9 +41,12 @@ export default async function CotizacionesPage({ searchParams }: PageProps) {
     <div className="space-y-5 p-5 lg:p-8">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-display text-xl font-semibold tracking-tight text-foreground">Cotizaciones</h1>
-          <p className="mt-0.5 text-base text-muted-foreground">{quotations.length} cotizaciones</p>
+        <div className="flex items-center gap-3">
+          <FileText className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+          <div>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Cotizaciones</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">{quotations.length} cotizaciones</p>
+          </div>
         </div>
         <GenerarCotizacionButton rates={rates} />
       </div>

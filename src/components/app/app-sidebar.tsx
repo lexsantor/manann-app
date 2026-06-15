@@ -46,9 +46,6 @@ import {
 } from "lucide-react";
 
 import { Icon } from "@/components/icon";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { LogoutButton } from "./logout-button";
-import { NotificationsBell } from "./notifications-bell";
 import { OrgSwitcher } from "./org-switcher";
 import { cn } from "@/lib/utils";
 
@@ -305,14 +302,13 @@ interface OrgOption {
 }
 
 interface AppSidebarProps {
-  userEmail: string;
-  userName: string;
   orgName: string;
   activeOrgId: string;
   orgs: OrgOption[];
+  memberCount: number;
 }
 
-export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: AppSidebarProps) {
+export function AppSidebar({ orgName, activeOrgId, orgs, memberCount }: AppSidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -345,6 +341,13 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
 
   const closeMenu = useCallback(() => setMobileOpen(false), []);
 
+  // El botón "Menú" del topbar abre/cierra el drawer móvil.
+  useEffect(() => {
+    function onToggle() { setMobileOpen((v) => !v); }
+    window.addEventListener("manann:toggle-sidebar", onToggle);
+    return () => window.removeEventListener("manann:toggle-sidebar", onToggle);
+  }, []);
+
   const isActive = (href?: string) =>
     !!href && (pathname === href || pathname.startsWith(`${href}/`));
 
@@ -366,7 +369,6 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
             {TOP_ITEMS.map((item) => (
               <NavLink key={item.href} item={item} onClick={closeMenu} pathname={pathname} />
             ))}
-            <NotificationsBell />
           </div>
 
           {/* ── Divider ────────────────────────────────────────────────── */}
@@ -399,19 +401,23 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
           <NavLink item={AJUSTES} onClick={closeMenu} pathname={pathname} />
         </div>
 
-        <div className="border-t border-border px-3 py-2.5">
+        {/* Info de empresa */}
+        <div className="border-t border-border px-3 py-3">
           {orgs.length >= 2 ? (
             <OrgSwitcher orgs={orgs} activeOrgId={activeOrgId} activeOrgName={orgName} />
           ) : (
-            <p className="truncate px-2 text-base font-medium text-foreground">{orgName}</p>
+            <div className="flex items-center gap-2.5 px-1">
+              <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary/15 font-mono text-xs font-semibold text-primary">
+                {orgName.slice(0, 2).toUpperCase()}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-foreground">{orgName}</p>
+                <p className="truncate text-xs text-muted-foreground">
+                  {memberCount} usuario{memberCount !== 1 ? "s" : ""}
+                </p>
+              </div>
+            </div>
           )}
-          <p className="truncate px-2 text-base text-muted-foreground">{userName}</p>
-          <p className="truncate px-2 text-base text-muted-foreground/60">{userEmail}</p>
-        </div>
-
-        <div className="border-t border-border px-4 py-3 flex items-center justify-between gap-2">
-          <ThemeToggle />
-          <LogoutButton />
         </div>
       </div>
     </div>
@@ -424,24 +430,7 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
         {Content}
       </aside>
 
-      {/* Móvil: barra superior */}
-      <header className="sticky top-0 z-50 flex h-14 items-center border-b border-border bg-background/80 px-4 backdrop-blur-md lg:hidden">
-        {/* Burger a la izquierda: el sidebar/drawer sale desde aquí. El logo no
-            se repite porque ya vive dentro del propio sidebar. */}
-        <button
-          type="button"
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={mobileOpen}
-          className="relative h-8 w-8 text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <span className={cn("absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 rounded-full bg-current transition-all duration-200 ease-out", mobileOpen ? "-translate-y-px rotate-45" : "-translate-y-[6px]")} />
-          <span className={cn("absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 -translate-y-px rounded-full bg-current transition-all duration-200 ease-out", mobileOpen ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100")} />
-          <span className={cn("absolute left-1/2 top-1/2 block h-0.5 w-[18px] -translate-x-1/2 rounded-full bg-current transition-all duration-200 ease-out", mobileOpen ? "-translate-y-px -rotate-45" : "translate-y-[4px]")} />
-        </button>
-      </header>
-
-      {/* Móvil: drawer */}
+      {/* Móvil: drawer (lo abre el botón "Menú" del topbar vía evento) */}
       <div
         aria-hidden={!mobileOpen}
         className={cn("fixed inset-x-0 bottom-0 top-14 z-40 lg:hidden", mobileOpen ? "pointer-events-auto visible" : "pointer-events-none invisible")}

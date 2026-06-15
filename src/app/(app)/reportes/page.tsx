@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { TrendingUp, Users, Ship, MapPin, Leaf } from "lucide-react";
+import { TrendingUp, Users, Ship, MapPin, Leaf, BarChart3 } from "lucide-react";
 import {
   getOrgContext,
   getMonthlyGP,
@@ -123,9 +123,12 @@ export default async function ReportesPage({
     <div className="space-y-6 print:space-y-4">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
-        <div>
-          <h1 className="font-display text-2xl font-medium tracking-tight text-foreground">Reportes</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Análisis de {ctx.org.name}</p>
+        <div className="flex items-center gap-3">
+          <BarChart3 className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+          <div>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Reportes</h1>
+            <p className="mt-0.5 text-sm text-muted-foreground">Análisis de {ctx.org.name}</p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           {/* Period selector */}

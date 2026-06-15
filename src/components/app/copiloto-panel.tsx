@@ -263,8 +263,13 @@ export function CopilotoPanel() {
       }
       if (e.key === "Escape" && open) setOpen(false);
     }
+    function onOpen() { setOpen(true); }
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("manann:open-copiloto", onOpen);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("manann:open-copiloto", onOpen);
+    };
   }, [open]);
 
   // Load context on first open

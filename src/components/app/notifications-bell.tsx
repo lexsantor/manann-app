@@ -62,24 +62,22 @@ export function NotificationsBell() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
+        aria-label="Notificaciones"
         className={cn(
-          "flex w-full items-center gap-3 rounded-md px-3 py-2 text-base transition-colors",
-          open
-            ? "bg-surface-2 text-foreground"
-            : "text-muted-foreground hover:bg-surface-2/60 hover:text-foreground",
+          "relative flex size-9 items-center justify-center rounded-md border border-border bg-card transition-colors",
+          open ? "text-foreground" : "text-muted-foreground hover:text-foreground",
         )}
       >
         <Icon icon={Bell} size={18} />
-        <span>Notificaciones</span>
         {unread > 0 && (
-          <span className="ml-auto flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 font-mono text-base font-bold text-primary-foreground">
+          <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 font-mono text-[10px] font-bold text-primary-foreground">
             {unread > 9 ? "9+" : unread}
           </span>
         )}
       </button>
 
       {open && (
-        <div className="fixed left-[252px] top-4 z-50 w-72 rounded-xl border border-border bg-card shadow-lg">
+        <div className="absolute right-0 top-full z-50 mt-2 w-80 rounded-xl border border-border bg-card shadow-lg">
           <div className="flex items-center justify-between border-b border-border px-4 py-2.5">
             <p className="text-base font-medium text-foreground">Notificaciones</p>
             {notifs.length > 0 && (

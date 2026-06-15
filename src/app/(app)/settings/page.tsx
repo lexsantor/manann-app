@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
+import { Settings } from "lucide-react";
 
 import { getOrgSettings } from "@/lib/settings-actions";
 import { listApiKeys } from "@/lib/erp-actions";
@@ -20,11 +21,14 @@ export default async function SettingsPage() {
 
   return (
     <main className="space-y-10 py-10">
-      <div>
-        <h1 className="text-xl font-semibold tracking-tight">Ajustes</h1>
-        <p className="text-muted-foreground mt-1 text-base">
-          Gestiona tu organización y el equipo.
-        </p>
+      <div className="flex items-center gap-3">
+        <Settings className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
+        <div>
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Ajustes</h1>
+          <p className="text-muted-foreground mt-0.5 text-sm">
+            Gestiona tu organización y el equipo.
+          </p>
+        </div>
       </div>
 
       {/* Organización */}
