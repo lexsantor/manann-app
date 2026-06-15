@@ -20,7 +20,7 @@ export default async function AutopilotPage() {
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-            <Zap className="h-5 w-5 text-primary" />
+            <Zap className="h-5 w-5 shrink-0 text-primary" />
           </div>
           <div>
             <h1 className="text-xl font-semibold tracking-tight">Autopilot</h1>

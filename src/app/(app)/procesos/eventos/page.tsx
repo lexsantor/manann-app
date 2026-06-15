@@ -22,7 +22,7 @@ export default async function EventosPage() {
       </div>
 
       <div className="flex items-center gap-3">
-        <Zap className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
+        <Zap className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
         <div>
           <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
             Eventos webhook

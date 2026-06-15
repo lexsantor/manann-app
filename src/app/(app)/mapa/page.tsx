@@ -52,7 +52,7 @@ export default async function MapaPage() {
   return (
     <div className="space-y-6">
       <header className="flex items-center gap-3">
-        <Map className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
+        <Map className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
         <div>
           <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
             Mapa de rutas

@@ -20,7 +20,7 @@ export default async function RegimenesPage() {
       </div>
 
       <div className="flex items-center gap-3">
-        <FileCheck2 className="h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
+        <FileCheck2 className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.5} />
         <div>
           <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
             Regímenes aduaneros
