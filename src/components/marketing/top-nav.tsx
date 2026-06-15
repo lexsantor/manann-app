@@ -23,21 +23,7 @@ export function TopNav() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-14 max-w-[1080px] items-center justify-between px-5 sm:px-6">
-        {/* Burger — solo móvil, a la izquierda */}
-        <button
-          type="button"
-          className="text-muted-foreground transition-colors hover:text-foreground md:hidden"
-          onClick={() => setOpen(!open)}
-          aria-label="Menú"
-          aria-expanded={open}
-        >
-          <Icon icon={open ? X : Menu} />
-        </button>
-
-        {/* Logo — a la izquierda en desktop */}
-        <Link href="/" aria-label="Manann — inicio" className="hidden md:block">
-          <Logo />
-        </Link>
+        <Link href="/" aria-label="Manann — inicio"><Logo /></Link>
 
         <nav className="hidden items-center gap-7 md:flex">
           {LINKS.map((l) => (
@@ -73,10 +59,15 @@ export function TopNav() {
           >
             Ver la demo
           </Link>
-          {/* Logo — a la derecha en móvil */}
-          <Link href="/" aria-label="Manann — inicio" className="md:hidden">
-            <Logo />
-          </Link>
+          <button
+            type="button"
+            className="text-muted-foreground transition-colors hover:text-foreground md:hidden"
+            onClick={() => setOpen(!open)}
+            aria-label="Menú"
+            aria-expanded={open}
+          >
+            <Icon icon={open ? X : Menu} />
+          </button>
         </div>
       </div>
 

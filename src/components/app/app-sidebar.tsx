@@ -425,10 +425,9 @@ export function AppSidebar({ userEmail, userName, orgName, activeOrgId, orgs }: 
       </aside>
 
       {/* Móvil: barra superior */}
-      <header className="sticky top-0 z-50 flex h-14 items-center justify-between border-b border-border bg-background/80 px-4 backdrop-blur-md lg:hidden">
-        <Link href="/dashboard" aria-label="Manann" onClick={closeMenu}>
-          <Logo />
-        </Link>
+      <header className="sticky top-0 z-50 flex h-14 items-center border-b border-border bg-background/80 px-4 backdrop-blur-md lg:hidden">
+        {/* Burger a la izquierda: el sidebar/drawer sale desde aquí. El logo no
+            se repite porque ya vive dentro del propio sidebar. */}
         <button
           type="button"
           onClick={() => setMobileOpen((v) => !v)}
