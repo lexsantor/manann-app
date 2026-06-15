@@ -311,18 +311,8 @@ export function CopilotoPanel() {
     sendMessage(input);
   }
 
-  if (!open) {
-    return (
-      <button
-        onClick={() => setOpen(true)}
-        title="Copiloto IA (⌘J)"
-        className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-primary/30 hover:shadow-xl lg:bottom-8 lg:right-8"
-        aria-label="Abrir copiloto IA"
-      >
-        <Icon icon={Sparkles} size={20} className="text-primary-foreground" />
-      </button>
-    );
-  }
+  // Sin botón flotante: el asistente se abre desde la navbar ("Manann IA") o con ⌘J.
+  if (!open) return null;
 
   return (
     <>

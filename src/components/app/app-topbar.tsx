@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -105,7 +106,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
       <button
         type="button"
         onClick={() => emit("manann:open-command")}
-        className="group ml-auto flex h-9 min-w-0 flex-1 items-center gap-2 rounded-md border border-border bg-card px-3 text-sm text-muted-foreground transition-colors hover:border-primary/30 sm:ml-2 sm:max-w-xs"
+        className="group flex h-9 min-w-0 flex-1 items-center gap-2 rounded-md border border-border bg-card px-3 text-sm text-muted-foreground transition-colors hover:border-primary/30 sm:max-w-xs"
       >
         <Search className="h-4 w-4 shrink-0" strokeWidth={1.5} />
         <span className="truncate">Buscar o ejecutar una acción…</span>
@@ -114,7 +115,11 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
         </kbd>
       </button>
 
-      {/* Faro IA (abre Copiloto) */}
+      {/* Empuja el grupo de acciones al extremo derecho */}
+      <div className="hidden flex-1 sm:block" aria-hidden />
+
+      <div className="flex shrink-0 items-center gap-2">
+      {/* Manann IA (abre Copiloto) */}
       <button
         type="button"
         onClick={() => emit("manann:open-copiloto")}
@@ -208,6 +213,8 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
         )}
       </div>
 
+      </div>
+
       {help && <HelpModal onClose={() => setHelp(false)} />}
     </header>
   );
@@ -222,14 +229,20 @@ function CreateLink({ href, icon: Glyph, label, onClick }: { href: string; icon:
 }
 
 function HelpModal({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) { if (e.key === "Escape") onClose(); }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
   const TIPS = [
     { k: "⌘K", t: "Buscar y ejecutar acciones", d: "Abre el buscador para saltar a cualquier expediente o módulo." },
     { k: "⌘J", t: "Manann IA", d: "Pregunta a la IA sobre tus datos: estados, costes, riesgos." },
     { k: "BL", t: "El expediente se rellena solo", d: "Arrastra un Bill of Lading al expediente y la IA extrae los campos." },
     { k: "+", t: "Crear rápido", d: "Usa «Crear» para abrir expedientes, cotizaciones, facturas o contactos." },
   ];
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl">
         <div className="flex items-start justify-between">
@@ -253,6 +266,7 @@ function HelpModal({ onClose }: { onClose: () => void }) {
           ))}
         </ul>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
