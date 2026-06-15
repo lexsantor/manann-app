@@ -11,12 +11,24 @@ import {
   invoice,
   invoiceLine,
   shipment,
+  member,
 } from "@/db/schema";
 import { getOrgContext } from "@/lib/erp";
 
 async function requireOrg() {
   const ctx = await getOrgContext();
   if (!ctx?.org?.id) throw new Error("No org");
+  return ctx.org.id;
+}
+
+async function requireOwner() {
+  const ctx = await getOrgContext();
+  if (!ctx?.org?.id) throw new Error("No org");
+  const m = await db.query.member.findFirst({
+    where: eq(member.id, ctx.org.memberId),
+    columns: { role: true },
+  });
+  if (m?.role !== "owner") throw new Error("Solo el propietario puede realizar esta acción");
   return ctx.org.id;
 }
 
@@ -40,7 +52,7 @@ export async function ensurePeriod(year: number, month: number) {
 }
 
 export async function closePeriod(year: number, month: number) {
-  const orgId = await requireOrg();
+  const orgId = await requireOwner();
   await db
     .insert(accountingPeriod)
     .values({ organizationId: orgId, year, month, status: "closed", closedAt: new Date() })
@@ -52,7 +64,7 @@ export async function closePeriod(year: number, month: number) {
 }
 
 export async function reopenPeriod(year: number, month: number) {
-  const orgId = await requireOrg();
+  const orgId = await requireOwner();
   await db
     .update(accountingPeriod)
     .set({ status: "open", closedAt: null })
@@ -221,6 +233,14 @@ export async function reconcileLine(lineId: string, journalEntryId: string | nul
     columns: { id: true },
   });
   if (!line) throw new Error("Línea no encontrada");
+
+  if (journalEntryId !== null) {
+    const je = await db.query.journalEntry.findFirst({
+      where: and(eq(journalEntry.id, journalEntryId), eq(journalEntry.organizationId, orgId)),
+      columns: { id: true },
+    });
+    if (!je) throw new Error("Asiento no encontrado");
+  }
 
   await db
     .update(bankStatementLine)
