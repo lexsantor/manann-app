@@ -370,6 +370,44 @@ export default async function ReportesPage({
         </div>
       </div>
 
+      {/* Power BI mock */}
+      <div className="rounded-xl border border-border bg-card overflow-hidden print:hidden">
+        <div className="flex items-center justify-between border-b border-border px-5 py-3">
+          <div className="flex items-center gap-2">
+            <span className="flex h-4 w-4 items-center justify-center rounded-sm bg-[#F2C811] text-[8px] font-bold text-black leading-none">BI</span>
+            <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Power BI — Cuadro de mando avanzado</p>
+          </div>
+          <span className="inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-600 dark:text-amber-400">
+            Simulación — integración Power BI en producción
+          </span>
+        </div>
+        <div className="grid grid-cols-3 gap-px bg-border">
+          {[
+            { label: "Ratio on-time delivery", value: "94.2%", delta: "+1.8 pp", up: true },
+            { label: "Coste medio por TEU", value: "€1.247", delta: "−€34", up: true },
+            { label: "Días ciclo cash-to-cash", value: "38 d", delta: "+2 d", up: false },
+            { label: "Revenue / FTE", value: "€182k", delta: "+€12k", up: true },
+            { label: "Incidencias / 100 env.", value: "2.1", delta: "−0.4", up: true },
+            { label: "Cuota aéreo vs. marítimo", value: "22%", delta: "+3 pp", up: false },
+          ].map((kpi) => (
+            <div key={kpi.label} className="bg-card px-4 py-3">
+              <p className="text-xs text-muted-foreground">{kpi.label}</p>
+              <p className="mt-1 font-mono text-lg font-semibold text-foreground">{kpi.value}</p>
+              <p className={`mt-0.5 text-xs font-medium ${kpi.up ? "text-emerald-500" : "text-red-500"}`}>
+                {kpi.delta} vs período anterior
+              </p>
+            </div>
+          ))}
+        </div>
+        <div className="px-5 py-3 bg-muted/30">
+          <div className="h-24 rounded-md border border-border/60 bg-background flex items-center justify-center">
+            <p className="text-xs text-muted-foreground">
+              Gráfico de tendencia — conectar workspace Power BI en producción
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Print footer */}
       <div className="hidden print:block text-center text-xs text-muted-foreground pt-4">
         Generado por Manann ERP · {new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}

@@ -1271,3 +1271,101 @@ export const bankStatementLineRelations = relations(bankStatementLine, ({ one })
     references: [journalEntry.id],
   }),
 }));
+
+// ─── Tier T: Calidad & Procesos ───────────────────────────────────────────────
+
+export const incident = pgTable(
+  "incident",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    shipmentId: uuid("shipment_id").references(() => shipment.id, { onDelete: "set null" }),
+    type: text("type").notNull(),           // 'retraso' | 'daño' | 'perdida' | 'documental'
+    description: text("description").notNull(),
+    responsible: text("responsible"),
+    status: text("status").notNull().default("abierto"), // 'abierto' | 'en_gestion' | 'cerrado'
+    resolutionDate: date("resolution_date"),
+    impactCost: numeric("impact_cost", { precision: 12, scale: 2 }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("incident_org_idx").on(t.organizationId)],
+);
+
+export const incidentRelations = relations(incident, ({ one }) => ({
+  organization: one(organization, { fields: [incident.organizationId], references: [organization.id] }),
+  shipment: one(shipment, { fields: [incident.shipmentId], references: [shipment.id] }),
+}));
+
+export const nonConformity = pgTable(
+  "non_conformity",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    shipmentId: uuid("shipment_id").references(() => shipment.id, { onDelete: "set null" }),
+    category: text("category").notNull(),   // 'proceso' | 'proveedor' | 'cliente' | 'externo'
+    description: text("description").notNull(),
+    rootCause: text("root_cause"),
+    correctiveAction: text("corrective_action"),
+    status: text("status").notNull().default("abierto"), // 'abierto' | 'en_revision' | 'cerrado'
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("nc_org_idx").on(t.organizationId)],
+);
+
+export const nonConformityRelations = relations(nonConformity, ({ one }) => ({
+  organization: one(organization, { fields: [nonConformity.organizationId], references: [organization.id] }),
+  shipment: one(shipment, { fields: [nonConformity.shipmentId], references: [shipment.id] }),
+}));
+
+export const slaDefinition = pgTable(
+  "sla_definition",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    metric: text("metric").notNull(),       // 'cotizacion' | 'booking' | 'dua' | 'entrega'
+    targetHours: integer("target_hours").notNull(),
+    mode: text("mode"),                     // null = todos los modos
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("sla_org_idx").on(t.organizationId)],
+);
+
+export const slaDefinitionRelations = relations(slaDefinition, ({ one }) => ({
+  organization: one(organization, { fields: [slaDefinition.organizationId], references: [organization.id] }),
+}));
+
+export const webhookEvent = pgTable(
+  "webhook_event",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    webhookId: uuid("webhook_id").references(() => webhook.id, { onDelete: "set null" }),
+    eventType: text("event_type").notNull(),
+    payload: jsonb("payload").notNull().default({}),
+    url: text("url").notNull(),
+    statusCode: integer("status_code"),
+    status: text("status").notNull().default("pendiente"), // 'entregado' | 'fallido' | 'reintentando'
+    attempts: integer("attempts").notNull().default(1),
+    lastAttemptAt: timestamp("last_attempt_at").defaultNow().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [
+    index("webhook_event_org_idx").on(t.organizationId),
+    index("webhook_event_created_idx").on(t.createdAt),
+  ],
+);
+
+export const webhookEventRelations = relations(webhookEvent, ({ one }) => ({
+  organization: one(organization, { fields: [webhookEvent.organizationId], references: [organization.id] }),
+  webhook: one(webhook, { fields: [webhookEvent.webhookId], references: [webhook.id] }),
+}));

@@ -37,6 +37,11 @@ import {
   FileStack,
   Truck,
   Route,
+  ShieldCheck,
+  AlertTriangle,
+  ClipboardList,
+  Timer,
+  Workflow,
   type LucideIcon,
 } from "lucide-react";
 
@@ -129,6 +134,22 @@ const SECTIONS: NavSection[] = [
       { label: "Parámetros",    href: "/maestros/parametros",   icon: Settings },
       { label: "Series",        href: "/maestros/series",       icon: Hash },
       { label: "Sucursales",    href: "/maestros/sucursales",   icon: Building2 },
+    ],
+  },
+  {
+    key: "calidad",
+    label: "Calidad",
+    items: [
+      { label: "Incidencias",       href: "/calidad/incidencias",       icon: AlertTriangle },
+      { label: "No conformidades",  href: "/calidad/no-conformidades",  icon: ClipboardList },
+      { label: "SLA",               href: "/calidad/sla",               icon: Timer },
+    ],
+  },
+  {
+    key: "procesos",
+    label: "Procesos",
+    items: [
+      { label: "Eventos webhook",  href: "/procesos/eventos",  icon: Zap },
     ],
   },
   {
