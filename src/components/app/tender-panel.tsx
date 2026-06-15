@@ -5,7 +5,7 @@ import { FileSearch, Plus, X, ChevronDown, ChevronUp, Zap, Lock } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { createTender, closeTender, deleteTender, addSimulatedBids } from "@/lib/tier-v-actions";
+import { createTender, closeTender, addSimulatedBids } from "@/lib/tier-v-actions";
 
 type TenderBid = {
   id: string;
@@ -84,12 +84,6 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
     });
   }
 
-  function handleDelete(id: string) {
-    startTransition(async () => {
-      await deleteTender(id);
-      setItems((prev) => prev.filter((t) => t.id !== id));
-    });
-  }
 
   return (
     <>
@@ -227,7 +221,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
               {expanded === t.id && t.bids.length === 0 && (
                 <div className="border-t border-border px-3 py-3 text-center">
                   <p className="text-xs text-muted-foreground">
-                    Sin ofertas todavía. Usa "Simular" para generar respuestas de prueba.
+                    Sin ofertas todavía. Usa &ldquo;Simular&rdquo; para generar respuestas de prueba.
                   </p>
                 </div>
               )}

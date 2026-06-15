@@ -38,7 +38,7 @@ export function EblPanel({
   shipmentId: string;
   initialEbl: EBl | undefined;
 }) {
-  const [ebl, setEbl] = useState<EBl | undefined>(initialEbl);
+  const [ebl] = useState<EBl | undefined>(initialEbl);
   const [issueOpen, setIssueOpen] = useState(false);
   const [transferOpen, setTransferOpen] = useState(false);
   const [holderName, setHolderName] = useState("");
