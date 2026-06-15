@@ -90,6 +90,7 @@ export async function listShipments(
       },
     },
     orderBy: [desc(shipment.createdAt)],
+    limit: 500,
   });
 }
 

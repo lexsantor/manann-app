@@ -121,6 +121,10 @@ export async function createDraftShipment(): Promise<void> {
 
 // Lee el PDF del BL con Gemini → propuesta estructurada con confianza por campo.
 // Persiste status processing→extracted; no toca el expediente hasta confirmar.
+// Límite de tamaño de PDF que enviamos a Gemini (el upload permite 10MB, pero
+// PDFs muy grandes disparan coste/errores en el modelo).
+const MAX_AI_PDF_BYTES = 8 * 1024 * 1024;
+
 export async function extractDocument(documentId: string): Promise<void> {
   const ctx = await getOrgContext();
   if (!ctx?.org) throw new Error("No autorizado");
@@ -139,6 +143,9 @@ export async function extractDocument(documentId: string): Promise<void> {
     const res = await fetch(doc.blobUrl);
     if (!res.ok) throw new Error("No se pudo descargar el PDF");
     const bytes = new Uint8Array(await res.arrayBuffer());
+    if (bytes.length > MAX_AI_PDF_BYTES) {
+      throw new Error("El PDF supera el límite de 8 MB para extracción.");
+    }
 
     const [shipmentRow] = await db.select({ mode: shipment.mode }).from(shipment).where(eq(shipment.id, doc.shipmentId));
     const { schema: extractionSchema, prompt: extractionPrompt } = pickExtractionSchema(shipmentRow?.mode ?? "maritimo");
@@ -379,6 +386,7 @@ export async function saveNotes(shipmentId: string, notes: string): Promise<void
     where: eq(shipment.id, shipmentId),
     columns: { notes: true },
   });
+  if (notes.length > 10000) throw new Error("Las notas no pueden superar 10.000 caracteres");
   const newNotes = notes.trim() || null;
   await db.transaction(async (tx) => {
     await tx.update(shipment).set({ notes: newNotes }).where(eq(shipment.id, shipmentId));
@@ -1319,6 +1327,9 @@ export async function compareDocuments(shipmentId: string): Promise<CompareResul
     blRes.arrayBuffer().then((b) => new Uint8Array(b)),
     facRes.arrayBuffer().then((b) => new Uint8Array(b)),
   ]);
+  if (blBytes.length > MAX_AI_PDF_BYTES || facBytes.length > MAX_AI_PDF_BYTES) {
+    throw new Error("Algún documento supera el límite de 8 MB para comparación.");
+  }
 
   const { object } = await generateObject({
     model: google("gemini-2.5-flash"),
@@ -1370,6 +1381,7 @@ export async function addComment(shipmentId: string, body: string): Promise<void
 
   const trimmed = body.trim();
   if (!trimmed) throw new Error("El comentario no puede estar vacío");
+  if (trimmed.length > 5000) throw new Error("El comentario no puede superar 5.000 caracteres");
 
   const mentions = [...trimmed.matchAll(/@([\w]+)/g)].map((m) => m[1]);
 
@@ -2042,6 +2054,21 @@ export async function createJournalEntry(data: {
 }): Promise<void> {
   const ctx = await getOrgContext();
   if (!ctx?.org) throw new Error("No autorizado");
+
+  if (!Array.isArray(data.lines) || data.lines.length < 2 || data.lines.length > 100) {
+    throw new Error("El asiento debe tener entre 2 y 100 líneas");
+  }
+  for (const l of data.lines) {
+    if (!Number.isFinite(l.debit) || !Number.isFinite(l.credit) || l.debit < 0 || l.credit < 0) {
+      throw new Error("Importes de asiento inválidos");
+    }
+    if (l.debit > 999_999_999.99 || l.credit > 999_999_999.99) {
+      throw new Error("Importe de asiento fuera de rango");
+    }
+    if (!l.accountCode?.trim() || !l.accountName?.trim()) {
+      throw new Error("Cada línea necesita código y nombre de cuenta");
+    }
+  }
 
   const totalDebit = data.lines.reduce((s, l) => s + l.debit, 0);
   const totalCredit = data.lines.reduce((s, l) => s + l.credit, 0);

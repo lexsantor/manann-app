@@ -19,8 +19,8 @@ export function LogoutButton() {
       router.replace("/login");
     } catch (error) {
       // Si el cierre de sesión falla, no dejamos el botón colgado: se reactiva
-      // para reintentar, y registramos el error para diagnóstico.
-      console.error("El cierre de sesión falló:", error);
+      // para reintentar. No volcamos el objeto de error para no exponer detalles.
+      console.error("El cierre de sesión falló");
       setLoading(false);
     }
   }

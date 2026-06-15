@@ -21,7 +21,8 @@ export async function switchOrg(orgId: string) {
   const jar = await cookies();
   jar.set("activeOrgId", orgId, {
     path: "/",
-    httpOnly: false,
+    httpOnly: true, // solo lo lee el servidor; no hace falta en JS de cliente
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 365, // 1 año
   });
