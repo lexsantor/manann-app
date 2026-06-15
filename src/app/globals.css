@@ -66,6 +66,14 @@
   --shadow-float: 0 20px 50px -12px hsl(0 0% 0% / 0.65);
   --shadow-product: 0 30px 90px -24px hsl(0 0% 0% / 0.75);
 
+  /* gradient tokens — sea-ink palette */
+  --gradient-brand: linear-gradient(135deg, hsl(172 51% 52%), hsl(172 51% 42%) 58%, hsl(173 54% 26%));
+  --gradient-mesh:  radial-gradient(at 15% 12%, hsl(172 51% 42% / 0.28) 0%, transparent 45%),
+                    radial-gradient(at 85% 6%,  hsl(196 20% 36% / 0.20) 0%, transparent 50%),
+                    linear-gradient(180deg, hsl(198 37% 7%), hsl(198 37% 5%));
+  --gradient-sheen: linear-gradient(180deg, hsl(198 36% 11%), hsl(198 37% 7%));
+  --gradient-pine:  linear-gradient(135deg, hsl(172 51% 42%), hsl(198 37% 7%));
+
   color-scheme: dark;
 }
 
@@ -110,6 +118,14 @@
   --shadow-card-hero: 0 40px 120px -20px hsl(195 36% 9% / 0.10);
   --shadow-float: 0 20px 50px -12px hsl(195 36% 9% / 0.10);
   --shadow-product: 0 30px 90px -24px hsl(195 36% 9% / 0.10);
+
+  /* gradient tokens — warm-fog palette */
+  --gradient-brand: linear-gradient(135deg, hsl(172 59% 38%), hsl(172 59% 30%) 55%, hsl(173 62% 20%));
+  --gradient-mesh:  radial-gradient(at 18% 18%, hsl(172 59% 30% / 0.10) 0%, transparent 48%),
+                    radial-gradient(at 82% 8%,  hsl(105 12% 85% / 0.60) 0%, transparent 52%),
+                    linear-gradient(180deg, hsl(0 0% 100%), hsl(105 12% 94%));
+  --gradient-sheen: linear-gradient(180deg, hsl(0 0% 100%), hsl(105 12% 94%));
+  --gradient-pine:  linear-gradient(135deg, hsl(172 59% 30%), hsl(105 12% 80%));
 
   color-scheme: light;
 }
@@ -160,6 +176,13 @@
   /* motion */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* utility shadow scale — auto-adapts per theme via --foreground / --primary */
+  --shadow-xs: 0 1px 2px hsl(var(--foreground) / 0.06);
+  --shadow-sm: 0 1px 2px hsl(var(--foreground) / 0.06), 0 2px 6px -2px hsl(var(--foreground) / 0.10);
+  --shadow-md: 0 2px 4px hsl(var(--foreground) / 0.05), 0 12px 24px -8px hsl(var(--foreground) / 0.16);
+  --shadow-lg: 0 4px 8px hsl(var(--foreground) / 0.06), 0 24px 48px -12px hsl(var(--foreground) / 0.22);
+  --shadow-primary: 0 8px 24px -8px hsl(var(--primary) / 0.45);
 }
 
 /* ============================================================
