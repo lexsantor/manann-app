@@ -1745,13 +1745,19 @@ export async function addPartyToShipment(
     .where(and(eq(shipment.id, shipmentId), eq(shipment.organizationId, ctx.org.id)));
   if (!s) throw new Error("Expediente no encontrado");
 
+  const role = z
+    .enum(["shipper", "consignee", "notify", "carrier", "agent", "forwarder"])
+    .parse(data.role);
+  const name = data.name?.trim();
+  if (!name) throw new Error("La parte necesita un nombre");
+
   await db.insert(party).values({
     shipmentId,
-    role: data.role as "shipper" | "consignee" | "notify" | "carrier" | "agent" | "forwarder",
-    name: data.name,
-    taxId: data.taxId || null,
-    city: data.city || null,
-    country: data.country || null,
+    role,
+    name,
+    taxId: data.taxId?.trim() || null,
+    city: data.city?.trim() || null,
+    country: data.country?.trim() || null,
   });
   revalidatePath(`/expedientes/${shipmentId}`);
 }

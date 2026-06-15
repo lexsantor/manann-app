@@ -2,8 +2,46 @@
 // IMPORTANTE: cada subscribeContainer() consume 1 crédito (3 disponibles).
 // Activar con SHIPSGO_ENABLED=true + SHIPSGO_API_KEY en .env.
 // Docs: https://shipsgo.com/api-docs
+import { z } from "zod";
+
 const BASE_URL = "https://shipsgo.com/api/v2.1";
 const API_KEY = process.env.SHIPSGO_API_KEY ?? "";
+
+// Validación de la respuesta externa de ShipsGo. Todo opcional + passthrough:
+// no queremos rechazar respuestas válidas con campos extra, solo dejar de
+// tratar `res.json()` como `any` y acceder a campos sin guard de tipo.
+const shipsgoEventSchema = z
+  .object({
+    eventCode: z.string().optional(),
+    code: z.string().optional(),
+    location: z.string().optional(),
+    unlocode: z.string().optional(),
+    description: z.string().optional(),
+    eventDescription: z.string().optional(),
+    vessel: z.string().optional(),
+    eventDate: z.string().optional(),
+    date: z.string().optional(),
+  })
+  .passthrough();
+
+const shipsgoContainerSchema = z
+  .object({
+    requestId: z.union([z.string(), z.number()]).optional(),
+    id: z.union([z.string(), z.number()]).optional(),
+    containerNumber: z.string().optional(),
+    status: z.string().optional(),
+    latitude: z.union([z.string(), z.number()]).optional(),
+    longitude: z.union([z.string(), z.number()]).optional(),
+    events: z.array(shipsgoEventSchema).optional(),
+  })
+  .passthrough();
+
+const subscribeResponseSchema = z
+  .object({
+    requestId: z.union([z.string(), z.number()]).optional(),
+    id: z.union([z.string(), z.number()]).optional(),
+  })
+  .passthrough();
 
 // Guard de créditos: requiere flag explícito + API key configurada.
 export function isShipsGoEnabled(): boolean {
@@ -61,7 +99,8 @@ export async function subscribeContainer(
     return { error: `ShipsGo error ${res.status}: ${body}` };
   }
 
-  const data = await res.json();
+  const parsed = subscribeResponseSchema.safeParse(await res.json());
+  const data = parsed.success ? parsed.data : ({} as z.infer<typeof subscribeResponseSchema>);
   return { requestId: String(data.requestId ?? data.id ?? "") };
 }
 
@@ -81,9 +120,10 @@ export async function fetchContainerEvents(
     return { error: `ShipsGo error ${res.status}: ${body}` };
   }
 
-  const data = await res.json();
+  const parsed = shipsgoContainerSchema.safeParse(await res.json());
+  const data = parsed.success ? parsed.data : ({} as z.infer<typeof shipsgoContainerSchema>);
 
-  const events: ShipsGoEvent[] = (data.events ?? []).map((e: Record<string, unknown>) => ({
+  const events: ShipsGoEvent[] = (data.events ?? []).map((e) => ({
     eventCode: String(e.eventCode ?? e.code ?? "en_transito"),
     location: String(e.location ?? e.unlocode ?? ""),
     description: String(e.description ?? e.eventDescription ?? ""),

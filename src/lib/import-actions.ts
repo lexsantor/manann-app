@@ -31,6 +31,7 @@ export async function importShipmentsFromCsv(
 ): Promise<ImportResult> {
   const ctx = await getOrgContext();
   if (!ctx?.org) throw new Error("No autorizado");
+  if (!Array.isArray(rows)) throw new Error("Datos de importación inválidos");
   if (rows.length === 0) return { created: 0, skipped: 0, errors: [] };
   if (rows.length > 500) throw new Error("Máximo 500 filas por importación");
 

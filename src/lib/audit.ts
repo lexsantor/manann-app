@@ -1,5 +1,6 @@
 // Auditoría de cambios de campo — 3.3.
 // Uso: llamar logChanges() dentro de la misma transacción Drizzle que muta datos.
+import type { db } from "@/db";
 import { fieldChange } from "@/db/schema";
 
 export interface ChangeEntry {
@@ -13,9 +14,11 @@ export interface ChangeEntry {
   source: "user" | "ai" | "system";
 }
 
-// Acepta tanto db como una transacción Drizzle (comparten .insert())
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function logChanges(tx: any, entries: ChangeEntry[]): Promise<void> {
+// Acepta tanto db como una transacción Drizzle (comparten .insert()).
+type Database = typeof db;
+type Transaction = Parameters<Parameters<Database["transaction"]>[0]>[0];
+
+export async function logChanges(tx: Database | Transaction, entries: ChangeEntry[]): Promise<void> {
   const filtered = entries.filter((e) => e.oldValue !== e.newValue);
   if (filtered.length === 0) return;
 
