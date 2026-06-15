@@ -18,8 +18,11 @@ export function StatusTimeline({ status }: { status: string }) {
   const pct = (current / (STAGES.length - 1)) * 100;
 
   return (
-    <div className="px-6 py-4">
-      <div className="relative flex items-start justify-between">
+    <div className="px-4 py-4 sm:px-6">
+      {/* En móvil el timeline hace scroll horizontal (6 etapas no caben);
+          en desktop se reparte con justify-between. */}
+      <div className="overflow-x-auto">
+      <div className="relative flex min-w-[460px] items-start justify-between">
         {/* Background track */}
         <div className="absolute left-0 right-0 top-[5px] h-px bg-border" />
         {/* Progress fill */}
@@ -41,7 +44,7 @@ export function StatusTimeline({ status }: { status: string }) {
               />
               <span
                 className={cn(
-                  "whitespace-nowrap font-mono text-sm uppercase tracking-wider leading-tight text-center",
+                  "whitespace-nowrap font-mono text-xs uppercase tracking-wider leading-tight text-center",
                   done || active ? "text-foreground" : "text-muted-foreground",
                 )}
               >
@@ -50,6 +53,7 @@ export function StatusTimeline({ status }: { status: string }) {
             </div>
           );
         })}
+      </div>
       </div>
     </div>
   );

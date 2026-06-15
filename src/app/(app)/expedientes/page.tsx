@@ -67,7 +67,7 @@ export default async function ExpedientesPage({
             {all.length} expediente{all.length !== 1 ? "s" : ""}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Link
             href="/expedientes/importar"
             prefetch={false}

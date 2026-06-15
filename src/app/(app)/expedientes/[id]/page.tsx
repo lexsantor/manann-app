@@ -145,7 +145,7 @@ export default async function ExpedienteDetailPage({
 
   return (
     <div className="space-y-5">
-      <div className="flex items-center justify-between print:hidden">
+      <div className="flex flex-wrap items-center justify-between gap-2 print:hidden">
         <Link
           href="/expedientes"
           prefetch={false}
@@ -153,7 +153,7 @@ export default async function ExpedienteDetailPage({
         >
           <Icon icon={ArrowLeft} size={15} /> Expedientes
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <AssigneeSelect
             shipmentId={s.id}
             assignedTo={s.assignedTo ?? null}
@@ -342,7 +342,7 @@ export default async function ExpedienteDetailPage({
 
       {/* cuerpo en dos columnas */}
       <div className="grid gap-5 lg:grid-cols-3">
-        <div className="space-y-5 lg:col-span-2">
+        <div className="min-w-0 space-y-5 lg:col-span-2">
           <Documents
             documents={s.documents}
             shipmentId={s.id}
@@ -414,7 +414,7 @@ export default async function ExpedienteDetailPage({
           )}
         </div>
 
-        <div className="space-y-5">
+        <div className="min-w-0 space-y-5">
           <Panel title="Tracking" icon={MapPinned}>
             <RouteMap pol={s.pol} pod={s.pod} events={s.trackingEvents} />
             <ShipsGoPanel
