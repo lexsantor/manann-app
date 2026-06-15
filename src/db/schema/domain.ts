@@ -1211,3 +1211,63 @@ export const routeTemplateRelations = relations(routeTemplate, ({ one }) => ({
     references: [organization.id],
   }),
 }));
+
+// ─── Tier U: Contabilidad Completa ───────────────────────────────────────────
+
+export const accountingPeriod = pgTable(
+  "accounting_period",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    year: integer("year").notNull(),
+    month: integer("month").notNull(),
+    status: text("status").notNull().default("open"), // 'open' | 'closed'
+    closedAt: timestamp("closed_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [
+    uniqueIndex("accounting_period_org_ym_idx").on(t.organizationId, t.year, t.month),
+    index("accounting_period_org_idx").on(t.organizationId),
+  ],
+);
+
+export const accountingPeriodRelations = relations(accountingPeriod, ({ one }) => ({
+  organization: one(organization, {
+    fields: [accountingPeriod.organizationId],
+    references: [organization.id],
+  }),
+}));
+
+export const bankStatementLine = pgTable(
+  "bank_statement_line",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    statementDate: date("statement_date").notNull(),
+    description: text("description").notNull(),
+    amount: numeric("amount", { precision: 14, scale: 2 }).notNull(),
+    currency: text("currency").notNull().default("EUR"),
+    reconciled: boolean("reconciled").notNull().default(false),
+    journalEntryId: uuid("journal_entry_id").references(() => journalEntry.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [
+    index("bank_statement_line_org_idx").on(t.organizationId),
+    index("bank_statement_line_date_idx").on(t.statementDate),
+  ],
+);
+
+export const bankStatementLineRelations = relations(bankStatementLine, ({ one }) => ({
+  organization: one(organization, {
+    fields: [bankStatementLine.organizationId],
+    references: [organization.id],
+  }),
+  journalEntry: one(journalEntry, {
+    fields: [bankStatementLine.journalEntryId],
+    references: [journalEntry.id],
+  }),
+}));
