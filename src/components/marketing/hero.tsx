@@ -34,16 +34,17 @@ export function Hero() {
             className="mt-5 font-display text-5xl font-medium leading-[1.02] tracking-tight hero-enter sm:text-6xl lg:text-7xl"
             style={{ "--i": 1 } as React.CSSProperties}
           >
-            El sistema conoce la ruta.{" "}
-            <span className="text-gradient-primary">Tú mantienes el rumbo.</span>
+            El expediente{" "}
+            <span className="text-gradient-primary">se rellena solo.</span>
           </h1>
           <p
             className="mx-auto mt-7 max-w-xl font-sans text-lg leading-relaxed text-muted-foreground hero-enter"
             style={{ "--i": 2 } as React.CSSProperties}
           >
-            Arrastra un Bill of Lading. El expediente se rellena solo. Donde los
-            ERP del sector te hacen teclear 40 campos a mano, Manann lee el
-            documento — y tú solo confirmas.
+            Manann lee el Bill of Lading, extrae cada campo con su confianza y
+            prepara el expediente. Tú confirmas.{" "}
+            <span className="text-foreground/70">El ERP que el sector merecía,</span>{" "}
+            por fin existe.
           </p>
           <div
             className="mt-8 flex flex-wrap items-center justify-center gap-3 hero-enter"

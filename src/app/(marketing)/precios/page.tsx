@@ -106,8 +106,8 @@ export default function PreciosPage() {
             Sin academias.
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-            La IA nativa de Manann no es un add-on. Está en el núcleo del producto,
-            no escondida tras un precio extra o un formulario comercial.
+            La IA de Manann no es un add-on ni un copiloto periférico. Está en el núcleo —
+            el expediente nace del documento, no al revés.
           </p>
         </div>
       </FadeUp>
@@ -220,10 +220,10 @@ export default function PreciosPage() {
             Nota de transparencia
           </p>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Manann es actualmente una <strong className="text-foreground">demo sin fines comerciales</strong>.
-            Los planes &ldquo;Profesional&rdquo; y &ldquo;Empresa&rdquo; representan la hoja de ruta
-            del producto, no una oferta comercial activa. Si coordinas tráfico internacional
-            y quieres ver cómo se vería Manann sobre tus expedientes reales,{" "}
+            Manann está en <strong className="text-foreground">acceso anticipado</strong>.
+            El producto funciona — extracción IA, expedientes, finanzas, aduanas, calidad y red de agentes están operativos.
+            Estamos seleccionando las primeras agencias con las que crecer antes del lanzamiento comercial.
+            Si coordinas tráfico internacional y quieres ver el ERP sobre tus expedientes reales,{" "}
             <Link href="/contacto" className="text-primary hover:underline">
               escríbenos
             </Link>.

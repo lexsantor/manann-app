@@ -1,68 +1,172 @@
 # Manann — Storytelling de marca
 
-## El mito (la semilla)
+> Documento vivo. Actualizado junio 2026. Prevalece sobre cualquier versión anterior.
+> Para tokens de diseño: `MANANN-DESIGN.md`. Para análisis competitivo: `MANANN-COMPETITIVE.md`.
 
-En la mitología celta-irlandesa, **Manannán mac Lir** es el dios del mar. Hijo de Lir (el océano mismo), Manannán no *lucha* contra el mar: lo gobierna. Cruza los océanos en **Scuabtuinne**, "el Barredor de Olas", un barco que **navega sin velas y va solo a donde su dueño quiere ir**. Monta a **Aenbarr**, un caballo que galopa sobre el agua como si fuera tierra firme. Y cuando quiere proteger sus tierras, las envuelve en una **niebla** (el *féth fíada*) que las vuelve invisibles a quien no debe encontrarlas.
+---
 
-Manannán es el guía de las travesías. El que conoce todas las rutas. El que lleva la carga a destino sin que el viajero tenga que remar.
+## Qué es Manann (definición interna, una línea)
 
-## La traducción al producto
+Un ERP transitario con IA documental nativa que convierte documentos de embarque en expedientes confirmados — sin data-entry manual.
 
-Esa es, exactamente, la promesa del producto:
+---
 
-> **El sistema conoce la ruta. Tú no remas.**
+## Estado del producto (junio 2026)
 
-Donde los ERPs transitarios actuales obligan al operario a teclear, copiar, reintroducir y vigilar cada dato a mano —remar contra el mar—, Manann hace que el expediente **navegue solo**: el Bill of Lading se lee, los datos se extraen, el expediente se rellena, el envío se sigue. El humano marca el rumbo y confirma; la máquina hace la travesía.
+**Pre-comercial. MVP de inversión.**
 
-- **Scuabtuinne (el barco sin velas)** → el flujo de trabajo automático. El expediente que avanza sin esfuerzo manual.
-- **El féth fíada (la niebla)** → la complejidad del comercio internacional que Manann disipa. Lo que para otros es opaco —aduanas, tarifas, documentación— aquí se vuelve claro.
-- **Aenbarr (el caballo sobre el mar)** → la velocidad. Cruzar lo que parecía intransitable como si fuera firme.
+Manann ya no es una demo conceptual. Es un ERP funcional con módulos operativos reales:
 
-## Posicionamiento
+- Extracción IA de BL / AWB / CMR con confianza por campo
+- Expedientes completos (partes, contenedor, mercancía, tracking, auditoría)
+- Finanzas: cotizaciones, facturas, líneas de coste, diario contable
+- Aduanas: DUA prerrellenado desde el expediente
+- Calidad: SLAs, incidencias, auditorías de proceso
+- Red de agentes: directorio global, perfil público, tenders/RFQ, e-BL electrónico
 
-**Categoría:** ERP / sistema operativo para transitarios (freight forwarders).
+Lo que falta para venta directa: términos de servicio, onboarding guiado, sistema de billing activo. Todo eso es semanas, no meses. El producto en sí está construido.
 
-**Para quién:** transitarios y operadores logísticos de tamaño pequeño-medio que mueven tráfico internacional multimodal y están atrapados en software que parece de hace veinte años.
+**Postura pública correcta:** "Estamos en fase de acceso anticipado. El producto funciona. Estamos seleccionando las primeras agencias con las que crecer."
 
-**El enemigo (lo que combatimos):** no un competidor concreto, ni la *ausencia* de IA (cuatro de los seis líderes del sector ya la marketean). Lo que combatimos es la **IA periférica y enterrada**: capacidades de IA añadidas al borde (productos sueltos, copilotos, OCR de facturas, IA de compliance) en vez de un flujo nativo de extremo a extremo; productos escondidos tras muros de venta (sin precio, sin poder probarlos); complejidad que exige academias y certificaciones para usar el propio software; y una modernización que el sector logra por adquisición, no por reinvención. El resultado: una experiencia rota para el transitario pequeño-mediano, donde el tecleo manual sigue erosionando márgenes de un solo dígito.
+---
 
-> Nota de posicionamiento: el negocio incumbente funciona comercialmente (CargoWise domina y atrinchera). Manann no dice "el sector está obsoleto" a secas — dice que la *experiencia y el acceso* están rotos para quien no es enterprise global. Ver `MANANN-COMPETITIVE.md` para el análisis completo de los seis competidores.
+## Taglines — jerarquía y uso
 
-**La diferencia en una frase:** *Otros añaden IA al borde —un copiloto, un OCR de facturas— sobre un ERP de hace años. En Manann la IA es el flujo entero: arrastras el documento y el expediente se rellena solo. Tú confirmas.*
+### Headline principal (conversión)
+> **El expediente se rellena solo.**
 
-## La gran decisión visual: por qué NO somos azules
+*Usa este como h1 en hero, en el asunto de emails de outreach, en el título de la demo en vivo.*
 
-Casi todo el sector logístico viste de azul corporativo. Azul marino = "confianza, transporte, mar". Está tan gastado que se ha vuelto invisible. Manann rompe ahí: usamos el **verde-pizarra del mar atlántico real**, la **niebla cálida** de las islas de Manannán y el **ámbar de un faro** como única chispa. Es marino sin ser el cliché. En una sala llena de capturas azules de Visual Trans y CargoWise, una pantalla verde-niebla **se recuerda**.
+Por qué funciona: es específico, verificable en 30 segundos, destruye la objeción principal del sector (40 campos a mano), y no lo puede decir nadie más porque nadie más lo hace así. Es la prueba, no la promesa.
 
-## La voz de marca
+### Manifesto de marca (posicionamiento)
+> **El ERP que el sector merecía.**
 
-Cuatro principios. La voz es la de un buen capitán: sabe más que tú, pero no te lo restriega.
+*Usa como sub-headline en hero, como cierre de sección en landing, en pitch decks como primera diapositiva.*
 
-1. **Calma con autoridad.** No gritamos, no usamos signos de exclamación a destajo. Afirmamos. "El expediente está listo." No "¡Tu expediente está listo!!!".
-2. **Concreta, no abstracta.** Hablamos de Bills of Lading, contenedores, puertos, ETAs — el idioma real del transitario. Nada de "sinergias" ni "soluciones holísticas".
-3. **El humano manda.** Nunca decimos que la IA "decide". La IA *propone, extrae, prepara*; el profesional *confirma*. Esto tranquiliza a un sector escéptico y es honesto.
-4. **Mito sin disfraz.** El relato celta aparece con elegancia (un nombre, una frase de apertura, un glifo de ola), nunca como cosplay. No hay dioses en la interfaz; hay claridad.
+Por qué funciona: audaz sin ser vacío, porque el producto ya existe. Posiciona a Manann como el ERP que el sector debería haber tenido desde hace años, no como otro módulo de IA añadido por encima de legacy. Es editorial, no aspiracional.
 
-### Tono según contexto
-- **Marketing / landing:** evocador, con permiso para el mito. *"El expediente que cruza el océano sin que muevas un dedo."*
-- **Producto / in-app:** seco, claro, funcional. *"Extraído del BL · confianza 0.97 · confirma o corrige."*
-- **Errores:** responsable, sin drama. *"No hemos podido leer el contenedor. Complétalo tú y seguimos."*
+### Tagline de marca (memoria y cierre)
+> **El sistema conoce la ruta. Tú mantienes el rumbo.**
 
-## Frases de marca (banco de mensajes)
+*Usa como tagline de cierre en páginas, pie de CTAs, cards de features, presentaciones.* No lo uses como h1 — es demasiado abstracto para convertir; funciona como remate, no como gancho.
 
-- **Tagline principal:** *El sistema conoce la ruta. Tú no remas.*
-- **Alternativas:** *Navega sin velas.* / *La travesía, sin el tecleo.* / *De documento a expediente, sin escalas.*
-- **Apertura de demo (la que cuentas en la sala):** *"Manannán mac Lir cruzaba los océanos en un barco que no necesitaba velas y llegaba solo a su destino. Esto hace lo mismo con vuestros expedientes."*
-- **Una línea para escépticos:** *"La IA no decide nada. Lee el documento, rellena el expediente, y tú lo confirmas. Como un buen administrativo que ya ha hecho el 90% del trabajo cuando llegas."*
-- **Para el escéptico informado ("Visual Trans también tiene IA"):** *"Cierto, la tienen. Como un producto aparte que pides por separado y ves en una demo de ventas. Aquí no es un módulo: es el gesto de arrastrar un PDF. Pruébalo tú ahora, sin que te lo enseñe un comercial. Esa es la diferencia."*
+### Microcopy funcional
+> La IA propone · el humano confirma · el mando es tuyo
 
-## El glifo
+*Usa bajo CTAs, en capturas de demo, en onboarding.*
 
-Tres ondas de mar apiladas (la estela del barco) con un pequeño ancla/rumbo ascendente que las cruza — sugiere a la vez "olas" y "flecha hacia adelante / a destino". Funciona en monocromo, escala a favicon, y no necesita el nombre al lado para leerse como "mar + movimiento".
+---
 
-## Qué NO es Manann (para no diluir la marca)
+## Propuesta de valor — tres pilares
 
-- No es "un software de logística más con un nombre bonito".
-- No es místico ni esotérico — el mito es estructura, no decoración.
-- No promete sustituir al profesional; promete quitarle el trabajo mecánico.
-- No es azul. Nunca será azul.
+### Pilar 1 — IA documental nativa (no periférica)
+**El momento wow:** el usuario arrastra un BL en PDF y el expediente se rellena solo. Naviera, buque, puertos, contenedor, partes, mercancía — con nivel de confianza por cada campo. Lo que la competencia obliga a teclear, Manann lo lee.
+
+La diferencia crítica con la competencia: Visual Trans, CargoWise, ClickAndCargo tienen IA periférica — añadida al borde como copiloto o módulo OCR, enterrada tras muros de venta y academias de certificación. En Manann la extracción no es una feature: es el núcleo. El expediente nace del documento, no al revés.
+
+**Copy de pilar:** "Un documento entra. Un expediente sale. No hay intermediarios manuales."
+
+### Pilar 2 — Operaciones completas en un solo expediente
+Del documento al cierre financiero sin salir del expediente. Cotización → embarque → aduanas → factura → contabilidad. El contexto no se rompe entre herramientas porque no hay herramientas distintas. Un objeto, todo el ciclo.
+
+La diferencia crítica: el sector trabaja con el envío en un portal, la aduana en otro, las finanzas en una hoja de cálculo. Ese contexto fragmentado es el problema real, no la falta de IA.
+
+**Copy de pilar:** "Desde la cotización hasta la factura. El mismo expediente, sin copiar datos entre sistemas."
+
+### Pilar 3 — Red de corresponsales (modo red)
+Directorio global de agentes, tenders/RFQ, e-BL electrónico. El transitario moderno no opera solo — opera con una red de corresponsales en cada país. Manann conecta esa red en lugar de ignorarla.
+
+**Copy de pilar:** "Tu red de corresponsales, integrada. Desde el tender hasta el e-BL."
+
+---
+
+## Voz y tono
+
+### Carácter
+Habla como un jefe de operaciones que sabe de lo que habla. Directo, técnico cuando hace falta, sin jerga de startup. El sector conoce sus siglas (BL, AWB, CMR, DUA, ETA, LOCODE) — úsalas con naturalidad.
+
+### Registro
+- Español de España, lenguaje real de transitario
+- Frases cortas. Punto al final de cada idea.
+- El presente habitual, no el futuro aspiracional. "El expediente se rellena", no "el expediente se rellenará"
+- Minúsculas en taglines y encabezados (estilo editorial, no marketing corporativo)
+
+### Lo que suena a Manann
+- "El expediente se rellena solo."
+- "La IA propone. Tú confirmas."
+- "Sin academias, sin manuales, sin implementaciones de seis meses."
+- "El ámbar significa: esto lo hizo la máquina."
+- "El mando es tuyo."
+
+### Lo que NO suena a Manann
+- "Potenciamos tu operativa con IA de última generación" — vago, genérico
+- "Solución integral para el sector logístico" — lenguaje de PowerPoint
+- "Transformación digital" — gastado hasta el tuétano
+- "Nuestros clientes" cuando no los hay todavía — honestidad ante todo
+- Exclamaciones. Ni una.
+
+---
+
+## Posicionamiento competitivo
+
+### El enemigo real
+No es la ausencia de IA en la competencia — casi todos la tienen ya en alguna forma. El enemigo es la **IA periférica y enterrada**: añadida al borde, vendida como módulo extra, inaccesible sin academias de certificación, construida encima de legacy de 25 años.
+
+### Competidores directos y cómo nos diferenciamos
+
+**Visual Trans** — ERP legacy dominante en España. IA como módulo periférico. UX de los 2000s. Precio por módulo. Academia de certificación obligatoria.
+→ Manann: sin módulos, sin academias, IA en el núcleo.
+
+**CargoWise** — Enterprise global, dominant en grandes transitarios. Implementaciones de 6-18 meses. Coste prohibitivo para agencias medianas.
+→ Manann: operativa en días, precio por operador, sin consultores.
+
+**ClickAndCargo / Bytemaster** — Más modernos que Visual Trans pero el modelo es el mismo: plataforma + integraciones + academias.
+→ Manann: producto, no plataforma. El flujo principal funciona sin integraciones ni formación.
+
+### Lo que Manann tiene y nadie más tiene
+1. Extracción IA nativa (no módulo, no copiloto — el núcleo del producto)
+2. Sin data-entry en el flujo principal
+3. UX de nivel Linear/Notion sobre operativa transitaria real
+4. Módulos financieros + aduanas + calidad + red integrados desde el día uno
+5. Precio por operador, no por módulo
+
+---
+
+## Honestidad en la demo
+
+Las integraciones simuladas se etiquetan visualmente ("Simulación — integración real en producción"). Nunca afirmar que algo simulado es real. El amber reservado exclusivamente para lo que hizo la IA — nunca decora.
+
+**El tracking:** ShipsGo (3 créditos reales) + mock creíble. Etiquetado en la UI.
+**La contabilidad:** diario contable y plan de cuentas funcionales; integración AEAT real → Enterprise.
+**El e-BL:** simulación ESSDOCS/Bolero/WAVE. Etiquetado.
+
+---
+
+## Estructura narrativa de la landing (orden de secciones)
+
+1. **Hero** — El expediente se rellena solo. (tagline conversión) + sub-manifesto + CTA demo
+2. **Problema** — La logística mueve el mundo. Su software lleva 25 años parado.
+3. **Solución** — Un expediente. Todo el ciclo.
+4. **El producto** — Tabs por módulo (Expedientes, Finanzas, Aduanas, Calidad, Red)
+5. **IA documental** — Un documento entra. Un expediente sale. (detalle técnico)
+6. **Resultados** — Números de operativos reales (con nota de transparencia si son proyecciones)
+7. **Enterprise** — Seguridad, uptime, cumplimiento normativo
+8. **CTA final** — Arrastra un BL. Míralo en vivo.
+
+---
+
+## Uso en contextos específicos
+
+### Email de outreach (línea de asunto)
+"El expediente se rellena solo — ¿lo vemos juntos?"
+
+### Pitch deck (diapositiva 1)
+"El ERP que el sector merecía."
+Sub: "IA documental nativa. Sin academias. Sin data-entry."
+
+### LinkedIn / redes
+Preferir mostrar (capturas, GIFs del flujo de extracción) sobre explicar. Una frase + visual > un párrafo de copy.
+
+### Demo en vivo ante stakeholders
+Abrir con el BL. No explicar qué va a pasar — dejar que ocurra. El "wow" lo produce ver el expediente rellenarse. No precachear ni simular en un entorno real: tener vídeo de respaldo preparado.

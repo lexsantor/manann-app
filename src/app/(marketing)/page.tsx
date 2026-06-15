@@ -27,9 +27,9 @@ import { CountUp } from "@/components/marketing/count-up";
 import { ProductTabs } from "@/components/marketing/product-tabs";
 
 export const metadata: Metadata = {
-  title: "Manann — El sistema conoce la ruta. Tú mantienes el rumbo.",
+  title: "Manann — El expediente se rellena solo.",
   description:
-    "ERP transitario con IA documental. Arrastra un Bill of Lading y el expediente se rellena solo. La IA propone, el humano confirma.",
+    "ERP transitario con IA documental. Arrastra un Bill of Lading y el expediente se rellena solo. El ERP que el sector merecía, por fin existe.",
 };
 
 const LOGOS = [
