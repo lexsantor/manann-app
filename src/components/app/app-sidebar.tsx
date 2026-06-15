@@ -26,6 +26,12 @@ import {
   BookOpen,
   Handshake,
   ChevronDown,
+  Anchor,
+  Plane,
+  Globe,
+  DollarSign,
+  Hash,
+  Database,
   type LucideIcon,
 } from "lucide-react";
 
@@ -97,6 +103,21 @@ const SECTIONS: NavSection[] = [
     label: "Análisis",
     items: [
       { label: "Reportes", href: "/reportes", icon: BarChart3 },
+    ],
+  },
+  {
+    key: "maestros",
+    label: "Maestros",
+    items: [
+      { label: "Puertos",       href: "/maestros/puertos",      icon: Anchor },
+      { label: "Aeropuertos",   href: "/maestros/aeropuertos",  icon: Plane },
+      { label: "Países",        href: "/maestros/paises",       icon: Globe },
+      { label: "Monedas",       href: "/maestros/monedas",      icon: DollarSign },
+      { label: "Conceptos",     href: "/maestros/conceptos",    icon: Tag },
+      { label: "Regímenes",     href: "/maestros/regimenes",    icon: FileCheck2 },
+      { label: "Parámetros",    href: "/maestros/parametros",   icon: Settings },
+      { label: "Series",        href: "/maestros/series",       icon: Hash },
+      { label: "Sucursales",    href: "/maestros/sucursales",   icon: Building2 },
     ],
   },
   {

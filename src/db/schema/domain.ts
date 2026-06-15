@@ -13,6 +13,8 @@ import {
   jsonb,
   index,
   unique,
+  uniqueIndex,
+  char,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
@@ -923,6 +925,137 @@ export const webhook = pgTable(
 export const webhookRelations = relations(webhook, ({ one }) => ({
   organization: one(organization, {
     fields: [webhook.organizationId],
+    references: [organization.id],
+  }),
+}));
+
+// ─── Tier R: Tablas Maestras & Administración ─────────────────────────────────
+
+export const chargeConcept = pgTable(
+  "charge_concept",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    code: text("code").notNull(),
+    name: text("name").notNull(),
+    category: text("category").notNull().default("otro"),
+    defaultDirection: text("default_direction").notNull().default("both"),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [uniqueIndex("charge_concept_org_code_idx").on(t.organizationId, t.code)],
+);
+
+export const chargeConceptRelations = relations(chargeConcept, ({ one }) => ({
+  organization: one(organization, {
+    fields: [chargeConcept.organizationId],
+    references: [organization.id],
+  }),
+}));
+
+export const exchangeRate = pgTable(
+  "exchange_rate",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    baseCurrency: text("base_currency").notNull().default("EUR"),
+    targetCurrency: text("target_currency").notNull(),
+    rate: numeric("rate", { precision: 18, scale: 6 }).notNull(),
+    validFrom: date("valid_from").notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [
+    index("exchange_rate_org_idx").on(t.organizationId),
+    uniqueIndex("exchange_rate_org_target_idx").on(t.organizationId, t.targetCurrency),
+  ],
+);
+
+export const exchangeRateRelations = relations(exchangeRate, ({ one }) => ({
+  organization: one(organization, {
+    fields: [exchangeRate.organizationId],
+    references: [organization.id],
+  }),
+}));
+
+export const customsRegime = pgTable("customs_regime", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  code: text("code").notNull().unique(),
+  name: text("name").notNull(),
+  description: text("description"),
+  active: boolean("active").notNull().default(true),
+});
+
+export const systemParam = pgTable(
+  "system_param",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    key: text("key").notNull(),
+    value: text("value").notNull(),
+    label: text("label"),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [uniqueIndex("system_param_org_key_idx").on(t.organizationId, t.key)],
+);
+
+export const systemParamRelations = relations(systemParam, ({ one }) => ({
+  organization: one(organization, {
+    fields: [systemParam.organizationId],
+    references: [organization.id],
+  }),
+}));
+
+export const documentSeries = pgTable(
+  "document_series",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    docType: text("doc_type").notNull(),
+    prefix: text("prefix").notNull(),
+    nextNumber: integer("next_number").notNull().default(1),
+    padding: integer("padding").notNull().default(5),
+    active: boolean("active").notNull().default(true),
+  },
+  (t) => [uniqueIndex("doc_series_org_type_idx").on(t.organizationId, t.docType)],
+);
+
+export const documentSeriesRelations = relations(documentSeries, ({ one }) => ({
+  organization: one(organization, {
+    fields: [documentSeries.organizationId],
+    references: [organization.id],
+  }),
+}));
+
+export const branch = pgTable(
+  "branch",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    code: text("code").notNull(),
+    name: text("name").notNull(),
+    address: text("address"),
+    city: text("city"),
+    countryCode: text("country_code"),
+    isHQ: boolean("is_hq").notNull().default(false),
+    active: boolean("active").notNull().default(true),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [uniqueIndex("branch_org_code_idx").on(t.organizationId, t.code)],
+);
+
+export const branchRelations = relations(branch, ({ one }) => ({
+  organization: one(organization, {
+    fields: [branch.organizationId],
     references: [organization.id],
   }),
 }));

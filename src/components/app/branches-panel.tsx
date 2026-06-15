@@ -1,0 +1,197 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import { Plus, Trash2, Star } from "lucide-react";
+import { createBranch, deleteBranch } from "@/lib/maestros-actions";
+import { MASTER_COUNTRIES } from "@/lib/master-countries";
+
+interface Branch {
+  id: string;
+  code: string;
+  name: string;
+  address: string | null;
+  city: string | null;
+  countryCode: string | null;
+  isHQ: boolean;
+  active: boolean;
+}
+
+export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
+  const [branches, setBranches] = useState(initial);
+  const [showForm, setShowForm] = useState(false);
+  const [pending, start] = useTransition();
+  const [form, setForm] = useState({
+    code: "",
+    name: "",
+    address: "",
+    city: "",
+    countryCode: "ES",
+    isHQ: false,
+  });
+
+  function handleCreate() {
+    if (!form.code || !form.name) return;
+    start(async () => {
+      await createBranch({
+        code: form.code,
+        name: form.name,
+        address: form.address || undefined,
+        city: form.city || undefined,
+        countryCode: form.countryCode || undefined,
+        isHQ: form.isHQ,
+      });
+      setBranches((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          code: form.code,
+          name: form.name,
+          address: form.address || null,
+          city: form.city || null,
+          countryCode: form.countryCode || null,
+          isHQ: form.isHQ,
+          active: true,
+        },
+      ]);
+      setForm({ code: "", name: "", address: "", city: "", countryCode: "ES", isHQ: false });
+      setShowForm(false);
+    });
+  }
+
+  function handleDelete(id: string) {
+    start(async () => {
+      await deleteBranch(id);
+      setBranches((prev) => prev.filter((b) => b.id !== id));
+    });
+  }
+
+  return (
+    <div className="space-y-4">
+      <button
+        onClick={() => setShowForm((v) => !v)}
+        className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+      >
+        <Plus className="h-3.5 w-3.5" strokeWidth={2} />
+        Nueva sucursal
+      </button>
+
+      {showForm && (
+        <div className="rounded-md border border-border bg-card p-4 space-y-3">
+          <h3 className="text-sm font-medium text-foreground">Nueva sucursal</h3>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">Código</label>
+              <input
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                placeholder="BCN"
+                value={form.code}
+                onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })}
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">Nombre</label>
+              <input
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                placeholder="Barcelona"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">Ciudad</label>
+              <input
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                placeholder="Barcelona"
+                value={form.city}
+                onChange={(e) => setForm({ ...form, city: e.target.value })}
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs text-muted-foreground">País</label>
+              <select
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                value={form.countryCode}
+                onChange={(e) => setForm({ ...form, countryCode: e.target.value })}
+              >
+                {MASTER_COUNTRIES.map((c) => (
+                  <option key={c.code} value={c.code}>{c.name} ({c.code})</option>
+                ))}
+              </select>
+            </div>
+            <div className="col-span-2 space-y-1">
+              <label className="text-xs text-muted-foreground">Dirección</label>
+              <input
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                placeholder="Carrer de l'Exemple 123, 08001"
+                value={form.address}
+                onChange={(e) => setForm({ ...form, address: e.target.value })}
+              />
+            </div>
+            <div className="col-span-2 flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="isHQ"
+                checked={form.isHQ}
+                onChange={(e) => setForm({ ...form, isHQ: e.target.checked })}
+                className="h-3.5 w-3.5 rounded border-border"
+              />
+              <label htmlFor="isHQ" className="text-sm text-muted-foreground">Sede principal (HQ)</label>
+            </div>
+          </div>
+          <div className="flex justify-end gap-2">
+            <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground">Cancelar</button>
+            <button
+              onClick={handleCreate}
+              disabled={pending || !form.code || !form.name}
+              className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+            >
+              Guardar
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="grid gap-2">
+        {branches.length === 0 && (
+          <div className="rounded-md border border-border py-8 text-center text-sm text-muted-foreground">
+            Sin sucursales configuradas
+          </div>
+        )}
+        {branches.map((b) => (
+          <div
+            key={b.id}
+            className="group flex items-center gap-3 rounded-md border border-border bg-card px-4 py-3 hover:border-border/80 transition-colors"
+          >
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-muted/40 font-mono text-xs font-bold text-muted-foreground">
+              {b.code}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5">
+                <span className="text-sm font-medium text-foreground">{b.name}</span>
+                {b.isHQ && (
+                  <span className="inline-flex items-center gap-0.5 rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary">
+                    <Star className="h-2.5 w-2.5" strokeWidth={2} />
+                    HQ
+                  </span>
+                )}
+              </div>
+              {(b.city || b.countryCode) && (
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {[b.city, b.countryCode].filter(Boolean).join(", ")}
+                  {b.address && ` · ${b.address}`}
+                </p>
+              )}
+            </div>
+            <button
+              onClick={() => handleDelete(b.id)}
+              disabled={pending}
+              className="text-muted-foreground hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+            >
+              <Trash2 className="h-4 w-4" strokeWidth={1.5} />
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

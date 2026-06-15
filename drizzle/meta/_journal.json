@@ -134,6 +134,13 @@
       "when": 1781454152417,
       "tag": "0018_jazzy_firelord",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1781503618730,
+      "tag": "0019_clumsy_calypso",
+      "breakpoints": true
     }
   ]
 }
