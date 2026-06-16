@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import Link from "next/link";
 import type { ShipmentListItem } from "@/lib/erp";
 import type { OrgMember } from "@/components/app/assignee-select";
 import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
-import { ShipmentRowSelectable } from "@/components/app/shipment-row";
-import { KeyboardListNav } from "@/components/app/keyboard-list-nav";
 import { BulkActionsBar } from "@/components/app/bulk-actions-bar";
-import { STATUS, MODE } from "@/lib/erp-format";
+import { DataTable, CellStacked, MiniBar, type Column } from "@/components/ui/data-table";
+import { StatusBadge, ModeBadge } from "@/components/ui/badges";
+import { STATUS, MODE, formatMoney } from "@/lib/erp-format";
 
 interface ShipmentListClientProps {
   shipments: ShipmentListItem[];
@@ -19,6 +20,29 @@ function csvCell(v: unknown): string {
   let s = String(v ?? "");
   if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
   return `"${s.replace(/"/g, '""')}"`;
+}
+
+// GP/Venta/Margen derivados de los cargos del expediente.
+function economics(s: ShipmentListItem) {
+  let revenue = 0;
+  let cost = 0;
+  for (const c of s.charges) {
+    const amt = Number(c.amount) || 0;
+    if (c.direction === "revenue") revenue += amt;
+    else cost += amt;
+  }
+  const gp = revenue - cost;
+  const margin = revenue > 0 ? (gp / revenue) * 100 : 0;
+  return { revenue, gp, margin };
+}
+
+function modeKey(s: ShipmentListItem): string {
+  if (s.mode === "maritimo") return s.loadType ?? "fcl";
+  return s.mode;
+}
+
+function consigneeName(s: ShipmentListItem): string {
+  return s.parties.find((p) => p.role === "consignee")?.name ?? "—";
 }
 
 export function ShipmentListClient({ shipments, members, view }: ShipmentListClientProps) {
@@ -82,39 +106,122 @@ export function ShipmentListClient({ shipments, members, view }: ShipmentListCli
     );
   }
 
+  const columns: Column<ShipmentListItem>[] = [
+    {
+      key: "select",
+      header: (
+        <input
+          type="checkbox"
+          checked={allSelected}
+          ref={(el) => {
+            if (el) el.indeterminate = someSelected;
+          }}
+          onChange={toggleAll}
+          className="size-3.5 cursor-pointer accent-primary align-middle"
+          aria-label="Seleccionar todos"
+        />
+      ),
+      headerClassName: "w-[1%]",
+      cell: (s) => (
+        <input
+          type="checkbox"
+          checked={selected.has(s.id)}
+          onChange={(e) => toggle(s.id, e.target.checked)}
+          className="size-3.5 cursor-pointer accent-primary align-middle"
+          aria-label={`Seleccionar ${s.reference}`}
+        />
+      ),
+    },
+    {
+      key: "reference",
+      header: "Expediente",
+      cell: (s) => (
+        <CellStacked
+          mono
+          primary={
+            <Link href={`/expedientes/${s.id}`} className="hover:text-primary transition-colors">
+              {s.reference}
+            </Link>
+          }
+          secondary={s.blNumber ?? undefined}
+        />
+      ),
+    },
+    {
+      key: "mode",
+      header: "Modo",
+      cell: (s) => <ModeBadge mode={modeKey(s)} />,
+    },
+    {
+      key: "route",
+      header: "Ruta",
+      cell: (s) => (
+        <CellStacked
+          mono
+          primary={`${s.pol ?? "—"} → ${s.pod ?? "—"}`}
+          secondary={s.carrier ?? undefined}
+        />
+      ),
+    },
+    {
+      key: "client",
+      header: "Cliente",
+      cell: (s) => <span className="text-foreground">{consigneeName(s)}</span>,
+    },
+    {
+      key: "status",
+      header: "Estado",
+      cell: (s) => <StatusBadge status={s.status} label={STATUS[s.status]?.label} />,
+    },
+    {
+      key: "revenue",
+      header: "Venta",
+      align: "right",
+      cell: (s) => (
+        <span className="font-mono tabular-nums text-foreground">
+          {formatMoney(String(economics(s).revenue))}
+        </span>
+      ),
+    },
+    {
+      key: "gp",
+      header: "GP",
+      align: "right",
+      cell: (s) => {
+        const { gp } = economics(s);
+        return (
+          <span
+            className={
+              gp >= 0
+                ? "font-mono tabular-nums text-emerald-600 dark:text-emerald-400"
+                : "font-mono tabular-nums text-destructive"
+            }
+          >
+            {formatMoney(String(gp))}
+          </span>
+        );
+      },
+    },
+    {
+      key: "margin",
+      header: "Margen",
+      align: "right",
+      cell: (s) => {
+        const { margin } = economics(s);
+        return (
+          <div className="flex items-center justify-end gap-2">
+            <span className="font-mono tabular-nums text-muted-foreground">{margin.toFixed(1)}%</span>
+            <MiniBar value={margin} tone={margin >= 8 ? "success" : "primary"} />
+          </div>
+        );
+      },
+    },
+  ];
+
   return (
     <>
       {view === "tabla" ? (
-        <div>
-          {/* Cabecera tabla */}
-          <div className="mb-1 flex items-center gap-4 rounded-md border border-transparent px-4 py-1.5">
-            <input
-              type="checkbox"
-              checked={allSelected}
-              ref={(el) => { if (el) el.indeterminate = someSelected; }}
-              onChange={toggleAll}
-              className="size-3.5 shrink-0 cursor-pointer accent-primary"
-              aria-label="Seleccionar todos"
-            />
-            <span className="w-[160px] shrink-0 text-sm text-ink-subtle">Referencia</span>
-            <span className="min-w-0 flex-1 text-sm text-ink-subtle">Ruta · Naviera</span>
-            <span className="hidden w-[76px] shrink-0 text-right text-sm text-ink-subtle sm:block">ETD</span>
-            <span className="hidden w-[76px] shrink-0 text-right text-sm text-ink-subtle sm:block">ETA</span>
-            <span className="hidden w-[90px] shrink-0 text-right text-sm text-ink-subtle md:block">GP</span>
-            <span className="w-[110px] shrink-0 text-sm text-ink-subtle">Estado</span>
-            <span className="w-[32px] shrink-0" />
-          </div>
-          <KeyboardListNav>
-            {shipments.map((s) => (
-              <ShipmentRowSelectable
-                key={s.id}
-                s={s}
-                selected={selected.has(s.id)}
-                onSelect={toggle}
-              />
-            ))}
-          </KeyboardListNav>
-        </div>
+        <DataTable columns={columns} rows={shipments} getRowKey={(s) => s.id} />
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {shipments.map((s, i) => (

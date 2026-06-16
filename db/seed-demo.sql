@@ -376,3 +376,26 @@ CROSS JOIN (VALUES
 ) AS v(tender_title, agent, price, days, notes)
 WHERE t.title=v.tender_title
   AND NOT EXISTS (SELECT 1 FROM tender_bid b WHERE b.tender_id=t.id AND b.agent_name=v.agent);
+
+-- ── Q · Cargos de VENTA (enriquecer expedientes a paridad Faro) ───────────────
+-- Los expedientes existentes solo tenían cargos de coste → Venta/GP/Margen = 0.
+-- Añade líneas de venta (y el flete coste aéreo de 0052) para márgenes realistas
+-- ~8-13%. Idempotente: solo si el expediente aún no tiene ningún cargo 'revenue'.
+INSERT INTO charge (shipment_id, type, description, amount, currency, direction)
+SELECT s.id, v.type::charge_type, v.description, v.amount::numeric, 'EUR', v.direction::charge_direction
+FROM shipment s
+JOIN organization o ON o.id = s.organization_id AND o.slug = 'atlantica'
+JOIN (VALUES
+  ('EXP-2026-0039','flete','Flete marítimo (venta)','1180.00','revenue'),
+  ('EXP-2026-0039','manipulacion','THC + handling (venta)','454.00','revenue'),
+  ('EXP-2026-0042','flete','Flete marítimo (venta)','1500.00','revenue'),
+  ('EXP-2026-0042','manipulacion','THC + handling (venta)','604.00','revenue'),
+  ('EXP-2026-0043','flete','Flete marítimo (venta)','2700.00','revenue'),
+  ('EXP-2026-0043','aduana','Despacho + inspección (venta)','1047.00','revenue'),
+  ('EXP-2026-0044','flete','Flete marítimo (venta)','3900.00','revenue'),
+  ('EXP-2026-0044','seguro','Seguro + handling (venta)','1066.00','revenue'),
+  ('EXP-2026-0052','flete','Flete aéreo (coste)','3200.00','cost'),
+  ('EXP-2026-0052','flete','Flete aéreo (venta)','3600.00','revenue'),
+  ('EXP-2026-0052','documentacion','Emisión AWB + handling (venta)','180.00','revenue')
+) AS v(ship_ref, type, description, amount, direction) ON v.ship_ref = s.reference
+WHERE NOT EXISTS (SELECT 1 FROM charge c2 WHERE c2.shipment_id = s.id AND c2.direction = 'revenue');

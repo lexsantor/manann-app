@@ -8,6 +8,7 @@ import { ShipmentListClient } from "@/components/app/shipment-list-client";
 import { SearchInput } from "@/components/app/search-input";
 import { KanbanBoard } from "@/components/app/kanban-board";
 import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/ui/page-header";
 import { STATUS } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 
@@ -58,41 +59,36 @@ export default async function ExpedientesPage({
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Package className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-          <div>
-            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-              Expedientes
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              {all.length} expediente{all.length !== 1 ? "s" : ""}
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Link
-            href="/expedientes/importar"
-            prefetch={false}
-            className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-base text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
-          >
-            <Icon icon={Upload} size={14} />
-            Importar CSV
-          </Link>
-          <a
-            href="/api/expedientes/export"
-            className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-base text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
-          >
-            <Icon icon={Download} size={14} />
-            Exportar CSV
-          </a>
-          <form action={createDraftShipment}>
-            <Button type="submit" size="sm">
-              <Icon icon={Plus} size={16} /> Nuevo expediente
-            </Button>
-          </form>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Operaciones"
+        icon={<Package strokeWidth={1.5} />}
+        title="Expedientes"
+        subtitle={`${all.length} expediente${all.length !== 1 ? "s" : ""}`}
+        actions={
+          <>
+            <Link
+              href="/expedientes/importar"
+              prefetch={false}
+              className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+            >
+              <Icon icon={Upload} size={14} />
+              Importar CSV
+            </Link>
+            <a
+              href="/api/expedientes/export"
+              className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+            >
+              <Icon icon={Download} size={14} />
+              Exportar CSV
+            </a>
+            <form action={createDraftShipment}>
+              <Button type="submit" size="sm">
+                <Icon icon={Plus} size={16} /> Nuevo expediente
+              </Button>
+            </form>
+          </>
+        }
+      />
 
       <SearchInput defaultValue={q} estado={estado} />
 
