@@ -5,6 +5,8 @@ import { Plus, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { KpiCard } from "@/components/ui/kpi-card";
+import { DataTable, type Column } from "@/components/ui/data-table";
 import { createExpense, deleteExpense } from "@/lib/expense-actions";
 
 type Expense = {
@@ -26,7 +28,7 @@ const CAT_LABEL: Record<string, string> = {
   dietas: "Dietas", seguros: "Seguros", servicios: "Servicios", otro: "Otro",
 };
 
-function money(amount: string, currency: string) {
+function money(amount: string, currency = "EUR") {
   return Number(amount).toLocaleString("es-ES", { style: "currency", currency });
 }
 
@@ -60,60 +62,69 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
     });
   }
 
+  const columns: Column<Expense>[] = [
+    {
+      key: "date",
+      header: "Fecha",
+      cell: (e) => <span className="font-mono text-muted-foreground">{new Date(e.date).toLocaleDateString("es-ES")}</span>,
+    },
+    {
+      key: "category",
+      header: "Categoría",
+      cell: (e) => (
+        <span className="inline-flex w-fit rounded-md bg-secondary/20 px-1.5 py-0.5 font-mono text-xs font-medium text-foreground">
+          {CAT_LABEL[e.category] ?? e.category}
+        </span>
+      ),
+    },
+    {
+      key: "description",
+      header: "Concepto",
+      cell: (e) => <span className="text-foreground">{e.description ?? "—"}</span>,
+    },
+    {
+      key: "supplier",
+      header: "Proveedor",
+      cell: (e) => <span className="text-muted-foreground">{e.supplier ?? "—"}</span>,
+    },
+    {
+      key: "amount",
+      header: "Importe",
+      align: "right",
+      cell: (e) => <span className="font-mono font-medium tabular-nums text-foreground">{money(e.amount, e.currency)}</span>,
+    },
+    {
+      key: "action",
+      header: "",
+      align: "right",
+      cell: (e) => (
+        <button
+          onClick={() => handleDelete(e.id)}
+          disabled={isPending}
+          className="rounded p-1 text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-40"
+          aria-label="Eliminar gasto"
+        >
+          <Trash2 className="h-3.5 w-3.5" />
+        </button>
+      ),
+    },
+  ];
+
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="rounded-xl border border-border bg-card px-4 py-3">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Total registrado</p>
-          <p className="mt-0.5 font-display text-2xl font-semibold tracking-tight text-foreground">
-            {money(String(total), "EUR")}
-          </p>
-          <p className="mt-0.5 text-xs text-muted-foreground">{items.length} gasto{items.length !== 1 ? "s" : ""}</p>
-        </div>
+        <KpiCard
+          label="Total registrado"
+          value={money(String(total))}
+          sub={`${items.length} ${items.length === 1 ? "gasto" : "gastos"}`}
+          className="min-w-[200px]"
+        />
         <Button size="sm" onClick={() => setOpen(true)} className="gap-1.5">
           <Plus className="h-4 w-4" /> Añadir gasto
         </Button>
       </div>
 
-      {items.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-border py-12 text-center text-sm text-muted-foreground">
-          Sin gastos registrados.
-        </div>
-      ) : (
-        <div className="overflow-hidden rounded-xl border border-border">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border bg-card text-left">
-                  {["Fecha", "Categoría", "Concepto", "Proveedor", "Importe", ""].map((h, i) => (
-                    <th key={i} className="px-4 py-2.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border/50">
-                {items.map((e) => (
-                  <tr key={e.id} className="hover:bg-surface-2/30">
-                    <td className="px-4 py-2.5 font-mono text-xs text-muted-foreground">{new Date(e.date).toLocaleDateString("es-ES")}</td>
-                    <td className="px-4 py-2.5">
-                      <span className="inline-flex w-fit rounded-md bg-secondary/20 px-1.5 py-0.5 font-mono text-xs font-medium text-foreground">
-                        {CAT_LABEL[e.category] ?? e.category}
-                      </span>
-                    </td>
-                    <td className="px-4 py-2.5 text-foreground">{e.description ?? "—"}</td>
-                    <td className="px-4 py-2.5 text-muted-foreground">{e.supplier ?? "—"}</td>
-                    <td className="px-4 py-2.5 text-right font-mono font-medium text-foreground">{money(e.amount, e.currency)}</td>
-                    <td className="px-2 py-2.5 text-right">
-                      <button onClick={() => handleDelete(e.id)} disabled={isPending} className="rounded p-1 text-muted-foreground hover:text-destructive disabled:opacity-40" aria-label="Eliminar">
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+      <DataTable columns={columns} rows={items} getRowKey={(e) => e.id} empty="Sin gastos registrados." />
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-end justify-end sm:items-start">

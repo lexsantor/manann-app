@@ -5,6 +5,7 @@ import { FileSearch, Plus, X, ChevronDown, ChevronUp, Zap, Lock } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { StatusBadge, ModeBadge } from "@/components/ui/badges";
 import { createTender, closeTender, addSimulatedBids } from "@/lib/tier-v-actions";
 
 type TenderBid = {
@@ -28,10 +29,6 @@ type Tender = {
   responseDeadline: string | null;
   createdAt: Date;
   bids: TenderBid[];
-};
-
-const MODE_LABELS: Record<string, string> = {
-  FCL: "FCL", LCL: "LCL", AIR: "Aéreo", ROAD: "Terrestre", RAIL: "Ferroviario",
 };
 
 export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
@@ -112,18 +109,8 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-sm font-medium text-foreground">{t.title}</span>
-                    <span
-                      className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                        t.status === "abierto"
-                          ? "text-emerald-500 bg-emerald-500/10"
-                          : "text-muted-foreground bg-muted/50"
-                      }`}
-                    >
-                      {t.status}
-                    </span>
-                    <span className="inline-flex rounded-md bg-secondary/20 px-1.5 py-0.5 text-[10px] font-medium text-foreground">
-                      {MODE_LABELS[t.mode] ?? t.mode}
-                    </span>
+                    <StatusBadge status={t.status} />
+                    <ModeBadge mode={t.mode} />
                   </div>
                   <p className="mt-0.5 text-xs text-muted-foreground">
                     {t.origin} → {t.destination}
