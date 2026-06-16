@@ -2,24 +2,58 @@ import { notFound } from "next/navigation";
 import { ShieldCheck, AlertTriangle, ClipboardList, Timer } from "lucide-react";
 import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
+import { formatMoney } from "@/lib/erp-format";
+import { listIncidents, listNonConformities, listSlaDefinitions } from "@/lib/calidad-actions";
+import { PageHeader } from "@/components/ui/page-header";
+import { KpiRow, KpiCard } from "@/components/ui/kpi-card";
 
 export default async function CalidadPage() {
   const ctx = await getOrgContext();
   if (!ctx?.org) notFound();
 
+  const [incidents, ncs, slas] = await Promise.all([
+    listIncidents(),
+    listNonConformities(),
+    listSlaDefinitions(),
+  ]);
+
+  const openIncidents = incidents.filter((i) => i.status !== "cerrado");
+  const openNc = ncs.filter((n) => n.status !== "cerrado").length;
+  const activeSla = slas.filter((s) => s.active).length;
+  const impactOpen = openIncidents.reduce((s, i) => s + Number(i.impactCost ?? 0), 0);
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <ShieldCheck className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Calidad
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Incidencias · No conformidades · SLA
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Calidad"
+        icon={<ShieldCheck strokeWidth={1.5} />}
+        title="Calidad"
+        subtitle="Incidencias · No conformidades · SLA"
+      />
+
+      <KpiRow cols={4}>
+        <KpiCard
+          label="Incidencias abiertas"
+          value={String(openIncidents.length)}
+          tone={openIncidents.length > 0 ? "danger" : "default"}
+          icon={<AlertTriangle />}
+          sub={`${incidents.length} en total`}
+        />
+        <KpiCard
+          label="No conformidades abiertas"
+          value={String(openNc)}
+          tone={openNc > 0 ? "danger" : "default"}
+          icon={<ClipboardList />}
+          sub={`${ncs.length} en total`}
+        />
+        <KpiCard label="SLAs activos" value={String(activeSla)} tone="primary" icon={<Timer />} />
+        <KpiCard
+          label="Coste de impacto"
+          value={formatMoney(String(impactOpen))}
+          tone={impactOpen > 0 ? "danger" : "default"}
+          sub="incidencias abiertas"
+        />
+      </KpiRow>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {[
@@ -45,7 +79,7 @@ export default async function CalidadPage() {
           <Link
             key={item.href}
             href={item.href}
-            className="flex items-start gap-2.5 rounded-md border border-border bg-card p-4 hover:border-primary/30 hover:bg-primary/5 transition-colors"
+            className="flex items-start gap-2.5 rounded-md border border-border bg-card p-4 transition-colors hover:border-primary/30 hover:bg-primary/5"
           >
             <item.icon
               className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground"
