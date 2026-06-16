@@ -33,10 +33,10 @@ const STATUS_OPTIONS = [
 
 const STATUS_COLORS: Record<string, string> = {
   pendiente: "bg-muted text-muted-foreground",
-  recogida: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
-  en_ruta: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
-  entregado: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-  incidencia: "bg-red-500/10 text-red-500",
+  recogida: "bg-info/10 text-info",
+  en_ruta: "bg-warning/10 text-warning",
+  entregado: "bg-success/10 text-success",
+  incidencia: "bg-destructive/10 text-destructive",
 };
 
 function fmtDate(d: string) {

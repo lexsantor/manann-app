@@ -34,9 +34,9 @@ interface AirManifest {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  open: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+  open: "bg-info/10 text-info",
   closed: "bg-muted text-muted-foreground",
-  departed: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+  departed: "bg-success/10 text-success",
   arrived: "bg-primary/10 text-primary",
 };
 

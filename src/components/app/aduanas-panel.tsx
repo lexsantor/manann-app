@@ -17,9 +17,9 @@ type Declaration = {
 
 const TYPE_LABEL: Record<string, string> = { dua: "DUA", ens: "ENS", ncts: "NCTS", aes: "AES" };
 const STATUS_COLOR: Record<string, string> = {
-  aceptada: "text-emerald-500 bg-emerald-500/10",
+  aceptada: "text-success bg-success/10",
   presentada: "text-primary bg-primary/10",
-  pendiente: "text-amber-600 bg-amber-500/10",
+  pendiente: "text-warning bg-warning/10",
   rechazada: "text-destructive bg-destructive/10",
 };
 
@@ -101,8 +101,8 @@ export function AduanasPanel({ declarations }: { declarations: Declaration[] }) 
         </div>
       )}
 
-      <div className="rounded-md border border-amber-500/20 bg-amber-500/5 px-3 py-2">
-        <p className="text-[11px] text-amber-600 dark:text-amber-400">
+      <div className="rounded-md border border-warning/20 bg-warning/5 px-3 py-2">
+        <p className="text-[11px] text-warning">
           Simulación — integración AEAT (DUA · ENS · NCTS · AES) en producción
         </p>
       </div>
