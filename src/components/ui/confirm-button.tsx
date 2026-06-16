@@ -88,9 +88,9 @@ export function ConfirmButton({
                     onConfirm();
                   }}
                   className={cn(
-                    "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                    "rounded-md px-3 py-1.5 text-sm font-semibold transition-colors",
                     tone === "danger"
-                      ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                      ? "border border-destructive/40 bg-destructive/10 text-destructive hover:bg-destructive/20"
                       : "bg-primary text-primary-foreground hover:bg-primary/90",
                   )}
                 >
