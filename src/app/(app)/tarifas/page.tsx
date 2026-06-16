@@ -3,6 +3,8 @@ import { Tag } from "lucide-react";
 import { getOrgContext, listRates } from "@/lib/erp";
 import { formatMoney, formatDate } from "@/lib/erp-format";
 import { Icon } from "@/components/icon";
+import { PageHeader } from "@/components/ui/page-header";
+import { DataTable, CellStacked, type Column } from "@/components/ui/data-table";
 import { RateFormTrigger, RateEditTrigger } from "@/components/app/rate-form";
 import { RateRowActions } from "@/components/app/rate-row-actions";
 import { RateCsvImport } from "@/components/app/rate-csv-import";
@@ -19,12 +21,12 @@ const SERVICE_LABEL: Record<string, string> = {
 };
 
 const SERVICE_COLOR: Record<string, string> = {
-  flete: "bg-blue-500/10 text-blue-400",
-  aduana: "bg-amber-500/10 text-amber-400",
-  manipulacion: "bg-violet-500/10 text-violet-400",
-  seguro: "bg-emerald-500/10 text-emerald-400",
+  flete: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
+  aduana: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+  manipulacion: "bg-violet-500/10 text-violet-600 dark:text-violet-400",
+  seguro: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
   documentacion: "bg-primary/10 text-primary",
-  almacenaje: "bg-orange-500/10 text-orange-400",
+  almacenaje: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
   otro: "bg-border/40 text-muted-foreground",
 };
 
@@ -37,6 +39,87 @@ const UNIT_LABEL: Record<string, string> = {
   plano: "precio fijo",
 };
 
+type RateRow = Awaited<ReturnType<typeof listRates>>[number];
+
+function vigencia(r: RateRow): string {
+  if (r.validFrom && r.validTo) return `${formatDate(r.validFrom)} – ${formatDate(r.validTo)}`;
+  if (r.validFrom) return `Desde ${formatDate(r.validFrom)}`;
+  if (r.validTo) return `Hasta ${formatDate(r.validTo)}`;
+  return "Indefinida";
+}
+
+const columns: Column<RateRow>[] = [
+  {
+    key: "concept",
+    header: "Concepto",
+    cell: (r) => <CellStacked primary={r.concept} secondary={r.notes ?? undefined} />,
+  },
+  {
+    key: "type",
+    header: "Tipo",
+    cell: (r) => (
+      <span
+        className={cn(
+          "inline-flex w-fit rounded-full px-2 py-0.5 font-mono text-xs font-semibold",
+          SERVICE_COLOR[r.serviceType] ?? "bg-border/30 text-muted-foreground",
+        )}
+      >
+        {SERVICE_LABEL[r.serviceType] ?? r.serviceType}
+      </span>
+    ),
+  },
+  {
+    key: "unit",
+    header: "Unidad",
+    cell: (r) => <span className="font-mono text-muted-foreground">{UNIT_LABEL[r.unit] ?? r.unit}</span>,
+  },
+  {
+    key: "price",
+    header: "Precio base",
+    align: "right",
+    cell: (r) => (
+      <span className="font-mono font-medium tabular-nums text-foreground">{formatMoney(r.basePrice, r.currency)}</span>
+    ),
+  },
+  {
+    key: "vigencia",
+    header: "Vigencia",
+    cell: (r) => <span className="font-mono text-muted-foreground">{vigencia(r)}</span>,
+  },
+  {
+    key: "actions",
+    header: "",
+    align: "right",
+    cell: (r) => (
+      <div className="flex items-center justify-end gap-1">
+        <RateEditTrigger rate={r} />
+        <RateRowActions rateId={r.id} active={r.active} />
+      </div>
+    ),
+  },
+];
+
+function RatesTable({ rates, title, muted = false }: { rates: RateRow[]; title: string; muted?: boolean }) {
+  return (
+    <div>
+      <p
+        className={cn(
+          "mb-2 font-mono text-xs uppercase tracking-wider",
+          muted ? "text-muted-foreground/40" : "text-muted-foreground/60",
+        )}
+      >
+        {title}
+      </p>
+      <DataTable
+        className={muted ? "opacity-60" : undefined}
+        columns={columns}
+        rows={rates}
+        getRowKey={(r) => r.id}
+      />
+    </div>
+  );
+}
+
 export default async function TarifasPage() {
   const ctx = await getOrgContext();
   if (!ctx?.org) notFound();
@@ -46,26 +129,17 @@ export default async function TarifasPage() {
   const inactive = rates.filter((r) => !r.active);
 
   return (
-    <div className="space-y-5 p-5 lg:p-8">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Tag className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-          <div>
-            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-              Tarifas
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              {active.length} activas · {inactive.length} inactivas
-            </p>
-          </div>
-        </div>
-        <RateFormTrigger />
-      </div>
+    <div className="space-y-5">
+      <PageHeader
+        eyebrow="Finanzas"
+        icon={<Tag strokeWidth={1.5} />}
+        title="Tarifas"
+        subtitle={`${active.length} activas · ${inactive.length} inactivas`}
+        actions={<RateFormTrigger />}
+      />
 
-      {/* CSV import */}
       <div className="rounded-xl border border-border bg-card p-5">
-        <p className="mb-3 font-mono text-sm uppercase tracking-wider text-muted-foreground/60">Importar desde CSV</p>
+        <p className="mb-3 font-mono text-xs uppercase tracking-wider text-muted-foreground/60">Importar desde CSV</p>
         <RateCsvImport />
       </div>
 
@@ -74,7 +148,7 @@ export default async function TarifasPage() {
           <Icon icon={Tag} size={32} className="mb-3 text-muted-foreground/30" />
           <p className="text-base font-medium text-muted-foreground">Sin tarifas todavía</p>
           <p className="mt-1 text-base text-muted-foreground/60">
-            Crea tu primer tarifa para usarla al generar facturas y cotizaciones.
+            Crea tu primera tarifa para usarla al generar facturas y cotizaciones.
           </p>
         </div>
       ) : (
@@ -83,93 +157,6 @@ export default async function TarifasPage() {
           {inactive.length > 0 && <RatesTable rates={inactive} title="Inactivas" muted />}
         </>
       )}
-    </div>
-  );
-}
-
-type RateRow = Awaited<ReturnType<typeof listRates>>[number];
-
-function RatesTable({
-  rates,
-  title,
-  muted = false,
-}: {
-  rates: RateRow[];
-  title: string;
-  muted?: boolean;
-}) {
-  return (
-    <div>
-      <p className={cn(
-        "mb-2 font-mono text-sm uppercase tracking-wider",
-        muted ? "text-muted-foreground/40" : "text-muted-foreground/60",
-      )}>
-        {title}
-      </p>
-      <div className="overflow-hidden rounded-xl border border-border bg-card">
-        {/* Cabecera */}
-        <div
-          className="grid items-center gap-3 border-b border-border/60 px-5 py-2.5 font-mono text-sm uppercase tracking-wider text-muted-foreground/60"
-          style={{ gridTemplateColumns: "1fr 110px 120px 110px 110px 90px 32px" }}
-        >
-          <span>Concepto</span>
-          <span>Tipo</span>
-          <span>Unidad</span>
-          <span className="text-right">Precio base</span>
-          <span>Vigencia</span>
-          <span />
-          <span />
-        </div>
-
-        {rates.map((r) => (
-          <div
-            key={r.id}
-            className={cn(
-              "grid items-center gap-3 border-b border-border/50 px-5 py-3 last:border-0 transition-colors",
-              r.active ? "hover:bg-surface-2/40" : "opacity-50",
-            )}
-            style={{ gridTemplateColumns: "1fr 110px 120px 110px 110px 90px 32px" }}
-          >
-            <div className="min-w-0">
-              <p className="truncate text-base font-medium text-foreground">{r.concept}</p>
-              {r.notes && (
-                <p className="mt-0.5 truncate font-mono text-base text-muted-foreground/60">
-                  {r.notes}
-                </p>
-              )}
-            </div>
-
-            <span className={cn(
-              "w-fit rounded-full px-2 py-0.5 font-mono text-base font-semibold",
-              SERVICE_COLOR[r.serviceType] ?? "bg-border/30 text-muted-foreground",
-            )}>
-              {SERVICE_LABEL[r.serviceType] ?? r.serviceType}
-            </span>
-
-            <span className="font-mono text-base text-muted-foreground">
-              {UNIT_LABEL[r.unit] ?? r.unit}
-            </span>
-
-            <span className="text-right font-mono text-base font-medium text-foreground">
-              {formatMoney(r.basePrice, r.currency)}
-            </span>
-
-            <span className="font-mono text-base text-muted-foreground">
-              {r.validFrom && r.validTo
-                ? `${formatDate(r.validFrom)} – ${formatDate(r.validTo)}`
-                : r.validFrom
-                  ? `Desde ${formatDate(r.validFrom)}`
-                  : r.validTo
-                    ? `Hasta ${formatDate(r.validTo)}`
-                    : "Indefinida"}
-            </span>
-
-            <RateEditTrigger rate={r} />
-
-            <RateRowActions rateId={r.id} active={r.active} />
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

@@ -253,12 +253,12 @@ export function AirManifestsPanel({
                   {/* HAWB entries table */}
                   <table className="w-full text-xs">
                     <thead>
-                      <tr className="text-muted-foreground">
-                        <th className="text-left pb-1.5 font-medium">HAWB</th>
-                        <th className="text-left pb-1.5 font-medium">Consignatario</th>
-                        <th className="text-right pb-1.5 font-medium">Bultos</th>
-                        <th className="text-right pb-1.5 font-medium">Peso (kg)</th>
-                        <th className="text-left pb-1.5 font-medium pl-3">Descripción</th>
+                      <tr className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                        <th className="pb-1.5 text-left font-medium">HAWB</th>
+                        <th className="pb-1.5 text-left font-medium">Consignatario</th>
+                        <th className="pb-1.5 text-right font-medium">Bultos</th>
+                        <th className="pb-1.5 text-right font-medium">Peso (kg)</th>
+                        <th className="pb-1.5 pl-3 text-left font-medium">Descripción</th>
                         <th className="w-6" />
                       </tr>
                     </thead>
