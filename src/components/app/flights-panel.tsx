@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { Plus, Trash2, PlaneTakeoff } from "lucide-react";
 import { createFlight, deleteFlight } from "@/lib/tier-s-actions";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
-import { cn } from "@/lib/utils";
+import { DataTable, type Column } from "@/components/ui/data-table";
 
 interface Flight {
   id: string;
@@ -25,6 +25,10 @@ const AIRLINES = [
   "Qatar Airways Cargo", "Turkish Cargo", "Cargolux", "Atlas Air", "FedEx",
   "DHL Aviation", "UPS Airlines", "Amazon Air",
 ];
+
+function fmtDate(d: string) {
+  return new Date(d).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "2-digit" });
+}
 
 export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
   const [flights, setFlights] = useState(initial);
@@ -84,29 +88,83 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
     });
   }
 
-  const airportLabel = (iata: string) => {
-    const a = MASTER_AIRPORTS.find((x) => x.iata === iata);
-    return a ? `${iata} — ${a.city}` : iata;
-  };
+  const columns: Column<Flight>[] = [
+    {
+      key: "flight",
+      header: "Vuelo",
+      cell: (f) => (
+        <div className="flex items-center gap-2">
+          <PlaneTakeoff className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60" strokeWidth={1.5} />
+          <span className="font-mono text-xs font-bold text-foreground">{f.flightNumber}</span>
+          {f.aircraftType && <span className="text-[10px] text-muted-foreground/60">{f.aircraftType}</span>}
+        </div>
+      ),
+    },
+    { key: "airline", header: "Aerolínea", cell: (f) => <span className="text-muted-foreground">{f.airline}</span> },
+    {
+      key: "route",
+      header: "Ruta",
+      cell: (f) => (
+        <span className="font-mono text-xs">
+          <span className="font-medium text-foreground">{f.originIata}</span>
+          <span className="mx-1 text-muted-foreground">→</span>
+          <span className="font-medium text-foreground">{f.destIata}</span>
+        </span>
+      ),
+    },
+    { key: "dep", header: "Salida", cell: (f) => <span className="text-muted-foreground">{fmtDate(f.departureDate)}</span> },
+    { key: "arr", header: "Llegada", cell: (f) => <span className="text-muted-foreground">{fmtDate(f.arrivalDate)}</span> },
+    {
+      key: "cap",
+      header: "Capacidad",
+      align: "right",
+      cell: (f) =>
+        f.availableKg !== null && f.capacityKg !== null ? (
+          <span className="font-mono tabular-nums">
+            <span className="text-foreground">{(f.availableKg / 1000).toFixed(0)}t</span>
+            <span className="text-muted-foreground/60"> / {(f.capacityKg / 1000).toFixed(0)}t</span>
+          </span>
+        ) : f.capacityKg !== null ? (
+          <span className="font-mono tabular-nums">{(f.capacityKg / 1000).toFixed(0)}t</span>
+        ) : (
+          <span className="text-muted-foreground">—</span>
+        ),
+    },
+    {
+      key: "action",
+      header: "",
+      align: "right",
+      cell: (f) => (
+        <button
+          onClick={() => handleDelete(f.id)}
+          disabled={pending}
+          className="text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-50"
+          aria-label={`Eliminar vuelo ${f.flightNumber}`}
+        >
+          <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
+        </button>
+      ),
+    },
+  ];
 
   return (
     <div className="space-y-4">
       <button
         onClick={() => setShowForm((v) => !v)}
-        className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+        className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
       >
         <Plus className="h-3.5 w-3.5" strokeWidth={2} />
         Nuevo vuelo
       </button>
 
       {showForm && (
-        <div className="rounded-md border border-border bg-card p-4 space-y-3">
+        <div className="space-y-3 rounded-md border border-border bg-card p-4">
           <h3 className="text-sm font-medium text-foreground">Nuevo vuelo</h3>
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Número de vuelo</label>
               <input
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="IB6251"
                 value={form.flightNumber}
                 onChange={(e) => setForm({ ...form, flightNumber: e.target.value.toUpperCase() })}
@@ -149,7 +207,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Tipo aeronave</label>
               <input
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="B747F"
                 value={form.aircraftType}
                 onChange={(e) => setForm({ ...form, aircraftType: e.target.value })}
@@ -177,7 +235,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               <label className="text-xs text-muted-foreground">Capacidad (kg)</label>
               <input
                 type="number"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="100000"
                 value={form.capacityKg}
                 onChange={(e) => setForm({ ...form, capacityKg: e.target.value })}
@@ -187,7 +245,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               <label className="text-xs text-muted-foreground">Disponible (kg)</label>
               <input
                 type="number"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="80000"
                 value={form.availableKg}
                 onChange={(e) => setForm({ ...form, availableKg: e.target.value })}
@@ -207,70 +265,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
         </div>
       )}
 
-      <div className="rounded-md border border-border overflow-hidden">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border bg-muted/30">
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Vuelo</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Aerolínea</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Ruta</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Salida</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Llegada</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Capacidad</th>
-              <th className="px-3 py-2 w-10" />
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {flights.map((f) => (
-              <tr key={f.id} className="group hover:bg-muted/20 transition-colors">
-                <td className="px-3 py-2.5">
-                  <div className="flex items-center gap-2">
-                    <PlaneTakeoff className="h-3.5 w-3.5 text-muted-foreground/50" strokeWidth={1.5} />
-                    <span className="font-mono text-xs font-bold text-foreground">{f.flightNumber}</span>
-                    {f.aircraftType && (
-                      <span className="text-[10px] text-muted-foreground/50">{f.aircraftType}</span>
-                    )}
-                  </div>
-                </td>
-                <td className="px-3 py-2.5 text-xs text-muted-foreground">{f.airline}</td>
-                <td className="px-3 py-2.5">
-                  <span className="font-mono text-xs font-medium text-foreground">{f.originIata}</span>
-                  <span className="text-xs text-muted-foreground mx-1">→</span>
-                  <span className="font-mono text-xs font-medium text-foreground">{f.destIata}</span>
-                </td>
-                <td className="px-3 py-2.5 text-xs text-muted-foreground">
-                  {new Date(f.departureDate).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "2-digit" })}
-                </td>
-                <td className="px-3 py-2.5 text-xs text-muted-foreground">
-                  {new Date(f.arrivalDate).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "2-digit" })}
-                </td>
-                <td className="px-3 py-2.5 text-xs text-muted-foreground">
-                  {f.availableKg !== null && f.capacityKg !== null ? (
-                    <span>
-                      <span className="text-foreground font-mono">{(f.availableKg / 1000).toFixed(0)}t</span>
-                      <span className="text-muted-foreground/50"> / {(f.capacityKg / 1000).toFixed(0)}t</span>
-                    </span>
-                  ) : f.capacityKg !== null ? (
-                    <span className="font-mono">{(f.capacityKg / 1000).toFixed(0)}t</span>
-                  ) : "—"}
-                </td>
-                <td className="px-3 py-2.5 text-right">
-                  <button
-                    onClick={() => handleDelete(f.id)}
-                    disabled={pending}
-                    className="text-muted-foreground hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {flights.length === 0 && (
-          <div className="py-10 text-center text-sm text-muted-foreground">Sin vuelos registrados</div>
-        )}
-      </div>
+      <DataTable columns={columns} rows={flights} getRowKey={(f) => f.id} empty="Sin vuelos registrados" />
     </div>
   );
 }

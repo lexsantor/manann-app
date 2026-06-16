@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { createTransportOrder, updateTransportOrderStatus, deleteTransportOrder } from "@/lib/tier-s-actions";
+import { DataTable, CellStacked, type Column } from "@/components/ui/data-table";
 import { cn } from "@/lib/utils";
 
 interface TransportOrder {
@@ -35,6 +36,10 @@ const STATUS_COLORS: Record<string, string> = {
   entregado: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
   incidencia: "bg-red-500/10 text-red-500",
 };
+
+function fmtDate(d: string) {
+  return new Date(d).toLocaleDateString("es-ES", { day: "2-digit", month: "short" });
+}
 
 export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrder[] }) {
   const [orders, setOrders] = useState(initial);
@@ -102,24 +107,85 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
     });
   }
 
+  const columns: Column<TransportOrder>[] = [
+    {
+      key: "reference",
+      header: "Referencia",
+      cell: (o) => <CellStacked mono primary={o.reference} secondary={o.licensePlate ?? undefined} />,
+    },
+    {
+      key: "carrier",
+      header: "Transportista",
+      cell: (o) => (
+        <CellStacked primary={<span className="text-muted-foreground">{o.carrier}</span>} secondary={o.driverName ?? undefined} />
+      ),
+    },
+    {
+      key: "route",
+      header: "Ruta",
+      cell: (o) => <span className="text-muted-foreground">{o.origin} → {o.destination}</span>,
+    },
+    {
+      key: "pickup",
+      header: "Recogida",
+      cell: (o) => <span className="text-muted-foreground">{o.pickupDate ? fmtDate(o.pickupDate) : "—"}</span>,
+    },
+    {
+      key: "delivery",
+      header: "Entrega",
+      cell: (o) => <span className="text-muted-foreground">{o.deliveryDate ? fmtDate(o.deliveryDate) : "—"}</span>,
+    },
+    {
+      key: "status",
+      header: "Estado",
+      cell: (o) => (
+        <select
+          value={o.status}
+          onChange={(e) => handleStatusChange(o.id, e.target.value)}
+          className={cn(
+            "rounded-full border-0 px-2 py-0.5 text-[11px] font-medium focus:outline-none focus:ring-2 focus:ring-primary/30",
+            STATUS_COLORS[o.status] ?? "bg-muted text-muted-foreground",
+          )}
+        >
+          {STATUS_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+        </select>
+      ),
+    },
+    {
+      key: "action",
+      header: "",
+      align: "right",
+      cell: (o) => (
+        <button
+          onClick={() => handleDelete(o.id)}
+          disabled={pending}
+          className="text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-50"
+          aria-label={`Eliminar orden ${o.reference}`}
+        >
+          <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
+        </button>
+      ),
+    },
+  ];
+
   return (
     <div className="space-y-4">
       <button
         onClick={() => setShowForm((v) => !v)}
-        className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
+        className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
       >
         <Plus className="h-3.5 w-3.5" strokeWidth={2} />
         Nueva orden
       </button>
 
       {showForm && (
-        <div className="rounded-md border border-border bg-card p-4 space-y-3">
+        <div className="space-y-3 rounded-md border border-border bg-card p-4">
           <h3 className="text-sm font-medium text-foreground">Nueva orden de transporte</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Referencia</label>
               <input
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="OT-2024-001"
                 value={form.reference}
                 onChange={(e) => setForm({ ...form, reference: e.target.value.toUpperCase() })}
@@ -164,7 +230,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Matrícula</label>
               <input
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="1234 ABC"
                 value={form.licensePlate}
                 onChange={(e) => setForm({ ...form, licensePlate: e.target.value.toUpperCase() })}
@@ -211,70 +277,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
         </div>
       )}
 
-      <div className="rounded-md border border-border overflow-hidden">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border bg-muted/30">
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Referencia</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Transportista</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Ruta</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Recogida</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Entrega</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Estado</th>
-              <th className="px-3 py-2 w-10" />
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {orders.map((o) => {
-              const statusColor = STATUS_COLORS[o.status] ?? "bg-muted text-muted-foreground";
-              return (
-                <tr key={o.id} className="group hover:bg-muted/20 transition-colors">
-                  <td className="px-3 py-2.5">
-                    <span className="font-mono text-xs font-bold text-foreground">{o.reference}</span>
-                    {o.licensePlate && (
-                      <div className="text-[10px] text-muted-foreground/60 mt-0.5">{o.licensePlate}</div>
-                    )}
-                  </td>
-                  <td className="px-3 py-2.5 text-xs text-muted-foreground">
-                    {o.carrier}
-                    {o.driverName && <div className="text-[10px] text-muted-foreground/60">{o.driverName}</div>}
-                  </td>
-                  <td className="px-3 py-2.5 text-xs text-muted-foreground">
-                    {o.origin} → {o.destination}
-                  </td>
-                  <td className="px-3 py-2.5 text-xs text-muted-foreground">
-                    {o.pickupDate ? new Date(o.pickupDate).toLocaleDateString("es-ES", { day: "2-digit", month: "short" }) : "—"}
-                  </td>
-                  <td className="px-3 py-2.5 text-xs text-muted-foreground">
-                    {o.deliveryDate ? new Date(o.deliveryDate).toLocaleDateString("es-ES", { day: "2-digit", month: "short" }) : "—"}
-                  </td>
-                  <td className="px-3 py-2.5">
-                    <select
-                      value={o.status}
-                      onChange={(e) => handleStatusChange(o.id, e.target.value)}
-                      className={cn("rounded-full px-2 py-0.5 text-[11px] font-medium border-0 focus:outline-none focus:ring-2 focus:ring-primary/30", statusColor)}
-                    >
-                      {STATUS_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
-                    </select>
-                  </td>
-                  <td className="px-3 py-2.5 text-right">
-                    <button
-                      onClick={() => handleDelete(o.id)}
-                      disabled={pending}
-                      className="text-muted-foreground hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        {orders.length === 0 && (
-          <div className="py-10 text-center text-sm text-muted-foreground">Sin órdenes de transporte</div>
-        )}
-      </div>
+      <DataTable columns={columns} rows={orders} getRowKey={(o) => o.id} empty="Sin órdenes de transporte" />
     </div>
   );
 }
