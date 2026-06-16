@@ -19,8 +19,10 @@ const RAW_COLOR = new RegExp(
   `\\b(bg|text|border|ring|ring-offset|from|to|via|fill|stroke|divide|outline|decoration|shadow|accent)-(${PALETTE})-\\d{2,3}\\b`,
 );
 const HEX = /#[0-9a-fA-F]{3,8}\b/;
-const NATIVE_SELECT = /<select[\s>]/;
+const NATIVE_SELECT = /<select\b/;
+const NATIVE_TEXTAREA = /<textarea\b/;
 const NATIVE_CHECKBOX = /type=["']checkbox["']/;
+const NATIVE_RADIO = /type=["']radio["']/;
 const NESTED_MAXW = /mx-auto\s+max-w-[2-5]xl|max-w-[2-5]xl\s+[^"']*\bspace-y-/;
 
 // Páginas-documento imprimibles: max-w más estrecho es intencional.
@@ -53,8 +55,14 @@ for (const file of walk(join(ROOT, "src"))) {
     const at = (cat) => findings[layer].push({ rel, line: i + 1, cat, text: line.trim().slice(0, 100) });
     if (RAW_COLOR.test(line)) at("paleta-cruda");
     if (HEX.test(line) && !rel.endsWith(".css")) at("hex");
-    if (NATIVE_SELECT.test(line)) at("select-nativo");
-    if (NATIVE_CHECKBOX.test(line)) at("checkbox-nativo");
+    // El kit (ui/) puede envolver tags nativos: es su función. Solo se controlan
+    // los nativos en la capa de app/marketing (que debe usar los primitivos).
+    if (layer !== "kit") {
+      if (NATIVE_SELECT.test(line)) at("select-nativo");
+      if (NATIVE_TEXTAREA.test(line)) at("textarea-nativo");
+      if (NATIVE_CHECKBOX.test(line)) at("checkbox-nativo");
+      if (NATIVE_RADIO.test(line)) at("radio-nativo");
+    }
     if (rel.includes("app/(app)") && rel.endsWith("page.tsx") && NESTED_MAXW.test(line) && !DOC_EXEMPT.test(rel)) at("ancho-anidado");
   });
 }

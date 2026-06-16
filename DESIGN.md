@@ -49,6 +49,35 @@ inventar colores decorativos (azul/violeta/naranja) — usar neutro o el token d
 - `Select` (shadcn) — desplegables; también para pills de estado **editables**.
 - Charts: reutiliza `report-charts.tsx` / `dashboard-charts.tsx` (themed). No dupliques recharts.
 
+### 3.1 Registro de componentes (curado a lo que el ERP usa)
+
+Política: si existe primitivo, **úsalo**; el equivalente **nativo está prohibido**.
+Si necesitas uno marcado ⊘, **créalo primero en `ui/` y documéntalo aquí**, luego úsalo. No instalamos los ~50 de shadcn por YAGNI: solo lo que el producto usa.
+
+| Componente | Estado | Path / import | Nativo prohibido | Notas |
+|---|---|---|---|---|
+| Button | ✓ | `ui/button` | — | variantes shadcn |
+| Input | ✓ | `ui/input` | `<input>` suelto | text/email/date/number/search van aquí |
+| Textarea | ✓ | `ui/textarea` | `<textarea>` | — |
+| Select | ✓ | `ui/select` (Radix) | `<select>` | también pills de estado **editables** |
+| Checkbox | ✓ | `ui/checkbox` | `<input type=checkbox>` | indeterminado incluido |
+| Switch | ✓ | `ui/switch` | toggles a mano | activar/desactivar |
+| Label | ✓ | `ui/label` | `<label>` suelto | en formularios |
+| DropdownMenu | ✓ | `ui/dropdown-menu` (Radix) | menús a mano | topbar, +Crear, acciones de fila |
+| DataTable (+CellStacked, MiniBar) | ✓ | `ui/data-table` | `<table>` / grid-tabla | zebra canónico |
+| PageHeader | ✓ | `ui/page-header` | cabeceras a mano | toda página |
+| KpiRow / KpiCard | ✓ | `ui/kpi-card` | tiles a mano | (hero animado del dashboard es aparte) |
+| Badges (Status/Mode/Grade) | ✓ | `ui/badges` | chips de color a mano | StatusBadge centraliza color |
+| ConfirmButton (AlertDialog) | ✓ | `ui/confirm-button` | onClick destructivo directo | toda acción destructiva |
+| Sheet (slide-in) | ✓ | `ui/sheet` | slide-in reimplementado | formularios laterales |
+| Charts | ✓ | `app/report-charts`, `app/dashboard-charts` | recharts suelto | themed |
+| Tooltip | ⊘ | añadir al usarse | — | hoy `title=""`; crear si se generaliza |
+| Dialog (modal central) | ⊘ | añadir al usarse | modal a mano | ConfirmButton/Sheet cubren casi todo |
+| Tabs | ⊘ | añadir al usarse | tabs a mano | hoy sub-nav por tarjetas/URL |
+| Toast/Sonner | ⊘ | añadir al usarse | — | feedback de error en updates optimistas |
+| Skeleton | ⊘ | añadir al usarse | — | estados de carga (Suspense) |
+| RadioGroup, Accordion, Popover, Command… | ⊘ | añadir al usarse | equivalente nativo | solo si el producto lo pide |
+
 ## 4. Radios y forma (CLAUDE.md)
 
 `rounded-md` (10px) en todo control in-app. `rounded-full` SOLO en hero CTA,
