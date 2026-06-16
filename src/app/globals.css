@@ -393,6 +393,23 @@ h1, h2, h3, .font-display {
 [data-theme="light"] .logo-dark-mode { display: none; }
 [data-theme="light"] .logo-light-mode { display: block; }
 
+/* a11y — foco visible por teclado para interactivos sin anillo propio.
+   En @layer base: los componentes del kit con focus-visible:outline-none
+   (capa utilities, mayor prioridad) conservan su ring; los <button>/<a>/[role]
+   hand-rolled sin estilo de foco heredan este outline accesible. */
+@layer base {
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  [role="switch"]:focus-visible,
+  [role="checkbox"]:focus-visible,
+  [tabindex="0"]:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
 /* a11y — respeta prefers-reduced-motion: neutraliza animaciones/transiciones */
 @media (prefers-reduced-motion: reduce) {
   *,
