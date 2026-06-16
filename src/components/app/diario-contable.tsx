@@ -130,15 +130,6 @@ export function DiarioContable({ entries, accounts }: DiarioContableProps) {
         <CrearAsientoButton accounts={accounts} />
       </div>
 
-      {/* Column headers */}
-      {entries.length > 0 && (
-        <div className="hidden grid-cols-[80px_1fr_90px_100px_80px] gap-3 border-b border-border/50 px-4 py-2 sm:grid">
-          {["Fecha", "Descripción", "Período", "Importe", "Estado"].map((h) => (
-            <span key={h} className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{h}</span>
-          ))}
-        </div>
-      )}
-
       {entries.length === 0 ? (
         <div className="px-5 py-14 text-center">
           <p className="text-sm text-muted-foreground">
@@ -146,10 +137,18 @@ export function DiarioContable({ entries, accounts }: DiarioContableProps) {
           </p>
         </div>
       ) : (
-        <div>
-          {entries.map((e) => (
-            <EntryRow key={e.id} entry={e} />
-          ))}
+        <div className="overflow-x-auto">
+          <div className="min-w-[560px]">
+            {/* Column headers */}
+            <div className="grid grid-cols-[80px_1fr_90px_100px_80px] gap-3 border-b border-border/50 px-4 py-2">
+              {["Fecha", "Descripción", "Período", "Importe", "Estado"].map((h) => (
+                <span key={h} className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{h}</span>
+              ))}
+            </div>
+            {entries.map((e) => (
+              <EntryRow key={e.id} entry={e} />
+            ))}
+          </div>
         </div>
       )}
     </section>
