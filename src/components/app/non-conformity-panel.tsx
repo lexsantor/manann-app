@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { ClipboardList, Plus, Trash2, CheckCircle2, X } from "lucide-react";
+import { Plus, Trash2, CheckCircle2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DataTable, type Column } from "@/components/ui/data-table";
+import { StatusBadge } from "@/components/ui/badges";
 import { createNonConformity, updateNonConformityStatus, deleteNonConformity } from "@/lib/calidad-actions";
 
 type NC = {
@@ -22,12 +24,6 @@ const CAT_LABELS: Record<string, string> = {
   proveedor: "Proveedor",
   cliente: "Cliente",
   externo: "Externo",
-};
-
-const STATUS_COLORS: Record<string, string> = {
-  abierto: "text-red-500 bg-red-500/10",
-  "en-proceso": "text-amber-500 bg-amber-500/10",
-  cerrado: "text-emerald-500 bg-emerald-500/10",
 };
 
 export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
@@ -70,76 +66,78 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
     });
   }
 
+  const columns: Column<NC>[] = [
+    {
+      key: "category",
+      header: "Categoría",
+      cell: (i) => <span className="font-medium text-foreground">{CAT_LABELS[i.category] ?? i.category}</span>,
+    },
+    {
+      key: "description",
+      header: "Descripción",
+      cell: (i) => (
+        <div className="max-w-lg">
+          <p className="truncate text-foreground">{i.description}</p>
+          {i.rootCause && <p className="truncate text-xs text-muted-foreground">Causa: {i.rootCause}</p>}
+          {i.correctiveAction && (
+            <p className="truncate text-xs text-muted-foreground">Acción: {i.correctiveAction}</p>
+          )}
+        </div>
+      ),
+    },
+    {
+      key: "status",
+      header: "Estado",
+      cell: (i) => <StatusBadge status={i.status} />,
+    },
+    {
+      key: "actions",
+      header: "",
+      align: "right",
+      cell: (i) => (
+        <div className="flex shrink-0 items-center justify-end gap-1">
+          {i.status !== "cerrado" && (
+            <button
+              className="rounded p-1 text-emerald-600 transition-colors hover:bg-emerald-500/10 disabled:opacity-40 dark:text-emerald-400"
+              onClick={() => handleClose(i.id)}
+              disabled={isPending}
+              title="Cerrar NC"
+            >
+              <CheckCircle2 className="h-4 w-4" />
+            </button>
+          )}
+          <button
+            className="rounded p-1 text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-40"
+            onClick={() => handleDelete(i.id)}
+            disabled={isPending}
+            aria-label="Eliminar no conformidad"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <>
       <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">{items.length} no conformidad(es)</p>
+        <p className="text-sm text-muted-foreground">
+          {items.length} {items.length === 1 ? "no conformidad" : "no conformidades"}
+        </p>
         <Button size="sm" variant="secondary" onClick={() => setOpen(true)} className="gap-1.5">
           <Plus className="h-3.5 w-3.5" />
           Nueva NC
         </Button>
       </div>
 
-      {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-12 text-center mt-4">
-          <ClipboardList className="mb-2 h-8 w-8 text-muted-foreground/40" strokeWidth={1} />
-          <p className="text-sm text-muted-foreground">Sin no conformidades registradas</p>
-        </div>
-      ) : (
-        <div className="space-y-2 mt-4">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-start gap-3 rounded-md border border-border bg-card p-3"
-            >
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-sm font-medium text-foreground">
-                    {CAT_LABELS[item.category] ?? item.category}
-                  </span>
-                  <span
-                    className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${STATUS_COLORS[item.status] ?? ""}`}
-                  >
-                    {item.status}
-                  </span>
-                </div>
-                <p className="mt-0.5 text-sm text-muted-foreground line-clamp-2">
-                  {item.description}
-                </p>
-                {item.rootCause && (
-                  <p className="mt-0.5 text-xs text-muted-foreground/70">
-                    Causa: {item.rootCause}
-                  </p>
-                )}
-                {item.correctiveAction && (
-                  <p className="mt-0.5 text-xs text-muted-foreground/70">
-                    Acción: {item.correctiveAction}
-                  </p>
-                )}
-              </div>
-              <div className="flex shrink-0 gap-1">
-                {item.status !== "cerrado" && (
-                  <button
-                    className="rounded p-1 text-emerald-500 hover:bg-emerald-500/10 disabled:opacity-40"
-                    onClick={() => handleClose(item.id)}
-                    disabled={isPending}
-                    title="Cerrar NC"
-                  >
-                    <CheckCircle2 className="h-4 w-4" />
-                  </button>
-                )}
-                <button
-                  className="rounded p-1 text-muted-foreground hover:text-destructive disabled:opacity-40"
-                  onClick={() => handleDelete(item.id)}
-                  disabled={isPending}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <DataTable
+        className="mt-4"
+        columns={columns}
+        rows={items}
+        getRowKey={(i) => i.id}
+        empty="Sin no conformidades registradas"
+      />
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-end justify-end sm:items-start">
@@ -187,7 +185,7 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">
-                  Causa raíz <span className="text-muted-foreground font-normal">(opcional)</span>
+                  Causa raíz <span className="font-normal text-muted-foreground">(opcional)</span>
                 </label>
                 <Input
                   value={form.rootCause}
@@ -197,7 +195,7 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">
-                  Acción correctiva <span className="text-muted-foreground font-normal">(opcional)</span>
+                  Acción correctiva <span className="font-normal text-muted-foreground">(opcional)</span>
                 </label>
                 <Input
                   value={form.correctiveAction}

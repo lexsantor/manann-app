@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { AlertTriangle, Plus, Trash2, CheckCircle2, X } from "lucide-react";
+import { Plus, Trash2, CheckCircle2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DataTable, type Column } from "@/components/ui/data-table";
+import { StatusBadge } from "@/components/ui/badges";
 import { createIncident, updateIncidentStatus, deleteIncident } from "@/lib/calidad-actions";
 
 type Incident = {
@@ -25,11 +27,9 @@ const TYPE_LABELS: Record<string, string> = {
   documental: "Documental",
 };
 
-const STATUS_COLORS: Record<string, string> = {
-  abierto: "text-red-500 bg-red-500/10",
-  "en-proceso": "text-amber-500 bg-amber-500/10",
-  cerrado: "text-emerald-500 bg-emerald-500/10",
-};
+function fmtMoney(v: string) {
+  return Number(v).toLocaleString("es-ES", { style: "currency", currency: "EUR" });
+}
 
 export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
   const [items, setItems] = useState(initialItems);
@@ -74,79 +74,87 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
     });
   }
 
+  const columns: Column<Incident>[] = [
+    {
+      key: "type",
+      header: "Tipo",
+      cell: (i) => <span className="font-medium text-foreground">{TYPE_LABELS[i.type] ?? i.type}</span>,
+    },
+    {
+      key: "description",
+      header: "Descripción",
+      cell: (i) => (
+        <div className="max-w-md">
+          <p className="truncate text-foreground">{i.description}</p>
+          {i.responsible && (
+            <p className="text-xs text-muted-foreground">Responsable: {i.responsible}</p>
+          )}
+        </div>
+      ),
+    },
+    {
+      key: "impact",
+      header: "Impacto",
+      align: "right",
+      cell: (i) => (
+        <span className="font-mono tabular-nums text-muted-foreground">
+          {i.impactCost && Number(i.impactCost) > 0 ? fmtMoney(i.impactCost) : "—"}
+        </span>
+      ),
+    },
+    {
+      key: "status",
+      header: "Estado",
+      cell: (i) => <StatusBadge status={i.status} />,
+    },
+    {
+      key: "actions",
+      header: "",
+      align: "right",
+      cell: (i) => (
+        <div className="flex shrink-0 items-center justify-end gap-1">
+          {i.status !== "cerrado" && (
+            <button
+              className="rounded p-1 text-emerald-600 transition-colors hover:bg-emerald-500/10 disabled:opacity-40 dark:text-emerald-400"
+              onClick={() => handleResolve(i.id)}
+              disabled={isPending}
+              title="Marcar como cerrada"
+            >
+              <CheckCircle2 className="h-4 w-4" />
+            </button>
+          )}
+          <button
+            className="rounded p-1 text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-40"
+            onClick={() => handleDelete(i.id)}
+            disabled={isPending}
+            aria-label="Eliminar incidencia"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <>
       <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">{items.length} incidencia(s)</p>
+        <p className="text-sm text-muted-foreground">
+          {items.length} {items.length === 1 ? "incidencia" : "incidencias"}
+        </p>
         <Button size="sm" variant="secondary" onClick={() => setOpen(true)} className="gap-1.5">
           <Plus className="h-3.5 w-3.5" />
           Nueva incidencia
         </Button>
       </div>
 
-      {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-12 text-center">
-          <AlertTriangle className="mb-2 h-8 w-8 text-muted-foreground/40" strokeWidth={1} />
-          <p className="text-sm text-muted-foreground">Sin incidencias registradas</p>
-        </div>
-      ) : (
-        <div className="space-y-2 mt-4">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-start gap-3 rounded-md border border-border bg-card p-3"
-            >
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-sm font-medium text-foreground">
-                    {TYPE_LABELS[item.type] ?? item.type}
-                  </span>
-                  <span
-                    className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium ${STATUS_COLORS[item.status] ?? ""}`}
-                  >
-                    {item.status}
-                  </span>
-                  {item.impactCost && (
-                    <span className="text-xs text-muted-foreground">
-                      {Number(item.impactCost).toLocaleString("es-ES", {
-                        style: "currency",
-                        currency: "EUR",
-                      })}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-0.5 text-sm text-muted-foreground line-clamp-2">
-                  {item.description}
-                </p>
-                {item.responsible && (
-                  <p className="mt-0.5 text-xs text-muted-foreground/70">
-                    Responsable: {item.responsible}
-                  </p>
-                )}
-              </div>
-              <div className="flex shrink-0 gap-1">
-                {item.status !== "cerrado" && (
-                  <button
-                    className="rounded p-1 text-emerald-500 hover:bg-emerald-500/10 disabled:opacity-40"
-                    onClick={() => handleResolve(item.id)}
-                    disabled={isPending}
-                    title="Marcar como cerrada"
-                  >
-                    <CheckCircle2 className="h-4 w-4" />
-                  </button>
-                )}
-                <button
-                  className="rounded p-1 text-muted-foreground hover:text-destructive disabled:opacity-40"
-                  onClick={() => handleDelete(item.id)}
-                  disabled={isPending}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <DataTable
+        className="mt-4"
+        columns={columns}
+        rows={items}
+        getRowKey={(i) => i.id}
+        empty="Sin incidencias registradas"
+      />
 
       {/* New incident slide-in panel */}
       {open && (
@@ -192,7 +200,7 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">
-                  Responsable <span className="text-muted-foreground font-normal">(opcional)</span>
+                  Responsable <span className="font-normal text-muted-foreground">(opcional)</span>
                 </label>
                 <Input
                   value={form.responsible}
@@ -202,7 +210,7 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">
-                  Coste de impacto € <span className="text-muted-foreground font-normal">(opcional)</span>
+                  Coste de impacto € <span className="font-normal text-muted-foreground">(opcional)</span>
                 </label>
                 <Input
                   type="number"

@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Timer, Plus, Trash2, ToggleLeft, ToggleRight, X } from "lucide-react";
+import { Plus, Trash2, ToggleLeft, ToggleRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DataTable, type Column } from "@/components/ui/data-table";
+import { StatusBadge } from "@/components/ui/badges";
 import { createSlaDefinition, toggleSlaDefinition, deleteSlaDefinition } from "@/lib/calidad-actions";
 
 type SLA = {
@@ -72,74 +74,93 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
     });
   }
 
+  const columns: Column<SLA>[] = [
+    {
+      key: "name",
+      header: "Nombre",
+      cell: (i) => <span className="font-medium text-foreground">{i.name}</span>,
+    },
+    {
+      key: "metric",
+      header: "Métrica",
+      cell: (i) => (
+        <span className="inline-flex w-fit items-center rounded-md bg-secondary/20 px-1.5 py-0.5 text-[11px] font-medium text-foreground">
+          {METRIC_LABELS[i.metric] ?? i.metric}
+        </span>
+      ),
+    },
+    {
+      key: "mode",
+      header: "Modo",
+      cell: (i) => (
+        <span className="text-muted-foreground">
+          {i.mode ? (MODE_LABELS[i.mode] ?? i.mode) : "Todos"}
+        </span>
+      ),
+    },
+    {
+      key: "target",
+      header: "Objetivo",
+      align: "right",
+      cell: (i) => <span className="font-mono tabular-nums text-foreground">{i.targetHours}h</span>,
+    },
+    {
+      key: "status",
+      header: "Estado",
+      cell: (i) => (
+        <StatusBadge
+          status={i.active ? "activo" : "inactivo"}
+          label={i.active ? "Activo" : "Inactivo"}
+          tone={i.active ? "success" : "neutral"}
+        />
+      ),
+    },
+    {
+      key: "actions",
+      header: "",
+      align: "right",
+      cell: (i) => (
+        <div className="flex shrink-0 items-center justify-end gap-1">
+          <button
+            className="rounded p-1 text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
+            onClick={() => handleToggle(i.id, i.active)}
+            disabled={isPending}
+            title={i.active ? "Desactivar" : "Activar"}
+          >
+            {i.active ? <ToggleRight className="h-5 w-5 text-primary" /> : <ToggleLeft className="h-5 w-5" />}
+          </button>
+          <button
+            className="rounded p-1 text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-40"
+            onClick={() => handleDelete(i.id)}
+            disabled={isPending}
+            aria-label="Eliminar SLA"
+          >
+            <Trash2 className="h-4 w-4" />
+          </button>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <>
       <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">{items.length} SLA(s) definido(s)</p>
+        <p className="text-sm text-muted-foreground">
+          {items.length} {items.length === 1 ? "SLA definido" : "SLAs definidos"}
+        </p>
         <Button size="sm" variant="secondary" onClick={() => setOpen(true)} className="gap-1.5">
           <Plus className="h-3.5 w-3.5" />
           Nuevo SLA
         </Button>
       </div>
 
-      {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-12 text-center mt-4">
-          <Timer className="mb-2 h-8 w-8 text-muted-foreground/40" strokeWidth={1} />
-          <p className="text-sm text-muted-foreground">Sin SLAs definidos</p>
-          <p className="mt-1 text-xs text-muted-foreground/70">
-            Define objetivos de tiempo por métrica operativa
-          </p>
-        </div>
-      ) : (
-        <div className="space-y-2 mt-4">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className={`flex items-center gap-3 rounded-md border p-3 transition-colors ${
-                item.active ? "border-border bg-card" : "border-border/50 bg-muted/30 opacity-60"
-              }`}
-            >
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-sm font-medium text-foreground">{item.name}</span>
-                  <span className="inline-flex items-center rounded-md bg-secondary/20 px-1.5 py-0.5 text-[10px] font-medium text-foreground">
-                    {METRIC_LABELS[item.metric] ?? item.metric}
-                  </span>
-                  {item.mode && (
-                    <span className="inline-flex items-center rounded-md border border-border px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground">
-                      {MODE_LABELS[item.mode] ?? item.mode}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  Objetivo: {item.targetHours}h{!item.mode && " · Todos los modos"}
-                </p>
-              </div>
-              <div className="flex shrink-0 items-center gap-1">
-                <button
-                  className="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-40"
-                  onClick={() => handleToggle(item.id, item.active)}
-                  disabled={isPending}
-                  title={item.active ? "Desactivar" : "Activar"}
-                >
-                  {item.active ? (
-                    <ToggleRight className="h-5 w-5 text-primary" />
-                  ) : (
-                    <ToggleLeft className="h-5 w-5" />
-                  )}
-                </button>
-                <button
-                  className="rounded p-1 text-muted-foreground hover:text-destructive disabled:opacity-40"
-                  onClick={() => handleDelete(item.id)}
-                  disabled={isPending}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      <DataTable
+        className="mt-4"
+        columns={columns}
+        rows={items}
+        getRowKey={(i) => i.id}
+        empty="Sin SLAs definidos. Define objetivos de tiempo por métrica operativa."
+      />
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-end justify-end sm:items-start">
@@ -191,7 +212,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">
-                  Modo <span className="text-muted-foreground font-normal">(vacío = todos)</span>
+                  Modo <span className="font-normal text-muted-foreground">(vacío = todos)</span>
                 </label>
                 <Select
                   value={form.mode || "_all"}
