@@ -399,3 +399,42 @@ JOIN (VALUES
   ('EXP-2026-0052','documentacion','Emisión AWB + handling (venta)','180.00','revenue')
 ) AS v(ship_ref, type, description, amount, direction) ON v.ship_ref = s.reference
 WHERE NOT EXISTS (SELECT 1 FROM charge c2 WHERE c2.shipment_id = s.id AND c2.direction = 'revenue');
+
+-- ── R · Facturas (+ líneas) ───────────────────────────────────────────────────
+-- Cada factura como sentencia independiente (CTE INSERT…RETURNING → líneas).
+-- Idempotente por (reference, shipment_id). Importes = venta del expediente +21% IVA.
+WITH org AS (SELECT id FROM organization WHERE slug='atlantica'),
+sh AS (SELECT s.id FROM shipment s, org WHERE s.organization_id=org.id AND s.reference='EXP-2026-0039'),
+inv AS (INSERT INTO invoice (shipment_id, reference, status, issue_date, due_date, subtotal, tax_rate, total, currency, client_name)
+  SELECT sh.id,'FAC-2026-0101','pagada',DATE '2026-05-15',DATE '2026-06-14',1634.00,21,1977.14,'EUR','Recanvis Auto Garraf S.L.'
+  FROM sh WHERE NOT EXISTS (SELECT 1 FROM invoice i, sh WHERE i.reference='FAC-2026-0101' AND i.shipment_id=sh.id) RETURNING id)
+INSERT INTO invoice_line (invoice_id, concept, quantity, unit_price, tax_rate, subtotal, sort_order)
+SELECT inv.id,'Flete marítimo DEHAM-ESBCN',1,1180.00,21,1180.00,0 FROM inv
+UNION ALL SELECT inv.id,'THC + despacho',1,454.00,21,454.00,1 FROM inv;
+
+WITH org AS (SELECT id FROM organization WHERE slug='atlantica'),
+sh AS (SELECT s.id FROM shipment s, org WHERE s.organization_id=org.id AND s.reference='EXP-2026-0043'),
+inv AS (INSERT INTO invoice (shipment_id, reference, status, issue_date, due_date, subtotal, tax_rate, total, currency, client_name)
+  SELECT sh.id,'FAC-2026-0102','enviada',DATE '2026-06-11',DATE '2026-07-11',3747.00,21,4533.87,'EUR','Levante Componentes S.L.'
+  FROM sh WHERE NOT EXISTS (SELECT 1 FROM invoice i, sh WHERE i.reference='FAC-2026-0102' AND i.shipment_id=sh.id) RETURNING id)
+INSERT INTO invoice_line (invoice_id, concept, quantity, unit_price, tax_rate, subtotal, sort_order)
+SELECT inv.id,'Flete marítimo CNSHA-ESVLC',1,2700.00,21,2700.00,0 FROM inv
+UNION ALL SELECT inv.id,'Despacho + inspección',1,1047.00,21,1047.00,1 FROM inv;
+
+WITH org AS (SELECT id FROM organization WHERE slug='atlantica'),
+sh AS (SELECT s.id FROM shipment s, org WHERE s.organization_id=org.id AND s.reference='EXP-2026-0044'),
+inv AS (INSERT INTO invoice (shipment_id, reference, status, issue_date, due_date, subtotal, tax_rate, total, currency, client_name)
+  SELECT sh.id,'FAC-2026-0103','emitida',DATE '2026-06-13',DATE '2026-07-13',4966.00,21,6008.86,'EUR','East Coast Fine Wines LLC'
+  FROM sh WHERE NOT EXISTS (SELECT 1 FROM invoice i, sh WHERE i.reference='FAC-2026-0103' AND i.shipment_id=sh.id) RETURNING id)
+INSERT INTO invoice_line (invoice_id, concept, quantity, unit_price, tax_rate, subtotal, sort_order)
+SELECT inv.id,'Flete marítimo ESVLC-USNYC',1,3900.00,21,3900.00,0 FROM inv
+UNION ALL SELECT inv.id,'Seguro + handling',1,1066.00,21,1066.00,1 FROM inv;
+
+WITH org AS (SELECT id FROM organization WHERE slug='atlantica'),
+sh AS (SELECT s.id FROM shipment s, org WHERE s.organization_id=org.id AND s.reference='EXP-2026-0052'),
+inv AS (INSERT INTO invoice (shipment_id, reference, status, issue_date, due_date, subtotal, tax_rate, total, currency, client_name)
+  SELECT sh.id,'FAC-2026-0104','vencida',DATE '2026-05-05',DATE '2026-06-04',3780.00,21,4573.80,'EUR','Distribuidora Médica del Valle S.A. de C.V.'
+  FROM sh WHERE NOT EXISTS (SELECT 1 FROM invoice i, sh WHERE i.reference='FAC-2026-0104' AND i.shipment_id=sh.id) RETURNING id)
+INSERT INTO invoice_line (invoice_id, concept, quantity, unit_price, tax_rate, subtotal, sort_order)
+SELECT inv.id,'Flete aéreo ESBCN-MXMEX',1,3600.00,21,3600.00,0 FROM inv
+UNION ALL SELECT inv.id,'Emisión AWB + handling',1,180.00,21,180.00,1 FROM inv;
