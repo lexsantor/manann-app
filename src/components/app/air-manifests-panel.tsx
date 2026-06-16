@@ -242,10 +242,17 @@ export function AirManifestsPanel({
           const statusColor = STATUS_COLORS[m.status] ?? "bg-muted text-muted-foreground";
           return (
             <div key={m.id} className="rounded-md border border-border bg-card overflow-hidden">
-              <button
-                type="button"
+              <div
+                role="button"
+                tabIndex={0}
                 onClick={() => setExpandedId(isExpanded ? null : m.id)}
-                className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-muted/20 transition-colors"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setExpandedId(isExpanded ? null : m.id);
+                  }
+                }}
+                className="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/20"
               >
                 <ChevronDown className={cn("h-3.5 w-3.5 text-muted-foreground/50 shrink-0 transition-transform", isExpanded && "rotate-180")} />
                 <span className="font-mono text-sm font-bold text-foreground">{m.mawbNumber}</span>
@@ -254,15 +261,22 @@ export function AirManifestsPanel({
                 <span className="ml-auto text-xs text-muted-foreground font-mono">
                   {m.totalPieces} bultos · {Number(m.totalWeightKg).toFixed(2)} kg
                 </span>
-                <select
-                  value={m.status}
-                  onClick={(e) => e.stopPropagation()}
-                  onChange={(e) => handleStatusChange(m.id, e.target.value)}
-                  className={cn("rounded-full px-2 py-0.5 text-[11px] font-medium border-0 focus:outline-none focus:ring-2 focus:ring-primary/30", statusColor)}
-                >
-                  {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                </select>
-              </button>
+                <span onClick={(e) => e.stopPropagation()}>
+                  <Select value={m.status} onValueChange={(v) => handleStatusChange(m.id, v)}>
+                    <SelectTrigger
+                      className={cn(
+                        "h-7 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[11px] font-medium focus:ring-1 focus:ring-primary/30 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
+                        statusColor,
+                      )}
+                    >
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {STATUS_OPTIONS.map((o) => <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </span>
+              </div>
 
               {isExpanded && (
                 <div className="border-t border-border px-4 py-3 space-y-3">

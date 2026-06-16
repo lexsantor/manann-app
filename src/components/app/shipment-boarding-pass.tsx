@@ -15,13 +15,13 @@ import { cn } from "@/lib/utils";
 // ─── Marca de naviera ────────────────────────────────────────────────────────
 
 const CARRIER_COLORS: Record<string, string> = {
-  MSC:          "bg-sky-500/10 text-sky-600 dark:text-sky-400",
-  MAERSK:       "bg-blue-600/10 text-blue-700 dark:text-blue-400",
-  "CMA CGM":    "bg-red-500/10 text-red-600 dark:text-red-400",
-  "HAPAG-LLOYD":"bg-orange-500/10 text-orange-600 dark:text-orange-400",
-  COSCO:        "bg-rose-500/10 text-rose-600 dark:text-rose-400",
-  EVERGREEN:    "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-  YANG_MING:    "bg-purple-500/10 text-purple-600 dark:text-purple-400",
+  MSC:          "bg-muted text-muted-foreground",
+  MAERSK:       "bg-muted text-muted-foreground",
+  "CMA CGM":    "bg-muted text-muted-foreground",
+  "HAPAG-LLOYD":"bg-muted text-muted-foreground",
+  COSCO:        "bg-muted text-muted-foreground",
+  EVERGREEN:    "bg-muted text-muted-foreground",
+  YANG_MING:    "bg-muted text-muted-foreground",
 };
 
 function CarrierBadge({ carrier }: { carrier: string }) {
@@ -372,7 +372,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
               </span>
               <span className={cn(
                 "font-mono text-base font-semibold",
-                gp > 0 ? "text-emerald-500" : "text-destructive",
+                gp > 0 ? "text-success" : "text-destructive",
               )}>
                 {formatMoney(String(gp), "EUR")}
               </span>

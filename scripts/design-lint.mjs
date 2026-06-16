@@ -15,10 +15,14 @@ const STRICT = process.argv.includes("--strict");
 
 const PALETTE =
   "slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose";
+// Gradientes (from/to/via) y SVG (fill/stroke) quedan fuera: son atmósfera /
+// data-viz, no estado semántico; no tienen token equivalente.
 const RAW_COLOR = new RegExp(
-  `\\b(bg|text|border|ring|ring-offset|from|to|via|fill|stroke|divide|outline|decoration|shadow|accent)-(${PALETTE})-\\d{2,3}\\b`,
+  `\\b(bg|text|border|ring|ring-offset|divide|outline|decoration|shadow|accent)-(${PALETTE})-\\d{2,3}\\b`,
 );
 const HEX = /#[0-9a-fA-F]{3,8}\b/;
+// Hex de marca permitidos (no son color de UI tokenizable).
+const BRAND_HEX = /#F2C811/i; // amarillo oficial Power BI
 const NATIVE_SELECT = /<select\b/;
 const NATIVE_TEXTAREA = /<textarea\b/;
 const NATIVE_CHECKBOX = /type=["']checkbox["']/;
@@ -27,6 +31,9 @@ const NESTED_MAXW = /mx-auto\s+max-w-[2-5]xl|max-w-[2-5]xl\s+[^"']*\bspace-y-/;
 
 // Páginas-documento imprimibles: max-w más estrecho es intencional.
 const DOC_EXEMPT = /[\\/]documentos[\\/](awb|cmr)|facturas[\\/]\[id\]|cotizaciones[\\/]\[id\]/;
+// Ficheros con color intencional NO tokenizable (excepciones documentadas en DESIGN.md):
+// documentos imprimibles (superficie "papel"), mapas/geo (leaflet, marcadores).
+const COLOR_EXEMPT = /[\\/]documentos[\\/](awb|cmr)|facturas[\\/]\[id\]|cotizaciones[\\/]\[id\]|world-map|route-map|[\\/]mapa[\\/]page|[\\/]lib[\\/]email/;
 
 function walk(dir, acc = []) {
   for (const name of readdirSync(dir)) {
@@ -53,8 +60,9 @@ for (const file of walk(join(ROOT, "src"))) {
   const lines = readFileSync(file, "utf8").split("\n");
   lines.forEach((line, i) => {
     const at = (cat) => findings[layer].push({ rel, line: i + 1, cat, text: line.trim().slice(0, 100) });
-    if (RAW_COLOR.test(line)) at("paleta-cruda");
-    if (HEX.test(line) && !rel.endsWith(".css")) at("hex");
+    const colorExempt = COLOR_EXEMPT.test(rel);
+    if (RAW_COLOR.test(line) && !colorExempt) at("paleta-cruda");
+    if (HEX.test(line) && !rel.endsWith(".css") && !colorExempt && !BRAND_HEX.test(line)) at("hex");
     // El kit (ui/) puede envolver tags nativos: es su función. Solo se controlan
     // los nativos en la capa de app/marketing (que debe usar los primitivos).
     if (layer !== "kit") {
@@ -98,9 +106,13 @@ if (kitColor.length > 0) {
   console.error(`\n✗ FALLO: el kit debe usar solo tokens de color (${kitColor.length} violación/es).`);
   exit = 1;
 }
-if (STRICT && appN > 0) {
-  console.error(`\n✗ FALLO (--strict): ${appN} violación/es en la capa de app.`);
+// Deuda de app congelada en 0: cualquier reintroducción rompe el build (prebuild).
+if (appN > 0) {
+  console.log("\nAPP — top:");
+  findings.app.slice(0, 25).forEach((f) => console.log(`  ${f.rel}:${f.line}  [${f.cat}] ${f.text}`));
+  console.error(`\n✗ FALLO: ${appN} violación/es de diseño en la capa de app (deuda → debe ser 0). Usa tokens/primitivos (ver DESIGN.md).`);
   exit = 1;
 }
+void STRICT;
 if (exit === 0) console.log("\n✓ Kit limpio. Deuda de app registrada arriba (objetivo: 0).");
 process.exit(exit);
