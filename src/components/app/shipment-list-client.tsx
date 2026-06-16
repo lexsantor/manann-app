@@ -188,7 +188,7 @@ export function ShipmentListClient({ shipments, members, view }: ShipmentListCli
           <span
             className={
               gp >= 0
-                ? "font-mono tabular-nums text-emerald-600 dark:text-emerald-400"
+                ? "font-mono tabular-nums text-success"
                 : "font-mono tabular-nums text-destructive"
             }
           >

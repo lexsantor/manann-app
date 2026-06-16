@@ -2,8 +2,8 @@ import * as React from "react";
 import { Check, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Checkbox tokenizado (custom-dark/light) — sustituye a los <input type="checkbox">
-// nativos. role="checkbox" para a11y; soporta estado indeterminado.
+// Checkbox tokenizado (custom-dark/light) — sustituye a los checkboxes nativos.
+// Implementado como button role=checkbox para a11y; soporta estado indeterminado.
 export function Checkbox({
   checked,
   indeterminate = false,

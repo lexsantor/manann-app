@@ -44,14 +44,14 @@ export function KpiCard({
     tone === "primary"
       ? "text-primary"
       : tone === "success"
-        ? "text-emerald-600 dark:text-emerald-400"
+        ? "text-success"
         : tone === "danger"
           ? "text-destructive"
           : "text-foreground";
 
   const deltaTone =
     delta?.direction === "up"
-      ? "text-emerald-600 dark:text-emerald-400"
+      ? "text-success"
       : delta?.direction === "down"
         ? "text-destructive"
         : "text-muted-foreground";

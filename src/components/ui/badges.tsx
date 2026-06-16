@@ -13,17 +13,17 @@ import { cn } from "@/lib/utils";
 type Tone = "success" | "info" | "warning" | "danger" | "neutral";
 
 const TONE_CLASS: Record<Tone, string> = {
-  success: "text-emerald-600 bg-emerald-500/10 dark:text-emerald-400",
-  info: "text-sky-600 bg-sky-500/10 dark:text-sky-400",
-  warning: "text-amber-600 bg-amber-500/10 dark:text-amber-400",
+  success: "text-success bg-success/10",
+  info: "text-info bg-info/10",
+  warning: "text-warning bg-warning/10",
   danger: "text-destructive bg-destructive/10",
   neutral: "text-muted-foreground bg-muted",
 };
 
 const DOT_CLASS: Record<Tone, string> = {
-  success: "bg-emerald-500",
-  info: "bg-sky-500",
-  warning: "bg-amber-500",
+  success: "bg-success",
+  info: "bg-info",
+  warning: "bg-warning",
   danger: "bg-destructive",
   neutral: "bg-muted-foreground/60",
 };

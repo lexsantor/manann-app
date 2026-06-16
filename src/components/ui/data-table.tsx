@@ -121,7 +121,7 @@ export function MiniBar({
 }) {
   const pct = Math.max(0, Math.min(100, value));
   const barTone =
-    tone === "success" ? "bg-emerald-500" : tone === "danger" ? "bg-destructive" : "bg-primary";
+    tone === "success" ? "bg-success" : tone === "danger" ? "bg-destructive" : "bg-primary";
   return (
     <div className={cn("h-1.5 w-16 overflow-hidden rounded-full bg-muted", className)}>
       <div className={cn("h-full rounded-full", barTone)} style={{ width: `${pct}%` }} />
