@@ -4,6 +4,8 @@ import { useState, useTransition } from "react";
 import { Plus, Trash2, Star } from "lucide-react";
 import { createBranch, deleteBranch } from "@/lib/maestros-actions";
 import { MASTER_COUNTRIES } from "@/lib/master-countries";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface Branch {
   id: string;
@@ -108,15 +110,19 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">País</label>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+              <Select
                 value={form.countryCode}
-                onChange={(e) => setForm({ ...form, countryCode: e.target.value })}
+                onValueChange={(v) => setForm({ ...form, countryCode: v })}
               >
-                {MASTER_COUNTRIES.map((c) => (
-                  <option key={c.code} value={c.code}>{c.name} ({c.code})</option>
-                ))}
-              </select>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {MASTER_COUNTRIES.map((c) => (
+                    <SelectItem key={c.code} value={c.code}>{c.name} ({c.code})</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="col-span-2 space-y-1">
               <label className="text-xs text-muted-foreground">Dirección</label>
@@ -128,12 +134,10 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
               />
             </div>
             <div className="col-span-2 flex items-center gap-2">
-              <input
-                type="checkbox"
-                id="isHQ"
+              <Checkbox
                 checked={form.isHQ}
-                onChange={(e) => setForm({ ...form, isHQ: e.target.checked })}
-                className="h-3.5 w-3.5 rounded border-border"
+                onChange={(checked) => setForm({ ...form, isHQ: checked })}
+                aria-label="Sede principal (HQ)"
               />
               <label htmlFor="isHQ" className="text-sm text-muted-foreground">Sede principal (HQ)</label>
             </div>
@@ -185,7 +189,7 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
             <button
               onClick={() => handleDelete(b.id)}
               disabled={pending}
-              className="text-muted-foreground hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+              className="text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
             >
               <Trash2 className="h-4 w-4" strokeWidth={1.5} />
             </button>

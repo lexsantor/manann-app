@@ -52,25 +52,25 @@ const INCOTERMS = [
 ];
 
 const GROUP_COLOR: Record<string, string> = {
-  E: "bg-muted/60 text-muted-foreground",
-  F: "bg-sky-500/10 text-sky-600",
+  E: "bg-muted text-muted-foreground",
+  F: "bg-muted text-muted-foreground",
   C: "bg-primary/10 text-primary",
-  D: "bg-emerald-500/10 text-emerald-600",
+  D: "bg-muted text-muted-foreground",
 };
 const CLASS_COLOR: Record<string, string> = {
-  Dry:      "bg-sky-500/10 text-sky-600",
-  Reefer:   "bg-violet-500/10 text-violet-600",
-  Especial: "bg-orange-500/10 text-orange-600",
+  Dry:      "bg-muted text-muted-foreground",
+  Reefer:   "bg-muted text-muted-foreground",
+  Especial: "bg-muted text-muted-foreground",
 };
 const API_COLOR: Record<string, string> = {
-  activo:    "bg-emerald-500/10 text-emerald-600",
-  pendiente: "bg-muted/60 text-muted-foreground",
+  activo:    "bg-success/10 text-success",
+  pendiente: "bg-muted text-muted-foreground",
 };
 const ALLIANCE_COLOR: Record<string, string> = {
-  Gemini:          "bg-sky-500/10 text-sky-600",
-  "Ocean Alliance":"bg-rose-500/10 text-rose-600",
-  Premier:         "bg-violet-500/10 text-violet-600",
-  "—":             "bg-muted/60 text-muted-foreground",
+  Gemini:          "bg-muted text-muted-foreground",
+  "Ocean Alliance":"bg-muted text-muted-foreground",
+  Premier:         "bg-muted text-muted-foreground",
+  "—":             "bg-muted text-muted-foreground",
 };
 
 // ─── Tabs ──────────────────────────────────────────────────────────────────

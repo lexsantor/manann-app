@@ -4,6 +4,7 @@ import { useState, useTransition, useRef } from "react";
 import { Upload, Check, X, Trash2 } from "lucide-react";
 import { importBankLines, reconcileLine, deleteBankLine } from "@/lib/contabilidad-actions";
 import { cn } from "@/lib/utils";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 interface BankLine {
   id: string;
@@ -175,27 +176,30 @@ export function BankReconciliationPanel({
                   <td className="px-4 py-2.5 text-xs text-foreground max-w-xs truncate">{l.description}</td>
                   <td className={cn(
                     "px-4 py-2.5 text-right font-mono text-xs font-medium",
-                    amount >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-500",
+                    amount >= 0 ? "text-success" : "text-destructive",
                   )}>
                     {amount >= 0 ? "+" : ""}{fmt(amount)} {l.currency}
                   </td>
                   <td className="px-4 py-2.5 text-xs">
                     {l.reconciled ? (
-                      <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+                      <span className="inline-flex items-center gap-1 text-success">
                         <Check className="h-3 w-3" />
                         {journalEntries.find((j) => j.id === l.journalEntryId)?.reference ?? "Conciliado"}
                       </span>
                     ) : isMatching ? (
-                      <select
-                        className="w-full rounded border border-primary bg-background px-2 py-0.5 text-xs focus:outline-none"
-                        defaultValue=""
-                        onChange={(e) => { if (e.target.value) handleMatch(l.id, e.target.value); }}
+                      <Select
+                        value=""
+                        onValueChange={(v) => { if (v) handleMatch(l.id, v); }}
                       >
-                        <option value="">Seleccionar asiento…</option>
-                        {journalEntries.map((j) => (
-                          <option key={j.id} value={j.id}>{j.reference} — {j.description}</option>
-                        ))}
-                      </select>
+                        <SelectTrigger className="w-full border-primary px-2 py-0.5 text-xs">
+                          <SelectValue placeholder="Seleccionar asiento…" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {journalEntries.map((j) => (
+                            <SelectItem key={j.id} value={j.id}>{j.reference} — {j.description}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     ) : (
                       <span className="text-muted-foreground/50">—</span>
                     )}
@@ -206,7 +210,7 @@ export function BankReconciliationPanel({
                         <button
                           onClick={() => handleUnmatch(l.id)}
                           disabled={pending}
-                          className="text-muted-foreground hover:text-amber-500 transition-colors"
+                          className="text-muted-foreground hover:text-warning transition-colors"
                           title="Deshacer conciliación"
                         >
                           <X className="h-3.5 w-3.5" />
@@ -228,7 +232,7 @@ export function BankReconciliationPanel({
                       <button
                         onClick={() => handleDelete(l.id)}
                         disabled={pending}
-                        className="text-muted-foreground hover:text-red-400 transition-colors"
+                        className="text-muted-foreground hover:text-destructive transition-colors"
                       >
                         <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
                       </button>

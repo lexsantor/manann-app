@@ -52,7 +52,7 @@ function BlockRenderer({ blocks }: { blocks: Block[] }) {
               {b.rows.map((r, j) => (
                 <div key={j} className="flex items-center justify-between gap-3 px-3 py-2">
                   <span className="text-base text-muted-foreground">{r.label}</span>
-                  <span className={cn("font-mono text-base font-medium", r.highlight ? "text-emerald-500" : "text-foreground")}>
+                  <span className={cn("font-mono text-base font-medium", r.highlight ? "text-success" : "text-foreground")}>
                     {r.value}
                   </span>
                 </div>

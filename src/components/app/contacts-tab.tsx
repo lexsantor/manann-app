@@ -7,6 +7,7 @@ import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import { createContact, updateContact, deleteContact, importContactsAction } from "@/lib/erp-actions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import type { ContactWithGP } from "@/lib/erp";
 
 const ROLE_LABEL: Record<string, string> = {
@@ -14,12 +15,12 @@ const ROLE_LABEL: Record<string, string> = {
   carrier: "Naviera", agent: "Agente", forwarder: "Transitario",
 };
 const ROLE_COLOR: Record<string, string> = {
-  shipper: "text-sky-600 bg-sky-500/10",
+  shipper: "text-info bg-info/10",
   consignee: "text-primary bg-primary/10",
   notify: "text-muted-foreground bg-muted/60",
-  carrier: "text-violet-600 bg-violet-500/10",
-  agent: "text-orange-600 bg-orange-500/10",
-  forwarder: "text-emerald-600 bg-emerald-500/10",
+  carrier: "text-muted-foreground bg-muted",
+  agent: "text-warning bg-warning/10",
+  forwarder: "text-success bg-success/10",
 };
 const ROLE_OPTIONS = [
   { value: "consignee", label: "Consignatario (Importador)" },
@@ -116,7 +117,7 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
             </div>
             <div className="col-span-2">
               <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Notas</label>
-              <textarea name="notes" rows={2} defaultValue={c?.notes ?? ""} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60 resize-none" />
+              <Textarea name="notes" rows={2} defaultValue={c?.notes ?? ""} className="resize-none" />
             </div>
           </div>
           <div className="flex justify-end gap-2 pt-1">

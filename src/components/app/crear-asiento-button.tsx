@@ -233,7 +233,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
                   <button type="button" onClick={addLine} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
                     <Icon icon={Plus} size={11} /> Añadir línea
                   </button>
-                  <div className={cn("flex gap-4 font-mono text-xs", balanced ? "text-emerald-400" : "text-accent")}>
+                  <div className={cn("flex gap-4 font-mono text-xs", balanced ? "text-success" : "text-accent")}>
                     <span>Debe: {totalDebit.toFixed(2)}</span>
                     <span>Haber: {totalCredit.toFixed(2)}</span>
                     <span>{balanced ? "✓ Cuadrado" : "✗ No cuadrado"}</span>

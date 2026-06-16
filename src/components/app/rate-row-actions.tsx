@@ -41,7 +41,7 @@ export function RateRowActions({ rateId, active }: RateRowActionsProps) {
         title={active ? "Desactivar" : "Activar"}
         className={cn(
           "flex size-7 items-center justify-center rounded text-muted-foreground/40 transition-colors disabled:opacity-50",
-          active ? "hover:text-amber-400" : "hover:text-emerald-400",
+          active ? "hover:text-warning" : "hover:text-success",
         )}
       >
         {togglePending ? (

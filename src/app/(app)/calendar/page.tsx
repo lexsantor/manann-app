@@ -11,10 +11,10 @@ export const metadata = { title: "Calendario ETAs — Manann" };
 
 const STATUS_DOT: Record<string, string> = {
   borrador: "bg-muted-foreground",
-  confirmado: "bg-blue-500",
-  en_transito: "bg-sky-500",
-  en_aduana: "bg-orange-500",
-  entregado: "bg-green-500",
+  confirmado: "bg-info",
+  en_transito: "bg-info",
+  en_aduana: "bg-warning",
+  entregado: "bg-success",
   cerrado: "bg-muted-foreground/40",
 };
 

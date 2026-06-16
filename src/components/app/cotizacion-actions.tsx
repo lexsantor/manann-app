@@ -112,7 +112,7 @@ export function CotizacionActions({
       {/* Accept / Reject */}
       {canAccept && (
         <button onClick={() => handleStatus("aceptada")} disabled={pending}
-          className="flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-3 py-1.5 text-base font-medium text-emerald-400 hover:bg-emerald-500/15 transition-colors disabled:opacity-50">
+          className="flex items-center gap-1.5 rounded-md bg-success/10 px-3 py-1.5 text-base font-medium text-success hover:bg-success/15 transition-colors disabled:opacity-50">
           {pending ? <Loader2 className="size-4 animate-spin" /> : <CheckCircle className="size-4" />}
           Aceptada
         </button>

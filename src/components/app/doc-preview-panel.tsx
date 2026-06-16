@@ -18,7 +18,7 @@ const DOC_TYPE_LABEL: Record<string, string> = {
 
 const DOC_STATUS_LABEL: Record<string, { label: string; cls: string }> = {
   uploaded: { label: "Subido", cls: "text-muted-foreground bg-muted/60" },
-  processing: { label: "Procesando", cls: "text-sky-600 bg-sky-500/10" },
+  processing: { label: "Procesando", cls: "text-info bg-info/10" },
   extracted: { label: "Extraído", cls: "text-accent bg-accent/10" },
   confirmed: { label: "Confirmado", cls: "text-primary bg-primary/10" },
   error: { label: "Error", cls: "text-destructive bg-destructive/10" },

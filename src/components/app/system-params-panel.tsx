@@ -167,7 +167,7 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
                   <button
                     onClick={() => handleDelete(p.id)}
                     disabled={pending}
-                    className="text-muted-foreground hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                    className="text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
                   >
                     <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
                   </button>

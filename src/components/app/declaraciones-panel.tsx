@@ -51,9 +51,9 @@ const DECL_META: Record<DeclType, { label: string; full: string; description: st
 };
 
 const STATUS_COLOR: Record<string, string> = {
-  pendiente: "text-amber-500 bg-amber-500/10",
-  enviada: "text-blue-400 bg-blue-500/10",
-  aceptada: "text-emerald-400 bg-emerald-500/10",
+  pendiente: "text-warning bg-warning/10",
+  enviada: "text-info bg-info/10",
+  aceptada: "text-success bg-success/10",
   rechazada: "text-accent bg-accent/10",
 };
 
@@ -118,10 +118,10 @@ function DeclarationBlock({
           <p className="font-mono text-[10px] text-muted-foreground/40">{meta.regulation}</p>
 
           {decl?.status === "aceptada" ? (
-            <div className="flex items-center gap-2 rounded-md border border-emerald-500/20 bg-emerald-500/5 px-3 py-2">
-              <Icon icon={CheckCircle2} size={14} className="text-emerald-400" />
+            <div className="flex items-center gap-2 rounded-md border border-success/20 bg-success/5 px-3 py-2">
+              <Icon icon={CheckCircle2} size={14} className="text-success" />
               <div>
-                <p className="text-sm font-medium text-emerald-400">Declaración aceptada</p>
+                <p className="text-sm font-medium text-success">Declaración aceptada</p>
                 <p className="font-mono text-xs text-muted-foreground">Ref: {decl.referenceNumber}</p>
               </div>
             </div>
@@ -221,11 +221,11 @@ export function DeclaracionesPanel({
           <span className="font-display text-base font-medium tracking-tight text-foreground">
             Declaraciones aduaneras
           </span>
-          <span className="rounded border border-amber-500/30 bg-amber-500/8 px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-amber-500">
+          <span className="rounded border border-warning/30 bg-warning/8 px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-warning">
             Simulación
           </span>
           {pendingCount > 0 && (
-            <span className="rounded-full bg-amber-500/10 px-1.5 py-0.5 font-mono text-sm text-amber-500">
+            <span className="rounded-full bg-warning/10 px-1.5 py-0.5 font-mono text-sm text-warning">
               {pendingCount} pendiente{pendingCount > 1 ? "s" : ""}
             </span>
           )}

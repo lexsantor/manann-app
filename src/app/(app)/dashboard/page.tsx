@@ -184,7 +184,7 @@ export default async function DashboardPage() {
                     <td className="px-4 py-2.5 font-medium text-foreground">{row.name}</td>
                     <td className="px-4 py-2.5 text-right font-mono text-muted-foreground">{row.shipmentCount}</td>
                     <td className="px-4 py-2.5 text-right font-mono text-muted-foreground">{formatMoney(String(row.revenue), "EUR")}</td>
-                    <td className={cn("px-4 py-2.5 text-right font-mono font-medium", row.gp >= 0 ? "text-emerald-500" : "text-destructive")}>
+                    <td className={cn("px-4 py-2.5 text-right font-mono font-medium", row.gp >= 0 ? "text-success" : "text-destructive")}>
                       {formatMoney(String(row.gp), "EUR")}
                     </td>
                     <td className="px-4 py-2.5 text-right font-mono text-muted-foreground">
@@ -193,7 +193,7 @@ export default async function DashboardPage() {
                     <td className="px-4 py-2.5 text-center">
                       <span className={cn(
                         "rounded-full px-2 py-0.5 font-mono text-base font-semibold",
-                        row.tier === "A" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                        row.tier === "A" ? "bg-success/10 text-success"
                         : row.tier === "B" ? "bg-primary/10 text-primary"
                         : "bg-muted text-muted-foreground",
                       )}>

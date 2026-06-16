@@ -29,10 +29,10 @@ const STATUS_LABEL: Record<string, string> = {
   rechazada: "Rechazada",
 };
 const STATUS_COLOR: Record<string, string> = {
-  pendiente: "text-amber-500 bg-amber-500/10",
-  enviada: "text-blue-400 bg-blue-500/10",
-  aceptada: "text-emerald-400 bg-emerald-500/10",
-  rechazada: "text-accent bg-accent/10",
+  pendiente: "text-warning bg-warning/10",
+  enviada: "text-info bg-info/10",
+  aceptada: "text-success bg-success/10",
+  rechazada: "text-destructive bg-destructive/10",
 };
 
 function FakeQr({ text }: { text: string }) {
@@ -90,7 +90,7 @@ export function VerifactuPanel({ invoiceId, invoiceRef, invoiceTotal, issueDate,
           <span className="font-display text-base font-medium tracking-tight text-foreground">
             Verifactu / e-Factura
           </span>
-          <span className="rounded border border-amber-500/30 bg-amber-500/8 px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-amber-500">
+          <span className="rounded border border-warning/30 bg-warning/8 px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-warning">
             Simulación
           </span>
           {decl && (
@@ -126,7 +126,7 @@ export function VerifactuPanel({ invoiceId, invoiceRef, invoiceTotal, issueDate,
           {decl ? (
             <div className="flex items-start gap-6">
               <div className="flex-1 space-y-2">
-                <div className="rounded-md border border-emerald-500/20 bg-emerald-500/5 px-3 py-2">
+                <div className="rounded-md border border-success/20 bg-success/5 px-3 py-2">
                   <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Número de registro AEAT</p>
                   <p className="mt-0.5 font-mono text-sm font-semibold text-foreground">{decl.referenceNumber}</p>
                 </div>
@@ -135,8 +135,8 @@ export function VerifactuPanel({ invoiceId, invoiceRef, invoiceTotal, issueDate,
                   <p className="mt-0.5 break-all font-mono text-xs text-muted-foreground">{decl.xmlHash}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Icon icon={CheckCircle2} size={14} className="text-emerald-400" />
-                  <span className="text-sm text-emerald-400 font-medium">Registrada y aceptada por AEAT</span>
+                  <Icon icon={CheckCircle2} size={14} className="text-success" />
+                  <span className="text-sm text-success font-medium">Registrada y aceptada por AEAT</span>
                 </div>
               </div>
               {decl.xmlHash && (

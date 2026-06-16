@@ -74,13 +74,13 @@ import { portImageUrl } from "@/lib/port-images";
 import { cn } from "@/lib/utils";
 
 const CARRIER_COLORS: Record<string, string> = {
-  MSC:          "bg-sky-500/10 text-sky-600 dark:text-sky-400",
-  MAERSK:       "bg-blue-600/10 text-blue-700 dark:text-blue-400",
-  "CMA CGM":    "bg-red-500/10 text-red-600 dark:text-red-400",
-  "HAPAG-LLOYD":"bg-orange-500/10 text-orange-600 dark:text-orange-400",
-  COSCO:        "bg-rose-500/10 text-rose-600 dark:text-rose-400",
-  EVERGREEN:    "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-  YANG_MING:    "bg-purple-500/10 text-purple-600 dark:text-purple-400",
+  MSC:          "bg-muted text-muted-foreground",
+  MAERSK:       "bg-muted text-muted-foreground",
+  "CMA CGM":    "bg-muted text-muted-foreground",
+  "HAPAG-LLOYD":"bg-muted text-muted-foreground",
+  COSCO:        "bg-muted text-muted-foreground",
+  EVERGREEN:    "bg-muted text-muted-foreground",
+  YANG_MING:    "bg-muted text-muted-foreground",
 };
 
 function CarrierBadge({ carrier }: { carrier: string }) {
@@ -295,7 +295,7 @@ export default async function ExpedienteDetailPage({
                     ? "bg-destructive/10 text-destructive"
                     : delayRisk.level === "medio"
                       ? "bg-accent/10 text-accent"
-                      : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+                      : "bg-success/10 text-success",
                 )}>
                   Retraso {delayRisk.pct}%
                 </span>
@@ -548,7 +548,7 @@ function Containers({
                 {c.sealNumber && <span>precinto {c.sealNumber}</span>}
                 <span>{formatWeight(c.grossWeightKg)}</span>
                 {c.vgmWeightKg && (
-                  <span className="rounded-sm bg-emerald-500/10 px-1.5 py-0.5 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                  <span className="rounded-sm bg-success/10 px-1.5 py-0.5 text-sm font-medium text-success">
                     VGM {c.vgmWeightKg.toLocaleString("es-ES")} kg
                     {c.vgmMethod ? ` · M${c.vgmMethod === "method_1" ? "1" : "2"}` : ""}
                   </span>

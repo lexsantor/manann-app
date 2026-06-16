@@ -3,6 +3,13 @@
 import { useState, useTransition } from "react";
 import { Plus, Check, X } from "lucide-react";
 import { upsertDocumentSeries } from "@/lib/maestros-actions";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const DOC_TYPES = [
   { value: "expediente", label: "Expediente" },
@@ -84,13 +91,17 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Tipo de documento</label>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+              <Select
                 value={form.docType}
-                onChange={(e) => setForm({ ...form, docType: e.target.value })}
+                onValueChange={(v) => setForm({ ...form, docType: v })}
               >
-                {availableTypes.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
-              </select>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {availableTypes.map((t) => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Prefijo</label>

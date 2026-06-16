@@ -55,7 +55,7 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
                     <Plug className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
                   </span>
                   {i.connected ? (
-                    <span className="inline-flex w-fit items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-medium text-emerald-500">
+                    <span className="inline-flex w-fit items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 font-mono text-[10px] font-medium text-success">
                       <Check className="h-3 w-3" /> Conectado
                     </span>
                   ) : (
@@ -89,8 +89,8 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
         </div>
       ))}
 
-      <div className="rounded-md border border-amber-500/20 bg-amber-500/5 px-3 py-2">
-        <p className="text-[11px] text-amber-600 dark:text-amber-400">
+      <div className="rounded-md border border-warning/20 bg-warning/5 px-3 py-2">
+        <p className="text-[11px] text-warning">
           ShipsGo, Gemini y Resend están operativos. El resto son conexiones simuladas — integración real en producción.
         </p>
       </div>
@@ -112,8 +112,8 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
               <label className="text-sm font-medium text-foreground">API key / token</label>
               <Input value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder="••••••••••" />
             </div>
-            <div className="mt-3 rounded-md border border-amber-500/20 bg-amber-500/5 px-3 py-2">
-              <p className="text-[11px] text-amber-600 dark:text-amber-400">
+            <div className="mt-3 rounded-md border border-warning/20 bg-warning/5 px-3 py-2">
+              <p className="text-[11px] text-warning">
                 Simulación — la conexión real con {configItem.name} se habilita en producción.
               </p>
             </div>

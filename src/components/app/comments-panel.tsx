@@ -6,6 +6,7 @@ import { MessageSquare, Send, Loader2 } from "lucide-react";
 import { addComment } from "@/lib/erp-actions";
 import { type ShipmentComment } from "@/lib/erp";
 import { Icon } from "@/components/icon";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
 interface CommentsPanelProps {
@@ -109,7 +110,7 @@ export function CommentsPanel({ shipmentId, comments }: CommentsPanelProps) {
 
       {/* Input */}
       <div className="relative">
-        <textarea
+        <Textarea
           ref={textareaRef}
           value={text}
           onChange={(e) => setText(e.target.value)}

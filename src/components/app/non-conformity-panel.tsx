@@ -99,7 +99,7 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
         <div className="flex shrink-0 items-center justify-end gap-1">
           {i.status !== "cerrado" && (
             <button
-              className="rounded p-1 text-emerald-600 transition-colors hover:bg-emerald-500/10 disabled:opacity-40 dark:text-emerald-400"
+              className="rounded p-1 text-success transition-colors hover:bg-success/10 disabled:opacity-40"
               onClick={() => handleClose(i.id)}
               disabled={isPending}
               title="Cerrar NC"

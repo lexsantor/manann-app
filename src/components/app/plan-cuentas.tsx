@@ -15,9 +15,9 @@ const TYPE_LABEL: Record<string, string> = {
 };
 
 const TYPE_COLOR: Record<string, string> = {
-  activo: "text-sky-400 bg-sky-500/10",
-  pasivo: "text-violet-400 bg-violet-500/10",
-  patrimonio: "text-emerald-400 bg-emerald-500/10",
+  activo: "text-info bg-info/10",
+  pasivo: "text-muted-foreground bg-muted",
+  patrimonio: "text-success bg-success/10",
   ingreso: "text-primary bg-primary/10",
   gasto: "text-accent bg-accent/10",
 };

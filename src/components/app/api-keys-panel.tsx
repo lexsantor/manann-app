@@ -79,8 +79,8 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
       </div>
 
       {revealed && (
-        <div className="border-b border-amber-500/20 bg-amber-500/5 px-5 py-4">
-          <p className="font-mono text-xs font-semibold text-amber-500 mb-2">
+        <div className="border-b border-warning/20 bg-warning/5 px-5 py-4">
+          <p className="font-mono text-xs font-semibold text-warning mb-2">
             Copia esta key ahora — no se mostrará de nuevo
           </p>
           <div className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
               onClick={handleCopy}
               className={cn(
                 "shrink-0 rounded-md p-2 transition-colors",
-                copied ? "text-emerald-400 bg-emerald-500/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/40",
+                copied ? "text-success bg-success/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/40",
               )}
             >
               <Icon icon={copied ? Check : Copy} size={16} />

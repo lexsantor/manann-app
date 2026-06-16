@@ -5,6 +5,7 @@ import { ArrowRight, MoveRight, Copy, Loader2 } from "lucide-react";
 import { useTransition } from "react";
 
 import { Icon } from "@/components/icon";
+import { Checkbox } from "@/components/ui/checkbox";
 import { StatusPill } from "./status-pill";
 import { MODE, portLabel, formatDate, formatMoney } from "@/lib/erp-format";
 import { duplicateShipment } from "@/lib/erp-actions";
@@ -56,12 +57,10 @@ export function ShipmentRowSelectable({ s, selected = false, onSelect }: Shipmen
     >
       {/* Checkbox */}
       <div className="shrink-0 pl-3">
-        <input
-          type="checkbox"
+        <Checkbox
           checked={selected}
-          onChange={(e) => onSelect?.(s.id, e.target.checked)}
-          onClick={(e) => e.stopPropagation()}
-          className="size-3.5 cursor-pointer accent-primary"
+          onChange={(checked) => onSelect?.(s.id, checked)}
+          className="size-3.5 cursor-pointer"
           aria-label={selected ? "Deseleccionar" : "Seleccionar"}
         />
       </div>
@@ -107,7 +106,7 @@ export function ShipmentRowSelectable({ s, selected = false, onSelect }: Shipmen
         {/* GP */}
         <div className="hidden w-[90px] shrink-0 text-right md:block">
           {gp !== null ? (
-            <span className={cn("font-mono text-base font-semibold", gp >= 0 ? "text-emerald-500" : "text-destructive")}>
+            <span className={cn("font-mono text-base font-semibold", gp >= 0 ? "text-success" : "text-destructive")}>
               {formatMoney(String(gp), "EUR")}
             </span>
           ) : (

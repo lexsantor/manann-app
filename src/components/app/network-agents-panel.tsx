@@ -121,7 +121,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
                   <div className="flex items-center gap-1.5">
                     <span className="text-sm font-medium text-foreground">{agent.name}</span>
                     {agent.verifiedAt && (
-                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500 shrink-0" />
+                      <CheckCircle2 className="h-3.5 w-3.5 text-success shrink-0" />
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground">

@@ -62,12 +62,12 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
             Comparativa IA: BL vs. Factura comercial
           </span>
           {result && discrepancies.length === 0 && (
-            <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-base text-emerald-400">
+            <span className="flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 font-mono text-base text-success">
               <CheckCircle2 className="size-3" /> Sin discrepancias
             </span>
           )}
           {result && discrepancies.length > 0 && (
-            <span className="flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 font-mono text-base text-amber-500">
+            <span className="flex items-center gap-1 rounded-full bg-warning/10 px-2 py-0.5 font-mono text-base text-warning">
               <AlertTriangle className="size-3" /> {discrepancies.length} discrepancia{discrepancies.length > 1 ? "s" : ""}
             </span>
           )}
@@ -97,7 +97,7 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
       {result && (
         <div className="mt-3 space-y-2">
           {result.discrepancySummary && (
-            <div className="rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-base text-amber-600 dark:text-amber-400">
+            <div className="rounded-md border border-warning/30 bg-warning/5 px-3 py-2 text-base text-warning">
               {result.discrepancySummary}
             </div>
           )}
@@ -113,21 +113,21 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
                 className={cn(
                   "grid grid-cols-[1fr_1fr_1fr] border-b border-border/30 px-3 py-2 text-base last:border-0",
                   !f.match && (f.blValue || f.invoiceValue)
-                    ? "bg-amber-500/5"
+                    ? "bg-warning/5"
                     : "",
                 )}
               >
                 <span className="text-muted-foreground">{f.label}</span>
-                <span className={cn("font-mono", !f.match && f.blValue ? "text-amber-600 dark:text-amber-400 font-medium" : "text-foreground")}>
+                <span className={cn("font-mono", !f.match && f.blValue ? "text-warning font-medium" : "text-foreground")}>
                   {f.blValue ?? <span className="text-muted-foreground/40 italic">—</span>}
                 </span>
-                <span className={cn("flex items-center gap-1 font-mono", !f.match && f.invoiceValue ? "text-amber-600 dark:text-amber-400 font-medium" : "text-foreground")}>
+                <span className={cn("flex items-center gap-1 font-mono", !f.match && f.invoiceValue ? "text-warning font-medium" : "text-foreground")}>
                   {f.invoiceValue ?? <span className="text-muted-foreground/40 italic">—</span>}
                   {!f.match && (f.blValue || f.invoiceValue) && (
-                    <AlertTriangle className="size-3 shrink-0 text-amber-500" />
+                    <AlertTriangle className="size-3 shrink-0 text-warning" />
                   )}
                   {f.match && f.blValue && (
-                    <CheckCircle2 className="size-3 shrink-0 text-emerald-500/50" />
+                    <CheckCircle2 className="size-3 shrink-0 text-success/50" />
                   )}
                 </span>
               </div>

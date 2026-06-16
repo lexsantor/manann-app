@@ -87,13 +87,13 @@ export function MembersTable({ members, currentMemberId, isOwner }: Props) {
                           className="h-7 gap-1.5 px-2 text-base"
                           disabled={isPending}
                         >
-                          {m.role === "owner" && <Crown className="size-3 text-amber-500" />}
+                          {m.role === "owner" && <Crown className="size-3 text-warning" />}
                           {ROLE_LABEL[m.role]}
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="start">
                         <DropdownMenuItem onClick={() => handleRoleChange(m.memberId, "owner")}>
-                          <Crown className="mr-2 size-3.5 text-amber-500" />
+                          <Crown className="mr-2 size-3.5 text-warning" />
                           Owner
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleRoleChange(m.memberId, "member")}>
@@ -103,7 +103,7 @@ export function MembersTable({ members, currentMemberId, isOwner }: Props) {
                     </DropdownMenu>
                   ) : (
                     <span className="flex items-center gap-1.5 text-base text-muted-foreground">
-                      {m.role === "owner" && <Crown className="size-3 text-amber-500" />}
+                      {m.role === "owner" && <Crown className="size-3 text-warning" />}
                       {ROLE_LABEL[m.role]}
                     </span>
                   )}

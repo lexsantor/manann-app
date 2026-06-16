@@ -6,6 +6,13 @@ import { createRouteTemplate, deleteRouteTemplate } from "@/lib/tier-s-actions";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { ModeBadge } from "@/components/ui/badges";
 import { ConfirmButton } from "@/components/ui/confirm-button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface RouteTemplate {
   id: string;
@@ -126,13 +133,17 @@ export function RouteTemplatesPanel({ templates: initial }: { templates: RouteTe
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Modo</label>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+              <Select
                 value={form.mode}
-                onChange={(e) => setForm({ ...form, mode: e.target.value })}
+                onValueChange={(v) => setForm({ ...form, mode: v })}
               >
-                {MODE_OPTIONS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
-              </select>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {MODE_OPTIONS.map((m) => <SelectItem key={m.value} value={m.value}>{m.label}</SelectItem>)}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Días de tránsito</label>

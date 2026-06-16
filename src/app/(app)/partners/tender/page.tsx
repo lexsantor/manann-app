@@ -36,7 +36,7 @@ export default async function TenderPage() {
             </p>
           </div>
         </div>
-        <span className="inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+        <span className="inline-flex items-center rounded-full border border-warning/30 bg-warning/10 px-2.5 py-1 text-xs font-medium text-warning">
           Simulación — envío real por email en producción
         </span>
       </div>

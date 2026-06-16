@@ -3,6 +3,13 @@
 import { useState, useTransition, useRef, useEffect } from "react";
 import { Plus, X, Search } from "lucide-react";
 import { Icon } from "@/components/icon";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { addPartyToShipment } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
 
@@ -128,16 +135,17 @@ export function AddPartyForm({ shipmentId, contacts }: AddPartyFormProps) {
         </div>
 
         {/* Role */}
-        <select
-          name="role"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-        >
-          {ROLE_OPTIONS.map((r) => (
-            <option key={r.value} value={r.value}>{r.label}</option>
-          ))}
-        </select>
+        <input type="hidden" name="role" value={role} />
+        <Select value={role} onValueChange={(v) => setRole(v)}>
+          <SelectTrigger className="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {ROLE_OPTIONS.map((r) => (
+              <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
         {/* Optional fields */}
         <div className="grid grid-cols-2 gap-2">

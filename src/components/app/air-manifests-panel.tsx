@@ -10,6 +10,13 @@ import {
 } from "@/lib/tier-s-actions";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
 import { ConfirmButton } from "@/components/ui/confirm-button";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 interface ManifestEntry {
@@ -184,23 +191,31 @@ export function AirManifestsPanel({
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Origen</label>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+              <Select
                 value={form.originIata}
-                onChange={(e) => setForm({ ...form, originIata: e.target.value })}
+                onValueChange={(v) => setForm({ ...form, originIata: v })}
               >
-                {MASTER_AIRPORTS.map((a) => <option key={a.iata} value={a.iata}>{a.iata} — {a.city}</option>)}
-              </select>
+                <SelectTrigger className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {MASTER_AIRPORTS.map((a) => <SelectItem key={a.iata} value={a.iata}>{a.iata} — {a.city}</SelectItem>)}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Destino</label>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+              <Select
                 value={form.destIata}
-                onChange={(e) => setForm({ ...form, destIata: e.target.value })}
+                onValueChange={(v) => setForm({ ...form, destIata: v })}
               >
-                {MASTER_AIRPORTS.map((a) => <option key={a.iata} value={a.iata}>{a.iata} — {a.city}</option>)}
-              </select>
+                <SelectTrigger className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {MASTER_AIRPORTS.map((a) => <SelectItem key={a.iata} value={a.iata}>{a.iata} — {a.city}</SelectItem>)}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <div className="flex justify-end gap-2">

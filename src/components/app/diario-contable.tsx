@@ -17,7 +17,7 @@ function formatDate(d: string | Date | null) {
 
 const STATUS_COLOR: Record<string, string> = {
   borrador: "text-muted-foreground bg-muted/60",
-  contabilizado: "text-emerald-400 bg-emerald-500/10",
+  contabilizado: "text-success bg-success/10",
   anulado: "text-accent/60 bg-accent/10",
 };
 const STATUS_LABEL: Record<string, string> = {

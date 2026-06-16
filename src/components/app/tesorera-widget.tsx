@@ -33,7 +33,7 @@ export function TesoreraWidget({ totalCobrar, totalPagar, pendingInvoices }: Tes
     <div className="grid gap-3 sm:grid-cols-3">
       <div className="rounded-xl border border-border bg-card px-5 py-4">
         <div className="mb-1 flex items-center gap-1.5">
-          <Icon icon={TrendingUp} size={13} className="text-emerald-400" />
+          <Icon icon={TrendingUp} size={13} className="text-success" />
           <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Por cobrar</span>
         </div>
         <p className="font-display text-2xl font-semibold tracking-tight text-foreground">{fmt(totalCobrar)}</p>
@@ -56,7 +56,7 @@ export function TesoreraWidget({ totalCobrar, totalPagar, pendingInvoices }: Tes
           {overdueCount > 0 && <Icon icon={AlertCircle} size={13} className="text-accent" />}
           <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Saldo neto</span>
         </div>
-        <p className={cn("font-display text-2xl font-semibold tracking-tight", balance >= 0 ? "text-emerald-400" : "text-accent")}>
+        <p className={cn("font-display text-2xl font-semibold tracking-tight", balance >= 0 ? "text-success" : "text-accent")}>
           {fmt(balance)}
         </p>
         {overdueCount > 0 ? (

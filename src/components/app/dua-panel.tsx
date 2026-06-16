@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import { FileCheck2, ChevronDown, ChevronUp, Loader2, AlertTriangle } from "lucide-react";
 import { markShipmentEnAduana } from "@/lib/erp-actions";
 import { Icon } from "@/components/icon";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
 const REGIMEN_OPTIONS = [
@@ -76,11 +83,11 @@ export function DuaPanel({
           <span className="font-display text-base font-medium tracking-tight text-foreground">
             Declaración DUA
           </span>
-          <span className="rounded border border-amber-500/30 bg-amber-500/8 px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-amber-500">
+          <span className="rounded border border-warning/30 bg-warning/8 px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide text-warning">
             Simulación
           </span>
           {missingCount > 0 && (
-            <span className="rounded-full bg-amber-500/10 px-1.5 py-0.5 font-mono text-base text-amber-500">
+            <span className="rounded-full bg-warning/10 px-1.5 py-0.5 font-mono text-base text-warning">
               {missingCount} pendiente{missingCount > 1 ? "s" : ""}
             </span>
           )}
@@ -100,15 +107,16 @@ export function DuaPanel({
               Régimen aduanero
             </label>
             <div className="relative">
-              <select
-                value={regimen}
-                onChange={(e) => setRegimen(e.target.value)}
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-              >
-                {REGIMEN_OPTIONS.map((r) => (
-                  <option key={r.value} value={r.value}>{r.label}</option>
-                ))}
-              </select>
+              <Select value={regimen} onValueChange={(v) => setRegimen(v)}>
+                <SelectTrigger className="w-full bg-surface-2/30">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {REGIMEN_OPTIONS.map((r) => (
+                    <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -119,17 +127,17 @@ export function DuaPanel({
                 className={cn(
                   "rounded-md border px-3 py-2",
                   f.missing
-                    ? "border-amber-500/30 bg-amber-500/5"
+                    ? "border-warning/30 bg-warning/5"
                     : "border-border/60 bg-surface-2/30",
                 )}
               >
                 <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">
                   {f.label}
                 </p>
-                <p className={cn("mt-0.5 text-base", f.missing ? "text-amber-500/70 italic" : "text-foreground")}>
+                <p className={cn("mt-0.5 text-base", f.missing ? "text-warning/70 italic" : "text-foreground")}>
                   {f.value}
                   {f.missing && (
-                    <AlertTriangle className="ml-1.5 inline size-2.5 text-amber-500/70" />
+                    <AlertTriangle className="ml-1.5 inline size-2.5 text-warning/70" />
                   )}
                 </p>
               </div>
@@ -141,7 +149,7 @@ export function DuaPanel({
               Simulación — integración AEAT en producción
             </p>
             {isEnAduana ? (
-              <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 font-mono text-base font-semibold text-emerald-400">
+              <span className="rounded-full bg-success/10 px-2.5 py-0.5 font-mono text-base font-semibold text-success">
                 En aduana ✓
               </span>
             ) : (

@@ -6,6 +6,8 @@ import { Icon } from "@/components/icon";
 import { formatMoney } from "@/lib/erp-format";
 import { addCharge, deleteCharge, updateChargeAccrual, type AddChargeInput } from "@/lib/erp-actions";
 import { GenerarFacturaButton } from "@/components/app/generar-factura-button";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import type { ShipmentDetail } from "@/lib/erp";
 
@@ -76,15 +78,16 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
     <form onSubmit={handleSubmit} className="mt-2 rounded-md border border-border/60 bg-surface-2/40 p-3 space-y-2">
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-[1fr_2fr_1fr_1fr]">
         <div className="relative">
-          <select
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-            className="w-full rounded-md border border-border bg-background px-2 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-          >
-            {CHARGE_TYPES.map(([val, label]) => (
-              <option key={val} value={val}>{label}</option>
-            ))}
-          </select>
+          <Select value={type} onValueChange={(v) => setType(v)}>
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {CHARGE_TYPES.map(([val, label]) => (
+                <SelectItem key={val} value={val}>{label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <input
           type="text"
@@ -122,33 +125,27 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
 
       <div className="flex items-center gap-4 text-base">
         <label className="flex items-center gap-1.5 cursor-pointer select-none text-muted-foreground">
-          <input
-            type="checkbox"
+          <Checkbox
             checked={passThrough}
-            onChange={(e) => {
-              setPassThrough(e.target.checked);
-              if (e.target.checked) setBuyAmount("");
+            onChange={(checked) => {
+              setPassThrough(checked);
+              if (checked) setBuyAmount("");
             }}
-            className="size-4 cursor-pointer rounded border-border"
-            style={{ accentColor: "hsl(var(--primary))" }}
           />
           Pass-through (sin margen)
         </label>
         {direction === "revenue" && (
           <label className="flex items-center gap-1.5 cursor-pointer select-none text-muted-foreground">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={atRisk}
-              onChange={(e) => setAtRisk(e.target.checked)}
-              className="size-4 cursor-pointer rounded border-border"
-            style={{ accentColor: "hsl(var(--primary))" }}
+              onChange={(checked) => setAtRisk(checked)}
             />
             Sin facturar al cliente
           </label>
         )}
         {sell > 0 && buy > 0 && !passThrough && (
           <span className="ml-auto font-mono text-base text-muted-foreground">
-            GP: <span className={cn("font-semibold", gp >= 0 ? "text-emerald-500" : "text-destructive")}>
+            GP: <span className={cn("font-semibold", gp >= 0 ? "text-success" : "text-destructive")}>
               {gp >= 0 ? "+" : ""}{gp.toFixed(0)} €
             </span>
           </span>
@@ -242,7 +239,7 @@ function ChargeRow({ charge: c, shipmentId, showBuyCol, rateAvg }: ChargeRowProp
           {gp != null ? (
             <span className={cn(
               "font-mono text-base font-medium",
-              gp > 0 ? "text-emerald-500" : gp === 0 ? "text-muted-foreground" : "text-destructive",
+              gp > 0 ? "text-success" : gp === 0 ? "text-muted-foreground" : "text-destructive",
             )}>
               {gp > 0 ? "+" : ""}{gp.toFixed(0)} €
             </span>
@@ -335,15 +332,15 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "", rateAverag
           </div>
           <div className={cn(
             "rounded-lg border p-3",
-            gp >= 0 ? "border-emerald-500/20 bg-emerald-500/5" : "border-destructive/20 bg-destructive/5",
+            gp >= 0 ? "border-success/20 bg-success/5" : "border-destructive/20 bg-destructive/5",
           )}>
             <div className="flex items-center justify-between">
               <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Gross Profit</p>
               {gp >= 0
-                ? <Icon icon={TrendingUp} size={13} className="text-emerald-500" />
+                ? <Icon icon={TrendingUp} size={13} className="text-success" />
                 : <Icon icon={TrendingDown} size={13} className="text-destructive" />}
             </div>
-            <p className={cn("mt-1 font-mono text-base font-semibold", gp >= 0 ? "text-emerald-500" : "text-destructive")}>
+            <p className={cn("mt-1 font-mono text-base font-semibold", gp >= 0 ? "text-success" : "text-destructive")}>
               {hasMixed ? "—" : formatMoney(String(gp), currency)}
             </p>
             {gpPct !== null && !hasMixed && (
@@ -412,7 +409,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "", rateAverag
                       {hasMixed ? "—" : formatMoney(String(totalBuy), currency)}
                     </td>
                     <td className="py-2 px-2 text-right font-mono text-base font-semibold">
-                      <span className={gp >= 0 ? "text-emerald-500" : "text-destructive"}>
+                      <span className={gp >= 0 ? "text-success" : "text-destructive"}>
                         {gp >= 0 ? "+" : ""}{hasMixed ? "—" : formatMoney(String(gp), currency)}
                       </span>
                     </td>
@@ -552,7 +549,7 @@ function CostRow({ charge: c, shipmentId }: { charge: Charge; shipmentId: string
               {variance != null && Math.abs(variance) > 0.01 && (
                 <span className={cn(
                   "font-mono font-medium",
-                  variance > 0 ? "text-destructive" : "text-emerald-500",
+                  variance > 0 ? "text-destructive" : "text-success",
                 )}>
                   {variance > 0 ? "+" : ""}{formatMoney(String(variance), c.currency ?? "EUR")} variación
                 </span>

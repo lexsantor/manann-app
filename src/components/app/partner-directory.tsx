@@ -6,6 +6,7 @@ import { Icon } from "@/components/icon";
 import { createPartner, deletePartner, runSanctionsScreening } from "@/lib/erp-actions";
 import type { PartnerRow } from "@/lib/erp";
 import { cn } from "@/lib/utils";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 const TYPE_LABEL: Record<string, string> = {
   agent: "Agente",
@@ -17,11 +18,11 @@ const TYPE_LABEL: Record<string, string> = {
 };
 
 const TYPE_COLOR: Record<string, string> = {
-  agent: "text-blue-400 bg-blue-500/10",
-  "co-loader": "text-violet-400 bg-violet-500/10",
-  subcontractor: "text-amber-400 bg-amber-500/10",
-  carrier: "text-emerald-400 bg-emerald-500/10",
-  customs: "text-orange-400 bg-orange-500/10",
+  agent: "text-muted-foreground bg-muted",
+  "co-loader": "text-muted-foreground bg-muted",
+  subcontractor: "text-muted-foreground bg-muted",
+  carrier: "text-muted-foreground bg-muted",
+  customs: "text-muted-foreground bg-muted",
   other: "text-muted-foreground bg-muted/40",
 };
 
@@ -93,7 +94,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
         <div className="flex items-center gap-2 mb-3">
           <Icon icon={ShieldAlert} size={15} className="text-muted-foreground" />
           <h2 className="font-display text-base font-medium tracking-tight">Screening OFAC / SIRA</h2>
-          <span className="rounded border border-amber-500/30 bg-amber-500/8 px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-amber-500">
+          <span className="rounded border border-warning/30 bg-warning/8 px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-warning">
             Simulación
           </span>
         </div>
@@ -120,16 +121,16 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
           <div className={cn(
             "mt-3 rounded-md border px-4 py-3 flex items-start gap-3",
             screening.result === "clear"
-              ? "border-emerald-500/20 bg-emerald-500/5"
-              : "border-red-500/20 bg-red-500/5",
+              ? "border-success/20 bg-success/5"
+              : "border-destructive/20 bg-destructive/5",
           )}>
             <Icon
               icon={screening.result === "clear" ? ShieldCheck : ShieldAlert}
               size={16}
-              className={screening.result === "clear" ? "text-emerald-400 mt-0.5" : "text-red-400 mt-0.5"}
+              className={screening.result === "clear" ? "text-success mt-0.5" : "text-destructive mt-0.5"}
             />
             <div>
-              <p className={cn("text-sm font-medium", screening.result === "clear" ? "text-emerald-400" : "text-red-400")}>
+              <p className={cn("text-sm font-medium", screening.result === "clear" ? "text-success" : "text-destructive")}>
                 {screening.result === "clear" ? "Sin coincidencias — tercero limpio" : "Coincidencias detectadas — revisar"}
               </p>
               {screening.matches.length > 0 && (
@@ -176,15 +177,19 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
               </div>
               <div>
                 <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Tipo *</label>
-                <select
+                <Select
                   value={form.type}
-                  onChange={(e) => setForm((f) => ({ ...f, type: e.target.value as typeof form.type }))}
-                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
+                  onValueChange={(v) => setForm((f) => ({ ...f, type: v as typeof form.type }))}
                 >
-                  {Object.entries(TYPE_LABEL).map(([v, l]) => (
-                    <option key={v} value={v}>{l}</option>
-                  ))}
-                </select>
+                  <SelectTrigger className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(TYPE_LABEL).map(([v, l]) => (
+                      <SelectItem key={v} value={v}>{l}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Región</label>

@@ -87,9 +87,9 @@ function ActionCard({
 
   if (done) {
     return (
-      <div className="flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4 transition-all">
-        <Icon icon={CheckCircle2} size={18} className="shrink-0 text-emerald-500" />
-        <p className="text-base text-emerald-600 dark:text-emerald-400">
+      <div className="flex items-center gap-3 rounded-xl border border-success/20 bg-success/5 p-4 transition-all">
+        <Icon icon={CheckCircle2} size={18} className="shrink-0 text-success" />
+        <p className="text-base text-success">
           <span className="font-medium">{action.title}</span> — hecho.{" "}
           {action.impact > 0 && (
             <span className="font-semibold">+{formatMoney(String(action.impact), "EUR")} recuperados.</span>
@@ -140,7 +140,7 @@ function ActionCard({
                 "font-mono text-base font-semibold",
                 action.kind === "negative_gp" || action.kind === "accrual_gap"
                   ? "text-destructive"
-                  : "text-emerald-500",
+                  : "text-success",
               )}>
                 {formatMoney(String(action.impact), "EUR")}
               </span>
@@ -217,8 +217,8 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
   if (actions.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card py-20 text-center">
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10">
-          <Icon icon={CheckCircle2} size={26} className="text-emerald-500" />
+        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-success/10">
+          <Icon icon={CheckCircle2} size={26} className="text-success" />
         </div>
         <p className="font-display text-lg font-medium text-foreground">Bandeja vacía. Bien hecho.</p>
         <p className="mt-1 text-base text-muted-foreground">
@@ -250,7 +250,7 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
             </span>
           )}
           {executed > 0 && (
-            <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 font-mono text-sm font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
+            <span className="rounded-full bg-success/10 px-2 py-0.5 font-mono text-sm font-semibold text-success uppercase tracking-wide">
               {executed} ejecutada{executed > 1 ? "s" : ""} · +{formatMoney(String(recovered), "EUR")}
             </span>
           )}

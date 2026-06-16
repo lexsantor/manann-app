@@ -14,7 +14,7 @@ function OnTimeBadge({ rate }: { rate: number }) {
   return (
     <div className={cn(
       "flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-xs font-semibold",
-      good ? "text-emerald-400 bg-emerald-500/10" : ok ? "text-amber-400 bg-amber-500/10" : "text-red-400 bg-red-500/10",
+      good ? "text-success bg-success/10" : ok ? "text-warning bg-warning/10" : "text-destructive bg-destructive/10",
     )}>
       <Icon icon={good ? TrendingUp : ok ? Minus : TrendingDown} size={12} />
       {pct}%

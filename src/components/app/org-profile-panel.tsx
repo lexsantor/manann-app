@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Save, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { upsertOrgProfile } from "@/lib/tier-v-actions";
 
 type OrgProfile = {
@@ -108,12 +109,12 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
       <div className="rounded-xl border border-border bg-card p-5 space-y-5">
         <div className="space-y-1.5">
           <label className="text-sm font-medium text-foreground">Descripción</label>
-          <textarea
+          <Textarea
             rows={3}
             value={form.bio}
             onChange={(e) => setForm({ ...form, bio: e.target.value })}
             placeholder="Breve descripción de vuestra empresa y propuesta de valor para la red"
-            className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            className="resize-none"
           />
         </div>
 
@@ -173,7 +174,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
           Guardar perfil
         </Button>
         {saved && (
-          <span className="text-sm text-emerald-500">Guardado correctamente</span>
+          <span className="text-sm text-success">Guardado correctamente</span>
         )}
       </div>
     </div>

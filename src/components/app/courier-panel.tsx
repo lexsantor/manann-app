@@ -5,6 +5,13 @@ import { Package, Truck, ExternalLink } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import { updateCourierInfo } from "@/lib/erp-actions";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type CourierProvider = "ups" | "dhl" | "fedex";
 
@@ -16,9 +23,9 @@ interface CourierPanelProps {
 }
 
 const PROVIDER_CONFIG: Record<CourierProvider, { label: string; cls: string }> = {
-  ups: { label: "UPS", cls: "bg-amber-500/10 text-amber-700 dark:text-amber-400" },
-  dhl: { label: "DHL Express", cls: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-400" },
-  fedex: { label: "FedEx", cls: "bg-violet-500/10 text-violet-600 dark:text-violet-400" },
+  ups: { label: "UPS", cls: "bg-muted text-muted-foreground" },
+  dhl: { label: "DHL Express", cls: "bg-muted text-muted-foreground" },
+  fedex: { label: "FedEx", cls: "bg-muted text-muted-foreground" },
 };
 
 const MOCK_EVENTS = [
@@ -68,12 +75,16 @@ function CourierEditForm({
       <div className="grid grid-cols-2 gap-2">
         <div>
           <label className="mb-1 block font-mono text-sm text-muted-foreground">Proveedor</label>
-          <select name="provider" defaultValue={current.provider ?? ""} className={inputCls}>
-            <option value="">Sin courier</option>
-            <option value="ups">UPS</option>
-            <option value="dhl">DHL Express</option>
-            <option value="fedex">FedEx</option>
-          </select>
+          <Select name="provider" defaultValue={current.provider ?? ""}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Sin courier" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ups">UPS</SelectItem>
+              <SelectItem value="dhl">DHL Express</SelectItem>
+              <SelectItem value="fedex">FedEx</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div>
           <label className="mb-1 block font-mono text-sm text-muted-foreground">Nº de seguimiento</label>
@@ -158,7 +169,7 @@ export function CourierPanel({
                 <div className="flex flex-col items-center">
                   <div className={cn(
                     "mt-1 size-2 rounded-full shrink-0",
-                    ev.done ? "bg-emerald-500" : "bg-border"
+                    ev.done ? "bg-success" : "bg-border"
                   )} />
                   {i < MOCK_EVENTS.length - 1 && (
                     <div className="w-px flex-1 bg-border/60 my-1 min-h-[16px]" />

@@ -42,6 +42,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 const SERVICE_LABELS: Record<string, string> = {
   flete: "Flete",
@@ -238,7 +239,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
             <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Notas
             </label>
-            <textarea
+            <Textarea
               value={form.notes ?? ""}
               onChange={(e) => set("notes", e.target.value || null)}
               rows={3}

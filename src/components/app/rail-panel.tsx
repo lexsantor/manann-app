@@ -40,7 +40,7 @@ export function RailPanel({ pol, pod, blNumber }: RailPanelProps) {
           <span className="font-display text-base font-medium tracking-tight text-foreground">
             Ferroviario avanzado
           </span>
-          <span className="rounded border border-amber-500/30 bg-amber-500/8 px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-amber-500">
+          <span className="rounded border border-warning/30 bg-warning/10 px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-warning">
             Simulación
           </span>
         </div>
@@ -58,13 +58,13 @@ export function RailPanel({ pol, pod, blNumber }: RailPanelProps) {
                   name: "CIM Waybill",
                   desc: "Carta de porte CIM (Convenio Internacional Mercancías por Ferrocarril)",
                   ref: blNumber ? `CIM-${blNumber}` : "—",
-                  color: "border-blue-500/20 bg-blue-500/5",
+                  color: "border-border bg-muted/30",
                 },
                 {
                   name: "CMR",
                   desc: "Carta de porte CMR para tramos por carretera en origen/destino",
                   ref: blNumber ? `CMR-${blNumber}` : "—",
-                  color: "border-violet-500/20 bg-violet-500/5",
+                  color: "border-border bg-muted/30",
                 },
               ].map((doc) => (
                 <div key={doc.name} className={cn("rounded-md border px-3 py-3", doc.color)}>

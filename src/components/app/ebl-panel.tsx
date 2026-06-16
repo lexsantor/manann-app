@@ -26,8 +26,8 @@ type EBl = {
 
 const STATUS_COLORS: Record<string, string> = {
   Original: "text-primary bg-primary/10",
-  Endorsed: "text-amber-500 bg-amber-500/10",
-  Surrendered: "text-emerald-500 bg-emerald-500/10",
+  Endorsed: "text-warning bg-warning/10",
+  Surrendered: "text-success bg-success/10",
   Void: "text-muted-foreground bg-muted/50",
 };
 
@@ -108,8 +108,8 @@ export function EblPanel({
                     placeholder="Nombre del consignatario inicial"
                   />
                 </div>
-                <div className="rounded-md bg-amber-500/5 border border-amber-500/20 px-3 py-2">
-                  <p className="text-[11px] text-amber-600 dark:text-amber-400">
+                <div className="rounded-md bg-warning/5 border border-warning/20 px-3 py-2">
+                  <p className="text-[11px] text-warning">
                     Simulación — integración ESSDOCS / Bolero / WAVE en producción
                   </p>
                 </div>
@@ -162,8 +162,8 @@ export function EblPanel({
           </p>
         </div>
 
-        <div className="rounded-md bg-amber-500/5 border border-amber-500/20 px-3 py-1.5">
-          <p className="text-[10px] text-amber-600 dark:text-amber-400">
+        <div className="rounded-md bg-warning/5 border border-warning/20 px-3 py-1.5">
+          <p className="text-[10px] text-warning">
             Simulación — integración ESSDOCS / Bolero / WAVE en producción
           </p>
         </div>

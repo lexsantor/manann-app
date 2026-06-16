@@ -3,6 +3,13 @@
 import { useState, useTransition } from "react";
 import { Plus, Trash2, Search } from "lucide-react";
 import { createChargeConcept, deleteChargeConcept } from "@/lib/maestros-actions";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 const CATEGORIES = ["flete", "origen", "destino", "aduana", "almacenaje", "seguro", "documentacion", "otro"];
 const DIRECTIONS = [
@@ -112,27 +119,35 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Categoría</label>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+              <Select
                 value={form.category}
-                onChange={(e) => setForm({ ...form, category: e.target.value })}
+                onValueChange={(v) => setForm({ ...form, category: v })}
               >
-                {CATEGORIES.map((c) => (
-                  <option key={c} value={c}>{CAT_LABEL[c]}</option>
-                ))}
-              </select>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {CATEGORIES.map((c) => (
+                    <SelectItem key={c} value={c}>{CAT_LABEL[c]}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Dirección por defecto</label>
-              <select
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+              <Select
                 value={form.defaultDirection}
-                onChange={(e) => setForm({ ...form, defaultDirection: e.target.value })}
+                onValueChange={(v) => setForm({ ...form, defaultDirection: v })}
               >
-                {DIRECTIONS.map((d) => (
-                  <option key={d.value} value={d.value}>{d.label}</option>
-                ))}
-              </select>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {DIRECTIONS.map((d) => (
+                    <SelectItem key={d.value} value={d.value}>{d.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <div className="flex justify-end gap-2">
@@ -181,7 +196,7 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
                   <button
                     onClick={() => handleDelete(c.id)}
                     disabled={pending}
-                    className="text-muted-foreground hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                    className="text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
                   >
                     <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
                   </button>

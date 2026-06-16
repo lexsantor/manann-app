@@ -50,7 +50,7 @@ function tier(rank: number, total: number): "A" | "B" | "C" {
 
 const TIER_COLOR = {
   A: "bg-primary/10 text-primary",
-  B: "bg-sky-500/10 text-sky-600",
+  B: "bg-info/10 text-info",
   C: "bg-muted/60 text-muted-foreground",
 };
 
@@ -313,7 +313,7 @@ export default async function ReportesPage({
       <div className="overflow-hidden rounded-xl border border-border bg-card">
         <div className="flex items-center justify-between border-b border-border px-5 py-3">
           <div className="flex items-center gap-2">
-            <Icon icon={Leaf} size={14} className="text-emerald-500" />
+            <Icon icon={Leaf} size={14} className="text-success" />
             <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">ESG — Huella de carbono</p>
           </div>
           <EsgExportButton data={{ rows: esgRows }} period={period} />
@@ -355,7 +355,7 @@ export default async function ReportesPage({
                     </div>
                     <div className="h-1.5 overflow-hidden rounded-full bg-border">
                       <div
-                        className="h-full rounded-full bg-emerald-500 transition-all"
+                        className="h-full rounded-full bg-success transition-all"
                         style={{ width: `${pct}%` }}
                       />
                     </div>
@@ -380,7 +380,7 @@ export default async function ReportesPage({
             <span className="flex h-4 w-4 items-center justify-center rounded-sm bg-[#F2C811] text-[8px] font-bold text-black leading-none">BI</span>
             <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Power BI — Cuadro de mando avanzado</p>
           </div>
-          <span className="inline-flex items-center rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-medium text-amber-600 dark:text-amber-400">
+          <span className="inline-flex items-center rounded-full border border-warning/30 bg-warning/10 px-2 py-0.5 text-[10px] font-medium text-warning">
             Simulación — integración Power BI en producción
           </span>
         </div>
@@ -396,7 +396,7 @@ export default async function ReportesPage({
             <div key={kpi.label} className="bg-card px-4 py-3">
               <p className="text-xs text-muted-foreground">{kpi.label}</p>
               <p className="mt-1 font-mono text-lg font-semibold text-foreground">{kpi.value}</p>
-              <p className={`mt-0.5 text-xs font-medium ${kpi.up ? "text-emerald-500" : "text-red-500"}`}>
+              <p className={`mt-0.5 text-xs font-medium ${kpi.up ? "text-success" : "text-destructive"}`}>
                 {kpi.delta} vs período anterior
               </p>
             </div>

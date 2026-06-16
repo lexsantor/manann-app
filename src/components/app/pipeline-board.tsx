@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { formatMoney } from "@/lib/erp-format";
 import type { OpportunityRow, RateItem } from "@/lib/erp";
@@ -35,10 +36,10 @@ interface Props {
 
 const STAGES: { key: OppStage; label: string; accent: string }[] = [
   { key: "prospecto",   label: "Prospecto",   accent: "border-border" },
-  { key: "propuesta",   label: "Propuesta",   accent: "border-blue-500/40" },
-  { key: "negociacion", label: "Negociación", accent: "border-amber-500/40" },
-  { key: "ganado",      label: "Ganado",      accent: "border-green-500/40" },
-  { key: "perdido",     label: "Perdido",     accent: "border-red-400/40" },
+  { key: "propuesta",   label: "Propuesta",   accent: "border-info/40" },
+  { key: "negociacion", label: "Negociación", accent: "border-warning/40" },
+  { key: "ganado",      label: "Ganado",      accent: "border-success/40" },
+  { key: "perdido",     label: "Perdido",     accent: "border-destructive/40" },
 ];
 
 const STAGE_KEYS = STAGES.map((s) => s.key);
@@ -222,7 +223,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
                       <div className="flex items-center justify-between gap-1">
                         <span className="text-sm font-semibold">{formatMoney(String(val.toFixed(2)), opp.currency)}</span>
                         {isHigh && (
-                          <span className="flex items-center gap-0.5 text-[10px] font-medium text-amber-500">
+                          <span className="flex items-center gap-0.5 text-[10px] font-medium text-warning">
                             <AlertTriangle className="size-2.5" /> alto
                           </span>
                         )}
@@ -392,7 +393,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
                 <div
                   className={cn(
                     "text-xs font-medium pt-1 border-t",
-                    benchmarkDelta > 20 ? "text-amber-500" : "text-green-500",
+                    benchmarkDelta > 20 ? "text-warning" : "text-success",
                   )}
                 >
                   {benchmarkDelta > 0
@@ -406,12 +407,12 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
           {/* Notas */}
           <div className="space-y-1.5">
             <label className="text-xs font-medium">Notas</label>
-            <textarea
+            <Textarea
               value={form.notes}
               onChange={field("notes")}
               rows={3}
               placeholder="Contexto, próximos pasos…"
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring resize-none"
+              className="resize-none"
             />
           </div>
         </div>

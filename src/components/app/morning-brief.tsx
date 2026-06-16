@@ -194,7 +194,7 @@ export function MorningBrief({
               {actions.length} acción{actions.length > 1 ? "es" : ""} IA
             </Link>
           )}
-          <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3 py-1 text-base font-medium text-emerald-600 dark:text-emerald-400">
+          <span className="flex items-center gap-1.5 rounded-full border border-success/20 bg-success/5 px-3 py-1 text-base font-medium text-success">
             <Icon icon={TrendingUp} size={11} />
             {timeSaved.total}h ahorradas esta semana
           </span>
@@ -218,9 +218,9 @@ export function MorningBrief({
               ))}
             </div>
           ) : (
-            <div className="flex items-center gap-3 rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-4">
-              <Icon icon={ShieldAlert} size={16} className="text-emerald-500" />
-              <p className="text-base text-emerald-600 dark:text-emerald-400">Sin tareas pendientes. Todo en orden.</p>
+            <div className="flex items-center gap-3 rounded-lg border border-success/20 bg-success/5 p-4">
+              <Icon icon={ShieldAlert} size={16} className="text-success" />
+              <p className="text-base text-success">Sin tareas pendientes. Todo en orden.</p>
             </div>
           )}
         </div>

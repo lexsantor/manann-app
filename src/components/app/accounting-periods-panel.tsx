@@ -101,7 +101,7 @@ export function AccountingPeriodsPanel({ periods: initial }: { periods: Period[]
                       "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium",
                       p.status === "closed"
                         ? "bg-muted text-muted-foreground"
-                        : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+                        : "bg-success/10 text-success",
                     )}
                   >
                     {p.status === "closed" ? (
@@ -129,7 +129,7 @@ export function AccountingPeriodsPanel({ periods: initial }: { periods: Period[]
                     <button
                       onClick={() => handleReopen(p.year, p.month)}
                       disabled={pending}
-                      className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1 text-xs text-muted-foreground hover:border-amber-400/40 hover:text-foreground transition-colors disabled:opacity-40"
+                      className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1 text-xs text-muted-foreground hover:border-warning/40 hover:text-foreground transition-colors disabled:opacity-40"
                     >
                       <LockOpen className="h-3 w-3" /> Reabrir
                     </button>

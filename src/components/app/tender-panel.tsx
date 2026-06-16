@@ -123,7 +123,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                 <div className="flex shrink-0 items-center gap-1">
                   {t.status === "abierto" && t.bids.length === 0 && (
                     <button
-                      className="flex items-center gap-1 rounded px-2 py-1 text-[10px] font-medium text-amber-600 bg-amber-500/10 hover:bg-amber-500/20 disabled:opacity-40"
+                      className="flex items-center gap-1 rounded px-2 py-1 text-[10px] font-medium text-warning bg-warning/10 hover:bg-warning/20 disabled:opacity-40"
                       onClick={() => handleSimulateBids(t.id)}
                       disabled={isPending}
                       title="Simular respuestas de la red"
@@ -196,8 +196,8 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                       ))}
                   </div>
                   {t.status === "abierto" && (
-                    <div className="px-3 py-2 bg-amber-500/5 border-t border-border/50">
-                      <p className="text-[10px] text-amber-600 dark:text-amber-400">
+                    <div className="px-3 py-2 bg-warning/5 border-t border-border/50">
+                      <p className="text-[10px] text-warning">
                         Simulación — envío real de RFQ por email (Resend) y recepción de ofertas en producción
                       </p>
                     </div>

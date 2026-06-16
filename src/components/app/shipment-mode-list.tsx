@@ -21,9 +21,9 @@ interface ShipmentRow {
 
 const STATUS_STYLES: Record<string, string> = {
   borrador: "bg-muted text-muted-foreground",
-  en_transito: "bg-blue-500/10 text-blue-600 dark:text-blue-400",
-  entregado: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-  cancelado: "bg-red-500/10 text-red-500",
+  en_transito: "bg-info/10 text-info",
+  entregado: "bg-success/10 text-success",
+  cancelado: "bg-destructive/10 text-destructive",
 };
 
 const STATUS_LABELS: Record<string, string> = {

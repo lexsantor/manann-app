@@ -16,15 +16,15 @@ type WebhookEvent = {
 };
 
 const STATUS_ICON: Record<string, React.ReactNode> = {
-  entregado: <CheckCircle2 className="h-4 w-4 text-emerald-500" />,
-  fallido: <XCircle className="h-4 w-4 text-red-500" />,
-  pendiente: <Clock className="h-4 w-4 text-amber-500" />,
+  entregado: <CheckCircle2 className="h-4 w-4 text-success" />,
+  fallido: <XCircle className="h-4 w-4 text-destructive" />,
+  pendiente: <Clock className="h-4 w-4 text-warning" />,
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  entregado: "text-emerald-500 bg-emerald-500/10",
-  fallido: "text-red-500 bg-red-500/10",
-  pendiente: "text-amber-500 bg-amber-500/10",
+  entregado: "text-success bg-success/10",
+  fallido: "text-destructive bg-destructive/10",
+  pendiente: "text-warning bg-warning/10",
 };
 
 export function WebhookEventsPanel({ initialItems }: { initialItems: WebhookEvent[] }) {

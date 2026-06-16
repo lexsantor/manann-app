@@ -3,6 +3,13 @@
 import { useState, useTransition } from "react";
 import { getBalanceSumasSaldos } from "@/lib/contabilidad-actions";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 const MONTHS = ["", "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
@@ -43,35 +50,38 @@ export function BalanceSumasSaldos() {
       <div className="flex flex-wrap items-end gap-3 rounded-md border border-border bg-card p-4">
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Año</label>
-          <select
-            className="rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
-            value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-          >
-            {[currentYear - 1, currentYear, currentYear + 1].map((y) => (
-              <option key={y} value={y}>{y}</option>
-            ))}
-          </select>
+          <Select value={String(year)} onValueChange={(v) => setYear(Number(v))}>
+            <SelectTrigger className="text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {[currentYear - 1, currentYear, currentYear + 1].map((y) => (
+                <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Desde</label>
-          <select
-            className="rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
-            value={monthFrom}
-            onChange={(e) => setMonthFrom(Number(e.target.value))}
-          >
-            {MONTHS.slice(1).map((m, i) => <option key={i + 1} value={i + 1}>{m}</option>)}
-          </select>
+          <Select value={String(monthFrom)} onValueChange={(v) => setMonthFrom(Number(v))}>
+            <SelectTrigger className="text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {MONTHS.slice(1).map((m, i) => <SelectItem key={i + 1} value={String(i + 1)}>{m}</SelectItem>)}
+            </SelectContent>
+          </Select>
         </div>
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Hasta</label>
-          <select
-            className="rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
-            value={monthTo}
-            onChange={(e) => setMonthTo(Number(e.target.value))}
-          >
-            {MONTHS.slice(1).map((m, i) => <option key={i + 1} value={i + 1}>{m}</option>)}
-          </select>
+          <Select value={String(monthTo)} onValueChange={(v) => setMonthTo(Number(v))}>
+            <SelectTrigger className="text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {MONTHS.slice(1).map((m, i) => <SelectItem key={i + 1} value={String(i + 1)}>{m}</SelectItem>)}
+            </SelectContent>
+          </Select>
         </div>
         <button
           onClick={handleLoad}
@@ -103,7 +113,7 @@ export function BalanceSumasSaldos() {
                   <td className="px-4 py-2.5 text-right font-mono text-xs text-foreground">{fmt(r.totalCredit)}</td>
                   <td className={cn(
                     "px-4 py-2.5 text-right font-mono text-xs font-medium",
-                    r.balance > 0 ? "text-foreground" : r.balance < 0 ? "text-red-500" : "text-muted-foreground",
+                    r.balance > 0 ? "text-foreground" : r.balance < 0 ? "text-destructive" : "text-muted-foreground",
                   )}>
                     {fmt(Math.abs(r.balance))}
                     {r.balance < 0 && " Cr"}
@@ -118,7 +128,7 @@ export function BalanceSumasSaldos() {
                 <td className="px-4 py-2.5 text-right font-mono text-xs font-bold text-foreground">{fmt(totalCredit)}</td>
                 <td className={cn(
                   "px-4 py-2.5 text-right font-mono text-xs font-bold",
-                  Math.abs(totalDebit - totalCredit) < 0.01 ? "text-emerald-600 dark:text-emerald-400" : "text-red-500",
+                  Math.abs(totalDebit - totalCredit) < 0.01 ? "text-success" : "text-destructive",
                 )}>
                   {Math.abs(totalDebit - totalCredit) < 0.01 ? "Cuadrado ✓" : fmt(Math.abs(totalDebit - totalCredit))}
                 </td>

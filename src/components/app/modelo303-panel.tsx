@@ -3,6 +3,13 @@
 import { useState, useTransition } from "react";
 import { getModelo303Data } from "@/lib/contabilidad-actions";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const currentYear = new Date().getFullYear();
 const currentQuarter = Math.ceil((new Date().getMonth() + 1) / 3) as 1 | 2 | 3 | 4;
@@ -46,27 +53,32 @@ export function Modelo303Panel() {
       <div className="flex flex-wrap items-end gap-3 rounded-md border border-border bg-card p-4">
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Año</label>
-          <select
-            className="rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
-            value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-          >
-            {[currentYear - 1, currentYear].map((y) => (
-              <option key={y} value={y}>{y}</option>
-            ))}
-          </select>
+          <Select value={String(year)} onValueChange={(v) => setYear(Number(v))}>
+            <SelectTrigger className="w-auto">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {[currentYear - 1, currentYear].map((y) => (
+                <SelectItem key={y} value={String(y)}>{y}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Trimestre</label>
-          <select
-            className="rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
-            value={quarter}
-            onChange={(e) => setQuarter(Number(e.target.value) as 1 | 2 | 3 | 4)}
+          <Select
+            value={String(quarter)}
+            onValueChange={(v) => setQuarter(Number(v) as 1 | 2 | 3 | 4)}
           >
-            {QUARTERS.map((q) => (
-              <option key={q.value} value={q.value}>{q.label}</option>
-            ))}
-          </select>
+            <SelectTrigger className="w-auto">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {QUARTERS.map((q) => (
+                <SelectItem key={q.value} value={String(q.value)}>{q.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <button
           onClick={handleCalc}
@@ -126,7 +138,7 @@ export function Modelo303Panel() {
               <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                 IVA Soportado (compras)
               </h3>
-              <span className="text-[10px] text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full">
+              <span className="text-[10px] text-warning bg-warning/10 px-2 py-0.5 rounded-full">
                 Estimado — módulo compras pendiente
               </span>
             </div>
@@ -168,8 +180,8 @@ export function Modelo303Panel() {
           <div className={cn(
             "rounded-md border p-5 flex items-center justify-between",
             data.resultado >= 0
-              ? "border-red-500/20 bg-red-500/5"
-              : "border-emerald-500/20 bg-emerald-500/5",
+              ? "border-destructive/20 bg-destructive/5"
+              : "border-success/20 bg-success/5",
           )}>
             <div>
               <p className="text-sm font-medium text-foreground">
@@ -181,7 +193,7 @@ export function Modelo303Panel() {
             </div>
             <p className={cn(
               "font-mono text-2xl font-bold",
-              data.resultado >= 0 ? "text-red-500" : "text-emerald-600 dark:text-emerald-400",
+              data.resultado >= 0 ? "text-destructive" : "text-success",
             )}>
               {data.resultado >= 0 ? "+" : ""}{fmt(data.resultado)} €
             </p>

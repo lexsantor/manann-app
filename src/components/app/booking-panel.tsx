@@ -41,11 +41,11 @@ const STATUS_CONFIG: Record<BookingStatus, { label: string; cls: string }> = {
   },
   recibido: {
     label: "Recibido",
-    cls: "bg-sky-500/10 text-sky-600 dark:text-sky-400",
+    cls: "bg-info/10 text-info",
   },
   confirmado: {
     label: "Confirmado",
-    cls: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
+    cls: "bg-success/10 text-success",
   },
   rechazado: {
     label: "Rechazado",

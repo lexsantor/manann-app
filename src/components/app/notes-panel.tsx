@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { PenLine } from "lucide-react";
 
 import { Icon } from "@/components/icon";
+import { Textarea } from "@/components/ui/textarea";
 import { saveNotes } from "@/lib/erp-actions";
 
 interface NotesPanelProps {
@@ -40,7 +41,7 @@ export function NotesPanel({ shipmentId, initialNotes }: NotesPanelProps) {
           </span>
         )}
       </div>
-      <textarea
+      <Textarea
         defaultValue={initialNotes ?? ""}
         onChange={handleChange}
         rows={4}

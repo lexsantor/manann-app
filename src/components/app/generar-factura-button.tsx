@@ -6,6 +6,14 @@ import { X, Plus, Trash2, Loader2, FileText } from "lucide-react";
 import { createInvoice, type CreateInvoiceInput } from "@/lib/erp-actions";
 import { formatMoney } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 interface RevenueLine {
   concept: string;
@@ -162,16 +170,17 @@ export function GenerarFacturaButton({
                     </div>
                     <div>
                       <label className="mb-1 block text-base text-muted-foreground">IVA (%)</label>
-                      <select
-                        value={taxRate}
-                        onChange={(e) => setTaxRate(e.target.value)}
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
-                      >
-                        <option value="21">21% (general)</option>
-                        <option value="10">10% (reducido)</option>
-                        <option value="4">4% (superreducido)</option>
-                        <option value="0">0% (exportación)</option>
-                      </select>
+                      <Select value={taxRate} onValueChange={(v) => setTaxRate(v)}>
+                        <SelectTrigger className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="21">21% (general)</SelectItem>
+                          <SelectItem value="10">10% (reducido)</SelectItem>
+                          <SelectItem value="4">4% (superreducido)</SelectItem>
+                          <SelectItem value="0">0% (exportación)</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 </fieldset>
@@ -260,7 +269,7 @@ export function GenerarFacturaButton({
                 {/* Notas */}
                 <fieldset>
                   <legend className="mb-1 font-mono text-sm uppercase tracking-wider text-muted-foreground">Notas (opcional)</legend>
-                  <textarea
+                  <Textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     rows={2}
