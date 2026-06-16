@@ -4,6 +4,8 @@ import { useState, useTransition } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { createTransportOrder, updateTransportOrderStatus, deleteTransportOrder } from "@/lib/tier-s-actions";
 import { DataTable, CellStacked, type Column } from "@/components/ui/data-table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 import { cn } from "@/lib/utils";
 
 interface TransportOrder {
@@ -139,16 +141,19 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
       key: "status",
       header: "Estado",
       cell: (o) => (
-        <select
-          value={o.status}
-          onChange={(e) => handleStatusChange(o.id, e.target.value)}
-          className={cn(
-            "rounded-full border-0 px-2 py-0.5 text-[11px] font-medium focus:outline-none focus:ring-2 focus:ring-primary/30",
-            STATUS_COLORS[o.status] ?? "bg-muted text-muted-foreground",
-          )}
-        >
-          {STATUS_OPTIONS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
-        </select>
+        <Select value={o.status} onValueChange={(v) => handleStatusChange(o.id, v)}>
+          <SelectTrigger
+            className={cn(
+              "h-7 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[11px] font-medium focus:ring-1 focus:ring-primary/30 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
+              STATUS_COLORS[o.status] ?? "bg-muted text-muted-foreground",
+            )}
+          >
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {STATUS_OPTIONS.map((s) => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}
+          </SelectContent>
+        </Select>
       ),
     },
     {
@@ -156,14 +161,16 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
       header: "",
       align: "right",
       cell: (o) => (
-        <button
-          onClick={() => handleDelete(o.id)}
+        <ConfirmButton
+          onConfirm={() => handleDelete(o.id)}
           disabled={pending}
-          className="text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-50"
           aria-label={`Eliminar orden ${o.reference}`}
+          title="Eliminar orden de transporte"
+          description={`Se eliminará la orden ${o.reference}. Esta acción no se puede deshacer.`}
+          className="text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-50"
         >
           <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
-        </button>
+        </ConfirmButton>
       ),
     },
   ];

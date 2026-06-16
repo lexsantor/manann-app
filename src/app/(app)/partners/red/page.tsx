@@ -12,7 +12,7 @@ export default async function RedPage() {
   const agents = await listNetworkAgents();
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6">
+    <div className="space-y-6">
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/partners" className="hover:text-foreground transition-colors">Partners</Link>
         <span>/</span>

@@ -15,7 +15,7 @@ export default async function PartnersPage() {
   ]);
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
+    <div className="space-y-8">
       <div className="flex items-center gap-3">
         <Handshake className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
         <div>

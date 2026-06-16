@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { StatusBadge } from "@/components/ui/badges";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 import { createIncident, updateIncidentStatus, deleteIncident } from "@/lib/calidad-actions";
 
 type Incident = {
@@ -123,14 +124,16 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
               <CheckCircle2 className="h-4 w-4" />
             </button>
           )}
-          <button
+          <ConfirmButton
             className="rounded p-1 text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-40"
-            onClick={() => handleDelete(i.id)}
+            onConfirm={() => handleDelete(i.id)}
             disabled={isPending}
             aria-label="Eliminar incidencia"
+            title="Eliminar incidencia"
+            description="Se eliminará esta incidencia. Esta acción no se puede deshacer."
           >
             <Trash2 className="h-4 w-4" />
-          </button>
+          </ConfirmButton>
         </div>
       ),
     },

@@ -5,6 +5,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { createRouteTemplate, deleteRouteTemplate } from "@/lib/tier-s-actions";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { ModeBadge } from "@/components/ui/badges";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 
 interface RouteTemplate {
   id: string;
@@ -86,14 +87,16 @@ export function RouteTemplatesPanel({ templates: initial }: { templates: RouteTe
       header: "",
       align: "right",
       cell: (t) => (
-        <button
-          onClick={() => handleDelete(t.id)}
+        <ConfirmButton
+          onConfirm={() => handleDelete(t.id)}
           disabled={pending}
-          className="text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-50"
           aria-label={`Eliminar plantilla ${t.name}`}
+          title="Eliminar plantilla de ruta"
+          description={`Se eliminará la plantilla «${t.name}». Esta acción no se puede deshacer.`}
+          className="text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-50"
         >
           <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
-        </button>
+        </ConfirmButton>
       ),
     },
   ];

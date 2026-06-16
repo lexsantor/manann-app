@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { StatusBadge } from "@/components/ui/badges";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 import { createNonConformity, updateNonConformityStatus, deleteNonConformity } from "@/lib/calidad-actions";
 
 type NC = {
@@ -106,14 +107,16 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
               <CheckCircle2 className="h-4 w-4" />
             </button>
           )}
-          <button
+          <ConfirmButton
             className="rounded p-1 text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-40"
-            onClick={() => handleDelete(i.id)}
+            onConfirm={() => handleDelete(i.id)}
             disabled={isPending}
             aria-label="Eliminar no conformidad"
+            title="Eliminar no conformidad"
+            description="Se eliminará esta no conformidad. Esta acción no se puede deshacer."
           >
             <Trash2 className="h-4 w-4" />
-          </button>
+          </ConfirmButton>
         </div>
       ),
     },

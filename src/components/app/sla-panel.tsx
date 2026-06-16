@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { StatusBadge } from "@/components/ui/badges";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 import { createSlaDefinition, toggleSlaDefinition, deleteSlaDefinition } from "@/lib/calidad-actions";
 
 type SLA = {
@@ -129,14 +130,16 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
           >
             {i.active ? <ToggleRight className="h-5 w-5 text-primary" /> : <ToggleLeft className="h-5 w-5" />}
           </button>
-          <button
+          <ConfirmButton
             className="rounded p-1 text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-40"
-            onClick={() => handleDelete(i.id)}
+            onConfirm={() => handleDelete(i.id)}
             disabled={isPending}
             aria-label="Eliminar SLA"
+            title="Eliminar SLA"
+            description={`Se eliminará el SLA «${i.name}». Esta acción no se puede deshacer.`}
           >
             <Trash2 className="h-4 w-4" />
-          </button>
+          </ConfirmButton>
         </div>
       ),
     },

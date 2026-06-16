@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { KpiCard } from "@/components/ui/kpi-card";
 import { DataTable, type Column } from "@/components/ui/data-table";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 import { createExpense, deleteExpense } from "@/lib/expense-actions";
 
 type Expense = {
@@ -98,14 +99,16 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
       header: "",
       align: "right",
       cell: (e) => (
-        <button
-          onClick={() => handleDelete(e.id)}
+        <ConfirmButton
+          onConfirm={() => handleDelete(e.id)}
           disabled={isPending}
-          className="rounded p-1 text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-40"
           aria-label="Eliminar gasto"
+          title="Eliminar gasto"
+          description="Se eliminará este gasto. Esta acción no se puede deshacer."
+          className="rounded p-1 text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-40"
         >
           <Trash2 className="h-3.5 w-3.5" />
-        </button>
+        </ConfirmButton>
       ),
     },
   ];

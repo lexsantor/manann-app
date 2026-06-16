@@ -5,6 +5,7 @@ import { Plus, Trash2, PlaneTakeoff } from "lucide-react";
 import { createFlight, deleteFlight } from "@/lib/tier-s-actions";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
 import { DataTable, type Column } from "@/components/ui/data-table";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 
 interface Flight {
   id: string;
@@ -135,14 +136,16 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
       header: "",
       align: "right",
       cell: (f) => (
-        <button
-          onClick={() => handleDelete(f.id)}
+        <ConfirmButton
+          onConfirm={() => handleDelete(f.id)}
           disabled={pending}
-          className="text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-50"
           aria-label={`Eliminar vuelo ${f.flightNumber}`}
+          title="Eliminar vuelo"
+          description={`Se eliminará el vuelo ${f.flightNumber}. Esta acción no se puede deshacer.`}
+          className="text-muted-foreground/60 transition-colors hover:text-destructive disabled:opacity-50"
         >
           <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
-        </button>
+        </ConfirmButton>
       ),
     },
   ];

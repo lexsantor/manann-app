@@ -9,6 +9,7 @@ import {
   deleteManifestEntry,
 } from "@/lib/tier-s-actions";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 import { cn } from "@/lib/utils";
 
 interface ManifestEntry {
@@ -271,9 +272,16 @@ export function AirManifestsPanel({
                           <td className="py-1.5 text-right font-mono text-muted-foreground">{Number(e.weightKg).toFixed(2)}</td>
                           <td className="py-1.5 pl-3 text-muted-foreground">{e.description || "—"}</td>
                           <td className="py-1.5 text-right">
-                            <button onClick={() => handleDeleteEntry(e.id, m.id)} disabled={pending} className="text-muted-foreground hover:text-red-400">
+                            <ConfirmButton
+                              onConfirm={() => handleDeleteEntry(e.id, m.id)}
+                              disabled={pending}
+                              aria-label={`Eliminar HAWB ${e.hawbNumber}`}
+                              title="Eliminar HAWB"
+                              description={`Se eliminará la partida ${e.hawbNumber} del manifiesto. Esta acción no se puede deshacer.`}
+                              className="text-muted-foreground/60 transition-colors hover:text-destructive"
+                            >
                               <X className="h-3 w-3" />
-                            </button>
+                            </ConfirmButton>
                           </td>
                         </tr>
                       ))}

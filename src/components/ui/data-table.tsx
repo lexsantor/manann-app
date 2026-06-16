@@ -48,7 +48,7 @@ export function DataTable<T>({
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-border bg-muted/40">
+            <tr className="border-b border-border bg-muted/70">
               {columns.map((c) => (
                 <th
                   key={c.key}
@@ -67,7 +67,10 @@ export function DataTable<T>({
             {rows.map((row, i) => (
               <tr
                 key={getRowKey(row, i)}
-                className="border-b border-border/60 last:border-0 transition-colors hover:bg-muted/40"
+                className={cn(
+                  "border-b border-border/40 last:border-0 transition-colors hover:bg-primary/[0.06]",
+                  i % 2 === 0 ? "bg-card" : "bg-muted/40",
+                )}
               >
                 {columns.map((c) => (
                   <td

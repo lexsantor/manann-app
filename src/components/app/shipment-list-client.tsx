@@ -8,6 +8,7 @@ import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
 import { BulkActionsBar } from "@/components/app/bulk-actions-bar";
 import { DataTable, CellStacked, MiniBar, type Column } from "@/components/ui/data-table";
 import { StatusBadge, ModeBadge } from "@/components/ui/badges";
+import { Checkbox } from "@/components/ui/checkbox";
 import { STATUS, MODE, formatMoney } from "@/lib/erp-format";
 
 interface ShipmentListClientProps {
@@ -110,24 +111,18 @@ export function ShipmentListClient({ shipments, members, view }: ShipmentListCli
     {
       key: "select",
       header: (
-        <input
-          type="checkbox"
+        <Checkbox
           checked={allSelected}
-          ref={(el) => {
-            if (el) el.indeterminate = someSelected;
-          }}
+          indeterminate={someSelected}
           onChange={toggleAll}
-          className="size-3.5 cursor-pointer accent-primary align-middle"
           aria-label="Seleccionar todos"
         />
       ),
       headerClassName: "w-[1%]",
       cell: (s) => (
-        <input
-          type="checkbox"
+        <Checkbox
           checked={selected.has(s.id)}
-          onChange={(e) => toggle(s.id, e.target.checked)}
-          className="size-3.5 cursor-pointer accent-primary align-middle"
+          onChange={(checked) => toggle(s.id, checked)}
           aria-label={`Seleccionar ${s.reference}`}
         />
       ),
