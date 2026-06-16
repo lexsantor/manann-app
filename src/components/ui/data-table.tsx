@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { EmptyState } from "@/components/ui/empty-state";
 
 // Tabla de datos del ERP (lenguaje visual Faro): cabeceras mono MAYÚSCULAS,
 // filas con hover y separador, alineación por columna, estado vacío.
@@ -36,11 +37,7 @@ export function DataTable<T>({
   className?: string;
 }) {
   if (rows.length === 0) {
-    return (
-      <div className="rounded-xl border border-dashed border-border bg-card py-12 text-center text-sm text-muted-foreground">
-        {empty}
-      </div>
-    );
+    return <EmptyState className={className} title={empty} />;
   }
 
   return (

@@ -393,6 +393,18 @@ h1, h2, h3, .font-display {
 [data-theme="light"] .logo-dark-mode { display: none; }
 [data-theme="light"] .logo-light-mode { display: block; }
 
+/* a11y — respeta prefers-reduced-motion: neutraliza animaciones/transiciones */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ============================================================
    CMDK — Command Palette overlay
    ============================================================ */
