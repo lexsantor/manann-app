@@ -43,7 +43,7 @@ export function DataTable<T>({
   return (
     <div className={cn("overflow-hidden rounded-xl border border-border bg-card", className)}>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full min-w-[680px] text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/70">
               {columns.map((c) => (

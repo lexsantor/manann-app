@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ScrollText, ChevronDown, ChevronUp } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { CrearAsientoButton } from "@/components/app/crear-asiento-button";
+import { StatusBadge } from "@/components/ui/badges";
 import { cn } from "@/lib/utils";
 
 function fmt(n: number) {
@@ -14,17 +15,6 @@ function formatDate(d: string | Date | null) {
   if (!d) return "—";
   return new Date(d).toLocaleDateString("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
-
-const STATUS_COLOR: Record<string, string> = {
-  borrador: "text-muted-foreground bg-muted/60",
-  contabilizado: "text-success bg-success/10",
-  anulado: "text-accent/60 bg-accent/10",
-};
-const STATUS_LABEL: Record<string, string> = {
-  borrador: "Borrador",
-  contabilizado: "Contabilizado",
-  anulado: "Anulado",
-};
 
 interface JournalLine {
   id: string;
@@ -70,14 +60,12 @@ function EntryRow({ entry }: { entry: JournalEntry }) {
         onClick={() => setOpen((v) => !v)}
         className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-surface-2/40 transition-colors"
       >
-        <div className="min-w-0 flex-1 grid grid-cols-[80px_1fr_90px_100px_80px] items-center gap-3">
+        <div className="min-w-0 flex-1 grid grid-cols-[80px_1fr_90px_110px_110px] items-center gap-3">
           <span className="font-mono text-xs text-muted-foreground">{formatDate(entry.date)}</span>
           <span className="truncate text-sm text-foreground">{entry.description}</span>
           <span className="font-mono text-xs text-muted-foreground">{entry.period}</span>
           <span className="text-right font-mono text-sm text-foreground">{fmt(entry.totalDebit)}</span>
-          <span className={cn("rounded-full px-1.5 py-0.5 font-mono text-[10px] text-center", STATUS_COLOR[entry.status] ?? "text-muted-foreground bg-muted/60")}>
-            {STATUS_LABEL[entry.status] ?? entry.status}
-          </span>
+          <StatusBadge status={entry.status} />
         </div>
         <Icon icon={open ? ChevronUp : ChevronDown} size={12} className="shrink-0 text-muted-foreground" />
       </button>
@@ -121,13 +109,15 @@ function EntryRow({ entry }: { entry: JournalEntry }) {
 export function DiarioContable({ entries, accounts }: DiarioContableProps) {
   return (
     <section className="rounded-xl border border-border bg-card">
-      <div className="flex items-center justify-between border-b border-border px-5 py-3.5">
+      <div className="flex flex-col gap-3 border-b border-border px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <Icon icon={ScrollText} size={14} className="text-muted-foreground" />
           <span className="font-display text-sm font-medium text-foreground">Diario contable</span>
           <span className="font-mono text-xs text-muted-foreground">({entries.length})</span>
         </div>
-        <CrearAsientoButton accounts={accounts} />
+        <div className="[&>*]:w-full sm:[&>*]:w-auto">
+          <CrearAsientoButton accounts={accounts} />
+        </div>
       </div>
 
       {entries.length === 0 ? (
@@ -139,11 +129,16 @@ export function DiarioContable({ entries, accounts }: DiarioContableProps) {
       ) : (
         <div className="overflow-x-auto">
           <div className="min-w-[560px]">
-            {/* Column headers */}
-            <div className="grid grid-cols-[80px_1fr_90px_100px_80px] gap-3 border-b border-border/50 px-4 py-2">
-              {["Fecha", "Descripción", "Período", "Importe", "Estado"].map((h) => (
-                <span key={h} className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{h}</span>
-              ))}
+            {/* Column headers — alineadas con las filas (reservan el chevron) */}
+            <div className="flex items-center gap-3 border-b border-border/50 px-4 py-2">
+              <div className="flex-1 grid grid-cols-[80px_1fr_90px_110px_110px] gap-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                <span>Fecha</span>
+                <span>Descripción</span>
+                <span>Período</span>
+                <span className="text-right">Importe</span>
+                <span>Estado</span>
+              </div>
+              <span className="w-3 shrink-0" />
             </div>
             {entries.map((e) => (
               <EntryRow key={e.id} entry={e} />
