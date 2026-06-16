@@ -1390,6 +1390,47 @@ export const orgProfileRelations = relations(orgProfile, ({ one }) => ({
   organization: one(organization, { fields: [orgProfile.organizationId], references: [organization.id] }),
 }));
 
+// ─── Gastos operativos (módulo Finanzas) ─────────────────────────────────────
+export const expense = pgTable(
+  "expense",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    date: date("date").notNull(),
+    category: text("category").notNull(),
+    description: text("description"),
+    amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
+    currency: text("currency").notNull().default("EUR"),
+    supplier: text("supplier"),
+    shipmentId: uuid("shipment_id").references(() => shipment.id, { onDelete: "set null" }),
+    status: text("status").notNull().default("registrado"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("expense_org_idx").on(t.organizationId)],
+);
+
+// ─── Conectores / Integraciones (estado por organización) ─────────────────────
+export const connector = pgTable(
+  "connector",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    organizationId: uuid("organization_id")
+      .notNull()
+      .references(() => organization.id, { onDelete: "cascade" }),
+    key: text("key").notNull(),
+    status: text("status").notNull().default("disconnected"),
+    config: jsonb("config"),
+    connectedAt: timestamp("connected_at"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [
+    index("connector_org_idx").on(t.organizationId),
+    unique("connector_org_key_uq").on(t.organizationId, t.key),
+  ],
+);
+
 export const networkAgent = pgTable("network_agent", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),

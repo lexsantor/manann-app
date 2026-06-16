@@ -939,6 +939,26 @@ export async function getTreasuryProjection(orgId: string) {
 
 // ─── Tier M: Compliance ───────────────────────────────────────────────────────
 
+// Vista central de Aduanas: todas las declaraciones aduaneras (DUA/ENS/NCTS/AES)
+// de la org con la referencia del expediente. Excluye verifactu (fiscal).
+export async function listCustomsDeclarations(orgId: string) {
+  return db
+    .select({
+      id: complianceDeclaration.id,
+      type: complianceDeclaration.type,
+      referenceNumber: complianceDeclaration.referenceNumber,
+      status: complianceDeclaration.status,
+      submittedAt: complianceDeclaration.submittedAt,
+      createdAt: complianceDeclaration.createdAt,
+      shipmentId: complianceDeclaration.shipmentId,
+      shipmentRef: shipment.reference,
+    })
+    .from(complianceDeclaration)
+    .leftJoin(shipment, eq(complianceDeclaration.shipmentId, shipment.id))
+    .where(and(eq(complianceDeclaration.organizationId, orgId), ne(complianceDeclaration.type, "verifactu")))
+    .orderBy(desc(complianceDeclaration.createdAt));
+}
+
 export async function getComplianceDeclarations(orgId: string, shipmentId?: string, invoiceId?: string) {
   const conditions = [eq(complianceDeclaration.organizationId, orgId)];
   if (shipmentId) conditions.push(eq(complianceDeclaration.shipmentId, shipmentId));

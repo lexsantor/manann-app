@@ -87,7 +87,7 @@ const SECTIONS: NavSection[] = [
       { label: "Manifiestos",      href: "/manifiestos",         icon: FileStack },
       { label: "Transporte",       href: "/ordenes-transporte",  icon: Truck },
       { label: "Rutas",            href: "/rutas",               icon: Route },
-      { label: "Aduanas",          icon: FileCheck2,             soon: true },
+      { label: "Aduanas",          href: "/aduanas",             icon: FileCheck2 },
     ],
   },
   {
@@ -110,7 +110,7 @@ const SECTIONS: NavSection[] = [
       { label: "Excepciones",   href: "/excepciones",   icon: ShieldAlert },
       { label: "Facturación",   href: "/facturas",      icon: Receipt },
       { label: "Contabilidad",  href: "/contabilidad",  icon: BookOpen },
-      { label: "Gastos",        icon: CreditCard,       soon: true },
+      { label: "Gastos",        href: "/gastos",        icon: CreditCard },
       { label: "Tarifas",       href: "/tarifas",       icon: Tag },
     ],
   },
@@ -156,7 +156,7 @@ const SECTIONS: NavSection[] = [
     key: "integraciones",
     label: "Integraciones",
     items: [
-      { label: "Conectores",  icon: Plug,     soon: true },
+      { label: "Conectores",  href: "/conectores",  icon: Plug },
     ],
   },
 ];

@@ -183,6 +183,13 @@
       "when": 1781558516591,
       "tag": "0025_military_runaways",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1781562313893,
+      "tag": "0026_serious_goliath",
+      "breakpoints": true
     }
   ]
 }
