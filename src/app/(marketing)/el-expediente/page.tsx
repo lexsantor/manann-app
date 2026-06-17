@@ -11,6 +11,10 @@ import {
   Building2,
   GitCompare,
   FileCheck2,
+  ArrowLeftRight,
+  TrendingUp,
+  FileClock,
+  AlertTriangle,
 } from "lucide-react";
 
 import { Icon } from "@/components/icon";
@@ -83,6 +87,29 @@ const LIVE = [
     icon: FileCheck2,
     title: "Aduanas y DUA",
     body: "Cuando el envío llega a aduanas, el DUA se prerellena desde el expediente. HS code, valor, régimen y partes, listos para revisar sin reintroducir un solo dato.",
+  },
+];
+
+const FINANZAS = [
+  {
+    icon: ArrowLeftRight,
+    title: "Compra y venta por línea",
+    body: "Cada cargo lleva su lado: lo que cuesta y lo que se factura. El expediente conoce el coste y el ingreso de cada concepto, no solo el total.",
+  },
+  {
+    icon: TrendingUp,
+    title: "GP y margen en vivo",
+    body: "El beneficio bruto y el margen se calculan solos a medida que entran costes e ingresos. Lo ves antes de facturar, no en una hoja aparte al cierre.",
+  },
+  {
+    icon: FileClock,
+    title: "Accrual vs. factura real",
+    body: "Hasta que llega la factura del proveedor, el coste vive como provisión. Cuando llega la real, Manann cuadra la diferencia y avisa si se desvía.",
+  },
+  {
+    icon: AlertTriangle,
+    title: "At-risk y margen fugado",
+    body: "Si el margen baja del umbral o un coste se dispara, el expediente lo marca. El dinero que se escapa se ve antes de que sea tarde.",
   },
 ];
 
@@ -194,6 +221,39 @@ export default function ElExpedientePage() {
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
                     {l.body}
+                  </p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerGrid>
+        </div>
+      </div>
+
+      {/* La capa financiera — transparent (C) */}
+      <div className="border-t border-border">
+        <div className="mx-auto max-w-[1080px] px-5 py-16 sm:px-6">
+          <FadeUp>
+            <p className="eyebrow">La capa financiera</p>
+            <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+              El margen no es una hoja aparte. Vive en el expediente.
+            </h2>
+            <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
+              Del coste al cobro, sin salir del expediente. Cada línea sabe lo
+              que cuesta y lo que factura, y el margen está siempre a la vista.
+            </p>
+          </FadeUp>
+          <StaggerGrid className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {FINANZAS.map((f) => (
+              <StaggerItem key={f.title}>
+                <div className="h-full rounded-lg border border-border bg-card p-6 transition-colors hover:bg-surface-2">
+                  <span className="flex size-9 items-center justify-center rounded-md border border-border text-primary">
+                    <Icon icon={f.icon} size={18} />
+                  </span>
+                  <h3 className="mt-4 font-display font-medium tracking-tight text-foreground">
+                    {f.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
+                    {f.body}
                   </p>
                 </div>
               </StaggerItem>
