@@ -28,6 +28,7 @@ import { signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { helpForPath, ATAJOS } from "@/lib/help-content";
+import { tourForPath } from "@/lib/tours";
 
 // Etiquetas legibles por segmento de ruta (para el breadcrumb).
 const LABELS: Record<string, string> = {
@@ -239,6 +240,7 @@ function HelpModal({ onClose, pathname }: { onClose: () => void; pathname: strin
   }, [onClose]);
 
   const screen = helpForPath(pathname);
+  const hasTour = tourForPath(pathname) !== null;
 
   return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -262,6 +264,19 @@ function HelpModal({ onClose, pathname }: { onClose: () => void; pathname: strin
               </li>
             ))}
           </ul>
+        )}
+        {hasTour && (
+          <button
+            type="button"
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent("manann:open-tour"));
+              onClose();
+            }}
+            className="mt-5 inline-flex items-center gap-1.5 rounded-md border border-primary/30 bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            Ver guía de esta pantalla
+          </button>
         )}
         <p className="mt-6 mb-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">Atajos</p>
         <ul className="space-y-3">

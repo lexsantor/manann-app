@@ -7,6 +7,7 @@ import { AppTopbar } from "@/components/app/app-topbar";
 import { CommandPalette } from "@/components/app/command-palette";
 import { OnboardingWizard } from "@/components/app/onboarding-wizard";
 import { CopilotoPanel } from "@/components/app/copiloto-panel";
+import { GuidedTour } from "@/components/app/guided-tour";
 
 export default async function AppLayout({
   children,
@@ -37,6 +38,7 @@ export default async function AppLayout({
       </div>
       <CommandPalette />
       <CopilotoPanel />
+      <GuidedTour />
       {ctx.org && !ctx.org.onboarded && <OnboardingWizard />}
     </div>
   );
