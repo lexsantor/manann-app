@@ -167,11 +167,27 @@ const AJUSTES: NavItem = { label: "Ajustes", href: "/settings", icon: Settings }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function sectionForPath(pathname: string): string | null {
-  for (const s of SECTIONS) {
-    if (s.items.some((i) => i.href && (pathname === i.href || pathname.startsWith(`${i.href}/`)))) {
-      return s.key;
+const ALL_HREFS: string[] = [...TOP_ITEMS, ...SECTIONS.flatMap((s) => s.items), AJUSTES]
+  .map((i) => i.href)
+  .filter((h): h is string => !!h);
+
+// Coincidencia por prefijo más largo: solo el ítem más específico queda activo
+// (evita que p. ej. "/partners" se marque a la vez que "/partners/red").
+function activeHrefFor(pathname: string): string | null {
+  let best: string | null = null;
+  for (const h of ALL_HREFS) {
+    if ((pathname === h || pathname.startsWith(`${h}/`)) && (best === null || h.length > best.length)) {
+      best = h;
     }
+  }
+  return best;
+}
+
+function sectionForPath(pathname: string): string | null {
+  const active = activeHrefFor(pathname);
+  if (!active) return null;
+  for (const s of SECTIONS) {
+    if (s.items.some((i) => i.href === active)) return s.key;
   }
   return null;
 }
@@ -189,7 +205,7 @@ function NavLink({
   onClick?: () => void;
   pathname: string;
 }) {
-  const active = !!item.href && (pathname === item.href || pathname.startsWith(`${item.href}/`));
+  const active = !!item.href && item.href === activeHrefFor(pathname);
 
   if (item.soon || !item.href) {
     return (
@@ -242,9 +258,8 @@ function SectionAccordion({
   onNav: () => void;
   pathname: string;
 }) {
-  const hasActive = section.items.some(
-    (i) => i.href && (pathname === i.href || pathname.startsWith(`${i.href}/`)),
-  );
+  const active = activeHrefFor(pathname);
+  const hasActive = section.items.some((i) => i.href === active);
 
   return (
     <div>
@@ -349,8 +364,6 @@ export function AppSidebar({ orgName, activeOrgId, orgs, memberCount, city }: Ap
     return () => window.removeEventListener("manann:toggle-sidebar", onToggle);
   }, []);
 
-  const isActive = (href?: string) =>
-    !!href && (pathname === href || pathname.startsWith(`${href}/`));
 
   const Content = (
     <div className="flex h-full flex-col">

@@ -84,9 +84,9 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-muted-foreground">{items.length} tender(s) activo(s)</p>
-        <Button size="sm" variant="secondary" onClick={() => setOpen(true)} className="gap-1.5">
+        <Button size="sm" variant="secondary" onClick={() => setOpen(true)} className="w-full gap-1.5 sm:w-auto">
           <Plus className="h-3.5 w-3.5" />
           Nuevo tender
         </Button>

@@ -73,7 +73,7 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
       key: "category",
       header: "Categoría",
       cell: (e) => (
-        <span className="inline-flex w-fit rounded-md bg-secondary/20 px-1.5 py-0.5 font-mono text-xs font-medium text-foreground">
+        <span className="inline-flex w-fit whitespace-nowrap rounded-md bg-secondary/20 px-1.5 py-0.5 font-mono text-xs font-medium text-foreground">
           {CAT_LABEL[e.category] ?? e.category}
         </span>
       ),
@@ -122,7 +122,7 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
           sub={`${items.length} ${items.length === 1 ? "gasto" : "gastos"}`}
           className="min-w-[200px]"
         />
-        <Button size="sm" onClick={() => setOpen(true)} className="gap-1.5">
+        <Button size="sm" onClick={() => setOpen(true)} className="w-full gap-1.5 sm:w-auto">
           <Plus className="h-4 w-4" /> Añadir gasto
         </Button>
       </div>

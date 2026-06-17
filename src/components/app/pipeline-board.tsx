@@ -159,8 +159,8 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
   return (
     <div className="relative">
       {/* Toolbar */}
-      <div className="flex items-center gap-3 mb-5">
-        <Button size="sm" onClick={openCreate} className="gap-1.5">
+      <div className="mb-5 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+        <Button size="sm" onClick={openCreate} className="w-full gap-1.5 sm:w-auto">
           <Plus className="size-3.5" /> Nueva oportunidad
         </Button>
         {fleteRates.length > 0 && (
@@ -171,7 +171,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
       </div>
 
       {/* Kanban */}
-      <div className="grid grid-cols-5 gap-3 items-start">
+      <div className="grid grid-flow-col auto-cols-[280px] items-start gap-3 overflow-x-auto pb-2 xl:grid-flow-row xl:auto-cols-auto xl:grid-cols-5">
         {STAGES.map(({ key, label, accent }) => {
           const cards = byStage(key);
           const st = stats[key];
