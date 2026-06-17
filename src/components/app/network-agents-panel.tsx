@@ -64,8 +64,8 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <div className="flex flex-wrap gap-2">
-        <div className="relative flex-1 min-w-[200px]">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="relative w-full sm:flex-1 sm:min-w-[200px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             value={search}
@@ -75,7 +75,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
           />
         </div>
         <Select value={filterCountry} onValueChange={setFilterCountry}>
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="w-full sm:w-40">
             <SelectValue placeholder="País" />
           </SelectTrigger>
           <SelectContent>
@@ -88,7 +88,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
           </SelectContent>
         </Select>
         <Select value={filterMode} onValueChange={setFilterMode}>
-          <SelectTrigger className="w-36">
+          <SelectTrigger className="w-full sm:w-36">
             <SelectValue placeholder="Modo" />
           </SelectTrigger>
           <SelectContent>
