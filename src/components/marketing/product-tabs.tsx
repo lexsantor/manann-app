@@ -8,6 +8,8 @@ const TABS = [
   { id: "aduanas", label: "Aduanas" },
   { id: "crm", label: "CRM" },
   { id: "finanzas", label: "Finanzas" },
+  { id: "calidad", label: "Calidad" },
+  { id: "red", label: "Red" },
   { id: "reportes", label: "Reportes" },
 ];
 
@@ -247,6 +249,109 @@ function PanelFinanzas() {
   );
 }
 
+function PanelCalidad() {
+  const slas = [
+    { name: "Respuesta a cotización", target: "objetivo < 4 h", val: "2,1 h", ok: true },
+    { name: "Gestión de DUA", target: "objetivo < 24 h", val: "19 h", ok: true },
+    { name: "Confirmación de booking", target: "objetivo < 8 h", val: "9,4 h", ok: false },
+  ];
+  const incidents = [
+    { type: "Retraso", meta: "EXP-84207 · naviera", state: "En gestión", ok: false },
+    { type: "Daño", meta: "EXP-84190 · terminal", state: "Cerrado", ok: true },
+  ];
+  return (
+    <PanelFrame>
+      <div className="grid gap-5 lg:grid-cols-2">
+        <div>
+          <h4 className="font-display text-[16px] font-semibold mb-4">SLA por objetivo · junio</h4>
+          <div className="flex flex-col gap-2">
+            {slas.map((s) => (
+              <div key={s.name} className="flex items-center justify-between gap-3 rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
+                <div>
+                  <div className="text-[13.5px] font-medium">{s.name}</div>
+                  <div className="mt-0.5 font-mono text-[10px] text-muted-foreground/40">{s.target}</div>
+                </div>
+                <span className={cn(
+                  "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[10px] font-semibold",
+                  s.ok ? "bg-emerald-500/10 text-emerald-400" : "bg-yellow-500/10 text-yellow-400"
+                )}>
+                  <span className="size-[3.5px] rounded-full bg-current" />
+                  {s.val}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h4 className="font-display text-[16px] font-semibold mb-4">Incidencias abiertas</h4>
+          <div className="flex flex-col gap-2">
+            {incidents.map((it, i) => (
+              <div key={i} className="flex items-center justify-between gap-3 rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
+                <span className="text-[13.5px] font-medium">
+                  {it.type}
+                  <span className="ml-2 font-mono text-[10px] text-muted-foreground/40">{it.meta}</span>
+                </span>
+                <span className={cn(
+                  "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[9.5px] font-semibold",
+                  it.ok ? "bg-emerald-500/10 text-emerald-400" : "bg-primary/10 text-primary"
+                )}>
+                  <span className="size-[3.5px] rounded-full bg-current" />
+                  {it.state}
+                </span>
+              </div>
+            ))}
+          </div>
+          <SectionNote>
+            SLAs por cliente y tipo de envío con semáforo de cumplimiento. Las incidencias y no conformidades quedan trazadas hasta su cierre.
+          </SectionNote>
+        </div>
+      </div>
+    </PanelFrame>
+  );
+}
+
+function PanelRed() {
+  const agents = [
+    { name: "Meridian Freight", country: "Hamburgo, DE", meta: "Asia–Europa · FCL · LCL · Aéreo" },
+    { name: "Atlas Logistics", country: "Barcelona, ES", meta: "Mediterráneo · OEA · ISO 9001" },
+    { name: "Shanghai Connect", country: "Shanghái, CN", meta: "Asia–Norteamérica · FCL proyecto" },
+  ];
+  return (
+    <PanelFrame>
+      <div className="grid gap-5 lg:grid-cols-2">
+        <div>
+          <h4 className="font-display text-[16px] font-semibold mb-4">Corresponsales en la red</h4>
+          <div className="flex flex-col gap-2">
+            {agents.map((a) => (
+              <div key={a.name} className="rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[13.5px] font-semibold">{a.name}</span>
+                  <span className="font-mono text-[10px] text-muted-foreground/40">{a.country}</span>
+                </div>
+                <div className="mt-0.5 text-[11.5px] text-muted-foreground/55">{a.meta}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h4 className="font-display text-[16px] font-semibold mb-4">e-BL electrónico</h4>
+          <div className="rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
+            <span className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-primary/60">Título electrónico</span>
+            <div className="mt-2 font-display text-[22px] font-semibold text-primary">Endorsed</div>
+            <div className="mt-1 font-mono text-[10px] text-muted-foreground/45">SHA-256 · 3 transferencias</div>
+            <div className="mt-3 inline-flex rounded-full border border-border/40 bg-background/40 px-2.5 py-0.5 font-mono text-[9px] font-medium text-muted-foreground/55">
+              Simulación — ESSDOCS/Bolero/WAVE en producción
+            </div>
+          </div>
+          <SectionNote>
+            Directorio global de corresponsales, tenders/RFQ a varios agentes y e-BL con huella SHA-256. Tu red, integrada en el expediente.
+          </SectionNote>
+        </div>
+      </div>
+    </PanelFrame>
+  );
+}
+
 function PanelReportes() {
   const kpis = [
     { label: "Ingresos", value: "€4,82M", delta: "+18% vs. Q1" },
@@ -308,6 +413,8 @@ export function ProductTabs() {
     aduanas: <PanelAduanas />,
     crm: <PanelCRM />,
     finanzas: <PanelFinanzas />,
+    calidad: <PanelCalidad />,
+    red: <PanelRed />,
     reportes: <PanelReportes />,
   };
 
