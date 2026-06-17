@@ -129,7 +129,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                 <div className="flex shrink-0 items-center gap-1">
                   {t.status === "abierto" && t.bids.length === 0 && (
                     <button
-                      className="flex items-center gap-1 rounded px-2 py-1 text-[10px] font-medium text-warning bg-warning/10 hover:bg-warning/20 disabled:opacity-40"
+                      className="flex items-center gap-1 rounded px-2 py-1 text-xs font-medium text-warning bg-warning/10 hover:bg-warning/20 disabled:opacity-40"
                       onClick={() => handleSimulateBids(t.id)}
                       disabled={isPending}
                       title="Simular respuestas de la red"
@@ -164,7 +164,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
               {/* Bids comparator */}
               {expanded === t.id && t.bids.length > 0 && (
                 <div className="border-t border-border">
-                  <p className="px-3 pt-2 pb-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                  <p className="px-3 pt-2 pb-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                     Comparador de ofertas
                   </p>
                   <div className="divide-y divide-border/50">
@@ -173,7 +173,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                       .map((bid, i) => (
                         <div key={bid.id} className="flex items-center gap-3 px-3 py-2">
                           <span
-                            className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold ${
+                            className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                               i === 0
                                 ? "bg-primary text-primary-foreground"
                                 : "bg-muted text-muted-foreground"
@@ -184,7 +184,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                           <div className="flex-1 min-w-0">
                             <p className="text-xs font-medium text-foreground">{bid.agentName}</p>
                             {bid.notes && (
-                              <p className="text-[10px] text-muted-foreground">{bid.notes}</p>
+                              <p className="text-xs text-muted-foreground">{bid.notes}</p>
                             )}
                           </div>
                           <div className="text-right shrink-0">
@@ -195,7 +195,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                               })}
                             </p>
                             {bid.transitDays && (
-                              <p className="text-[10px] text-muted-foreground">{bid.transitDays}d tránsito</p>
+                              <p className="text-xs text-muted-foreground">{bid.transitDays}d tránsito</p>
                             )}
                           </div>
                         </div>
@@ -203,7 +203,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                   </div>
                   {t.status === "abierto" && (
                     <div className="px-3 py-2 bg-warning/5 border-t border-border/50">
-                      <p className="text-[10px] text-warning">
+                      <p className="text-xs text-warning">
                         Simulación — envío real de RFQ por email (Resend) y recepción de ofertas en producción
                       </p>
                     </div>

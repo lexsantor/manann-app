@@ -134,7 +134,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
                 {agent.modes.map((m) => (
                   <span
                     key={m}
-                    className="inline-flex rounded-md bg-secondary/20 px-1.5 py-0.5 text-[10px] font-medium text-foreground"
+                    className="inline-flex rounded-md bg-secondary/20 px-1.5 py-0.5 text-xs font-medium text-foreground"
                   >
                     {MODE_LABELS[m] ?? m}
                   </span>
@@ -152,7 +152,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
                   {agent.specialties.map((s) => (
                     <span
                       key={s}
-                      className="inline-flex rounded-md border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground"
+                      className="inline-flex rounded-md border border-border px-1.5 py-0.5 text-xs text-muted-foreground"
                     >
                       {s}
                     </span>
