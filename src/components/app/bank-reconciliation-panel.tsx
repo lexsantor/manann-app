@@ -220,7 +220,7 @@ export function BankReconciliationPanel({
                           onClick={() => setMatchingId(isMatching ? null : l.id)}
                           disabled={pending}
                           className={cn(
-                            "rounded px-2 py-0.5 text-[11px] font-medium transition-colors",
+                            "rounded px-2 py-0.5 text-[10px] font-medium transition-colors",
                             isMatching
                               ? "bg-primary/10 text-primary"
                               : "text-muted-foreground hover:text-foreground",

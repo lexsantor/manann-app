@@ -144,7 +144,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
         <Select value={o.status} onValueChange={(v) => handleStatusChange(o.id, v)}>
           <SelectTrigger
             className={cn(
-              "h-7 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[11px] font-medium focus:ring-1 focus:ring-primary/30 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
+              "h-7 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[10px] font-medium focus:ring-1 focus:ring-primary/30 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
               STATUS_COLORS[o.status] ?? "bg-muted text-muted-foreground",
             )}
           >

@@ -102,7 +102,7 @@ export function AduanasPanel({ declarations }: { declarations: Declaration[] }) 
       )}
 
       <div className="rounded-md border border-warning/20 bg-warning/5 px-3 py-2">
-        <p className="text-[11px] text-warning">
+        <p className="text-[10px] text-warning">
           Simulación — integración AEAT (DUA · ENS · NCTS · AES) en producción
         </p>
       </div>

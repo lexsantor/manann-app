@@ -85,7 +85,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
       key: "metric",
       header: "Métrica",
       cell: (i) => (
-        <span className="inline-flex w-fit items-center rounded-md bg-secondary/20 px-1.5 py-0.5 text-[11px] font-medium text-foreground">
+        <span className="inline-flex w-fit items-center rounded-md bg-secondary/20 px-1.5 py-0.5 text-[10px] font-medium text-foreground">
           {METRIC_LABELS[i.metric] ?? i.metric}
         </span>
       ),

@@ -73,7 +73,7 @@ export function ShipmentModeList({
                     {s.reference}
                   </Link>
                   {s.blNumber && (
-                    <div className="text-[11px] text-muted-foreground/60 mt-0.5">{s.blNumber}</div>
+                    <div className="text-[10px] text-muted-foreground/60 mt-0.5">{s.blNumber}</div>
                   )}
                 </td>
                 <td className="px-4 py-2.5 text-xs text-muted-foreground">
@@ -87,7 +87,7 @@ export function ShipmentModeList({
                   {s.eta ? new Date(s.eta).toLocaleDateString("es-ES", { day: "2-digit", month: "short" }) : "—"}
                 </td>
                 <td className="px-4 py-2.5">
-                  <span className={cn("inline-flex rounded-full px-2 py-0.5 text-[11px] font-medium", statusClass)}>
+                  <span className={cn("inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium", statusClass)}>
                     {statusLabel}
                   </span>
                 </td>

@@ -168,7 +168,7 @@ function PanelCRM() {
                 key={i}
                 className="mb-2.5 rounded-lg border border-border/30 bg-background/25 p-3 transition-all duration-300 hover:border-primary/30 hover:-translate-y-0.5"
               >
-                <div className="text-[13px] font-semibold">{deal.name}</div>
+                <div className="text-[12px] font-semibold">{deal.name}</div>
                 <div className="mt-0.5 text-[11.5px] text-muted-foreground/55">{deal.meta}</div>
                 <div className="mt-2 font-mono text-[10.5px] text-primary/70">{deal.val}</div>
               </div>
@@ -202,15 +202,15 @@ function PanelFinanzas() {
         <div>
           <h4 className="font-display text-[16px] font-semibold mb-3">Facturación · junio</h4>
           <div>
-            <div className="grid gap-2 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.08em] text-muted-foreground/35" style={{ gridTemplateColumns: "1fr 1.3fr 0.9fr 0.9fr" }}>
+            <div className="grid gap-2 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-muted-foreground/35" style={{ gridTemplateColumns: "1fr 1.3fr 0.9fr 0.9fr" }}>
               <span>Factura</span><span>Cliente</span><span>Importe</span><span>Estado</span>
             </div>
             {invoices.map((inv) => (
               <div key={inv.ref} className="grid items-center gap-2 border-t border-border/20 px-3 py-2.5 text-[12.5px]" style={{ gridTemplateColumns: "1fr 1.3fr 0.9fr 0.9fr" }}>
                 <span className="font-mono text-[10.5px] text-primary/70">{inv.ref}</span>
                 <span className="text-muted-foreground/65">{inv.client}</span>
-                <span className="font-mono text-[11px]">{inv.amount}</span>
-                <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[9px] font-semibold",
+                <span className="font-mono text-[10px]">{inv.amount}</span>
+                <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold",
                   inv.paid ? "bg-emerald-500/10 text-emerald-400" :
                   inv.transit ? "bg-primary/10 text-primary" :
                   "bg-red-500/10 text-red-400"
@@ -234,7 +234,7 @@ function PanelFinanzas() {
                     style={{ width: m.w, background: "linear-gradient(90deg, hsl(172 51% 42%), hsl(185 55% 66%))" }}
                   />
                 </div>
-                <span className="font-mono text-[11px] text-right text-foreground/80">{m.val}</span>
+                <span className="font-mono text-[10px] text-right text-foreground/80">{m.val}</span>
               </div>
             ))}
           </div>
@@ -261,16 +261,16 @@ function PanelReportes() {
       <div className="grid grid-cols-3 gap-3 mb-3.5">
         {kpis.map((k) => (
           <div key={k.label} className="rounded-lg border border-border/30 bg-background/20 p-3.5">
-            <div className="font-mono text-[9px] uppercase tracking-[0.08em] text-muted-foreground/40">{k.label}</div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted-foreground/40">{k.label}</div>
             <div className="mt-1.5 font-display text-[22px] font-semibold">{k.value}</div>
-            <div className="mt-0.5 text-[11px] font-semibold text-emerald-400">{k.delta}</div>
+            <div className="mt-0.5 text-[10px] font-semibold text-emerald-400">{k.delta}</div>
           </div>
         ))}
       </div>
       <div className="rounded-lg border border-border/30 bg-background/20 p-4">
         <div className="mb-3 flex items-baseline justify-between text-[12px] font-semibold">
           <span>Volumen mensual por modo</span>
-          <span className="font-mono text-[9px] text-muted-foreground/35">TEU / TON</span>
+          <span className="font-mono text-[10px] text-muted-foreground/35">TEU / TON</span>
         </div>
         <div className="flex h-[96px] items-end gap-2">
           {bars.map((h, i) => (

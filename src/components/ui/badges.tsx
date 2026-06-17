@@ -109,7 +109,7 @@ export function ModeBadge({ mode, className }: { mode: string; className?: strin
   return (
     <span
       className={cn(
-        "inline-flex w-fit items-center gap-1.5 rounded-md border border-border bg-card px-2 py-0.5 text-[11px] font-medium text-muted-foreground whitespace-nowrap",
+        "inline-flex w-fit items-center gap-1.5 rounded-md border border-border bg-card px-2 py-0.5 text-[10px] font-medium text-muted-foreground whitespace-nowrap",
         className,
       )}
     >
@@ -132,7 +132,7 @@ export function GradeBadge({ grade, className }: { grade: string; className?: st
   return (
     <span
       className={cn(
-        "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-semibold",
+        "inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold",
         GRADE_CLASS[g] ?? GRADE_CLASS.C,
         className,
       )}

@@ -109,7 +109,7 @@ export function EblPanel({
                   />
                 </div>
                 <div className="rounded-md bg-warning/5 border border-warning/20 px-3 py-2">
-                  <p className="text-[11px] text-warning">
+                  <p className="text-[10px] text-warning">
                     Simulación — integración ESSDOCS / Bolero / WAVE en producción
                   </p>
                 </div>

@@ -90,7 +90,7 @@ function FeatureValue({ value }: { value: boolean | string }) {
     return <Icon icon={Minus} size={16} className="mx-auto text-muted-foreground/30" />;
   }
   return (
-    <span className="font-mono text-[11px] text-muted-foreground">{value}</span>
+    <span className="font-mono text-[10px] text-muted-foreground">{value}</span>
   );
 }
 

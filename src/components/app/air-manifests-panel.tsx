@@ -265,7 +265,7 @@ export function AirManifestsPanel({
                   <Select value={m.status} onValueChange={(v) => handleStatusChange(m.id, v)}>
                     <SelectTrigger
                       className={cn(
-                        "h-7 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[11px] font-medium focus:ring-1 focus:ring-primary/30 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
+                        "h-7 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[10px] font-medium focus:ring-1 focus:ring-primary/30 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
                         statusColor,
                       )}
                     >

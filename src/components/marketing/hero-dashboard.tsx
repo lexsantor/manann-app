@@ -169,12 +169,12 @@ export function HeroDashboard() {
               </div>
               <div className="flex items-center gap-2.5">
                 <span
-                  className="rounded-[7px] px-3 py-1.5 font-mono text-[11px] font-semibold text-background"
+                  className="rounded-[7px] px-3 py-1.5 font-mono text-[10px] font-semibold text-background"
                   style={{ background: "linear-gradient(120deg, hsl(172 51% 42%), hsl(185 55% 62%))" }}
                 >
                   + Nuevo expediente
                 </span>
-                <span className="flex size-7 items-center justify-center rounded-full border border-border bg-card font-mono text-[9px] font-semibold text-muted-foreground/60">
+                <span className="flex size-7 items-center justify-center rounded-full border border-border bg-card font-mono text-[10px] font-semibold text-muted-foreground/60">
                   LM
                 </span>
               </div>
@@ -186,7 +186,7 @@ export function HeroDashboard() {
                 <div key={kpi.label} className="rounded-lg border border-border/35 bg-background/20 p-2.5">
                   <div className="font-mono text-[8.5px] uppercase tracking-[0.06em] text-muted-foreground/40">{kpi.label}</div>
                   <div className="mt-1 font-display text-[18px] font-semibold leading-none tracking-tight">{kpi.value}</div>
-                  <div className="mt-1 text-[9px] font-semibold text-primary/60">{kpi.delta}</div>
+                  <div className="mt-1 text-[10px] font-semibold text-primary/60">{kpi.delta}</div>
                 </div>
               ))}
             </div>
@@ -241,7 +241,7 @@ export function HeroDashboard() {
                     style={{ gridTemplateColumns: "1fr 1.5fr 0.7fr 1fr 0.55fr" }}
                   >
                     <span className="font-mono text-[9.5px] text-primary/75">{row.ref}</span>
-                    <span className="truncate text-[11px] text-muted-foreground/55">{row.route}</span>
+                    <span className="truncate text-[10px] text-muted-foreground/55">{row.route}</span>
                     <span className="w-fit rounded-full border border-border/20 bg-background/25 px-1.5 py-0.5 font-mono text-[8px] text-muted-foreground/40">
                       {row.mode}
                     </span>
@@ -249,7 +249,7 @@ export function HeroDashboard() {
                       <span className="size-[3px] rounded-full bg-current" />
                       {row.status}
                     </span>
-                    <span className="text-right font-mono text-[9px] text-muted-foreground/35">{row.eta}</span>
+                    <span className="text-right font-mono text-[10px] text-muted-foreground/35">{row.eta}</span>
                   </div>
                 ))}
               </div>
@@ -265,7 +265,7 @@ export function HeroDashboard() {
           <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[8.5px] font-semibold text-primary/75">En tránsito</span>
         </div>
         <div className="mt-1.5 text-[12.5px] font-semibold">Estrecho de Malaca</div>
-        <div className="mt-0.5 text-[11px] text-muted-foreground/55">MSC Aurora V. · 14.860 TEU</div>
+        <div className="mt-0.5 text-[10px] text-muted-foreground/55">MSC Aurora V. · 14.860 TEU</div>
         <div className="mt-2.5 h-[3px] overflow-hidden rounded-full bg-border/20">
           <div
             className="h-full w-[72%] rounded-full"
@@ -275,7 +275,7 @@ export function HeroDashboard() {
             }}
           />
         </div>
-        <div className="mt-1.5 flex justify-between font-mono text-[9px] text-muted-foreground/35">
+        <div className="mt-1.5 flex justify-between font-mono text-[10px] text-muted-foreground/35">
           <span>72% del trayecto</span>
           <span>ETA 18 jun</span>
         </div>
@@ -284,7 +284,7 @@ export function HeroDashboard() {
       {/* Float card B — left */}
       <div className="animate-float-b absolute -left-8 bottom-[88px] z-10 w-[214px] rounded-xl border border-border/65 bg-background/85 p-3.5 backdrop-blur-xl shadow-[var(--shadow-float)]">
         <div className="flex items-center gap-2.5">
-          <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-emerald-500/25 bg-emerald-500/10 text-[13px] text-emerald-400">
+          <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-emerald-500/25 bg-emerald-500/10 text-[12px] text-emerald-400">
             ✓
           </div>
           <div>

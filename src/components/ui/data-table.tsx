@@ -50,7 +50,7 @@ export function DataTable<T>({
                 <th
                   key={c.key}
                   className={cn(
-                    "px-4 py-3 font-mono text-[11px] font-medium uppercase tracking-wider text-muted-foreground",
+                    "px-4 py-3 font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground",
                     ALIGN[c.align ?? "left"],
                     c.headerClassName,
                   )}

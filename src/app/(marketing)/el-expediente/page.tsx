@@ -177,7 +177,7 @@ export default function ElExpedientePage() {
             <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
               El expediente sigue vivo después de la confirmación.
             </h2>
-            <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+            <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
               Crear el expediente es el primer paso. Manann acompaña el envío
               hasta la entrega.
             </p>

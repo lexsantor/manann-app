@@ -156,7 +156,7 @@ export default function HomePage() {
               {[...LOGOS, ...LOGOS].map((name, i) => (
                 <span
                   key={i}
-                  className="shrink-0 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground/35 whitespace-nowrap"
+                  className="shrink-0 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground/35 whitespace-nowrap"
                 >
                   {name}
                 </span>
@@ -179,7 +179,7 @@ export default function HomePage() {
                       className="text-gradient-primary"
                     />
                   </div>
-                  <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground/55">
+                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/55">
                     {m.label}
                   </p>
                 </div>
@@ -269,7 +269,7 @@ export default function HomePage() {
                     <div className="flex size-10 items-center justify-center rounded-lg border border-border bg-background text-primary">
                       <Icon icon={node.icon} size={18} />
                     </div>
-                    <span className="font-mono text-[11px] tabular-nums text-muted-foreground/30">
+                    <span className="font-mono text-[10px] tabular-nums text-muted-foreground/30">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </div>
@@ -430,8 +430,8 @@ export default function HomePage() {
                   <span className="flex size-6 items-center justify-center rounded-md bg-primary/10 text-primary">
                     <Sparkles size={12} />
                   </span>
-                  <span className="font-mono text-[11px] text-muted-foreground/70">Extracción en curso</span>
-                  <span className="ml-auto rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[9px] font-semibold text-primary">
+                  <span className="font-mono text-[10px] text-muted-foreground/70">Extracción en curso</span>
+                  <span className="ml-auto rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[10px] font-semibold text-primary">
                     HLCUBCN240042
                   </span>
                 </div>
@@ -440,7 +440,7 @@ export default function HomePage() {
                 <div className="divide-y divide-border/40">
                   {AI_FIELDS.map((field) => (
                     <div key={field.label} className="flex items-center justify-between px-4 py-2.5">
-                      <span className="font-mono text-[11px] text-muted-foreground/50 w-28">{field.label}</span>
+                      <span className="font-mono text-[10px] text-muted-foreground/50 w-28">{field.label}</span>
                       <span className={cn(
                         "flex-1 text-center font-mono text-[12px]",
                         field.conf === "manual" ? "text-muted-foreground/30" : "text-foreground"
@@ -448,7 +448,7 @@ export default function HomePage() {
                         {field.value}
                       </span>
                       <span className={cn(
-                        "w-12 text-right font-mono text-[11px] font-semibold",
+                        "w-12 text-right font-mono text-[10px] font-semibold",
                         field.conf === "manual"
                           ? "text-muted-foreground/25"
                           : parseFloat(field.conf) >= 0.95
@@ -468,7 +468,7 @@ export default function HomePage() {
                       5 de 6 campos extraídos · 1 requiere revisión
                     </span>
                     <span
-                      className="rounded-md px-3 py-1.5 font-mono text-[11px] font-semibold text-background"
+                      className="rounded-md px-3 py-1.5 font-mono text-[10px] font-semibold text-background"
                       style={{ background: "linear-gradient(120deg, hsl(172 51% 42%), hsl(185 55% 62%))" }}
                     >
                       Confirmar extracción
@@ -527,7 +527,7 @@ export default function HomePage() {
                   Endpoints REST y webhooks ya en marcha. Documentación OpenAPI y SDKs para Node y Python, en la hoja de ruta.
                 </p>
               </div>
-              <span className="shrink-0 rounded-md border border-primary/20 bg-background px-4 py-2 font-mono text-[11px] text-primary">
+              <span className="shrink-0 rounded-md border border-primary/20 bg-background px-4 py-2 font-mono text-[10px] text-primary">
                 En desarrollo
               </span>
             </div>
@@ -567,7 +567,7 @@ export default function HomePage() {
               <p className="font-display text-xl font-medium leading-relaxed tracking-tight text-foreground sm:text-2xl">
                 &ldquo;Crear un expediente desde un BL debería costar minutos, no horas — y sin un solo error de transcripción.&rdquo;
               </p>
-              <footer className="mt-5 font-mono text-[11px] text-muted-foreground/50">
+              <footer className="mt-5 font-mono text-[10px] text-muted-foreground/50">
                 La tesis de producto de Manann
               </footer>
             </blockquote>

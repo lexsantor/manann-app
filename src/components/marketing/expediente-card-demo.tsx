@@ -40,7 +40,7 @@ function FieldCell({ field, index }: { field: Field; index: number }) {
       style={{ "--i": index } as CSSProperties}
     >
       <div className="flex items-start justify-between gap-2">
-        <p className="font-sans text-[11px] uppercase tracking-wide text-muted-foreground">
+        <p className="font-sans text-[10px] uppercase tracking-wide text-muted-foreground">
           {field.label}
         </p>
         {isAi && (
