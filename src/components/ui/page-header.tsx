@@ -32,7 +32,7 @@ export function PageHeader({
             <span className="mt-0.5 shrink-0 text-muted-foreground [&_svg]:h-5 [&_svg]:w-5">{icon}</span>
           ) : null}
           <div>
-            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+            <h1 className="bg-gradient-to-br from-foreground to-foreground/65 bg-clip-text font-display text-2xl font-semibold tracking-tight text-transparent">
               {title}
             </h1>
             {subtitle ? (
