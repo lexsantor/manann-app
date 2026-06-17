@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { StatusBadge, ModeBadge } from "@/components/ui/badges";
+import { EmptyState } from "@/components/ui/empty-state";
 import { createTender, closeTender, addSimulatedBids } from "@/lib/tier-v-actions";
 
 type TenderBid = {
@@ -93,13 +94,18 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
       </div>
 
       {items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-12 text-center mt-4">
-          <FileSearch className="mb-2 h-8 w-8 text-muted-foreground/40" strokeWidth={1} />
-          <p className="text-sm text-muted-foreground">Sin tenders publicados</p>
-          <p className="mt-1 text-xs text-muted-foreground/70">
-            Envía un RFQ a la red de corresponsales
-          </p>
-        </div>
+        <EmptyState
+          className="mt-4"
+          icon={<FileSearch strokeWidth={1.5} />}
+          title="Aún no has publicado ningún tender"
+          hint="Envía una petición de oferta (RFQ) a varios corresponsales de la red y compara sus respuestas en un solo sitio."
+          action={
+            <Button size="sm" onClick={() => setOpen(true)} className="gap-1.5">
+              <Plus className="h-3.5 w-3.5" />
+              Nuevo tender
+            </Button>
+          }
+        />
       ) : (
         <div className="space-y-3 mt-4">
           {items.map((t) => (

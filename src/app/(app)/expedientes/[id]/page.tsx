@@ -565,7 +565,7 @@ function Containers({
         <p className="text-base text-muted-foreground">
           {mode === "aereo"
             ? "Carga aérea — sin contenedor."
-            : "Sin contenedores todavía."}
+            : "Sin contenedores. Se rellenan al confirmar el BL (la IA los propone) o los añades a mano."}
         </p>
       )}
 

@@ -420,7 +420,7 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "", rateAverag
             </table>
           </div>
         ) : !addingRevenue ? (
-          <p className="text-base text-muted-foreground">Sin líneas de ingreso.</p>
+          <p className="text-base text-muted-foreground">Sin líneas de ingreso. Añade lo que facturas al cliente y el margen del expediente se calcula solo.</p>
         ) : null}
 
         {addingRevenue && (
