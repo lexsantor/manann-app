@@ -394,8 +394,7 @@ JOIN (VALUES
   ('EXP-2026-0043','aduana','Despacho + inspección (venta)','1047.00','revenue'),
   ('EXP-2026-0044','flete','Flete marítimo (venta)','3900.00','revenue'),
   ('EXP-2026-0044','seguro','Seguro + handling (venta)','1066.00','revenue'),
-  ('EXP-2026-0052','flete','Flete aéreo (coste)','3200.00','cost'),
-  ('EXP-2026-0052','flete','Flete aéreo (venta)','3600.00','revenue'),
+  ('EXP-2026-0052','flete','Flete aéreo (venta)','4050.00','revenue'),
   ('EXP-2026-0052','documentacion','Emisión AWB + handling (venta)','180.00','revenue')
 ) AS v(ship_ref, type, description, amount, direction) ON v.ship_ref = s.reference
 WHERE NOT EXISTS (SELECT 1 FROM charge c2 WHERE c2.shipment_id = s.id AND c2.direction = 'revenue');
@@ -433,8 +432,8 @@ UNION ALL SELECT inv.id,'Seguro + handling',1,1066.00,21,1066.00,1 FROM inv;
 WITH org AS (SELECT id FROM organization WHERE slug='atlantica'),
 sh AS (SELECT s.id FROM shipment s, org WHERE s.organization_id=org.id AND s.reference='EXP-2026-0052'),
 inv AS (INSERT INTO invoice (shipment_id, reference, status, issue_date, due_date, subtotal, tax_rate, total, currency, client_name)
-  SELECT sh.id,'FAC-2026-0104','vencida',DATE '2026-05-05',DATE '2026-06-04',3780.00,21,4573.80,'EUR','Distribuidora Médica del Valle S.A. de C.V.'
+  SELECT sh.id,'FAC-2026-0104','vencida',DATE '2026-05-05',DATE '2026-06-04',4230.00,21,5118.30,'EUR','Distribuidora Médica del Valle S.A. de C.V.'
   FROM sh WHERE NOT EXISTS (SELECT 1 FROM invoice i, sh WHERE i.reference='FAC-2026-0104' AND i.shipment_id=sh.id) RETURNING id)
 INSERT INTO invoice_line (invoice_id, concept, quantity, unit_price, tax_rate, subtotal, sort_order)
-SELECT inv.id,'Flete aéreo ESBCN-MXMEX',1,3600.00,21,3600.00,0 FROM inv
+SELECT inv.id,'Flete aéreo ESBCN-MXMEX',1,4050.00,21,4050.00,0 FROM inv
 UNION ALL SELECT inv.id,'Emisión AWB + handling',1,180.00,21,180.00,1 FROM inv;
