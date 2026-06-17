@@ -94,7 +94,8 @@ export function BalanceSumasSaldos() {
 
       {loaded && (
         <div className="rounded-md border border-border overflow-hidden">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px] text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/30">
                 <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Cuenta</th>
@@ -135,6 +136,7 @@ export function BalanceSumasSaldos() {
               </tr>
             </tfoot>
           </table>
+          </div>
           {rows.length === 0 && (
             <div className="py-10 text-center text-sm text-muted-foreground">
               Sin movimientos en el período seleccionado

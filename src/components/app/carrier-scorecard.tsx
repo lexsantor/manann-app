@@ -41,7 +41,7 @@ export function CarrierScorecard({ rows }: CarrierScorecardProps) {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-sm">
+        <table className="w-full min-w-[520px] text-sm">
           <thead>
             <tr className="border-b border-border/40">
               <th className="px-5 py-2.5 text-left font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">Carrier</th>
