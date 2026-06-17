@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Plus, Trash2, Star } from "lucide-react";
 import { createBranch, deleteBranch } from "@/lib/maestros-actions";
+import { Button } from "@/components/ui/button";
 import { MASTER_COUNTRIES } from "@/lib/master-countries";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -142,15 +143,9 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
               <label htmlFor="isHQ" className="text-sm text-muted-foreground">Sede principal (HQ)</label>
             </div>
           </div>
-          <div className="flex justify-end gap-2">
-            <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground">Cancelar</button>
-            <button
-              onClick={handleCreate}
-              disabled={pending || !form.code || !form.name}
-              className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-            >
-              Guardar
-            </button>
+          <div className="flex gap-2 sm:justify-end">
+            <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} className="w-full sm:w-auto">Cancelar</Button>
+            <Button variant="primary" size="sm" onClick={handleCreate} disabled={pending || !form.code || !form.name} className="w-full sm:w-auto">Guardar</Button>
           </div>
         </div>
       )}

@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Plus, Trash2, Search } from "lucide-react";
 import { createChargeConcept, deleteChargeConcept } from "@/lib/maestros-actions";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectTrigger,
@@ -150,20 +151,9 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
               </Select>
             </div>
           </div>
-          <div className="flex justify-end gap-2">
-            <button
-              onClick={() => setShowForm(false)}
-              className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={handleCreate}
-              disabled={pending || !form.code || !form.name}
-              className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
-            >
-              Guardar
-            </button>
+          <div className="flex gap-2 sm:justify-end">
+            <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} className="w-full sm:w-auto">Cancelar</Button>
+            <Button variant="primary" size="sm" onClick={handleCreate} disabled={pending || !form.code || !form.name} className="w-full sm:w-auto">Guardar</Button>
           </div>
         </div>
       )}

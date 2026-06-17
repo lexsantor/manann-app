@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { createTransportOrder, updateTransportOrderStatus, deleteTransportOrder } from "@/lib/tier-s-actions";
+import { Button } from "@/components/ui/button";
 import { DataTable, CellStacked, type Column } from "@/components/ui/data-table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ConfirmButton } from "@/components/ui/confirm-button";
@@ -271,15 +272,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
           </div>
-          <div className="flex justify-end gap-2">
-            <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground">Cancelar</button>
-            <button
-              onClick={handleCreate}
-              disabled={pending || !form.reference || !form.carrier || !form.origin || !form.destination}
-              className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-            >
-              Guardar
-            </button>
+          <div className="flex gap-2 sm:justify-end">
+            <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} className="w-full sm:w-auto">Cancelar</Button>
+            <Button variant="primary" size="sm" onClick={handleCreate} disabled={pending || !form.reference || !form.carrier || !form.origin || !form.destination} className="w-full sm:w-auto">Guardar</Button>
           </div>
         </div>
       )}

@@ -9,6 +9,7 @@ import {
   deleteManifestEntry,
 } from "@/lib/tier-s-actions";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
+import { Button } from "@/components/ui/button";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import {
   Select,
@@ -218,15 +219,9 @@ export function AirManifestsPanel({
               </Select>
             </div>
           </div>
-          <div className="flex justify-end gap-2">
-            <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground">Cancelar</button>
-            <button
-              onClick={handleCreate}
-              disabled={pending || !form.mawbNumber || !form.carrier}
-              className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-            >
-              Crear
-            </button>
+          <div className="flex gap-2 sm:justify-end">
+            <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} className="w-full sm:w-auto">Cancelar</Button>
+            <Button variant="primary" size="sm" onClick={handleCreate} disabled={pending || !form.mawbNumber || !form.carrier} className="w-full sm:w-auto">Crear</Button>
           </div>
         </div>
       )}
