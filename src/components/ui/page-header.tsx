@@ -21,22 +21,24 @@ export function PageHeader({
 }) {
   return (
     <header className={cn("flex flex-wrap items-start justify-between gap-4", className)}>
-      <div className="flex items-start gap-3">
-        {icon ? (
-          <span className="mt-1.5 shrink-0 text-muted-foreground [&_svg]:h-5 [&_svg]:w-5">{icon}</span>
+      <div>
+        {eyebrow ? (
+          <p className="font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            {eyebrow}
+          </p>
         ) : null}
-        <div>
-          {eyebrow ? (
-            <p className="font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              {eyebrow}
-            </p>
+        <div className="flex items-start gap-3">
+          {icon ? (
+            <span className="mt-0.5 shrink-0 text-muted-foreground [&_svg]:h-5 [&_svg]:w-5">{icon}</span>
           ) : null}
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            {title}
-          </h1>
-          {subtitle ? (
-            <p className="mt-0.5 text-sm text-muted-foreground">{subtitle}</p>
-          ) : null}
+          <div>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
+              {title}
+            </h1>
+            {subtitle ? (
+              <p className="mt-0.5 text-sm text-muted-foreground">{subtitle}</p>
+            ) : null}
+          </div>
         </div>
       </div>
       {actions ? (

@@ -18,7 +18,7 @@ export function KpiRow({
       : cols === 3
         ? "sm:grid-cols-2 lg:grid-cols-3"
         : "sm:grid-cols-2 lg:grid-cols-4";
-  return <div className={cn("grid grid-cols-1 gap-3", colsClass, className)}>{children}</div>;
+  return <div className={cn("grid grid-cols-2 gap-3", colsClass, className)}>{children}</div>;
 }
 
 // Tarjeta KPI: label uppercase mono + valor grande + delta/sub opcional.
@@ -64,7 +64,7 @@ export function KpiCard({
         </p>
         {icon ? <span className="shrink-0 text-muted-foreground [&_svg]:h-4 [&_svg]:w-4">{icon}</span> : null}
       </div>
-      <p className={cn("mt-2 font-display text-2xl font-semibold tracking-tight tabular-nums", valueTone)}>
+      <p className={cn("mt-2 font-display text-xl font-semibold tracking-tight tabular-nums sm:text-2xl", valueTone)}>
         {value}
       </p>
       {(sub || delta) && (
