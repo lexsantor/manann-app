@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { StatusBadge } from "@/components/ui/badges";
 
 type Declaration = {
   id: string;
@@ -16,12 +17,6 @@ type Declaration = {
 };
 
 const TYPE_LABEL: Record<string, string> = { dua: "DUA", ens: "ENS", ncts: "NCTS", aes: "AES" };
-const STATUS_COLOR: Record<string, string> = {
-  aceptada: "text-success bg-success/10",
-  presentada: "text-primary bg-primary/10",
-  pendiente: "text-warning bg-warning/10",
-  rechazada: "text-destructive bg-destructive/10",
-};
 
 export function AduanasPanel({ declarations }: { declarations: Declaration[] }) {
   const [type, setType] = useState<string>("all");
@@ -86,9 +81,7 @@ export function AduanasPanel({ declarations }: { declarations: Declaration[] }) 
                       )}
                     </td>
                     <td className="px-4 py-2.5">
-                      <span className={cn("inline-flex w-fit rounded-full px-2 py-0.5 font-mono text-[10px] font-medium", STATUS_COLOR[d.status] ?? "text-muted-foreground bg-muted/60")}>
-                        {d.status}
-                      </span>
+                      <StatusBadge status={d.status} />
                     </td>
                     <td className="px-4 py-2.5 font-mono text-xs text-muted-foreground">
                       {new Date(d.submittedAt ?? d.createdAt).toLocaleDateString("es-ES")}

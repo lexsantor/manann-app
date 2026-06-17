@@ -7,6 +7,14 @@ interface CarrierScorecardProps {
   rows: CarrierScorecardRow[];
 }
 
+// Labels de modo con tilde (el valor de BD viene sin acento).
+const MODE_LABEL: Record<string, string> = {
+  maritimo: "Marítimo",
+  aereo: "Aéreo",
+  terrestre: "Terrestre",
+  ferroviario: "Ferroviario",
+};
+
 function OnTimeBadge({ rate }: { rate: number }) {
   const pct = rate;
   const good = pct >= 80;
@@ -54,7 +62,7 @@ export function CarrierScorecard({ rows }: CarrierScorecardProps) {
             {rows.map((r) => (
               <tr key={r.carrier} className="hover:bg-surface-2/30 transition-colors">
                 <td className="px-5 py-3 font-medium text-foreground">{r.carrier}</td>
-                <td className="px-4 py-3 font-mono text-xs text-muted-foreground capitalize">{r.mode}</td>
+                <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{MODE_LABEL[r.mode?.toLowerCase()] ?? r.mode}</td>
                 <td className="px-4 py-3 text-right font-mono text-muted-foreground">{r.total}</td>
                 <td className="px-4 py-3 text-right">
                   <div className="flex justify-end">

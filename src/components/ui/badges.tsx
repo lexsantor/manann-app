@@ -48,7 +48,17 @@ const STATUS_TONE: Record<string, Tone> = {
   borrador: "neutral", prospecto: "neutral", registrado: "neutral",
 };
 
+// Estados cuyo texto lleva tilde (humanize no las recupera del valor de enum).
+const STATUS_LABEL: Record<string, string> = {
+  en_transito: "En tránsito",
+  en_gestion: "En gestión",
+  en_revision: "En revisión",
+  negociacion: "Negociación",
+};
+
 function humanize(s: string): string {
+  const key = s.toLowerCase();
+  if (STATUS_LABEL[key]) return STATUS_LABEL[key];
   const t = s.replace(/_/g, " ");
   return t.charAt(0).toUpperCase() + t.slice(1);
 }
