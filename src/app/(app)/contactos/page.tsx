@@ -108,14 +108,14 @@ export default async function ContactosPage({
       </header>
 
       {/* Tab nav */}
-      <div className="flex gap-1 rounded-lg border border-border bg-card p-1 w-fit">
+      <div className="flex w-full gap-1 overflow-x-auto rounded-lg border border-border bg-card p-1 sm:w-fit">
         {TABS.map((t) => (
           <Link
             key={t.key}
             href={`/contactos?tab=${t.key}`}
             prefetch={false}
             className={cn(
-              "rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
+              "whitespace-nowrap shrink-0 rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
               tab === t.key
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground",
