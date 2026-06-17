@@ -49,6 +49,7 @@ import { AssigneeSelect } from "@/components/app/assignee-select";
 import { ShipsGoPanel } from "@/components/app/shipsgo-panel";
 import { syncTrackingEvents } from "@/lib/erp-actions";
 import { FinanzasPanel } from "@/components/app/finanzas-panel";
+import { HelpHint } from "@/components/ui/help-hint";
 import { DuaPanel } from "@/components/app/dua-panel";
 import { DeclaracionesPanel } from "@/components/app/declaraciones-panel";
 import { EblPanel } from "@/components/app/ebl-panel";
@@ -455,10 +456,12 @@ export default async function ExpedienteDetailPage({
 function Panel({
   title,
   icon,
+  help,
   children,
 }: {
   title: string;
   icon: LucideIcon;
+  help?: { title: string; body: string };
   children: React.ReactNode;
 }) {
   return (
@@ -468,6 +471,7 @@ function Panel({
         <h2 className="font-display text-base font-medium tracking-tight text-foreground">
           {title}
         </h2>
+        {help && <HelpHint title={help.title} body={help.body} />}
       </div>
       {children}
     </section>
@@ -603,7 +607,14 @@ function Documents({
   hasFactura: boolean;
 }) {
   return (
-    <Panel title="Documentos" icon={FileText}>
+    <Panel
+      title="Documentos"
+      icon={FileText}
+      help={{
+        title: "El documento se rellena solo",
+        body: "Arrastra el BL, AWB o CMR en PDF. La IA extrae los campos y los propone en ámbar con su nivel de confianza; tú revisas y confirmas. El ámbar siempre significa «lo hizo la IA».",
+      }}
+    >
       {/* Upload zone — lo primero, visible siempre */}
       <DocumentUpload shipmentId={shipmentId} />
 

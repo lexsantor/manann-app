@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ScrollText, ChevronDown, ChevronUp } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { CrearAsientoButton } from "@/components/app/crear-asiento-button";
+import { HelpHint } from "@/components/ui/help-hint";
 import { StatusBadge } from "@/components/ui/badges";
 import { cn } from "@/lib/utils";
 
@@ -114,6 +115,10 @@ export function DiarioContable({ entries, accounts }: DiarioContableProps) {
           <Icon icon={ScrollText} size={14} className="text-muted-foreground" />
           <span className="font-display text-sm font-medium text-foreground">Diario contable</span>
           <span className="font-mono text-xs text-muted-foreground">({entries.length})</span>
+          <HelpHint
+            title="Diario y asientos"
+            body="Cada movimiento contable es un asiento con debe y haber que deben cuadrar. Las facturas generan su asiento automáticamente; aquí creas o revisas los manuales."
+          />
         </div>
         <div className="[&>*]:w-full sm:[&>*]:w-auto">
           <CrearAsientoButton accounts={accounts} />
