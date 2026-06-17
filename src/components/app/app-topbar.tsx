@@ -27,6 +27,7 @@ import { createDraftShipment } from "@/lib/erp-actions";
 import { signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { helpForPath, ATAJOS } from "@/lib/help-content";
 
 // Etiquetas legibles por segmento de ruta (para el breadcrumb).
 const LABELS: Record<string, string> = {
@@ -215,7 +216,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
 
       </div>
 
-      {help && <HelpModal onClose={() => setHelp(false)} />}
+      {help && <HelpModal onClose={() => setHelp(false)} pathname={pathname} />}
     </header>
   );
 }
@@ -228,34 +229,43 @@ function CreateLink({ href, icon: Glyph, label, onClick }: { href: string; icon:
   );
 }
 
-function HelpModal({ onClose }: { onClose: () => void }) {
+function HelpModal({ onClose, pathname }: { onClose: () => void; pathname: string }) {
   useEffect(() => {
-    function onKey(e: KeyboardEvent) { if (e.key === "Escape") onClose(); }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  const TIPS = [
-    { k: "⌘K", t: "Buscar y ejecutar acciones", d: "Abre el buscador para saltar a cualquier expediente o módulo." },
-    { k: "⌘J", t: "Manann IA", d: "Pregunta a la IA sobre tus datos: estados, costes, riesgos." },
-    { k: "BL", t: "El expediente se rellena solo", d: "Arrastra un Bill of Lading al expediente y la IA extrae los campos." },
-    { k: "+", t: "Crear rápido", d: "Usa «Crear» para abrir expedientes, cotizaciones, facturas o contactos." },
-  ];
+  const screen = helpForPath(pathname);
+
   return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl">
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="font-display text-lg font-semibold tracking-tight text-foreground">Cómo usar Manann</h2>
-            <p className="mt-1 text-sm text-muted-foreground">Cuatro atajos para ir rápido.</p>
+            <h2 className="font-display text-lg font-semibold tracking-tight text-foreground">{screen.title}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">{screen.queHace}</p>
           </div>
           <button onClick={onClose} aria-label="Cerrar" className="rounded-md p-1 text-muted-foreground hover:text-foreground">
             <X className="h-4 w-4" />
           </button>
         </div>
-        <ul className="mt-5 space-y-3">
-          {TIPS.map((tip) => (
+        {screen.accionesClave.length > 0 && (
+          <ul className="mt-5 space-y-3">
+            {screen.accionesClave.map((a) => (
+              <li key={a.label}>
+                <p className="text-sm font-medium text-foreground">{a.label}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{a.desc}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        <p className="mt-6 mb-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">Atajos</p>
+        <ul className="space-y-3">
+          {ATAJOS.map((tip) => (
             <li key={tip.t} className="flex items-start gap-3">
               <kbd className="mt-0.5 flex h-6 shrink-0 items-center justify-center rounded-md border border-border bg-background px-2 font-mono text-xs text-foreground">{tip.k}</kbd>
               <div>
