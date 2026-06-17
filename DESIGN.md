@@ -21,6 +21,8 @@ claro, denso, rápido, grado Linear/Notion. Tema dual (`data-theme` dark default
 | 6 | **Color = token semántico** | Solo tokens (`bg-primary`, `text-success`, `text-warning`…). **Prohibida** la paleta cruda de Tailwind (`bg-blue-500`, `text-emerald-400`, `*-NNN`) y los hex fuera de `globals.css`. | lint (kit = estricto) |
 | 7 | **Tamaños de fuente** | Solo px **pares** (8, 10, 12, 14…). Nunca 9/11/13/15px. | revisión |
 | 8 | **Iconos** | Lucide, `strokeWidth={1.5}`, `shrink-0`, tamaños tokenizados (h-4/h-5). | revisión |
+| 9 | **Jerarquía de botones** | Usar SIEMPRE `<Button variant>` del kit: `primary` (sólido sea-green, **UNA por vista**, acción principal) · `secondary` (sólido slate, apoyo) · `outline` (borde + texto primary, terciaria) · `destructive` (soft) · `ghost` (texto). Prohibido inventar estilos de botón a mano. | Button + revisión |
+| 10 | **Touch targets (Apple HIG)** | CTAs e inputs ≥**44px** de alto en móvil. Lo dan las alturas responsive de `Button` (`md`/`lg`) e `Input`. Buscadores y CTA primarios a **full-width** en móvil. | Button/Input + revisión |
 
 ## 2. Tokens (definidos en `globals.css`, mapeados en `@theme inline`)
 
