@@ -18,6 +18,14 @@ import {
   GitCompare,
   FileCheck2,
   Receipt,
+  MessageSquare,
+  Sunrise,
+  Share2,
+  BarChart3,
+  TrendingUp,
+  ListChecks,
+  Handshake,
+  type LucideIcon,
 } from "lucide-react";
 
 import { Icon } from "@/components/icon";
@@ -133,6 +141,45 @@ const ONGOING = [
     icon: Receipt,
     title: "Cotizaciones y facturación",
     body: "Genera una cotización desde los costes del expediente, apruébala y conviértela en factura en un clic. Sin copiar datos entre sistemas ni salir del expediente.",
+  },
+];
+
+const MODULOS: { icon: LucideIcon; title: string; body: string; sim?: string }[] = [
+  {
+    icon: MessageSquare,
+    title: "Copiloto IA (⌘J)",
+    body: "Pregunta en lenguaje natural sobre tus expedientes —«¿qué llega esta semana a Valencia?»— y la IA responde con el contexto real de tu operativa. Propone; tú decides.",
+  },
+  {
+    icon: Sunrise,
+    title: "Briefing matutino y autopilot",
+    body: "Cada mañana, un resumen de lo que importa: ETAs del día, expedientes en riesgo y una bandeja de excepciones que la IA prioriza para ti.",
+  },
+  {
+    icon: Share2,
+    title: "Portal del cliente",
+    body: "Comparte un enlace sin login y el cliente sigue su envío en tiempo real: hitos, ETA y documentos. Menos correos de «¿dónde está mi carga?».",
+  },
+  {
+    icon: BarChart3,
+    title: "Analítica avanzada",
+    body: "Margen por cliente, naviera y ruta; puntualidad y volumen por modo. Cuadros de mando en vivo para decidir con datos, no con intuición.",
+    sim: "Simulación — Power BI Embedded en producción",
+  },
+  {
+    icon: TrendingUp,
+    title: "CRM y pipeline comercial",
+    body: "Oportunidades por etapa, de prospecto a ganado. Cada cotización aceptada se convierte en expediente con un clic, sin recolocar un solo dato.",
+  },
+  {
+    icon: ListChecks,
+    title: "Calidad y procesos",
+    body: "Incidencias, no conformidades y SLAs con semáforo de cumplimiento. Lo que no se mide no mejora; aquí se mide y se traza hasta el cierre.",
+  },
+  {
+    icon: Handshake,
+    title: "Red de corresponsales",
+    body: "Directorio global de agentes, tenders/RFQ a varios partners y e-BL electrónico. El transitario moderno opera en red; Manann la integra.",
   },
 ];
 
@@ -254,6 +301,43 @@ export default function ComoFuncionaPage() {
                   <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
                     {o.body}
                   </p>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerGrid>
+        </div>
+      </div>
+
+      {/* El producto completo — surface-2 (B) */}
+      <div className="border-t border-border bg-surface-2">
+        <div className="mx-auto max-w-[1080px] px-5 py-16 sm:px-6">
+          <FadeUp>
+            <p className="eyebrow">El producto completo</p>
+            <h2 className="mt-4 max-w-2xl font-display text-2xl font-medium tracking-tight text-foreground sm:text-3xl">
+              Más que expedientes: todo el ciclo, un solo producto.
+            </h2>
+            <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted-foreground">
+              La extracción es el corazón, no el límite. Del comercial a la
+              contabilidad, de la calidad a la red de corresponsales: el mismo
+              producto, sin saltar entre herramientas.
+            </p>
+          </FadeUp>
+          <StaggerGrid className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {MODULOS.map((m) => (
+              <StaggerItem key={m.title}>
+                <div className="h-full rounded-lg border border-border bg-card p-6 transition-colors hover:bg-background">
+                  <Icon icon={m.icon} size={20} className="text-primary" />
+                  <h3 className="mt-4 font-display font-medium tracking-tight text-foreground">
+                    {m.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground line-clamp-3">
+                    {m.body}
+                  </p>
+                  {m.sim && (
+                    <span className="mt-3 inline-flex rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium text-muted-foreground">
+                      {m.sim}
+                    </span>
+                  )}
                 </div>
               </StaggerItem>
             ))}
