@@ -4,6 +4,8 @@ import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle, Send, Printer, XCircle, Loader2, Mail, X } from "lucide-react";
 import { updateInvoiceStatus, sendFacturaEmail } from "@/lib/erp-actions";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 interface FacturaActionsProps {
@@ -88,54 +90,57 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2 print:hidden">
-      <button
-        onClick={handlePrint}
-        className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-base text-muted-foreground hover:text-foreground transition-colors"
-      >
+    <div className="flex w-full flex-col gap-2 print:hidden sm:w-auto sm:flex-row sm:flex-wrap sm:items-center">
+      <Button variant="secondary" size="sm" onClick={handlePrint} className="w-full sm:w-auto">
         <Printer className="size-4" />
         Imprimir / PDF
-      </button>
+      </Button>
 
       {canSendEmail && !showEmailForm && (
-        <button
+        <Button
+          variant="secondary"
+          size="sm"
           onClick={handleEmailOpen}
           disabled={emailPending}
-          className="flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-base text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+          className="w-full sm:w-auto"
         >
           <Mail className="size-4" />
           {emailSent ? "Email enviado" : "Enviar por email"}
-        </button>
+        </Button>
       )}
 
       {showEmailForm && (
-        <div className="flex items-center gap-1.5">
-          <input
+        <div className="flex w-full flex-col gap-1.5 sm:w-auto sm:flex-row sm:items-center">
+          <Input
             type="email"
             value={email}
             onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
             onKeyDown={(e) => e.key === "Enter" && handleEmailSend()}
             placeholder="destinatario@empresa.com"
             autoFocus
-            className={cn(
-              "h-8 w-56 rounded-md border bg-background px-3 text-base outline-none focus:ring-1 focus:ring-primary transition-colors",
-              emailError ? "border-destructive focus:ring-destructive" : "border-border",
-            )}
+            className={cn("sm:w-56", emailError && "border-destructive focus-visible:ring-destructive")}
           />
-          <button
-            onClick={handleEmailSend}
-            disabled={emailPending}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
-          >
-            {emailPending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
-            Enviar
-          </button>
-          <button
-            onClick={handleEmailCancel}
-            className="flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <X className="size-4" />
-          </button>
+          <div className="flex gap-1.5">
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleEmailSend}
+              disabled={emailPending}
+              className="flex-1 sm:flex-none"
+            >
+              {emailPending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
+              Enviar
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleEmailCancel}
+              aria-label="Cancelar envío"
+              className="shrink-0"
+            >
+              <X className="size-4" />
+            </Button>
+          </div>
           {emailError && (
             <span className="text-base text-destructive">{emailError}</span>
           )}
@@ -143,20 +148,17 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
       )}
 
       {transitions.map((t) => (
-        <button
+        <Button
           key={t.next}
+          variant={t.variant === "primary" ? "primary" : t.variant === "danger" ? "destructive" : "outline"}
+          size="sm"
           onClick={() => handleStatus(t.next)}
           disabled={pending}
-          className={cn(
-            "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-base font-medium transition-colors disabled:opacity-50",
-            t.variant === "primary" && "bg-primary/10 text-primary hover:bg-primary/15",
-            t.variant === "danger" && "bg-destructive/10 text-destructive hover:bg-destructive/15",
-            t.variant === "ghost" && "border border-border text-muted-foreground hover:text-foreground",
-          )}
+          className="w-full sm:w-auto"
         >
           {pending ? <Loader2 className="size-4 animate-spin" /> : <t.icon className="size-4" />}
           {t.label}
-        </button>
+        </Button>
       ))}
     </div>
   );

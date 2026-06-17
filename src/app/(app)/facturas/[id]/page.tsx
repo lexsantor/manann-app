@@ -45,7 +45,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
     <div className="min-h-full">
       {/* Barra de acciones — oculta al imprimir */}
       <div className="print:hidden sticky top-0 z-10 border-b border-border bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-4xl items-center justify-between gap-4 px-5 py-3">
+        <div className="mx-auto flex max-w-4xl flex-col gap-3 px-5 py-3 sm:flex-row sm:items-center sm:justify-between">
           <Link
             href="/facturas"
             className="flex items-center gap-1.5 text-base text-muted-foreground hover:text-foreground transition-colors"
@@ -54,7 +54,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
             Facturas
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
             <span className={cn(
               "rounded-full px-2.5 py-0.5 font-mono text-base font-semibold",
               STATUS_COLOR[inv.status] ?? "bg-border/30 text-muted-foreground",
