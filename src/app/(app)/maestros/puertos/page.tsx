@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { MASTER_PORTS } from "@/lib/master-ports";
 import { PortsTable } from "@/components/app/ports-table";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default async function PuertosPage() {
   const ctx = await getOrgContext();
@@ -17,17 +18,11 @@ export default async function PuertosPage() {
         <span className="text-foreground">Puertos</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Anchor className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Puertos marítimos
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            {MASTER_PORTS.length} puertos · Catálogo UN/LOCODE
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<Anchor strokeWidth={1.5} />}
+        title="Puertos marítimos"
+        subtitle={`${MASTER_PORTS.length} puertos · Catálogo UN/LOCODE`}
+      />
 
       <PortsTable ports={MASTER_PORTS} />
     </div>

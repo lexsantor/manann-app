@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { listSystemParams } from "@/lib/maestros-actions";
 import { SystemParamsPanel } from "@/components/app/system-params-panel";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default async function ParametrosPage() {
   const ctx = await getOrgContext();
@@ -19,17 +20,11 @@ export default async function ParametrosPage() {
         <span className="text-foreground">Parámetros del sistema</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Settings className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Parámetros del sistema
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Configuración global de la organización — clave/valor
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<Settings strokeWidth={1.5} />}
+        title="Parámetros del sistema"
+        subtitle="Configuración global de la organización — clave/valor"
+      />
 
       <SystemParamsPanel params={params} />
     </div>

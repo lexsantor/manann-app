@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
 import { AirportsTable } from "@/components/app/airports-table";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default async function AeropuertosPage() {
   const ctx = await getOrgContext();
@@ -17,17 +18,11 @@ export default async function AeropuertosPage() {
         <span className="text-foreground">Aeropuertos</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Plane className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Aeropuertos
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            {MASTER_AIRPORTS.length} aeropuertos · Códigos IATA
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<Plane strokeWidth={1.5} />}
+        title="Aeropuertos"
+        subtitle={`${MASTER_AIRPORTS.length} aeropuertos · Códigos IATA`}
+      />
 
       <AirportsTable airports={MASTER_AIRPORTS} />
     </div>

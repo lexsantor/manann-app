@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { listDocumentSeries } from "@/lib/maestros-actions";
 import { DocumentSeriesPanel } from "@/components/app/document-series-panel";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default async function SeriesPage() {
   const ctx = await getOrgContext();
@@ -19,17 +20,11 @@ export default async function SeriesPage() {
         <span className="text-foreground">Series y numeración</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Hash className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Series y numeración
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Prefijos y contadores automáticos por tipo de documento
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<Hash strokeWidth={1.5} />}
+        title="Series y numeración"
+        subtitle="Prefijos y contadores automáticos por tipo de documento"
+      />
 
       <DocumentSeriesPanel series={series} />
     </div>

@@ -13,6 +13,7 @@ import {
   Database,
 } from "lucide-react";
 import { getOrgContext } from "@/lib/erp";
+import { PageHeader } from "@/components/ui/page-header";
 import { MASTER_PORTS } from "@/lib/master-ports";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
 import { MASTER_COUNTRIES } from "@/lib/master-countries";
@@ -99,17 +100,12 @@ export default async function MaestrosPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center gap-3">
-        <Database className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Tablas maestras
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Catálogos de referencia y configuración de la organización.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Maestros"
+        icon={<Database strokeWidth={1.5} />}
+        title="Tablas maestras"
+        subtitle="Catálogos de referencia y configuración de la organización."
+      />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {SECTIONS.map((s) => (

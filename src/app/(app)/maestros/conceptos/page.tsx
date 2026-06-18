@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { listChargeConcepts } from "@/lib/maestros-actions";
 import { ChargeConceptsPanel } from "@/components/app/charge-concepts-panel";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default async function ConceptosPage() {
   const ctx = await getOrgContext();
@@ -19,17 +20,11 @@ export default async function ConceptosPage() {
         <span className="text-foreground">Conceptos de cargo</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Tag className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Conceptos de cargo
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Catálogo de conceptos facturables de la organización
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<Tag strokeWidth={1.5} />}
+        title="Conceptos de cargo"
+        subtitle="Catálogo de conceptos facturables de la organización"
+      />
 
       <ChargeConceptsPanel concepts={concepts} />
     </div>
