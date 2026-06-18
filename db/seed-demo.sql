@@ -437,3 +437,89 @@ inv AS (INSERT INTO invoice (shipment_id, reference, status, issue_date, due_dat
 INSERT INTO invoice_line (invoice_id, concept, quantity, unit_price, tax_rate, subtotal, sort_order)
 SELECT inv.id,'Flete aéreo ESBCN-MXMEX',1,4050.00,21,4050.00,0 FROM inv
 UNION ALL SELECT inv.id,'Emisión AWB + handling',1,180.00,21,180.00,1 FROM inv;
+
+-- ── S · Tablas maestras & configuración (B10) ─────────────────────────────────
+-- Conceptos de cargo, series documentales, sucursales, tipos de cambio,
+-- parámetros del sistema y directorio de partners. Rellena las 6 pantallas de
+-- maestros/config que de otro modo salen vacías en la demo. Idempotente.
+
+-- Conceptos de cargo
+INSERT INTO charge_concept (organization_id, code, name, category, default_direction)
+SELECT o.id, v.code, v.name, v.category, v.dir
+FROM organization o
+CROSS JOIN (VALUES
+  ('ALM','Almacenaje','almacenaje','buy'),
+  ('DEM','Demurrage / detención','otro','buy'),
+  ('DESP','Despacho de aduana','aduana','both'),
+  ('DOC','Emisión documental','documentacion','both'),
+  ('FLA','Flete aéreo','flete','both'),
+  ('FLE','Flete marítimo','flete','both'),
+  ('SEG','Seguro de mercancía','seguro','both'),
+  ('THC','THC / Terminal handling','origen','both')
+) AS v(code, name, category, dir)
+WHERE o.slug='atlantica'
+ON CONFLICT (organization_id, code) DO NOTHING;
+
+-- Series documentales
+INSERT INTO document_series (organization_id, doc_type, prefix, next_number, padding)
+SELECT o.id, v.doc_type, v.prefix, v.next_number, v.padding
+FROM organization o
+CROSS JOIN (VALUES
+  ('awb','AWB-',1,4),
+  ('cotizacion','COT-2026-',10,4),
+  ('expediente','EXP-2026-',55,4),
+  ('factura','FAC-2026-',105,4)
+) AS v(doc_type, prefix, next_number, padding)
+WHERE o.slug='atlantica'
+ON CONFLICT (organization_id, doc_type) DO NOTHING;
+
+-- Sucursales
+INSERT INTO branch (organization_id, code, name, address, city, country_code, is_hq)
+SELECT o.id, v.code, v.name, v.address, v.city, v.cc, v.is_hq
+FROM organization o
+CROSS JOIN (VALUES
+  ('BCN','Delegación Barcelona','Carrer de la Marina 16','Barcelona','ES',false),
+  ('VLC','Sede Valencia','Av. del Puerto 230','Valencia','ES',true)
+) AS v(code, name, address, city, cc, is_hq)
+WHERE o.slug='atlantica'
+ON CONFLICT (organization_id, code) DO NOTHING;
+
+-- Tipos de cambio (base EUR)
+INSERT INTO exchange_rate (organization_id, base_currency, target_currency, rate, valid_from)
+SELECT o.id, 'EUR', v.target, v.rate, DATE '2026-06-01'
+FROM organization o
+CROSS JOIN (VALUES
+  ('CNY',7.85),
+  ('GBP',0.842),
+  ('MXN',19.85),
+  ('USD',1.085)
+) AS v(target, rate)
+WHERE o.slug='atlantica'
+ON CONFLICT (organization_id, target_currency) DO NOTHING;
+
+-- Parámetros del sistema
+INSERT INTO system_param (organization_id, key, value, label)
+SELECT o.id, v.key, v.value, v.label
+FROM organization o
+CROSS JOIN (VALUES
+  ('base_currency','EUR','Moneda base'),
+  ('default_credit_days','30','Días de crédito por defecto'),
+  ('invoice_language','es','Idioma por defecto de facturas'),
+  ('own_scac','ATLF','SCAC / código propio'),
+  ('own_tax_id','ESB66001122','NIF de la organización')
+) AS v(key, value, label)
+WHERE o.slug='atlantica'
+ON CONFLICT (organization_id, key) DO NOTHING;
+
+-- Directorio de partners (sin índice único → idempotente por nombre)
+INSERT INTO partner (organization_id, name, type, region, country, services, contact_email, tax_id)
+SELECT o.id, v.name, v.type, v.region, v.country, v.services, v.email, v.tax
+FROM organization o
+CROSS JOIN (VALUES
+  ('Atlas Logistics SL','agent','Mediterráneo','ES',ARRAY['FCL','LCL','Terrestre']::text[],'c.puig@atlaslogistics.es','ESB66123450'),
+  ('Iberia Customs Brokers','customs','España','ES',ARRAY['Despacho','OEA']::text[],'info@iberiacustoms.es','ESB12345678'),
+  ('Meridian Freight Solutions','agent','Asia-Europa','DE',ARRAY['FCL','LCL','Aéreo']::text[],'k.muller@meridian.de','DE811234567'),
+  ('TransPacific Carriers','carrier','Asia-Norteamérica','HK',ARRAY['FCL','Reefer']::text[],'ops@transpacific.hk',NULL)
+) AS v(name, type, region, country, services, email, tax)
+WHERE o.slug='atlantica'
+  AND NOT EXISTS (SELECT 1 FROM partner p WHERE p.organization_id=o.id AND p.name=v.name);
