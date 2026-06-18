@@ -109,7 +109,7 @@ export function EblPanel({
                   />
                 </div>
                 <div className="rounded-md bg-warning/5 border border-warning/20 px-3 py-2">
-                  <p className="text-[10px] text-warning">
+                  <p className="text-xs text-warning">
                     Simulación — integración ESSDOCS / Bolero / WAVE en producción
                   </p>
                 </div>
@@ -157,13 +157,13 @@ export function EblPanel({
             <span className="font-medium text-foreground">Tenedor actual:</span>{" "}
             {ebl.currentHolder ?? "—"}
           </p>
-          <p className="font-mono text-[10px] text-muted-foreground/60 break-all">
+          <p className="font-mono text-xs text-muted-foreground/60 break-all">
             SHA-256: {ebl.blHash}
           </p>
         </div>
 
         <div className="rounded-md bg-warning/5 border border-warning/20 px-3 py-1.5">
-          <p className="text-[10px] text-warning">
+          <p className="text-xs text-warning">
             Simulación — integración ESSDOCS / Bolero / WAVE en producción
           </p>
         </div>

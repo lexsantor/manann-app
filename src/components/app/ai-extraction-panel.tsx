@@ -40,6 +40,9 @@ export function AiExtractionPanel({
   const [error, setError] = useState("");
   // Correcciones del humano sobre la propuesta de la IA (clave de campo → valor).
   const [values, setValues] = useState<Record<string, string>>({});
+  // Nº de campos incorporados tras confirmar (persiste el banner de éxito aunque
+  // el panel re-renderice cuando el documento pasa a 'confirmed').
+  const [applied, setApplied] = useState<number | null>(null);
 
   function run(fn: () => Promise<void>) {
     setError("");
@@ -135,6 +138,21 @@ export function AiExtractionPanel({
     );
   }
 
+  // ── Éxito: resumen tras incorporar la propuesta ───────────────────────────
+  if (applied !== null) {
+    return (
+      <div className="mt-2 flex items-center gap-2.5 rounded-md border border-success/30 bg-success/10 p-4">
+        <Icon icon={Check} size={16} className="shrink-0 text-success" />
+        <div>
+          <p className="text-base font-semibold text-success">Incorporado al expediente</p>
+          <p className="mt-0.5 text-base text-muted-foreground">
+            La IA rellenó {applied} campo{applied !== 1 ? "s" : ""}. Revisa el expediente debajo.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   // ── Full mode: expanded extraction result (only used when status=extracted) ─
 
   if (status !== "extracted") return null;
@@ -205,8 +223,8 @@ export function AiExtractionPanel({
         <button
           type="button"
           onClick={() =>
-            run(() =>
-              applyExtraction(
+            run(async () => {
+              await applyExtraction(
                 documentId,
                 Object.fromEntries(
                   fields
@@ -217,8 +235,9 @@ export function AiExtractionPanel({
                     )
                     .map((f) => [f.key, values[f.key]]),
                 ),
-              ),
-            )
+              );
+              setApplied(fields.length);
+            })
           }
           disabled={pending}
           className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-base font-semibold text-primary-foreground transition hover:brightness-110 disabled:opacity-60"

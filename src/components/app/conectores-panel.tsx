@@ -90,7 +90,7 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
       ))}
 
       <div className="rounded-md border border-warning/20 bg-warning/5 px-3 py-2">
-        <p className="text-[10px] text-warning">
+        <p className="text-xs text-warning">
           ShipsGo, Gemini y Resend están operativos. El resto son conexiones simuladas — integración real en producción.
         </p>
       </div>
@@ -113,7 +113,7 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
               <Input value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder="••••••••••" />
             </div>
             <div className="mt-3 rounded-md border border-warning/20 bg-warning/5 px-3 py-2">
-              <p className="text-[10px] text-warning">
+              <p className="text-xs text-warning">
                 Simulación — la conexión real con {configItem.name} se habilita en producción.
               </p>
             </div>

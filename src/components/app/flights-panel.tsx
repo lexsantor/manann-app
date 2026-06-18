@@ -105,7 +105,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
         <div className="flex items-center gap-2">
           <PlaneTakeoff className="h-3.5 w-3.5 shrink-0 text-muted-foreground/60" strokeWidth={1.5} />
           <span className="font-mono text-xs font-bold text-foreground">{f.flightNumber}</span>
-          {f.aircraftType && <span className="text-[10px] text-muted-foreground/60">{f.aircraftType}</span>}
+          {f.aircraftType && <span className="text-xs text-muted-foreground/60">{f.aircraftType}</span>}
         </div>
       ),
     },

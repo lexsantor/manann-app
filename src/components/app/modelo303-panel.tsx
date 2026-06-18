@@ -138,7 +138,7 @@ export function Modelo303Panel() {
               <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                 IVA Soportado (compras)
               </h3>
-              <span className="text-[10px] text-warning bg-warning/10 px-2 py-0.5 rounded-full">
+              <span className="text-xs text-warning bg-warning/10 px-2 py-0.5 rounded-full">
                 Estimado — módulo compras pendiente
               </span>
             </div>

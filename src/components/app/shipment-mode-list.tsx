@@ -73,7 +73,7 @@ export function ShipmentModeList({
                     {s.reference}
                   </Link>
                   {s.blNumber && (
-                    <div className="text-[10px] text-muted-foreground/60 mt-0.5">{s.blNumber}</div>
+                    <div className="text-xs text-muted-foreground/60 mt-0.5">{s.blNumber}</div>
                   )}
                 </td>
                 <td className="px-4 py-2.5 text-xs text-muted-foreground">
