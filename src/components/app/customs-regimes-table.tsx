@@ -40,7 +40,7 @@ export function CustomsRegimesTable({ regimes }: { regimes: Regime[] }) {
             <tr className="border-b border-border bg-muted/30">
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide w-20">Código</th>
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Nombre</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Descripción</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide hidden sm:table-cell">Descripción</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -48,7 +48,7 @@ export function CustomsRegimesTable({ regimes }: { regimes: Regime[] }) {
               <tr key={r.id} className="hover:bg-muted/20 transition-colors">
                 <td className="px-3 py-2 font-mono text-xs font-bold text-primary">{r.code}</td>
                 <td className="px-3 py-2 text-foreground font-medium">{r.name}</td>
-                <td className="px-3 py-2 text-xs text-muted-foreground">{r.description ?? "—"}</td>
+                <td className="px-3 py-2 text-xs text-muted-foreground hidden sm:table-cell">{r.description ?? "—"}</td>
               </tr>
             ))}
           </tbody>

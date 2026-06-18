@@ -54,20 +54,20 @@ export function CountriesTable({ countries }: { countries: MasterCountry[] }) {
           <thead>
             <tr className="border-b border-border bg-muted/30">
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Alpha-2</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Alpha-3</th>
+              <th className="hidden px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide sm:table-cell">Alpha-3</th>
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Nombre (ES)</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Nombre (EN)</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Región</th>
+              <th className="hidden px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide sm:table-cell">Nombre (EN)</th>
+              <th className="hidden px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide sm:table-cell">Región</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {filtered.map((c) => (
               <tr key={c.code} className="hover:bg-muted/20 transition-colors">
                 <td className="px-3 py-2 font-mono text-xs font-bold text-primary">{c.code}</td>
-                <td className="px-3 py-2 font-mono text-xs text-muted-foreground">{c.code3}</td>
+                <td className="hidden px-3 py-2 font-mono text-xs text-muted-foreground sm:table-cell">{c.code3}</td>
                 <td className="px-3 py-2 text-foreground">{c.name}</td>
-                <td className="px-3 py-2 text-muted-foreground">{c.nameEn}</td>
-                <td className="px-3 py-2">
+                <td className="hidden px-3 py-2 text-muted-foreground sm:table-cell">{c.nameEn}</td>
+                <td className="hidden px-3 py-2 sm:table-cell">
                   <span className="text-xs text-muted-foreground">{c.region}</span>
                 </td>
               </tr>

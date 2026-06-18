@@ -70,9 +70,9 @@ export function CurrenciesPanel({ currencies, referenceRates, savedRates }: Prop
             <tr className="border-b border-border bg-muted/30">
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Código</th>
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Divisa</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Símbolo</th>
-              <th className="px-3 py-2 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">T/C vs EUR</th>
-              <th className="px-3 py-2 w-10" />
+              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide hidden sm:table-cell">Símbolo</th>
+              <th className="px-3 py-2 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide hidden sm:table-cell">T/C vs EUR</th>
+              <th className="px-3 py-2 w-10 hidden sm:table-cell" />
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -86,8 +86,8 @@ export function CurrenciesPanel({ currencies, referenceRates, savedRates }: Prop
                 <tr key={c.code} className="hover:bg-muted/20 transition-colors">
                   <td className="px-3 py-2 font-mono text-xs font-bold text-primary">{c.code}</td>
                   <td className="px-3 py-2 text-foreground">{c.name}</td>
-                  <td className="px-3 py-2 font-mono text-xs text-muted-foreground">{c.symbol}</td>
-                  <td className="px-3 py-2 text-right">
+                  <td className="px-3 py-2 font-mono text-xs text-muted-foreground hidden sm:table-cell">{c.symbol}</td>
+                  <td className="px-3 py-2 text-right hidden sm:table-cell">
                     {isEditing ? (
                       <input
                         className="w-28 rounded border border-primary px-2 py-0.5 text-xs font-mono text-right bg-background focus:outline-none"
@@ -103,7 +103,7 @@ export function CurrenciesPanel({ currencies, referenceRates, savedRates }: Prop
                       </span>
                     )}
                   </td>
-                  <td className="px-3 py-2 text-center">
+                  <td className="px-3 py-2 text-center hidden sm:table-cell">
                     {isEditing ? (
                       <button
                         onClick={() => saveRate(c.code)}

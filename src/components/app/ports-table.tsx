@@ -35,8 +35,8 @@ export function PortsTable({ ports }: { ports: MasterPort[] }) {
             <tr className="border-b border-border bg-muted/30">
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">LOCODE</th>
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Puerto</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">País</th>
-              <th className="px-3 py-2 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">Coords</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide hidden sm:table-cell">País</th>
+              <th className="px-3 py-2 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide hidden sm:table-cell">Coords</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -44,13 +44,13 @@ export function PortsTable({ ports }: { ports: MasterPort[] }) {
               <tr key={p.locode} className="hover:bg-muted/20 transition-colors">
                 <td className="px-3 py-2 font-mono text-xs font-medium text-primary">{p.locode}</td>
                 <td className="px-3 py-2 text-foreground">{p.name}</td>
-                <td className="px-3 py-2">
+                <td className="px-3 py-2 hidden sm:table-cell">
                   <span className="inline-flex items-center gap-1.5 text-muted-foreground">
                     <span className="font-mono text-xs">{p.countryCode}</span>
                     <span>{p.country}</span>
                   </span>
                 </td>
-                <td className="px-3 py-2 text-right font-mono text-xs text-muted-foreground">
+                <td className="px-3 py-2 text-right font-mono text-xs text-muted-foreground hidden sm:table-cell">
                   {p.lat.toFixed(2)}, {p.lon.toFixed(2)}
                 </td>
               </tr>

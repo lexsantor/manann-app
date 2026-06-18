@@ -164,9 +164,9 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
             <tr className="border-b border-border bg-muted/30">
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Código</th>
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Nombre</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Categoría</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Dirección</th>
-              <th className="px-3 py-2 w-10" />
+              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide hidden sm:table-cell">Categoría</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide hidden sm:table-cell">Dirección</th>
+              <th className="px-3 py-2 w-10 hidden sm:table-cell" />
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -174,15 +174,15 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
               <tr key={c.id} className="group hover:bg-muted/20 transition-colors">
                 <td className="px-3 py-2 font-mono text-xs font-bold text-primary">{c.code}</td>
                 <td className="px-3 py-2 text-foreground">{c.name}</td>
-                <td className="px-3 py-2">
+                <td className="px-3 py-2 hidden sm:table-cell">
                   <span className="rounded-full bg-muted/50 px-2 py-0.5 text-xs text-muted-foreground">
                     {CAT_LABEL[c.category] ?? c.category}
                   </span>
                 </td>
-                <td className="px-3 py-2 text-xs text-muted-foreground">
+                <td className="px-3 py-2 text-xs text-muted-foreground hidden sm:table-cell">
                   {DIRECTIONS.find((d) => d.value === c.defaultDirection)?.label ?? c.defaultDirection}
                 </td>
-                <td className="px-3 py-2 text-center">
+                <td className="px-3 py-2 text-center hidden sm:table-cell">
                   <button
                     onClick={() => handleDelete(c.id)}
                     disabled={pending}

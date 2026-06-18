@@ -35,8 +35,8 @@ export function AirportsTable({ airports }: { airports: MasterAirport[] }) {
             <tr className="border-b border-border bg-muted/30">
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">IATA</th>
               <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Aeropuerto</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Ciudad</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">País</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide hidden sm:table-cell">Ciudad</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide hidden sm:table-cell">País</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -44,8 +44,8 @@ export function AirportsTable({ airports }: { airports: MasterAirport[] }) {
               <tr key={a.iata} className="hover:bg-muted/20 transition-colors">
                 <td className="px-3 py-2 font-mono text-xs font-bold text-primary">{a.iata}</td>
                 <td className="px-3 py-2 text-foreground">{a.name}</td>
-                <td className="px-3 py-2 text-muted-foreground">{a.city}</td>
-                <td className="px-3 py-2">
+                <td className="px-3 py-2 text-muted-foreground hidden sm:table-cell">{a.city}</td>
+                <td className="px-3 py-2 hidden sm:table-cell">
                   <span className="inline-flex items-center gap-1.5 text-muted-foreground">
                     <span className="font-mono text-xs">{a.countryCode}</span>
                     <span>{a.country}</span>

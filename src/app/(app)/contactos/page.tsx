@@ -141,13 +141,13 @@ export default async function ContactosPage({
           </div>
           <div className="divide-y divide-border/60 overflow-x-auto">
             {CARRIERS.map((c) => (
-              <div key={c.scac} className="grid min-w-[440px] grid-cols-[70px_1fr_140px_90px] items-center gap-4 px-5 py-3">
+              <div key={c.scac} className="grid grid-cols-[70px_1fr] items-center gap-4 px-5 py-3 sm:grid-cols-[70px_1fr_140px_90px]">
                 <span className="font-mono text-sm font-semibold text-foreground">{c.scac}</span>
                 <span className="truncate text-sm text-foreground">{c.name}</span>
-                <span className={cn("inline-flex w-fit rounded-full px-2 py-0.5 font-mono text-xs", ALLIANCE_COLOR[c.alliance])}>
+                <span className={cn("hidden w-fit rounded-full px-2 py-0.5 font-mono text-xs sm:inline-flex", ALLIANCE_COLOR[c.alliance])}>
                   {c.alliance}
                 </span>
-                <span className={cn("inline-flex w-fit rounded-full px-2 py-0.5 font-mono text-xs", API_COLOR[c.api])}>
+                <span className={cn("hidden w-fit rounded-full px-2 py-0.5 font-mono text-xs sm:inline-flex", API_COLOR[c.api])}>
                   {c.api === "activo" ? "API activa" : "Pendiente"}
                 </span>
               </div>
