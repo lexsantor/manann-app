@@ -110,6 +110,7 @@ export function ShipmentListClient({ shipments, members, view }: ShipmentListCli
   const columns: Column<ShipmentListItem>[] = [
     {
       key: "select",
+      card: "hidden",
       header: (
         <Checkbox
           checked={allSelected}
