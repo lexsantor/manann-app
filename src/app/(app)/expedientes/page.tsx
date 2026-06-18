@@ -7,7 +7,7 @@ import { createDraftShipment } from "@/lib/erp-actions";
 import { ShipmentListClient } from "@/components/app/shipment-list-client";
 import { SearchInput } from "@/components/app/search-input";
 import { KanbanBoard } from "@/components/app/kanban-board";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { PageHeader } from "@/components/ui/page-header";
 import { STATUS } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
@@ -65,28 +65,28 @@ export default async function ExpedientesPage({
         title="Expedientes"
         subtitle={`${all.length} expediente${all.length !== 1 ? "s" : ""}`}
         actions={
-          <>
+          <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:items-center">
             <Link
               href="/expedientes/importar"
               prefetch={false}
-              className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+              className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "w-full gap-1.5 sm:w-auto")}
             >
               <Icon icon={Upload} size={14} />
               Importar CSV
             </Link>
             <a
               href="/api/expedientes/export"
-              className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+              className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "w-full gap-1.5 sm:w-auto")}
             >
               <Icon icon={Download} size={14} />
               Exportar CSV
             </a>
-            <form action={createDraftShipment}>
-              <Button type="submit" size="sm">
+            <form action={createDraftShipment} className="col-span-2 sm:col-auto">
+              <Button type="submit" size="sm" className="w-full sm:w-auto">
                 <Icon icon={Plus} size={16} /> Nuevo expediente
               </Button>
             </form>
-          </>
+          </div>
         }
       />
 

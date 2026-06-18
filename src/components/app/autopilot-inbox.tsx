@@ -133,20 +133,19 @@ function ActionCard({
           </div>
 
           {/* Impact + actions */}
-          <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
-            <div className="flex items-center gap-1.5">
-              <span className="font-mono text-base text-muted-foreground">{action.impactLabel}:</span>
-              <span className={cn(
-                "font-mono text-base font-semibold",
-                action.kind === "negative_gp" || action.kind === "accrual_gap"
-                  ? "text-destructive"
-                  : "text-success",
-              )}>
-                {formatMoney(String(action.impact), "EUR")}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2">
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <div className="flex items-center gap-1.5">
+                <span className="font-mono text-base text-muted-foreground">{action.impactLabel}:</span>
+                <span className={cn(
+                  "font-mono text-base font-semibold",
+                  action.kind === "negative_gp" || action.kind === "accrual_gap"
+                    ? "text-destructive"
+                    : "text-success",
+                )}>
+                  {formatMoney(String(action.impact), "EUR")}
+                </span>
+              </div>
               <Link
                 href={`/expedientes/${action.shipmentId}`}
                 className="flex items-center gap-1 rounded-md px-2 py-1 text-base text-muted-foreground transition-colors hover:text-foreground hover:bg-surface-2"
@@ -154,9 +153,12 @@ function ActionCard({
                 {action.shipmentRef}
                 <Icon icon={ExternalLink} size={10} />
               </Link>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
               <button
                 onClick={() => onDismiss(action.id)}
-                className="flex items-center gap-1 rounded-md px-2.5 py-1 text-base text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+                className="flex h-11 w-full items-center justify-center gap-1 rounded-md px-2.5 text-base text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground sm:h-auto sm:w-auto sm:py-1"
               >
                 <Icon icon={X} size={12} />
                 Descartar
@@ -164,7 +166,7 @@ function ActionCard({
               <button
                 onClick={handleApprove}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-md px-3 py-1 text-base font-medium transition-colors",
+                  "flex h-11 w-full items-center justify-center gap-1.5 rounded-md px-3 text-base font-medium transition-colors sm:h-auto sm:w-auto sm:py-1",
                   action.severity === "critical"
                     ? "bg-destructive/10 text-destructive hover:bg-destructive/20"
                     : "bg-primary/10 text-primary hover:bg-primary/15",
@@ -239,8 +241,8 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
   return (
     <div className="space-y-4">
       {/* Header bar */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
           <span className="font-mono text-base text-muted-foreground">
             {actions.length} acción{actions.length > 1 ? "es" : ""} pendiente{actions.length > 1 ? "s" : ""}
           </span>
@@ -254,19 +256,17 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
               {executed} ejecutada{executed > 1 ? "s" : ""} · +{formatMoney(String(recovered), "EUR")}
             </span>
           )}
-        </div>
-        <div className="flex items-center gap-2">
           <span className="font-mono text-base text-muted-foreground">
             Impacto total: <span className="font-semibold text-foreground">{formatMoney(String(totalImpact), "EUR")}</span>
           </span>
-          <button
-            onClick={handleApproveAll}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary transition-colors hover:bg-primary/15"
-          >
-            <Icon icon={CheckCircle2} size={12} />
-            Aprobar todo ({actions.length})
-          </button>
         </div>
+        <button
+          onClick={handleApproveAll}
+          className="flex h-11 w-full items-center justify-center gap-1.5 rounded-md bg-primary/10 px-3 text-base font-medium text-primary transition-colors hover:bg-primary/15 sm:h-auto sm:w-auto sm:py-1.5"
+        >
+          <Icon icon={CheckCircle2} size={12} />
+          Aprobar todo ({actions.length})
+        </button>
       </div>
 
       {/* Actions list */}

@@ -4,12 +4,12 @@ import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Botón Manann. Jerarquía (ver DESIGN.md):
+ * Botón Manann. SOLO dos jerarquías visibles (ver DESIGN.md, invariante 9):
  *  - `primary`   = sólido sea-green. UNA por vista, la acción principal.
- *  - `secondary` = sólido slate, acciones de apoyo.
- *  - `outline`   = borde + texto primary, acción terciaria.
- *  - `destructive` = soft (rojo sobre fondo rojo claro), acciones peligrosas.
- *  - `ghost`     = texto, sin fondo.
+ *  - `secondary` = outline (stroke + texto en primary). Acción de apoyo.
+ *  - `outline`   = alias de `secondary` (mismo estilo). No introducir un 3er CTA.
+ *  - `destructive` = outline rojo, acciones peligrosas (no compite con guardar).
+ *  - `ghost`     = texto sin borde, para descartar/cancelar (no es un CTA).
  * Radios: in-app (sm/md/lg) → rounded-md (10px); `hero` → rounded-full (pill).
  * Touch (Apple HIG): CTAs e inputs ≥44px en móvil (alturas responsive).
  */
@@ -19,7 +19,7 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary: "bg-primary text-primary-foreground hover:brightness-110",
-        secondary: "bg-secondary text-secondary-foreground hover:brightness-110",
+        secondary: "border border-primary/40 bg-transparent text-primary hover:bg-primary/10",
         outline: "border border-primary/40 bg-transparent text-primary hover:bg-primary/10",
         destructive:
           "border border-destructive/40 bg-destructive/10 text-destructive hover:bg-destructive/20",

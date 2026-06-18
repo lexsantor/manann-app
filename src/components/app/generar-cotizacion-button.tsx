@@ -6,6 +6,7 @@ import { X, Loader2, Plus, Trash2, Tag } from "lucide-react";
 import { createQuotation, type CreateQuotationInput } from "@/lib/erp-actions";
 import { type RateItem } from "@/lib/erp";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -35,13 +36,14 @@ export function GenerarCotizacionButton({ rates }: GenerarCotizacionButtonProps)
   const [open, setOpen] = useState(false);
   return (
     <>
-      <button
+      <Button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors"
+        size="sm"
+        className="w-full gap-1.5 sm:w-auto"
       >
         <Plus className="size-4" />
         Nueva cotización
-      </button>
+      </Button>
       {open && <CotizacionForm rates={rates} onClose={() => setOpen(false)} />}
     </>
   );

@@ -107,7 +107,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
   return (
     <div className="space-y-6">
       <div className="rounded-xl border border-border bg-card p-5 space-y-5">
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">Descripción</label>
           <Textarea
             rows={3}
@@ -118,7 +118,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
           />
         </div>
 
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">Ciudad / sede</label>
           <Input
             value={form.city}
@@ -128,7 +128,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
           />
         </div>
 
-        <div className="space-y-1.5">
+        <div className="space-y-2">
           <label className="text-sm font-medium text-foreground">Capacidad mensual estimada (TEU)</label>
           <Input
             type="number"
@@ -168,8 +168,8 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
         />
       </div>
 
-      <div className="flex items-center gap-3">
-        <Button onClick={handleSave} disabled={isPending} className="gap-2">
+      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+        <Button onClick={handleSave} disabled={isPending} className="w-full gap-2 sm:w-auto">
           <Save className="h-4 w-4" />
           Guardar perfil
         </Button>

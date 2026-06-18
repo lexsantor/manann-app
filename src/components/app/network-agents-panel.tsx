@@ -74,6 +74,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
             className="pl-9"
           />
         </div>
+        <div className="grid grid-cols-2 gap-2 sm:contents">
         <Select value={filterCountry} onValueChange={setFilterCountry}>
           <SelectTrigger className="w-full sm:w-40">
             <SelectValue placeholder="País" />
@@ -100,6 +101,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
             ))}
           </SelectContent>
         </Select>
+        </div>
       </div>
 
       <p className="text-sm text-muted-foreground">{filtered.length} agente(s) en la red</p>

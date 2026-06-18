@@ -275,8 +275,35 @@ export function AirManifestsPanel({
 
               {isExpanded && (
                 <div className="border-t border-border px-4 py-3 space-y-3">
-                  {/* HAWB entries table */}
-                  <table className="w-full text-xs">
+                  {/* HAWB entries — tarjetas en móvil, tabla en escritorio */}
+                  <div className="space-y-2 sm:hidden">
+                    {(entries[m.id] ?? []).map((e) => (
+                      <div key={e.id} className="rounded-md border border-border bg-surface-2/40 p-3">
+                        <div className="flex items-start justify-between gap-2">
+                          <span className="font-mono text-sm font-medium text-foreground">{e.hawbNumber}</span>
+                          <ConfirmButton
+                            onConfirm={() => handleDeleteEntry(e.id, m.id)}
+                            disabled={pending}
+                            aria-label={`Eliminar HAWB ${e.hawbNumber}`}
+                            title="Eliminar HAWB"
+                            description={`Se eliminará la partida ${e.hawbNumber} del manifiesto. Esta acción no se puede deshacer.`}
+                            className="text-muted-foreground/60 transition-colors hover:text-destructive"
+                          >
+                            <X className="h-4 w-4" />
+                          </ConfirmButton>
+                        </div>
+                        <p className="mt-1 text-sm text-foreground">{e.consignee || "—"}</p>
+                        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs text-muted-foreground">
+                          <span>{e.pieces} bultos</span>
+                          <span>{Number(e.weightKg).toFixed(2)} kg</span>
+                        </div>
+                        {e.description && (
+                          <p className="mt-1 text-xs text-muted-foreground">{e.description}</p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <table className="hidden w-full text-xs sm:table">
                     <thead>
                       <tr className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                         <th className="pb-1.5 text-left font-medium">HAWB</th>
@@ -313,15 +340,15 @@ export function AirManifestsPanel({
                   </table>
 
                   {/* Add HAWB form */}
-                  <div className="grid grid-cols-5 gap-2 pt-2 border-t border-border/50">
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-border/50 sm:grid-cols-5">
                     <input
-                      className="rounded border border-border bg-background px-2 py-1 text-xs font-mono focus:outline-none focus:ring-1 focus:ring-primary/30"
+                      className="h-10 rounded border border-border bg-background px-2 text-sm font-mono focus:outline-none focus:ring-1 focus:ring-primary/30 sm:h-auto sm:py-1 sm:text-xs"
                       placeholder="HAWB"
                       value={hawbForm.hawbNumber}
                       onChange={(e) => setHawbForm({ ...hawbForm, hawbNumber: e.target.value })}
                     />
                     <input
-                      className="rounded border border-border bg-background px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-primary/30"
+                      className="h-10 rounded border border-border bg-background px-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30 sm:h-auto sm:py-1 sm:text-xs"
                       placeholder="Consignatario"
                       value={hawbForm.consignee}
                       onChange={(e) => setHawbForm({ ...hawbForm, consignee: e.target.value })}
@@ -329,14 +356,14 @@ export function AirManifestsPanel({
                     <input
                       type="number"
                       min={1}
-                      className="rounded border border-border bg-background px-2 py-1 text-xs font-mono focus:outline-none focus:ring-1 focus:ring-primary/30"
+                      className="h-10 rounded border border-border bg-background px-2 text-sm font-mono focus:outline-none focus:ring-1 focus:ring-primary/30 sm:h-auto sm:py-1 sm:text-xs"
                       placeholder="Bultos"
                       value={hawbForm.pieces}
                       onChange={(e) => setHawbForm({ ...hawbForm, pieces: e.target.value })}
                     />
                     <input
                       type="number"
-                      className="rounded border border-border bg-background px-2 py-1 text-xs font-mono focus:outline-none focus:ring-1 focus:ring-primary/30"
+                      className="h-10 rounded border border-border bg-background px-2 text-sm font-mono focus:outline-none focus:ring-1 focus:ring-primary/30 sm:h-auto sm:py-1 sm:text-xs"
                       placeholder="Peso kg"
                       value={hawbForm.weightKg}
                       onChange={(e) => setHawbForm({ ...hawbForm, weightKg: e.target.value })}
@@ -344,9 +371,9 @@ export function AirManifestsPanel({
                     <button
                       onClick={() => handleAddEntry(m.id)}
                       disabled={pending || !hawbForm.hawbNumber || !hawbForm.weightKg}
-                      className="flex items-center justify-center gap-1 rounded bg-primary/10 text-primary text-xs font-medium hover:bg-primary/20 disabled:opacity-40"
+                      className="col-span-2 flex h-10 items-center justify-center gap-1 rounded bg-primary/10 text-sm font-medium text-primary hover:bg-primary/20 disabled:opacity-40 sm:col-auto sm:h-auto sm:text-xs"
                     >
-                      <Check className="h-3 w-3" /> Añadir
+                      <Check className="h-3.5 w-3.5" /> Añadir
                     </button>
                   </div>
                 </div>

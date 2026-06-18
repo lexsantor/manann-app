@@ -171,7 +171,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
       </div>
 
       {/* Kanban */}
-      <div className="grid grid-flow-col auto-cols-[280px] items-start gap-3 overflow-x-auto pb-2 xl:grid-flow-row xl:auto-cols-auto xl:grid-cols-5">
+      <div className="flex flex-col gap-4 lg:grid lg:grid-flow-col lg:auto-cols-[280px] lg:items-start lg:gap-3 lg:overflow-x-auto lg:pb-2 xl:grid-flow-row xl:auto-cols-auto xl:grid-cols-5">
         {STAGES.map(({ key, label, accent }) => {
           const cards = byStage(key);
           const st = stats[key];

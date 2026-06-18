@@ -78,7 +78,7 @@ export function CarrierScorecard({ rows }: CarrierScorecardProps) {
       </div>
 
       <div className="px-5 py-3 border-t border-border/40">
-        <p className="font-mono text-[10px] text-muted-foreground/40">
+        <p className="font-mono text-xs text-muted-foreground/70">
           Calculado con expedientes que tienen ETA y fecha de llegada real registrada · Simulación — datos reales en producción
         </p>
       </div>
