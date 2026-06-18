@@ -6,6 +6,7 @@ import { getOrgContext, getCalendarShipments, listShipments } from "@/lib/erp";
 import { Icon } from "@/components/icon";
 import { STATUS } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const metadata = { title: "Calendario ETAs — Manann" };
 
@@ -76,19 +77,13 @@ export default async function CalendarPage({
 
   return (
     <div className="space-y-6">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <CalendarDays className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-          <div>
-            <h1 className="font-display text-2xl font-semibold capitalize tracking-tight text-foreground">
-              {monthLabel}
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              {shipments.length} ETA{shipments.length !== 1 ? "s" : ""} este mes
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-1">
+      <PageHeader
+        eyebrow="Operaciones"
+        icon={<CalendarDays strokeWidth={1.5} />}
+        title={monthLabel.charAt(0).toUpperCase() + monthLabel.slice(1)}
+        subtitle={`${shipments.length} ETA${shipments.length !== 1 ? "s" : ""} este mes`}
+        actions={
+          <div className="flex items-center gap-1">
           <Link
             href={`/calendar?month=${prevMonth}`}
             prefetch={false}
@@ -112,8 +107,9 @@ export default async function CalendarPage({
           >
             <Icon icon={ChevronRight} size={15} />
           </Link>
-        </div>
-      </header>
+          </div>
+        }
+      />
 
       <div className="grid gap-5 lg:grid-cols-3">
         {/* Calendario */}

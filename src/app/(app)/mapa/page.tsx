@@ -3,6 +3,7 @@ import { MapPin, Map } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { getOrgContext, listShipments } from "@/lib/erp";
 import { WorldMap } from "@/components/app/world-map";
+import { PageHeader } from "@/components/ui/page-header";
 import { portCoords } from "@/lib/port-coords";
 import { portLabel } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
@@ -51,17 +52,12 @@ export default async function MapaPage() {
 
   return (
     <div className="space-y-6">
-      <header className="flex items-center gap-3">
-        <Map className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Mapa de rutas
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            {mappable.length} expediente{mappable.length !== 1 ? "s" : ""} activo{mappable.length !== 1 ? "s" : ""} en tránsito
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Operaciones"
+        icon={<Map strokeWidth={1.5} />}
+        title="Mapa de rutas"
+        subtitle={`${mappable.length} expediente${mappable.length !== 1 ? "s" : ""} activo${mappable.length !== 1 ? "s" : ""} en tránsito`}
+      />
 
       <WorldMap routes={routes} />
 

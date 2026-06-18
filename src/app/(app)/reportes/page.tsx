@@ -18,6 +18,7 @@ import { portLabel } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 import { GPAreaChart, ModeBarChart, ClientGPBarChart } from "@/components/app/report-charts";
 import { SimBadge } from "@/components/ui/sim-badge";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const metadata = { title: "Reportes — Manann" };
 
@@ -123,15 +124,15 @@ export default async function ReportesPage({
   return (
     <div className="space-y-6 print:space-y-4">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
-        <div className="flex items-center gap-3">
-          <BarChart3 className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-          <div>
-            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Reportes</h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">Análisis de {ctx.org.name}</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
+      <PageHeader
+        className="print:hidden"
+        eyebrow="Análisis"
+        icon={<BarChart3 strokeWidth={1.5} />}
+        title="Reportes"
+        subtitle={`Análisis de ${ctx.org.name}`}
+      />
+
+      <div className="flex flex-wrap items-center gap-2 print:hidden">
           {/* Period selector */}
           <div className="flex gap-1 rounded-lg border border-border bg-card p-1">
             {PERIODS.map((p) => (
@@ -150,7 +151,6 @@ export default async function ReportesPage({
           </div>
           {/* Print / Export PDF */}
           <PrintButton />
-        </div>
       </div>
 
       {/* KPI strip */}
