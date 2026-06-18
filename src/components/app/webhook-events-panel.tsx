@@ -52,7 +52,7 @@ export function WebhookEventsPanel({ initialItems }: { initialItems: WebhookEven
   if (items.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-12 text-center">
-        <Zap className="mb-2 h-8 w-8 text-muted-foreground/40" strokeWidth={1} />
+        <Zap className="mb-2 h-8 w-8 text-muted-foreground/60" strokeWidth={1} />
         <p className="text-sm text-muted-foreground">Sin eventos de webhook</p>
         <p className="mt-1 text-xs text-muted-foreground/70">
           Los envíos de webhooks aparecerán aquí

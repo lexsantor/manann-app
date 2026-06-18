@@ -150,7 +150,7 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
                   <Icon
                     icon={DOC_STATUS_ICON[doc.status] ?? FileText}
                     size={32}
-                    className="text-muted-foreground/40"
+                    className="text-muted-foreground/60"
                   />
                   <p className="text-base text-muted-foreground">
                     Sin archivo almacenado

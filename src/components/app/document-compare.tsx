@@ -89,7 +89,7 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
       )}
 
       {!result && !pending && !error && (
-        <p className="mt-2 text-base text-muted-foreground/50">
+        <p className="mt-2 text-base text-muted-foreground/65">
           Pulsa el botón para cruzar los campos del BL con la factura comercial.
         </p>
       )}
@@ -119,10 +119,10 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
               >
                 <span className="text-muted-foreground">{f.label}</span>
                 <span className={cn("font-mono", !f.match && f.blValue ? "text-warning font-medium" : "text-foreground")}>
-                  {f.blValue ?? <span className="text-muted-foreground/40 italic">—</span>}
+                  {f.blValue ?? <span className="text-muted-foreground/60 italic">—</span>}
                 </span>
                 <span className={cn("flex items-center gap-1 font-mono", !f.match && f.invoiceValue ? "text-warning font-medium" : "text-foreground")}>
-                  {f.invoiceValue ?? <span className="text-muted-foreground/40 italic">—</span>}
+                  {f.invoiceValue ?? <span className="text-muted-foreground/60 italic">—</span>}
                   {!f.match && (f.blValue || f.invoiceValue) && (
                     <AlertTriangle className="size-3 shrink-0 text-warning" />
                   )}

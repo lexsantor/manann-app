@@ -84,9 +84,9 @@ export function RateCsvImport() {
           className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-border/60 bg-surface-2/20 py-8 text-center cursor-pointer hover:border-primary/40 hover:bg-primary/5 transition-colors"
           onClick={() => inputRef.current?.click()}
         >
-          <Icon icon={Upload} size={24} className="text-muted-foreground/40 mb-2" />
+          <Icon icon={Upload} size={24} className="text-muted-foreground/60 mb-2" />
           <p className="text-sm font-medium text-muted-foreground">Arrastra un CSV o haz clic para seleccionar</p>
-          <p className="mt-1 font-mono text-[10px] text-muted-foreground/40">
+          <p className="mt-1 font-mono text-[10px] text-muted-foreground/60">
             Columnas: {HEADERS.join(", ")}
           </p>
           <input ref={inputRef} type="file" accept=".csv" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
@@ -99,7 +99,7 @@ export function RateCsvImport() {
               <span className="text-sm text-foreground">{filename}</span>
               <span className="rounded-full bg-muted/60 px-2 py-0.5 font-mono text-xs text-muted-foreground">{preview.length} filas</span>
             </div>
-            <button onClick={reset} className="rounded p-1 text-muted-foreground/40 hover:text-foreground transition-colors">
+            <button onClick={reset} className="rounded p-1 text-muted-foreground/60 hover:text-foreground transition-colors">
               <X className="size-4" />
             </button>
           </div>
@@ -123,7 +123,7 @@ export function RateCsvImport() {
                   </tr>
                 ))}
                 {preview.length > 10 && (
-                  <tr><td colSpan={5} className="px-3 py-1.5 text-center font-mono text-[10px] text-muted-foreground/40">+{preview.length - 10} más</td></tr>
+                  <tr><td colSpan={5} className="px-3 py-1.5 text-center font-mono text-[10px] text-muted-foreground/60">+{preview.length - 10} más</td></tr>
                 )}
               </tbody>
             </table>
@@ -165,7 +165,7 @@ export function RateCsvImport() {
       )}
 
       <details className="group">
-        <summary className="cursor-pointer font-mono text-[10px] text-muted-foreground/40 hover:text-muted-foreground/60 list-none">
+        <summary className="cursor-pointer font-mono text-[10px] text-muted-foreground/60 hover:text-muted-foreground/60 list-none">
           Ver formato CSV de ejemplo
         </summary>
         <pre className="mt-2 overflow-x-auto rounded-md border border-border/40 bg-surface-2/20 p-3 font-mono text-[10px] text-muted-foreground/60 whitespace-pre">{EXAMPLE}</pre>

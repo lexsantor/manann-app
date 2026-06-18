@@ -368,7 +368,7 @@ export default async function ReportesPage({
         )}
 
         <div className="border-t border-border/40 px-5 py-2">
-          <p className="font-mono text-[10px] text-muted-foreground/50">
+          <p className="font-mono text-[10px] text-muted-foreground/65">
             Estimación basada en distancia haversine, peso declarado en líneas de carga y factores de emisión GLEC (marítimo 10 g/t·km, aéreo 602 g/t·km, terrestre 96 g/t·km). No constituye informe oficial GHG.
           </p>
         </div>

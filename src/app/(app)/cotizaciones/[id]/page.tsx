@@ -19,7 +19,7 @@ const STATUS_COLOR: Record<string, string> = {
   enviada: "bg-blue-500/10 text-blue-400",
   aceptada: "bg-emerald-500/10 text-emerald-400",
   rechazada: "bg-red-500/10 text-red-400",
-  expirada: "bg-border/30 text-muted-foreground/50 line-through",
+  expirada: "bg-border/30 text-muted-foreground/65 line-through",
 };
 
 interface PageProps {
@@ -131,7 +131,7 @@ export default async function CotizacionDetailPage({ params }: PageProps) {
                 style={{ gridTemplateColumns: "1fr 72px 100px 100px" }}>
                 <div>
                   <span className="text-base text-foreground">{line.concept}</span>
-                  <span className="ml-2 font-mono text-base text-muted-foreground/50">
+                  <span className="ml-2 font-mono text-base text-muted-foreground/65">
                     / {line.unit}
                   </span>
                 </div>
@@ -174,7 +174,7 @@ export default async function CotizacionDetailPage({ params }: PageProps) {
 
           {/* Footer */}
           <div className="mt-10 border-t border-border/30 pt-4 text-center">
-            <p className="font-mono text-base text-muted-foreground/40">
+            <p className="font-mono text-base text-muted-foreground/60">
               {ctx.org.name} · {quot.reference} · Generado con Manann ERP
             </p>
           </div>

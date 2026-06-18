@@ -114,7 +114,7 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="p.ej. Producción · WMS interno"
-              className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary/50"
+              className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary/50"
               onKeyDown={(e) => e.key === "Enter" && handleCreate()}
             />
             <button
@@ -131,7 +131,7 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
 
       {keys.length === 0 && !revealed ? (
         <div className="px-5 py-10 text-center">
-          <Icon icon={Key} size={24} className="text-muted-foreground/30 mx-auto mb-2" />
+          <Icon icon={Key} size={24} className="text-muted-foreground/55 mx-auto mb-2" />
           <p className="text-sm text-muted-foreground/60">Sin API keys — crea una para integrar Manann con tus sistemas</p>
         </div>
       ) : (
@@ -147,7 +147,7 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
               <button
                 onClick={() => handleRevoke(k.id)}
                 disabled={pending}
-                className="shrink-0 rounded-md p-1.5 text-muted-foreground/40 hover:text-accent hover:bg-accent/10 transition-colors"
+                className="shrink-0 rounded-md p-1.5 text-muted-foreground/60 hover:text-accent hover:bg-accent/10 transition-colors"
               >
                 <Trash2 className="size-4" />
               </button>
@@ -157,7 +157,7 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
       )}
 
       <div className="px-5 py-3 border-t border-border/40">
-        <p className="font-mono text-[10px] text-muted-foreground/40">
+        <p className="font-mono text-[10px] text-muted-foreground/60">
           Envía la key en el header <span className="text-muted-foreground/60">X-Api-Key</span> · Base URL: <span className="text-muted-foreground/60">/api/v1</span>
         </p>
       </div>

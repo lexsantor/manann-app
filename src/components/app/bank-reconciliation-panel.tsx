@@ -201,7 +201,7 @@ export function BankReconciliationPanel({
                         </SelectContent>
                       </Select>
                     ) : (
-                      <span className="text-muted-foreground/50">—</span>
+                      <span className="text-muted-foreground/65">—</span>
                     )}
                   </td>
                   <td className="px-4 py-2.5 text-right">

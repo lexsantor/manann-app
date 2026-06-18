@@ -252,7 +252,7 @@ function ChargeRow({ charge: c, shipmentId, showBuyCol, rateAvg }: ChargeRowProp
         <button
           onClick={handleDelete}
           disabled={pending}
-          className="invisible size-5 items-center justify-center rounded text-muted-foreground/40 transition-colors hover:text-destructive group-hover:visible"
+          className="invisible size-5 items-center justify-center rounded text-muted-foreground/60 transition-colors hover:text-destructive group-hover:visible"
           aria-label="Eliminar"
         >
           {pending ? <Loader2 className="size-3 animate-spin" /> : <Trash2 className="size-3" />}
@@ -498,7 +498,7 @@ function CostRow({ charge: c, shipmentId }: { charge: Charge; shipmentId: string
             onClick={() => setEditingAccrual((v) => !v)}
             title="Registrar factura real (accrual)"
             className={cn(
-              "invisible size-5 items-center justify-center rounded text-muted-foreground/40 transition-colors group-hover:visible",
+              "invisible size-5 items-center justify-center rounded text-muted-foreground/60 transition-colors group-hover:visible",
               (c.accrualAmount != null || editingAccrual) && "visible",
               variance != null && Math.abs(variance) > 0.01 ? "text-accent" : "hover:text-foreground",
             )}
@@ -568,7 +568,7 @@ function DeleteCostButton({ chargeId, shipmentId }: { chargeId: string; shipment
     <button
       onClick={() => startTransition(() => deleteCharge(chargeId, shipmentId))}
       disabled={pending}
-      className="invisible size-6 items-center justify-center rounded text-muted-foreground/50 transition-colors hover:text-destructive group-hover:visible"
+      className="invisible size-6 items-center justify-center rounded text-muted-foreground/65 transition-colors hover:text-destructive group-hover:visible"
       aria-label="Eliminar"
     >
       {pending ? <Loader2 className="size-3 animate-spin" /> : <Trash2 className="size-3" />}

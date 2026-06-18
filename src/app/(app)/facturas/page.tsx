@@ -85,7 +85,7 @@ export default async function FacturasPage({ searchParams }: PageProps) {
       cell: (inv) => (
         <Link
           href={`/expedientes/${inv.shipmentId}`}
-          className="inline-flex size-7 items-center justify-center rounded text-muted-foreground/50 hover:text-foreground transition-colors"
+          className="inline-flex size-7 items-center justify-center rounded text-muted-foreground/65 hover:text-foreground transition-colors"
           aria-label="Ver expediente"
         >
           <ExternalLink className="size-3.5" />

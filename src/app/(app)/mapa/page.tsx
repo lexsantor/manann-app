@@ -81,7 +81,7 @@ export default async function MapaPage() {
                   </p>
                   <p className="mt-0.5 flex items-center gap-1 text-base text-muted-foreground">
                     {s.pol ? portLabel(s.pol) : "—"}
-                    <span className="text-muted-foreground/40">→</span>
+                    <span className="text-muted-foreground/60">→</span>
                     {s.pod ? portLabel(s.pod) : "—"}
                   </p>
                   {s.carrier && (
@@ -99,7 +99,7 @@ export default async function MapaPage() {
 
       {active.length === 0 && (
         <div className="flex flex-col items-center gap-3 py-16 text-center">
-          <Icon icon={MapPin} size={32} className="text-muted-foreground/30" />
+          <Icon icon={MapPin} size={32} className="text-muted-foreground/55" />
           <p className="text-base text-muted-foreground">
             No hay expedientes activos en este momento.
           </p>

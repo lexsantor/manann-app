@@ -455,7 +455,7 @@ export function CopilotoPanel() {
               <Icon icon={Send} size={15} />
             </button>
           </form>
-          <p className="mt-1.5 text-center font-mono text-base text-muted-foreground/50">
+          <p className="mt-1.5 text-center font-mono text-base text-muted-foreground/65">
             ⌘J para abrir/cerrar · Respuestas basadas en tus datos reales
           </p>
         </div>

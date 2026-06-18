@@ -106,7 +106,7 @@ export function RailPanel({ pol, pod, blNumber }: RailPanelProps) {
                   </div>
                   <div className="shrink-0 text-right">
                     <p className="font-mono text-sm font-semibold text-foreground">{c.days}d</p>
-                    <p className="font-mono text-[10px] text-muted-foreground/50">tránsito</p>
+                    <p className="font-mono text-[10px] text-muted-foreground/65">tránsito</p>
                   </div>
                 </div>
               ))}
@@ -129,14 +129,14 @@ export function RailPanel({ pol, pod, blNumber }: RailPanelProps) {
                 { label: "MRN", value: "Pendiente generación" },
               ].map((f) => (
                 <div key={f.label} className="rounded border border-border/40 px-2 py-1.5">
-                  <p className="font-mono text-[10px] uppercase text-muted-foreground/50">{f.label}</p>
+                  <p className="font-mono text-[10px] uppercase text-muted-foreground/65">{f.label}</p>
                   <p className="mt-0.5 font-mono text-foreground">{f.value}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <p className="font-mono text-[10px] text-muted-foreground/30">
+          <p className="font-mono text-[10px] text-muted-foreground/55">
             Origen: {pol ?? "—"} · Destino: {pod ?? "—"} · Simulación — integración operadores ferroviarios en producción
           </p>
         </div>

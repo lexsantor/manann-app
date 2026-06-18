@@ -166,7 +166,7 @@ export default async function CalendarPage({
                           ? "bg-primary text-primary-foreground"
                           : isThisMonth
                           ? "text-foreground"
-                          : "text-muted-foreground/30",
+                          : "text-muted-foreground/55",
                       )}
                     >
                       {isThisMonth ? dayNum : ""}

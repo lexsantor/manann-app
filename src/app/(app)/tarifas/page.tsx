@@ -98,7 +98,7 @@ function RatesTable({ rates, title, muted = false }: { rates: RateRow[]; title: 
       <p
         className={cn(
           "mb-2 font-mono text-xs uppercase tracking-wider",
-          muted ? "text-muted-foreground/40" : "text-muted-foreground/60",
+          muted ? "text-muted-foreground/60" : "text-muted-foreground/60",
         )}
       >
         {title}
@@ -138,7 +138,7 @@ export default async function TarifasPage() {
 
       {rates.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/60 py-20 text-center">
-          <Icon icon={Tag} size={32} className="mb-3 text-muted-foreground/30" />
+          <Icon icon={Tag} size={32} className="mb-3 text-muted-foreground/55" />
           <p className="text-base font-medium text-muted-foreground">Sin tarifas todavía</p>
           <p className="mt-1 text-base text-muted-foreground/60">
             Crea tu primera tarifa para usarla al generar facturas y cotizaciones.

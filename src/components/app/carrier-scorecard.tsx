@@ -34,7 +34,7 @@ export function CarrierScorecard({ rows }: CarrierScorecardProps) {
   if (rows.length === 0) {
     return (
       <div className="rounded-xl border border-border bg-card px-5 py-12 text-center">
-        <Icon icon={Truck} size={28} className="text-muted-foreground/30 mx-auto mb-2" />
+        <Icon icon={Truck} size={28} className="text-muted-foreground/55 mx-auto mb-2" />
         <p className="text-sm text-muted-foreground/60">Sin datos de carriers — crea expedientes con ETA para ver el scorecard</p>
       </div>
     );
@@ -67,7 +67,7 @@ export function CarrierScorecard({ rows }: CarrierScorecardProps) {
                 <td className="px-4 py-3 text-right">
                   <div className="flex justify-end">
                     {r.onTimeRate !== null ? <OnTimeBadge rate={r.onTimeRate} /> : (
-                      <span className="font-mono text-xs text-muted-foreground/40">—</span>
+                      <span className="font-mono text-xs text-muted-foreground/60">—</span>
                     )}
                   </div>
                 </td>

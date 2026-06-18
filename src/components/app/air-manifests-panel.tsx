@@ -249,7 +249,7 @@ export function AirManifestsPanel({
                 }}
                 className="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/20"
               >
-                <ChevronDown className={cn("h-3.5 w-3.5 text-muted-foreground/50 shrink-0 transition-transform", isExpanded && "rotate-180")} />
+                <ChevronDown className={cn("h-3.5 w-3.5 text-muted-foreground/65 shrink-0 transition-transform", isExpanded && "rotate-180")} />
                 <span className="font-mono text-sm font-bold text-foreground">{m.mawbNumber}</span>
                 <span className="text-xs text-muted-foreground">{m.originIata} → {m.destIata}</span>
                 <span className="text-xs text-muted-foreground">{m.carrier}</span>

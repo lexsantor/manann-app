@@ -68,7 +68,7 @@ export function EblPanel({
     return (
       <>
         <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-10 text-center">
-          <FileKey2 className="mb-2 h-8 w-8 text-muted-foreground/40" strokeWidth={1} />
+          <FileKey2 className="mb-2 h-8 w-8 text-muted-foreground/60" strokeWidth={1} />
           <p className="text-sm font-medium text-foreground">Sin e-BL emitido</p>
           <p className="mt-0.5 text-xs text-muted-foreground">
             Emite el título electrónico para este expediente marítimo

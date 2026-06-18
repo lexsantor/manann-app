@@ -155,7 +155,7 @@ export function GenerarFacturaButton({
                         value={client}
                         onChange={(e) => setClient(e.target.value)}
                         placeholder="Importaciones García S.L."
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/65 focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                     </div>
                     <div>
@@ -165,7 +165,7 @@ export function GenerarFacturaButton({
                         value={clientNif}
                         onChange={(e) => setClientNif(e.target.value)}
                         placeholder="B-12345678"
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/65 focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                     </div>
                     <div>
@@ -234,7 +234,7 @@ export function GenerarFacturaButton({
                         value={l.concept}
                         onChange={(e) => updateLine(i, "concept", e.target.value)}
                         placeholder="Flete marítimo FCL"
-                        className="rounded-md border border-border bg-background px-2 py-1.5 text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="rounded-md border border-border bg-background px-2 py-1.5 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       <input
                         type="number"
@@ -251,13 +251,13 @@ export function GenerarFacturaButton({
                         value={l.unitPrice}
                         onChange={(e) => updateLine(i, "unitPrice", e.target.value)}
                         placeholder="0,00"
-                        className="rounded-md border border-border bg-background px-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="rounded-md border border-border bg-background px-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                       <button
                         type="button"
                         onClick={() => removeLine(i)}
                         disabled={lines.length === 1}
-                        className="flex size-6 items-center justify-center rounded text-muted-foreground/40 hover:text-destructive disabled:pointer-events-none"
+                        className="flex size-6 items-center justify-center rounded text-muted-foreground/60 hover:text-destructive disabled:pointer-events-none"
                         aria-label="Eliminar línea"
                       >
                         <Trash2 className="size-3" />
@@ -274,7 +274,7 @@ export function GenerarFacturaButton({
                     onChange={(e) => setNotes(e.target.value)}
                     rows={2}
                     placeholder="Condiciones de pago, referencia del cliente..."
-                    className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-full resize-none rounded-md border border-border bg-background px-3 py-2 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary"
                   />
                 </fieldset>
               </div>

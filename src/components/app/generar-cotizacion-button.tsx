@@ -201,7 +201,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
             )}
 
             {/* Cabecera tabla */}
-            <div className="grid gap-2 pb-1 font-mono text-sm uppercase tracking-wider text-muted-foreground/50"
+            <div className="grid gap-2 pb-1 font-mono text-sm uppercase tracking-wider text-muted-foreground/65"
               style={{ gridTemplateColumns: "1fr 70px 90px 90px 28px" }}>
               <span>Concepto</span><span className="text-center">Unidad</span>
               <span className="text-right">Cant.</span><span className="text-right">Precio</span><span />
@@ -230,7 +230,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
                     min="0" step="0.01"
                     className="rounded-md border border-border bg-surface-2/30 px-2 py-1.5 text-right text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
                   <button onClick={() => removeLine(i)} disabled={lines.length === 1}
-                    className="flex size-7 items-center justify-center rounded text-muted-foreground/30 hover:text-destructive transition-colors disabled:pointer-events-none">
+                    className="flex size-7 items-center justify-center rounded text-muted-foreground/55 hover:text-destructive transition-colors disabled:pointer-events-none">
                     <Trash2 className="size-3.5" />
                   </button>
                 </div>

@@ -91,7 +91,7 @@ export function CommentsPanel({ shipmentId, comments }: CommentsPanelProps) {
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline gap-2">
                   <span className="text-base font-medium text-foreground">{c.authorName ?? "Usuario"}</span>
-                  <span className="font-mono text-base text-muted-foreground/50">
+                  <span className="font-mono text-base text-muted-foreground/65">
                     {formatRelative(c.createdAt)}
                   </span>
                 </div>

@@ -211,14 +211,14 @@ function NavLink({
     return (
       <span
         className={cn(
-          "flex cursor-default items-center gap-3 whitespace-nowrap rounded-md px-3 py-2 text-base text-muted-foreground/40",
+          "flex cursor-default items-center gap-3 whitespace-nowrap rounded-md px-3 py-2 text-base text-muted-foreground/60",
           indent && "pl-9",
         )}
         title="Disponible en una próxima fase"
       >
         <Icon icon={item.icon} size={15} className="shrink-0" />
         {item.label}
-        <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-sm text-muted-foreground/40">
+        <span className="ml-auto rounded border border-border/50 px-1.5 py-0.5 font-mono text-sm text-muted-foreground/60">
           pronto
         </span>
       </span>
@@ -278,7 +278,7 @@ function SectionAccordion({
         </span>
         <ChevronDown
           className={cn(
-            "size-3.5 shrink-0 text-muted-foreground/50 transition-transform duration-200",
+            "size-3.5 shrink-0 text-muted-foreground/65 transition-transform duration-200",
             isOpen && "rotate-180",
           )}
         />

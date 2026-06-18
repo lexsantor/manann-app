@@ -23,7 +23,7 @@ export function EmptyState({
       )}
     >
       {icon ? (
-        <span className="mb-3 text-muted-foreground/40 [&_svg]:h-8 [&_svg]:w-8">{icon}</span>
+        <span className="mb-3 text-muted-foreground/60 [&_svg]:h-8 [&_svg]:w-8">{icon}</span>
       ) : null}
       <p className="text-sm font-medium text-foreground">{title}</p>
       {hint ? <p className="mt-1 max-w-sm text-sm text-muted-foreground">{hint}</p> : null}

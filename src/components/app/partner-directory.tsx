@@ -107,7 +107,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
             value={screeningName}
             onChange={(e) => setScreeningName(e.target.value)}
             placeholder="Nombre del tercero…"
-            className="flex-1 rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary/50"
+            className="flex-1 rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary/50"
           />
           <Button
             onClick={handleScreen}
@@ -200,7 +200,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                   value={form.region}
                   onChange={(e) => setForm((f) => ({ ...f, region: e.target.value }))}
                   placeholder="p.ej. Asia-Pacífico"
-                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary/50"
+                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary/50"
                 />
               </div>
               <div>
@@ -209,7 +209,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                   value={form.services}
                   onChange={(e) => setForm((f) => ({ ...f, services: e.target.value }))}
                   placeholder="FCL, LCL, Air Freight"
-                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary/50"
+                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary/50"
                 />
               </div>
               <div>
@@ -252,7 +252,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
 
         {partners.length === 0 ? (
           <div className="px-5 py-12 text-center">
-            <Icon icon={Building2} size={28} className="text-muted-foreground/30 mx-auto mb-2" />
+            <Icon icon={Building2} size={28} className="text-muted-foreground/55 mx-auto mb-2" />
             <p className="text-sm text-muted-foreground/60">Sin partners registrados</p>
           </div>
         ) : (
@@ -266,7 +266,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                       {TYPE_LABEL[p.type] ?? p.type}
                     </span>
                     {!p.active && (
-                      <span className="rounded-full px-2 py-0.5 font-mono text-xs text-muted-foreground/50 bg-muted/30">Inactivo</span>
+                      <span className="rounded-full px-2 py-0.5 font-mono text-xs text-muted-foreground/65 bg-muted/30">Inactivo</span>
                     )}
                   </div>
                   <div className="mt-1 flex items-center gap-4 text-sm text-muted-foreground">
@@ -296,7 +296,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 <button
                   onClick={() => handleDelete(p.id)}
                   disabled={pending}
-                  className="shrink-0 rounded-md p-1.5 text-muted-foreground/40 hover:text-accent hover:bg-accent/10 transition-colors"
+                  className="shrink-0 rounded-md p-1.5 text-muted-foreground/60 hover:text-accent hover:bg-accent/10 transition-colors"
                 >
                   <Trash2 className="size-4" />
                 </button>

@@ -145,7 +145,7 @@ export function DuaPanel({
           </div>
 
           <div className="mt-4 flex items-center justify-between gap-3">
-            <p className="font-mono text-base text-muted-foreground/40">
+            <p className="font-mono text-base text-muted-foreground/60">
               Simulación — integración AEAT en producción
             </p>
             {isEnAduana ? (

@@ -197,7 +197,7 @@ export default async function ExpedienteDetailPage({
               <p className="mt-1 font-display text-4xl font-bold leading-none tracking-tighter text-foreground ai-reveal" style={{ "--i": 0 } as React.CSSProperties}>{pol3}</p>
               <p className="mt-1.5 font-mono text-base text-muted-foreground ai-reveal" style={{ "--i": 1 } as React.CSSProperties}>{polCity}</p>
               <div className="absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-1/2 rounded-full bg-card px-0.5">
-                <Icon icon={MoveRight} size={12} className="text-muted-foreground/40" />
+                <Icon icon={MoveRight} size={12} className="text-muted-foreground/60" />
               </div>
             </div>
             <div className="p-5 lg:border-r lg:border-border">
@@ -254,7 +254,7 @@ export default async function ExpedienteDetailPage({
                 <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">ETD</p>
                 <p className="mt-1.5 font-sans text-base text-foreground ai-reveal" style={{ "--i": 3 } as React.CSSProperties}>{formatDate(s.etd)}</p>
               </div>
-              <Icon icon={MoveRight} size={13} className="mt-4 shrink-0 text-muted-foreground/30" />
+              <Icon icon={MoveRight} size={13} className="mt-4 shrink-0 text-muted-foreground/55" />
               <div className="flex-1 text-right">
                 <div className="flex items-center justify-end gap-1">
                   <p className="font-mono text-sm uppercase tracking-[0.12em] text-muted-foreground">ETA</p>
@@ -630,7 +630,7 @@ function Documents({
       {/* Comparativa IA: visible cuando hay BL + factura comercial */}
       <DocumentCompare shipmentId={shipmentId} hasBl={hasBl} hasFactura={hasFactura} />
       {hasBl && !hasFactura && (
-        <p className="mt-3 text-base text-muted-foreground/50">
+        <p className="mt-3 text-base text-muted-foreground/65">
           Sube la factura comercial para comparar automáticamente con el BL.
         </p>
       )}

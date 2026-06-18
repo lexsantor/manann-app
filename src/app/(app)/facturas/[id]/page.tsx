@@ -22,7 +22,7 @@ const STATUS_COLOR: Record<string, string> = {
   enviada: "bg-blue-500/10 text-blue-400",
   pagada: "bg-emerald-500/10 text-emerald-400",
   vencida: "bg-red-500/10 text-red-400",
-  anulada: "bg-border/30 text-muted-foreground/50 line-through",
+  anulada: "bg-border/30 text-muted-foreground/65 line-through",
 };
 
 interface PageProps {
@@ -188,7 +188,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
 
           {/* Footer legal */}
           <div className="mt-10 border-t border-border/30 pt-4 text-center">
-            <p className="font-mono text-base text-muted-foreground/40">
+            <p className="font-mono text-base text-muted-foreground/60">
               {ctx.org.name} · {inv.reference} · Generado con Manann ERP
             </p>
           </div>

@@ -157,7 +157,7 @@ export function VerifactuPanel({ invoiceId, invoiceRef, invoiceTotal, issueDate,
               </div>
               {error && <p className="text-sm text-accent">{error}</p>}
               <div className="flex items-center justify-between">
-                <p className="font-mono text-sm text-muted-foreground/40">Simulación — AEAT en producción</p>
+                <p className="font-mono text-sm text-muted-foreground/60">Simulación — AEAT en producción</p>
                 <button
                   onClick={handleSubmit}
                   disabled={pending}

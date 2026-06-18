@@ -64,7 +64,7 @@ export function OperationalMetrics({ stats }: Props) {
               <div className="space-y-2.5">
                 {stats.topCarriers.map(({ carrier, count }, i) => (
                   <div key={carrier} className="flex items-center gap-3">
-                    <span className="w-4 text-right font-mono text-base text-muted-foreground/50">
+                    <span className="w-4 text-right font-mono text-base text-muted-foreground/65">
                       {i + 1}
                     </span>
                     <span className="w-36 truncate text-base text-foreground">{carrier}</span>

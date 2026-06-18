@@ -89,7 +89,7 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
           ) : (
             <span
               title="Activa SHIPSGO_ENABLED=true en .env para vincular"
-              className="ml-auto flex items-center gap-1 rounded-md px-2 py-0.5 text-base text-muted-foreground/40 cursor-not-allowed"
+              className="ml-auto flex items-center gap-1 rounded-md px-2 py-0.5 text-base text-muted-foreground/60 cursor-not-allowed"
             >
               <Icon icon={Satellite} size={11} />
               Vincular

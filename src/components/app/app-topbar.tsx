@@ -98,7 +98,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
         </Link>
         {!isHome && (
           <>
-            <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/50" />
+            <ChevronRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/65" />
             <span className="truncate font-medium text-foreground">{current}</span>
           </>
         )}

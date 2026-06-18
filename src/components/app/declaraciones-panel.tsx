@@ -115,7 +115,7 @@ function DeclarationBlock({
       {open && (
         <div className="border-t border-border/50 px-4 pb-4 pt-3 space-y-3">
           <p className="text-xs text-muted-foreground/70">{meta.description}</p>
-          <p className="font-mono text-[10px] text-muted-foreground/40">{meta.regulation}</p>
+          <p className="font-mono text-[10px] text-muted-foreground/60">{meta.regulation}</p>
 
           {decl?.status === "aceptada" ? (
             <div className="flex items-center gap-2 rounded-md border border-success/20 bg-success/5 px-3 py-2">
@@ -143,7 +143,7 @@ function DeclarationBlock({
               </div>
               {error && <p className="text-xs text-accent">{error}</p>}
               <div className="flex items-center justify-between pt-1">
-                <p className="font-mono text-[10px] text-muted-foreground/40">Simulación — integración real en producción</p>
+                <p className="font-mono text-[10px] text-muted-foreground/60">Simulación — integración real en producción</p>
                 <button
                   type="submit"
                   disabled={pending}

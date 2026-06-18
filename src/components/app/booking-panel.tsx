@@ -86,7 +86,7 @@ function BookingCard({ b, shipmentId }: { b: Booking; shipmentId: string }) {
             <span className={cn("rounded-sm px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide", cfg.cls)}>
               {cfg.label}
             </span>
-            <span className="text-sm text-muted-foreground/50">DCSA 2.0</span>
+            <span className="text-sm text-muted-foreground/65">DCSA 2.0</span>
           </div>
           <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 font-mono text-sm text-muted-foreground">
             {b.vesselName && <span>{b.vesselName}{b.voyageNumber ? ` / ${b.voyageNumber}` : ""}</span>}
@@ -101,7 +101,7 @@ function BookingCard({ b, shipmentId }: { b: Booking; shipmentId: string }) {
           onClick={() =>
             startTransition(() => deleteBooking(b.id, shipmentId))
           }
-          className="shrink-0 rounded p-1 text-muted-foreground/40 hover:text-destructive hover:bg-destructive/10 transition-colors"
+          className="shrink-0 rounded p-1 text-muted-foreground/60 hover:text-destructive hover:bg-destructive/10 transition-colors"
         >
           <Icon icon={Trash2} size={13} />
         </button>
@@ -169,7 +169,7 @@ function CreateBookingForm({
     });
   }
 
-  const inputCls = "w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary transition-colors";
+  const inputCls = "w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary transition-colors";
 
   return (
     <form onSubmit={handleSubmit} className="mt-3 space-y-3 rounded-md border border-border/60 bg-surface-2/30 p-3">
