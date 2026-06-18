@@ -7,6 +7,7 @@ import { createPartner, deletePartner, runSanctionsScreening } from "@/lib/erp-a
 import type { PartnerRow } from "@/lib/erp";
 import { cn } from "@/lib/utils";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 const TYPE_LABEL: Record<string, string> = {
   agent: "Agente",
@@ -108,14 +109,15 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
             placeholder="Nombre del tercero…"
             className="flex-1 rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-1 focus:ring-primary/50"
           />
-          <button
+          <Button
             onClick={handleScreen}
             disabled={screenPending || !screeningName.trim()}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-2 text-sm font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
+            size="sm"
+            className="shrink-0 gap-1.5"
           >
             {screenPending ? <Loader2 className="size-4 animate-spin" /> : <ShieldAlert className="size-4" />}
             Verificar
-          </button>
+          </Button>
         </div>
         {screening && (
           <div className={cn(
@@ -155,13 +157,14 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
             <h2 className="font-display text-base font-medium tracking-tight">Directorio de partners</h2>
             <span className="rounded-full bg-muted/60 px-2 py-0.5 font-mono text-xs text-muted-foreground">{partners.length}</span>
           </div>
-          <button
+          <Button
             onClick={() => setShowForm((v) => !v)}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/15 transition-colors"
+            size="sm"
+            className="shrink-0 gap-1.5"
           >
             <Plus className="size-4" />
             Añadir partner
-          </button>
+          </Button>
         </div>
 
         {showForm && (
