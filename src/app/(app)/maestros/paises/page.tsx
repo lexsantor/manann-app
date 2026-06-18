@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { MASTER_COUNTRIES } from "@/lib/master-countries";
 import { CountriesTable } from "@/components/app/countries-table";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default async function PaisesPage() {
   const ctx = await getOrgContext();
@@ -17,17 +18,11 @@ export default async function PaisesPage() {
         <span className="text-foreground">Países</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Globe className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Países
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            {MASTER_COUNTRIES.length} países · ISO 3166-1
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<Globe strokeWidth={1.5} />}
+        title="Países"
+        subtitle={`${MASTER_COUNTRIES.length} países · ISO 3166-1`}
+      />
 
       <CountriesTable countries={MASTER_COUNTRIES} />
     </div>
