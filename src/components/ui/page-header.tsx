@@ -27,38 +27,37 @@ export function PageHeader({
         className,
       )}
     >
-      {/* Atmósfera: degradado de marca sutil + glow difuso (decorativo) */}
+      {/* Atmósfera: degradado de marca + glow difuso (decorativo, ~20%) */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/[0.10] via-transparent to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-transparent"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-16 -top-20 h-48 w-48 rounded-full bg-primary/[0.08] blur-3xl"
+        className="pointer-events-none absolute -right-16 -top-20 h-52 w-52 rounded-full bg-primary/20 blur-3xl"
       />
 
       <div className="relative flex flex-wrap items-start justify-between gap-4">
-        <div>
+        <div className="min-w-0">
           {eyebrow ? (
             <p className="font-mono text-xs font-medium uppercase tracking-wider text-primary/80">
               {eyebrow}
             </p>
           ) : null}
-          <div className="mt-1.5 flex items-start gap-3">
+          {/* Icono centrado verticalmente con la línea del título */}
+          <div className="mt-1.5 flex items-center gap-3">
             {icon ? (
-              <span className="mt-0.5 shrink-0 text-muted-foreground [&_svg]:h-5 [&_svg]:w-5 sm:[&_svg]:h-6 sm:[&_svg]:w-6">
+              <span className="shrink-0 text-muted-foreground [&_svg]:h-6 [&_svg]:w-6 sm:[&_svg]:h-7 sm:[&_svg]:w-7">
                 {icon}
               </span>
             ) : null}
-            <div>
-              <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-                {title}
-              </h1>
-              {subtitle ? (
-                <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
-              ) : null}
-            </div>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+              {title}
+            </h1>
           </div>
+          {subtitle ? (
+            <p className="mt-1.5 text-sm text-muted-foreground">{subtitle}</p>
+          ) : null}
         </div>
         {actions ? (
           <div className="flex w-full items-center gap-2 sm:w-auto sm:shrink-0 [&>*]:flex-1 [&>*]:justify-center sm:[&>*]:flex-none sm:[&>*]:justify-start">
