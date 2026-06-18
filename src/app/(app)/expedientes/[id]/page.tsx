@@ -38,6 +38,7 @@ import { PdfViewer } from "@/components/app/pdf-viewer";
 import { HsCodeSuggest } from "@/components/app/hs-code-suggest";
 import { HsCodeSearch } from "@/components/app/hs-code-search";
 import { StatusTimeline } from "@/components/app/status-timeline";
+import { ResetDemoButton } from "@/components/app/reset-demo-button";
 import { DemoTour } from "@/components/app/demo-tour";
 import { PrintButton } from "@/components/app/print-button";
 import { ShareButton } from "@/components/app/share-button";
@@ -319,6 +320,14 @@ export default async function ExpedienteDetailPage({
 
         <div className="border-t border-dashed border-border/70" />
         <StatusTimeline status={s.status} />
+        {s.reference === "EXP-2026-0054" && (
+          <div className="mt-4 flex flex-col gap-3 rounded-md border border-warning/40 bg-warning/5 px-4 py-2.5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium text-warning">Modo demo</span> · expediente showcase del flujo IA
+            </p>
+            <ResetDemoButton />
+          </div>
+        )}
       </div>
 
       {/* Resumen ejecutivo IA (3.2) */}
