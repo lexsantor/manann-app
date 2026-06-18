@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, type CSSProperties } from "react";
+import { useState, useEffect, useTransition, type CSSProperties } from "react";
 import { Sparkles, Loader2, Check, X, AlertCircle, Trash2 } from "lucide-react";
 
 import { Icon } from "@/components/icon";
@@ -40,9 +40,24 @@ export function AiExtractionPanel({
   const [error, setError] = useState("");
   // Correcciones del humano sobre la propuesta de la IA (clave de campo → valor).
   const [values, setValues] = useState<Record<string, string>>({});
-  // Nº de campos incorporados tras confirmar (persiste el banner de éxito aunque
-  // el panel re-renderice cuando el documento pasa a 'confirmed').
+  // Nº de campos incorporados tras confirmar. Se persiste en sessionStorage porque
+  // `revalidatePath` re-monta el panel; al montar lo recuperamos para mostrar el
+  // banner de éxito una sola vez.
   const [applied, setApplied] = useState<number | null>(null);
+  const APPLIED_KEY = `manann:applied:${documentId}`;
+
+  useEffect(() => {
+    try {
+      const v = sessionStorage.getItem(APPLIED_KEY);
+      if (v !== null) {
+        setApplied(Number(v));
+        sessionStorage.removeItem(APPLIED_KEY);
+      }
+    } catch {
+      /* sessionStorage no disponible */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function run(fn: () => Promise<void>) {
     setError("");
@@ -236,6 +251,11 @@ export function AiExtractionPanel({
                     .map((f) => [f.key, values[f.key]]),
                 ),
               );
+              try {
+                sessionStorage.setItem(APPLIED_KEY, String(fields.length));
+              } catch {
+                /* noop */
+              }
               setApplied(fields.length);
             })
           }
