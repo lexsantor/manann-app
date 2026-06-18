@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { TableProperties } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { BalanceSumasSaldos } from "@/components/app/balance-sumas-saldos";
@@ -16,17 +17,11 @@ export default async function BalancePage() {
         <span className="text-foreground">Balance de sumas y saldos</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <TableProperties className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Balance de sumas y saldos
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Movimientos agregados por cuenta para el período seleccionado
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<TableProperties strokeWidth={1.5} />}
+        title="Balance de sumas y saldos"
+        subtitle="Movimientos agregados por cuenta para el período seleccionado"
+      />
 
       <BalanceSumasSaldos />
     </div>

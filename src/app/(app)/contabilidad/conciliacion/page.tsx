@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { ArrowLeftRight } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 import Link from "next/link";
 import { getOrgContext, getJournalEntries } from "@/lib/erp";
 import { listBankLines } from "@/lib/contabilidad-actions";
@@ -29,17 +30,11 @@ export default async function ConciliacionPage() {
         <span className="text-foreground">Conciliación bancaria</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <ArrowLeftRight className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Conciliación bancaria
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Cruza el extracto bancario con los asientos del diario contable
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<ArrowLeftRight strokeWidth={1.5} />}
+        title="Conciliación bancaria"
+        subtitle="Cruza el extracto bancario con los asientos del diario contable"
+      />
 
       <BankReconciliationPanel lines={bankLines} journalEntries={journalOptions} />
     </div>

@@ -4,6 +4,7 @@ import { UserCircle, Globe, FileSearch, Handshake } from "lucide-react";
 import { getOrgContext, listPartners, getCarrierScorecard } from "@/lib/erp";
 import { PartnerDirectory } from "@/components/app/partner-directory";
 import { CarrierScorecard } from "@/components/app/carrier-scorecard";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default async function PartnersPage() {
   const ctx = await getOrgContext();
@@ -16,15 +17,12 @@ export default async function PartnersPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center gap-3">
-        <Handshake className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Partners & Proveedores</h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Directorio de agentes, co-loaders y subcontratistas con screening de sanciones y scorecard de puntualidad.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Comercial"
+        icon={<Handshake strokeWidth={1.5} />}
+        title="Partners & Proveedores"
+        subtitle="Directorio de agentes, co-loaders y subcontratistas con screening de sanciones y scorecard de puntualidad."
+      />
 
       {/* Red & Partners quick-access */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">

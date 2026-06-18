@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { BookOpen, Lock, TableProperties, FileSpreadsheet, ArrowLeftRight } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 import Link from "next/link";
 import { getOrgContext, getAccountingAccounts, getJournalEntries, getTreasuryProjection } from "@/lib/erp";
 import { Icon } from "@/components/icon";
@@ -20,13 +21,12 @@ export default async function ContabilidadPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <BookOpen className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Contabilidad</h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">Plan contable PGC · Diario · Tesorería</p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Finanzas"
+        icon={<BookOpen strokeWidth={1.5} />}
+        title="Contabilidad"
+        subtitle="Plan contable PGC · Diario · Tesorería"
+      />
 
       {/* Treasury summary */}
       <TesoreraWidget

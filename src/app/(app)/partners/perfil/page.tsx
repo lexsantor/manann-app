@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { UserCircle } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { getOrgProfile } from "@/lib/tier-v-actions";
@@ -19,17 +20,11 @@ export default async function PerfilPage() {
         <span className="text-foreground">Perfil de red</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <UserCircle className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Perfil en la red
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Visible para otros miembros de la red de corresponsales
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<UserCircle strokeWidth={1.5} />}
+        title="Perfil en la red"
+        subtitle="Visible para otros miembros de la red de corresponsales"
+      />
 
       <OrgProfilePanel initialProfile={profile} />
     </div>

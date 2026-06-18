@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { Modelo303Panel } from "@/components/app/modelo303-panel";
 import { SimBadge } from "@/components/ui/sim-badge";
+import { PageHeader } from "@/components/ui/page-header";
 
 export default async function Modelo303Page() {
   const ctx = await getOrgContext();
@@ -17,20 +18,12 @@ export default async function Modelo303Page() {
         <span className="text-foreground">Modelo 303</span>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-center gap-3">
-          <FileSpreadsheet className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-          <div>
-            <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-              Modelo 303 — IVA trimestral
-            </h1>
-            <p className="mt-0.5 text-sm text-muted-foreground">
-              Liquidación del Impuesto sobre el Valor Añadido
-            </p>
-          </div>
-        </div>
-        <SimBadge>Simulación · AEAT en producción</SimBadge>
-      </div>
+      <PageHeader
+        icon={<FileSpreadsheet strokeWidth={1.5} />}
+        title="Modelo 303 — IVA trimestral"
+        subtitle="Liquidación del Impuesto sobre el Valor Añadido"
+        actions={<SimBadge>Simulación · AEAT en producción</SimBadge>}
+      />
 
       <Modelo303Panel />
     </div>

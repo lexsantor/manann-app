@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Zap } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { listWebhookEvents } from "@/lib/procesos-actions";
@@ -21,17 +22,11 @@ export default async function EventosPage() {
         <span className="text-foreground">Eventos webhook</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Zap className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Eventos webhook
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Log de envíos, reintentos y estado de entrega
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<Zap strokeWidth={1.5} />}
+        title="Eventos webhook"
+        subtitle="Log de envíos, reintentos y estado de entrega"
+      />
 
       <WebhookEventsPanel initialItems={items} />
     </div>

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Workflow, Zap } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 
@@ -9,15 +10,12 @@ export default async function ProcesosPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <Workflow className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Procesos
-          </h1>
-          <p className="text-sm text-muted-foreground">Integraciones · Eventos · Webhooks</p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Procesos"
+        icon={<Workflow strokeWidth={1.5} />}
+        title="Procesos"
+        subtitle="Integraciones · Eventos · Webhooks"
+      />
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-xl">
         <Link

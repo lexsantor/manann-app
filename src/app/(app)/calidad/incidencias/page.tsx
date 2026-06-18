@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { AlertTriangle } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { listIncidents } from "@/lib/calidad-actions";
@@ -21,17 +22,11 @@ export default async function IncidenciasPage() {
         <span className="text-foreground">Incidencias</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <AlertTriangle className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Incidencias
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Registro y seguimiento de incidencias operativas
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<AlertTriangle strokeWidth={1.5} />}
+        title="Incidencias"
+        subtitle="Registro y seguimiento de incidencias operativas"
+      />
 
       <IncidentsPanel initialItems={items} />
     </div>

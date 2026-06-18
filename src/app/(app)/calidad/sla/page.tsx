@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Timer } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { listSlaDefinitions } from "@/lib/calidad-actions";
@@ -21,17 +22,11 @@ export default async function SlaPage() {
         <span className="text-foreground">SLA</span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Timer className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Definición de SLA
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Objetivos de tiempo por métrica y modo de transporte
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        icon={<Timer strokeWidth={1.5} />}
+        title="Definición de SLA"
+        subtitle="Objetivos de tiempo por métrica y modo de transporte"
+      />
 
       <SlaPanel initialItems={items} />
     </div>

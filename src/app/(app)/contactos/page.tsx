@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { getOrgContext, listContactsWithGP } from "@/lib/erp";
 import { ContactsTab } from "@/components/app/contacts-tab";
 import { ContactosTabSelect } from "@/components/app/contactos-tab-select";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const metadata = { title: "Contactos & Tablas Maestras — Manann" };
 
@@ -96,17 +97,12 @@ export default async function ContactosPage({
 
   return (
     <div className="space-y-6">
-      <header className="flex items-center gap-3">
-        <Building2 className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-            Tablas Maestras
-          </h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Directorio de contactos y datos de referencia del sector
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        eyebrow="Comercial"
+        icon={<Building2 strokeWidth={1.5} />}
+        title="Tablas Maestras"
+        subtitle="Directorio de contactos y datos de referencia del sector"
+      />
 
       {/* Tab nav: select en móvil, tabs en escritorio */}
       <ContactosTabSelect tabs={TABS} current={tab} />
