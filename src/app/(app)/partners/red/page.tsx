@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { listNetworkAgents } from "@/lib/tier-v-actions";
 import { NetworkAgentsPanel } from "@/components/app/network-agents-panel";
+import { SimBadge } from "@/components/ui/sim-badge";
 
 export default async function RedPage() {
   const ctx = await getOrgContext();
@@ -19,7 +20,7 @@ export default async function RedPage() {
         <span className="text-foreground">Red de agentes</span>
       </div>
 
-      <div className="flex items-center justify-between flex-wrap gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <Globe className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
           <div>
@@ -31,9 +32,7 @@ export default async function RedPage() {
             </p>
           </div>
         </div>
-        <span className="inline-flex items-center rounded-full border border-warning/30 bg-warning/10 px-2.5 py-1 text-xs font-medium text-warning">
-          Simulación — red real en producción
-        </span>
+        <SimBadge>Simulación · red real en producción</SimBadge>
       </div>
 
       <NetworkAgentsPanel agents={agents} />

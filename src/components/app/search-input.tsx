@@ -40,7 +40,7 @@ export function SearchInput({ defaultValue, estado }: SearchInputProps) {
         defaultValue={defaultValue}
         onChange={handleChange}
         placeholder="Buscar expediente, naviera, puerto…"
-        className="h-8 w-full rounded-md border border-border bg-card pl-8 pr-3 font-sans text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 sm:w-64"
+        className="h-11 w-full rounded-md border border-border bg-card pl-9 pr-3 font-sans text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 sm:h-10 sm:w-64"
       />
     </div>
   );

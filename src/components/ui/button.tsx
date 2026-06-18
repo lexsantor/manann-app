@@ -19,14 +19,14 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary: "bg-primary text-primary-foreground hover:brightness-110",
-        secondary: "border border-primary/40 bg-transparent text-primary hover:bg-primary/10",
-        outline: "border border-primary/40 bg-transparent text-primary hover:bg-primary/10",
+        secondary: "border border-primary/70 bg-transparent text-primary hover:bg-primary/10",
+        outline: "border border-primary/70 bg-transparent text-primary hover:bg-primary/10",
         destructive:
-          "border border-destructive/40 bg-destructive/10 text-destructive hover:bg-destructive/20",
+          "border border-destructive/60 bg-destructive/10 text-destructive hover:bg-destructive/20",
         ghost: "bg-transparent text-muted-foreground hover:text-foreground",
       },
       size: {
-        sm: "h-10 rounded-md px-3 text-sm sm:h-9",
+        sm: "h-11 rounded-md px-3 text-sm sm:h-9",
         md: "h-11 rounded-md px-[18px] text-sm sm:h-10",
         lg: "h-11 rounded-md px-5 text-sm",
         hero: "h-12 rounded-full px-[26px] text-sm",

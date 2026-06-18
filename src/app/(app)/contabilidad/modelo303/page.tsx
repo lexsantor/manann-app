@@ -3,6 +3,7 @@ import { FileSpreadsheet } from "lucide-react";
 import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { Modelo303Panel } from "@/components/app/modelo303-panel";
+import { SimBadge } from "@/components/ui/sim-badge";
 
 export default async function Modelo303Page() {
   const ctx = await getOrgContext();
@@ -16,7 +17,7 @@ export default async function Modelo303Page() {
         <span className="text-foreground">Modelo 303</span>
       </div>
 
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
           <FileSpreadsheet className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
           <div>
@@ -28,9 +29,7 @@ export default async function Modelo303Page() {
             </p>
           </div>
         </div>
-        <span className="inline-flex items-center rounded-full border border-warning/30 bg-warning/10 px-2.5 py-1 text-xs font-medium text-warning">
-          Simulación — presentación AEAT en producción
-        </span>
+        <SimBadge>Simulación · AEAT en producción</SimBadge>
       </div>
 
       <Modelo303Panel />

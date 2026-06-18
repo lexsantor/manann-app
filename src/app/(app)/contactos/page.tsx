@@ -4,6 +4,7 @@ import { Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getOrgContext, listContactsWithGP } from "@/lib/erp";
 import { ContactsTab } from "@/components/app/contacts-tab";
+import { ContactosTabSelect } from "@/components/app/contactos-tab-select";
 
 export const metadata = { title: "Contactos & Tablas Maestras — Manann" };
 
@@ -107,8 +108,9 @@ export default async function ContactosPage({
         </div>
       </header>
 
-      {/* Tab nav */}
-      <div className="flex w-full gap-1 overflow-x-auto rounded-lg border border-border bg-card p-1 sm:w-fit">
+      {/* Tab nav: select en móvil, tabs en escritorio */}
+      <ContactosTabSelect tabs={TABS} current={tab} />
+      <div className="hidden w-full gap-1 overflow-x-auto rounded-lg border border-border bg-card p-1 sm:flex sm:w-fit">
         {TABS.map((t) => (
           <Link
             key={t.key}

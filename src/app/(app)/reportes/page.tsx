@@ -17,6 +17,7 @@ import { Icon } from "@/components/icon";
 import { portLabel } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 import { GPAreaChart, ModeBarChart, ClientGPBarChart } from "@/components/app/report-charts";
+import { SimBadge } from "@/components/ui/sim-badge";
 
 export const metadata = { title: "Reportes — Manann" };
 
@@ -380,9 +381,7 @@ export default async function ReportesPage({
             <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-sm bg-[#F2C811] text-[8px] font-bold text-black leading-none">BI</span>
             <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Power BI — Cuadro de mando avanzado</p>
           </div>
-          <span className="inline-flex shrink-0 items-center rounded-full border border-warning/30 bg-warning/10 px-2 py-0.5 text-[10px] font-medium text-warning">
-            Simulación — integración Power BI en producción
-          </span>
+          <SimBadge className="shrink-0">Simulación · Power BI en producción</SimBadge>
         </div>
         <div className="grid grid-cols-3 gap-px bg-border">
           {[

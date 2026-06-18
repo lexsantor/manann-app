@@ -72,7 +72,7 @@ export function HsCodeSearch({ cargoLineId, currentCode }: HsCodeSearchProps) {
 
   return (
     <div ref={containerRef} className="relative mt-1.5 w-full max-w-xs">
-      <div className="flex items-center gap-1.5 rounded-md border border-primary/40 bg-background px-2.5 py-1.5 shadow-sm">
+      <div className="flex h-11 items-center gap-1.5 rounded-md border border-primary/40 bg-background px-2.5 shadow-sm sm:h-10">
         <Icon icon={Search} size={11} className="shrink-0 text-muted-foreground" />
         <input
           ref={inputRef}

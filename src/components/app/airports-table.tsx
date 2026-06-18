@@ -22,7 +22,7 @@ export function AirportsTable({ airports }: { airports: MasterAirport[] }) {
       <div className="relative max-w-xs">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" strokeWidth={1.5} />
         <input
-          className="w-full rounded-md border border-border bg-background pl-8 pr-3 py-1.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+          className="h-11 w-full rounded-md border border-input bg-transparent pl-9 pr-3 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring sm:h-10 md:text-sm"
           placeholder="Buscar aeropuerto..."
           value={q}
           onChange={(e) => setQ(e.target.value)}

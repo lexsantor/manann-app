@@ -3,6 +3,7 @@ import { PlaneTakeoff } from "lucide-react";
 import { getOrgContext } from "@/lib/erp";
 import { listFlights } from "@/lib/tier-s-actions";
 import { FlightsPanel } from "@/components/app/flights-panel";
+import { SimBadge } from "@/components/ui/sim-badge";
 
 export default async function VuelosPage() {
   const ctx = await getOrgContext();
@@ -12,7 +13,7 @@ export default async function VuelosPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
           <PlaneTakeoff className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
           <div>
@@ -24,9 +25,7 @@ export default async function VuelosPage() {
             </p>
           </div>
         </div>
-        <span className="inline-flex items-center rounded-full border border-warning/30 bg-warning/10 px-2.5 py-1 text-xs font-medium text-warning">
-          Simulación — integración OAG/IATA en producción
-        </span>
+        <SimBadge>Simulación · OAG/IATA en producción</SimBadge>
       </div>
 
       <FlightsPanel flights={flights} />

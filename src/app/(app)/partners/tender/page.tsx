@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { listTenders } from "@/lib/tier-v-actions";
 import { TenderPanel } from "@/components/app/tender-panel";
+import { SimBadge } from "@/components/ui/sim-badge";
 
 export default async function TenderPage() {
   const ctx = await getOrgContext();
@@ -24,7 +25,7 @@ export default async function TenderPage() {
         <span className="text-foreground">Tender / RFQ</span>
       </div>
 
-      <div className="flex items-center justify-between flex-wrap gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <FileSearch className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
           <div>
@@ -36,9 +37,7 @@ export default async function TenderPage() {
             </p>
           </div>
         </div>
-        <span className="inline-flex items-center rounded-full border border-warning/30 bg-warning/10 px-2.5 py-1 text-xs font-medium text-warning">
-          Simulación — envío real por email en producción
-        </span>
+        <SimBadge>Simulación · envío real en producción</SimBadge>
       </div>
 
       <TenderPanel initialItems={items} />
