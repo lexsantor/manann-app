@@ -38,6 +38,8 @@ export function AiExtractionPanel({
   const fieldLabels = docType === "awb" ? AWB_FIELD_LABELS : docType === "cmr" ? CMR_FIELD_LABELS : FIELD_LABELS;
   const [pending, start] = useTransition();
   const [error, setError] = useState("");
+  // Correcciones del humano sobre la propuesta de la IA (clave de campo → valor).
+  const [values, setValues] = useState<Record<string, string>>({});
 
   function run(fn: () => Promise<void>) {
     setError("");
@@ -142,6 +144,8 @@ export function AiExtractionPanel({
   const fields = fieldLabels
     .map((f) => ({ ...f, ...(ex[f.key] ?? { value: null, confidence: 0 }) }))
     .filter((f) => f.value);
+  // Primer campo de baja confianza → recibe el foco para corregirlo de inmediato.
+  const firstLow = fields.findIndex((f) => f.confidence < LOW_CONFIDENCE);
 
   return (
     <div className="mt-2 rounded-md border border-accent bg-accent-soft p-4">
@@ -180,14 +184,18 @@ export function AiExtractionPanel({
                   {low ? "revisar" : f.confidence.toFixed(2)}
                 </span>
               </div>
-              <p
+              <input
+                value={values[f.key] ?? f.value ?? ""}
+                onChange={(e) =>
+                  setValues((s) => ({ ...s, [f.key]: e.target.value }))
+                }
+                autoFocus={i === firstLow}
+                spellCheck={false}
                 className={cn(
-                  "mt-1 text-base font-medium text-foreground",
+                  "mt-1 w-full rounded-sm bg-transparent text-base font-medium text-foreground focus:outline-none focus:ring-1 focus:ring-accent",
                   f.mono && "font-mono",
                 )}
-              >
-                {f.value}
-              </p>
+              />
             </div>
           );
         })}
@@ -196,7 +204,22 @@ export function AiExtractionPanel({
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <button
           type="button"
-          onClick={() => run(() => applyExtraction(documentId))}
+          onClick={() =>
+            run(() =>
+              applyExtraction(
+                documentId,
+                Object.fromEntries(
+                  fields
+                    .filter(
+                      (f) =>
+                        values[f.key] !== undefined &&
+                        values[f.key] !== (f.value ?? ""),
+                    )
+                    .map((f) => [f.key, values[f.key]]),
+                ),
+              ),
+            )
+          }
           disabled={pending}
           className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-base font-semibold text-primary-foreground transition hover:brightness-110 disabled:opacity-60"
         >

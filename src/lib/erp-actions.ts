@@ -194,14 +194,24 @@ export async function extractDocument(documentId: string): Promise<void> {
 
 // Confirma la propuesta: vuelca al expediente (campos de cabecera + partes/
 // contenedor/mercancía que falten) y marca el documento como confirmado.
-export async function applyExtraction(documentId: string): Promise<void> {
+export async function applyExtraction(
+  documentId: string,
+  overrides: Record<string, string> = {},
+): Promise<void> {
   const ctx = await getOrgContext();
   if (!ctx?.org) throw new Error("No autorizado");
   if (!UUID_RE.test(documentId)) throw new Error("Documento inválido");
 
   const doc = await getOwnedDocument(ctx.org.id, documentId);
   if (!doc || !doc.extraction) throw new Error("No hay propuesta que confirmar");
-  const ex = doc.extraction as Record<string, BlField | undefined>;
+  // Mezcla las correcciones del humano (overrides) sobre la propuesta de la IA.
+  // El humano confirma/corrige: lo editado pisa el valor extraído.
+  const rawEx = doc.extraction as Record<string, BlField | undefined>;
+  const ex: Record<string, BlField | undefined> = { ...rawEx };
+  for (const [k, v] of Object.entries(overrides)) {
+    const trimmed = v.trim();
+    if (trimmed) ex[k] = { value: trimmed, confidence: rawEx[k]?.confidence ?? 1 };
+  }
   const sid = doc.shipmentId;
 
   const [shipmentModeRow] = await db.select({ mode: shipment.mode }).from(shipment).where(eq(shipment.id, sid));
