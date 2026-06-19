@@ -12,6 +12,7 @@ import { OperationalMetrics } from "@/components/app/operational-metrics";
 import { formatMoney } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/page-header";
+import { buttonVariants } from "@/components/ui/button";
 
 const TERMINAL = new Set(["entregado", "cerrado"]);
 
@@ -215,7 +216,7 @@ export default async function DashboardPage() {
           <Link
             href="/expedientes"
             prefetch={false}
-            className="inline-flex items-center gap-1.5 text-base text-muted-foreground transition-colors hover:text-foreground"
+            className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "gap-1.5")}
           >
             Ver todos
             <Icon icon={ArrowRight} size={15} />
