@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface ShipmentRow {
   id: string;
@@ -41,11 +42,7 @@ export function ShipmentModeList({
   emptyLabel?: string;
 }) {
   if (shipments.length === 0) {
-    return (
-      <div className="rounded-md border border-border py-16 text-center text-sm text-muted-foreground">
-        {emptyLabel}
-      </div>
-    );
+    return <EmptyState title={emptyLabel} />;
   }
 
   return (

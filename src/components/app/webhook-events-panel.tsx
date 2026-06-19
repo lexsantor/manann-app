@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Zap, Trash2, RefreshCw, CheckCircle2, XCircle, Clock } from "lucide-react";
 import { retryWebhookEvent, deleteWebhookEvent } from "@/lib/procesos-actions";
+import { EmptyState } from "@/components/ui/empty-state";
 
 type WebhookEvent = {
   id: string;
@@ -51,13 +52,11 @@ export function WebhookEventsPanel({ initialItems }: { initialItems: WebhookEven
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-12 text-center">
-        <Zap className="mb-2 h-8 w-8 text-muted-foreground/60" strokeWidth={1} />
-        <p className="text-sm text-muted-foreground">Sin eventos de webhook</p>
-        <p className="mt-1 text-xs text-muted-foreground/70">
-          Los envíos de webhooks aparecerán aquí
-        </p>
-      </div>
+      <EmptyState
+        icon={<Zap strokeWidth={1.5} />}
+        title="Sin eventos de webhook"
+        hint="Los envíos de webhooks aparecerán aquí"
+      />
     );
   }
 

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { AlertTriangle, TrendingDown, Scale, CheckCircle2, ExternalLink } from "lucide-react";
 import { type ChargeException } from "@/lib/exceptions";
+import { EmptyState } from "@/components/ui/empty-state";
 import { resolveAtRiskCharge } from "@/lib/erp-actions";
 import { formatMoney } from "@/lib/erp-format";
 import { Icon } from "@/components/icon";
@@ -99,13 +100,11 @@ export function ExceptionInbox({ exceptions }: { exceptions: ChargeException[] }
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card py-16 text-center">
-        <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-success/10">
-          <Icon icon={CheckCircle2} size={22} className="text-success" />
-        </div>
-        <p className="text-base font-medium text-foreground">Sin excepciones activas</p>
-        <p className="mt-1 text-base text-muted-foreground">Todos los cargos están bajo control.</p>
-      </div>
+      <EmptyState
+        icon={<Icon icon={CheckCircle2} className="text-success" />}
+        title="Sin excepciones activas"
+        hint="Todos los cargos están bajo control."
+      />
     );
   }
 
