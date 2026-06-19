@@ -449,6 +449,7 @@ export function CopilotoPanel() {
             />
             <button
               type="submit"
+              aria-label="Enviar mensaje"
               disabled={!input.trim() || thinking}
               className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity disabled:opacity-40"
             >

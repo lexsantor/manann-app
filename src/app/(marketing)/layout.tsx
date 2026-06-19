@@ -7,7 +7,7 @@ export default function MarketingLayout({
   return (
     <div className="flex min-h-dvh flex-col">
       <TopNav />
-      <main className="flex-1">{children}</main>
+      <main id="main-content" className="flex-1">{children}</main>
       <Footer />
     </div>
   );

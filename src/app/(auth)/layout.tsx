@@ -19,7 +19,7 @@ export default function AuthLayout({
         <Link href="/" aria-label="Manann"><Logo /></Link>
         <ThemeToggle />
       </header>
-      <main className="flex flex-1 items-center justify-center px-5 pb-24">
+      <main id="main-content" className="flex flex-1 items-center justify-center px-5 pb-24">
         {children}
       </main>
     </div>

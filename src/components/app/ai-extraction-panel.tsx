@@ -56,7 +56,7 @@ export function AiExtractionPanel({
   if (compact) {
     if (status === "processing") {
       return (
-        <span className="inline-flex shrink-0 items-center gap-1.5 text-base text-accent">
+        <span role="status" className="inline-flex shrink-0 items-center gap-1.5 text-base text-accent">
           <Icon icon={Loader2} size={13} className="animate-spin" />
           Leyendo…
         </span>
@@ -64,7 +64,7 @@ export function AiExtractionPanel({
     }
     if (status === "confirmed") {
       return (
-        <span className="inline-flex shrink-0 items-center gap-1.5 text-base text-success">
+        <span role="status" className="inline-flex shrink-0 items-center gap-1.5 text-base text-success">
           <Icon icon={Check} size={13} /> Incorporado
         </span>
       );
@@ -97,7 +97,7 @@ export function AiExtractionPanel({
             </button>
           </div>
           {(error || status === "error") && (
-            <p className="flex items-center gap-1 text-base text-destructive">
+            <p role="alert" className="flex items-center gap-1 text-base text-destructive">
               <Icon icon={AlertCircle} size={11} />
               {error || "Falló. Reinténtalo."}
             </p>
@@ -116,7 +116,7 @@ export function AiExtractionPanel({
     const filled = Object.values(ex).filter((f) => f?.value != null).length;
     const conf = Math.round(overallConfidence(ex) * 100);
     return (
-      <div className="mt-2 rounded-md border border-success/30 bg-success/10 px-4 py-3">
+      <div role="status" className="mt-2 rounded-md border border-success/30 bg-success/10 px-4 py-3">
         <div className="flex items-center gap-2.5">
           <div className="flex size-6 shrink-0 items-center justify-center rounded-full bg-success/20">
             <Icon icon={Check} size={13} className="text-success" />
@@ -144,7 +144,7 @@ export function AiExtractionPanel({
   // Tras incorporar: resumen de procedencia IA (server-driven → robusto al refresh).
   if (status === "confirmed") {
     return (
-      <div className="mt-2 flex items-center gap-2.5 rounded-md border border-success/30 bg-success/10 p-4">
+      <div role="status" className="mt-2 flex items-center gap-2.5 rounded-md border border-success/30 bg-success/10 p-4">
         <Icon icon={Check} size={16} className="shrink-0 text-success" />
         <div>
           <p className="text-base font-semibold text-success">Incorporado al expediente</p>
@@ -254,7 +254,7 @@ export function AiExtractionPanel({
       </div>
 
       {error && (
-        <p className="mt-2 flex items-center gap-1.5 text-base text-destructive">
+        <p role="alert" className="mt-2 flex items-center gap-1.5 text-base text-destructive">
           <Icon icon={AlertCircle} size={14} />
           {error}
         </p>

@@ -25,7 +25,7 @@ export function TopNav() {
       <div className="mx-auto flex h-14 max-w-[1080px] items-center justify-between px-5 sm:px-6">
         <Link href="/" aria-label="Manann — inicio"><Logo /></Link>
 
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav aria-label="Principal" className="hidden items-center gap-7 md:flex">
           {LINKS.map((l) => (
             <Link
               key={l.href}
@@ -72,7 +72,7 @@ export function TopNav() {
       </div>
 
       {open && (
-        <nav className="border-t border-border bg-background px-5 py-3 md:hidden">
+        <nav aria-label="Navegación móvil" className="border-t border-border bg-background px-5 py-3 md:hidden">
           {LINKS.map((l) => (
             <Link
               key={l.href}

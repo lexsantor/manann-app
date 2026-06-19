@@ -32,12 +32,15 @@ export function DataTable<T>({
   getRowKey,
   empty = "Sin resultados",
   className,
+  caption,
 }: {
   columns: Column<T>[];
   rows: T[];
   getRowKey: (row: T, index: number) => string;
   empty?: React.ReactNode;
   className?: string;
+  /** Nombre accesible de la tabla (WCAG 1.3.1): se aplica como aria-label. */
+  caption?: string;
 }) {
   if (rows.length === 0) {
     return <EmptyState className={className} title={empty} />;
@@ -55,12 +58,13 @@ export function DataTable<T>({
     <div className={cn("overflow-hidden rounded-xl border border-border bg-card", className)}>
       {/* Escritorio: tabla (con scroll-x de seguridad) */}
       <div className="hidden overflow-x-auto md:block">
-        <table className="w-full min-w-[680px] text-sm">
+        <table className="w-full min-w-[680px] text-sm" aria-label={caption}>
           <thead>
             <tr className="border-b border-border bg-muted/70">
               {columns.map((c) => (
                 <th
                   key={c.key}
+                  scope="col"
                   className={cn(
                     "px-4 py-3 font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground",
                     ALIGN[c.align ?? "left"],

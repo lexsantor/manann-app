@@ -103,6 +103,7 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     title="Abrir en ventana nueva"
+                    aria-label="Abrir documento en ventana nueva"
                     className="flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground"
                   >
                     <Icon icon={ExternalLink} size={14} />

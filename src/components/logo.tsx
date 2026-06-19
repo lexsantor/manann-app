@@ -19,7 +19,7 @@ export function Logo({ className }: { className?: string }) {
       />
       <Image
         src="/images/navbar_logo_manann_light-mode.svg"
-        alt="Manann"
+        alt=""
         width={204}
         height={54}
         priority

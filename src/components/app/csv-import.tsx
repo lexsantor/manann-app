@@ -185,7 +185,7 @@ export function CsvImport() {
               {rows.length} fila{rows.length !== 1 ? "s" : ""} detectada{rows.length !== 1 ? "s" : ""}
             </p>
           </div>
-          <button type="button" onClick={reset} className="text-muted-foreground hover:text-foreground">
+          <button type="button" onClick={reset} aria-label="Cerrar importación" className="text-muted-foreground hover:text-foreground">
             <Icon icon={X} size={16} />
           </button>
         </div>

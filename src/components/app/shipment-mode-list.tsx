@@ -92,8 +92,8 @@ export function ShipmentModeList({
                   </span>
                 </td>
                 <td className="px-4 py-2.5 text-right">
-                  <Link href={`/expedientes/${s.id}`} className="text-muted-foreground hover:text-foreground">
-                    <ArrowRight className="h-3.5 w-3.5" />
+                  <Link href={`/expedientes/${s.id}`} aria-label={`Ver expediente ${s.reference}`} className="text-muted-foreground hover:text-foreground">
+                    <ArrowRight aria-hidden className="h-3.5 w-3.5" />
                   </Link>
                 </td>
               </tr>

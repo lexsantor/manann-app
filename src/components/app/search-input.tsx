@@ -37,6 +37,7 @@ export function SearchInput({ defaultValue, estado }: SearchInputProps) {
       />
       <input
         type="search"
+        aria-label="Buscar"
         defaultValue={defaultValue}
         onChange={handleChange}
         placeholder="Buscar expediente, naviera, puerto…"

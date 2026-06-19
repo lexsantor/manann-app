@@ -127,7 +127,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
           <div className="w-full max-w-2xl rounded-xl border border-border bg-card shadow-2xl">
             <div className="flex items-center justify-between border-b border-border px-6 py-4">
               <p className="font-display text-base font-medium text-foreground">Nuevo asiento contable</p>
-              <button onClick={handleClose} className="text-muted-foreground hover:text-foreground">
+              <button onClick={handleClose} aria-label="Cerrar" className="text-muted-foreground hover:text-foreground">
                 <Icon icon={X} size={16} />
               </button>
             </div>

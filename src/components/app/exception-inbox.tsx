@@ -80,6 +80,7 @@ function ExceptionRow({ ex, onResolve }: { ex: ChargeException; onResolve: (id: 
           onClick={handleResolve}
           disabled={pending}
           title="Marcar como resuelto"
+          aria-label="Marcar como resuelto"
           className="mt-0.5 shrink-0 rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
         >
           <Icon icon={CheckCircle2} size={16} />
