@@ -179,28 +179,31 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Descripción</label>
+                <label htmlFor="nc-descripcion" className="text-sm font-medium text-foreground">Descripción</label>
                 <Input
+                  id="nc-descripcion"
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   placeholder="Descripción de la no conformidad"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="nc-causa-raiz" className="text-sm font-medium text-foreground">
                   Causa raíz <span className="font-normal text-muted-foreground">(opcional)</span>
                 </label>
                 <Input
+                  id="nc-causa-raiz"
                   value={form.rootCause}
                   onChange={(e) => setForm({ ...form, rootCause: e.target.value })}
                   placeholder="¿Por qué ocurrió?"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="nc-accion-correctiva" className="text-sm font-medium text-foreground">
                   Acción correctiva <span className="font-normal text-muted-foreground">(opcional)</span>
                 </label>
                 <Input
+                  id="nc-accion-correctiva"
                   value={form.correctiveAction}
                   onChange={(e) => setForm({ ...form, correctiveAction: e.target.value })}
                   placeholder="Medida adoptada"

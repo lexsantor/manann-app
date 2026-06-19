@@ -116,8 +116,8 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
               <input id="creditLimit" name="creditLimit" defaultValue={c?.creditLimit ?? ""} placeholder="50000" className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60" />
             </div>
             <div className="col-span-2">
-              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Notas</label>
-              <Textarea name="notes" rows={2} defaultValue={c?.notes ?? ""} className="resize-none" />
+              <label htmlFor="contactos-notes" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Notas</label>
+              <Textarea id="contactos-notes" name="notes" rows={2} defaultValue={c?.notes ?? ""} className="resize-none" />
             </div>
           </div>
           <div className="flex justify-end gap-2 pt-1">

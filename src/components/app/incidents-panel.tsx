@@ -194,28 +194,31 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Descripción</label>
+                <label htmlFor="incidencias-descripcion" className="text-sm font-medium text-foreground">Descripción</label>
                 <Input
+                  id="incidencias-descripcion"
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   placeholder="Descripción de la incidencia"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="incidencias-responsable" className="text-sm font-medium text-foreground">
                   Responsable <span className="font-normal text-muted-foreground">(opcional)</span>
                 </label>
                 <Input
+                  id="incidencias-responsable"
                   value={form.responsible}
                   onChange={(e) => setForm({ ...form, responsible: e.target.value })}
                   placeholder="Nombre o empresa"
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="incidencias-coste-impacto" className="text-sm font-medium text-foreground">
                   Coste de impacto € <span className="font-normal text-muted-foreground">(opcional)</span>
                 </label>
                 <Input
+                  id="incidencias-coste-impacto"
                   type="number"
                   value={form.impactCost}
                   onChange={(e) => setForm({ ...form, impactCost: e.target.value })}

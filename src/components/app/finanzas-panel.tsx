@@ -126,6 +126,7 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
       <div className="flex items-center gap-4 text-base">
         <label className="flex items-center gap-1.5 cursor-pointer select-none text-muted-foreground">
           <Checkbox
+            aria-label="Pass-through (sin margen)"
             checked={passThrough}
             onChange={(checked) => {
               setPassThrough(checked);
@@ -137,6 +138,7 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
         {direction === "revenue" && (
           <label className="flex items-center gap-1.5 cursor-pointer select-none text-muted-foreground">
             <Checkbox
+              aria-label="Sin facturar al cliente"
               checked={atRisk}
               onChange={(checked) => setAtRisk(checked)}
             />

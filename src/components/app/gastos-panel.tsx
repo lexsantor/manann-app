@@ -142,12 +142,12 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
             <div className="flex-1 space-y-4 overflow-y-auto p-5">
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Fecha</label>
-                  <Input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} />
+                  <label htmlFor="gastos-fecha" className="text-sm font-medium text-foreground">Fecha</label>
+                  <Input id="gastos-fecha" type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Importe (€)</label>
-                  <Input type="number" step="0.01" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} placeholder="0.00" />
+                  <label htmlFor="gastos-importe" className="text-sm font-medium text-foreground">Importe (€)</label>
+                  <Input id="gastos-importe" type="number" step="0.01" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} placeholder="0.00" />
                 </div>
               </div>
               <div className="space-y-1.5">
@@ -160,12 +160,12 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Proveedor <span className="font-normal text-muted-foreground">(opcional)</span></label>
-                <Input value={form.supplier} onChange={(e) => setForm({ ...form, supplier: e.target.value })} placeholder="ej. Repsol" />
+                <label htmlFor="gastos-proveedor" className="text-sm font-medium text-foreground">Proveedor <span className="font-normal text-muted-foreground">(opcional)</span></label>
+                <Input id="gastos-proveedor" value={form.supplier} onChange={(e) => setForm({ ...form, supplier: e.target.value })} placeholder="ej. Repsol" />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Concepto <span className="font-normal text-muted-foreground">(opcional)</span></label>
-                <Input value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Descripción breve" />
+                <label htmlFor="gastos-concepto" className="text-sm font-medium text-foreground">Concepto <span className="font-normal text-muted-foreground">(opcional)</span></label>
+                <Input id="gastos-concepto" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Descripción breve" />
               </div>
             </div>
             <div className="border-t border-border p-4">

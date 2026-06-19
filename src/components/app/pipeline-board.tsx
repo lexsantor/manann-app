@@ -294,8 +294,8 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
           {/* Título */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium">Título *</label>
-            <Input value={form.title} onChange={field("title")} placeholder="Nombre de la oportunidad" />
+            <label htmlFor="pipeline-title" className="text-xs font-medium">Título *</label>
+            <Input id="pipeline-title" value={form.title} onChange={field("title")} placeholder="Nombre de la oportunidad" />
           </div>
 
           {/* Etapa */}
@@ -336,26 +336,27 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
           {/* Ruta */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="text-xs font-medium">POL</label>
-              <Input value={form.pol} onChange={field("pol")} placeholder="ESBCN" />
+              <label htmlFor="pipeline-pol" className="text-xs font-medium">POL</label>
+              <Input id="pipeline-pol" value={form.pol} onChange={field("pol")} placeholder="ESBCN" />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-medium">POD</label>
-              <Input value={form.pod} onChange={field("pod")} placeholder="NLRTM" />
+              <label htmlFor="pipeline-pod" className="text-xs font-medium">POD</label>
+              <Input id="pipeline-pod" value={form.pod} onChange={field("pod")} placeholder="NLRTM" />
             </div>
           </div>
 
           {/* Tipo de carga */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium">Tipo de carga</label>
-            <Input value={form.cargoType} onChange={field("cargoType")} placeholder="FCL 20', electrónica…" />
+            <label htmlFor="pipeline-cargo-type" className="text-xs font-medium">Tipo de carga</label>
+            <Input id="pipeline-cargo-type" value={form.cargoType} onChange={field("cargoType")} placeholder="FCL 20', electrónica…" />
           </div>
 
           {/* Valor */}
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-2 space-y-1.5">
-              <label className="text-xs font-medium">Valor estimado</label>
+              <label htmlFor="pipeline-estimated-value" className="text-xs font-medium">Valor estimado</label>
               <Input
+                id="pipeline-estimated-value"
                 type="number"
                 value={form.estimatedValue}
                 onChange={field("estimatedValue")}
@@ -406,8 +407,9 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
 
           {/* Notas */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium">Notas</label>
+            <label htmlFor="pipeline-notes" className="text-xs font-medium">Notas</label>
             <Textarea
+              id="pipeline-notes"
               value={form.notes}
               onChange={field("notes")}
               rows={3}

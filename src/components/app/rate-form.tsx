@@ -238,10 +238,11 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
 
           {/* Notas */}
           <div>
-            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+            <label htmlFor="tarifa-notas" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Notas
             </label>
             <Textarea
+              id="tarifa-notas"
               value={form.notes ?? ""}
               onChange={(e) => set("notes", e.target.value || null)}
               rows={3}

@@ -101,8 +101,9 @@ export function EblPanel({
               </div>
               <div className="space-y-4 p-5">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Tenedor inicial</label>
+                  <label htmlFor="ebl-tenedor-inicial" className="text-sm font-medium text-foreground">Tenedor inicial</label>
                   <Input
+                    id="ebl-tenedor-inicial"
                     value={holderName}
                     onChange={(e) => setHolderName(e.target.value)}
                     placeholder="Nombre del consignatario inicial"
@@ -227,10 +228,11 @@ export function EblPanel({
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="ebl-to-party" className="text-sm font-medium text-foreground">
                   {action === "Surrender" ? "Naviero receptor" : "Nuevo tenedor"}
                 </label>
                 <Input
+                  id="ebl-to-party"
                   value={toParty}
                   onChange={(e) => setToParty(e.target.value)}
                   placeholder="Nombre de la parte"

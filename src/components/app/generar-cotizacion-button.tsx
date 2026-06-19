@@ -280,8 +280,8 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
 
           {/* Notas */}
           <div>
-            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Notas</label>
-            <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={3}
+            <label htmlFor="cotizacion-notas" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Notas</label>
+            <Textarea id="cotizacion-notas" value={notes} onChange={(e) => setNotes(e.target.value)} rows={3}
               placeholder="Condiciones, exclusiones, notas para el cliente..."
               className="w-full resize-none rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
           </div>

@@ -183,8 +183,9 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
             </div>
             <div className="flex-1 space-y-4 overflow-y-auto p-5">
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Nombre</label>
+                <label htmlFor="sla-name" className="text-sm font-medium text-foreground">Nombre</label>
                 <Input
+                  id="sla-name"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="ej. Respuesta cotización FCL"
@@ -205,8 +206,9 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Objetivo (horas)</label>
+                <label htmlFor="sla-target-hours" className="text-sm font-medium text-foreground">Objetivo (horas)</label>
                 <Input
+                  id="sla-target-hours"
                   type="number"
                   min={1}
                   value={form.targetHours}

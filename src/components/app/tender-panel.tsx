@@ -242,8 +242,9 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
             </div>
             <div className="flex-1 space-y-4 overflow-y-auto p-5">
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Título</label>
+                <label htmlFor="tender-title" className="text-sm font-medium text-foreground">Título</label>
                 <Input
+                  id="tender-title"
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
                   placeholder="ej. FCL 40HC Shangai-Valencia agosto"
@@ -251,16 +252,18 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Origen</label>
+                  <label htmlFor="tender-origin" className="text-sm font-medium text-foreground">Origen</label>
                   <Input
+                    id="tender-origin"
                     value={form.origin}
                     onChange={(e) => setForm({ ...form, origin: e.target.value })}
                     placeholder="CNSHA"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Destino</label>
+                  <label htmlFor="tender-destination" className="text-sm font-medium text-foreground">Destino</label>
                   <Input
+                    id="tender-destination"
                     value={form.destination}
                     onChange={(e) => setForm({ ...form, destination: e.target.value })}
                     placeholder="ESVLC"
@@ -283,10 +286,11 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">
+                <label htmlFor="tender-cargo-description" className="text-sm font-medium text-foreground">
                   Descripción de carga <span className="text-muted-foreground font-normal">(opcional)</span>
                 </label>
                 <Input
+                  id="tender-cargo-description"
                   value={form.cargoDescription}
                   onChange={(e) => setForm({ ...form, cargoDescription: e.target.value })}
                   placeholder="Tipo de mercancía, HScode, condiciones especiales"
@@ -294,22 +298,22 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Peso kg</label>
-                  <Input type="number" value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} />
+                  <label htmlFor="tender-weight" className="text-sm font-medium text-foreground">Peso kg</label>
+                  <Input id="tender-weight" type="number" value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Volumen m³</label>
-                  <Input type="number" value={form.volume} onChange={(e) => setForm({ ...form, volume: e.target.value })} />
+                  <label htmlFor="tender-volume" className="text-sm font-medium text-foreground">Volumen m³</label>
+                  <Input id="tender-volume" type="number" value={form.volume} onChange={(e) => setForm({ ...form, volume: e.target.value })} />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Fecha de embarque</label>
-                  <Input type="date" value={form.targetDate} onChange={(e) => setForm({ ...form, targetDate: e.target.value })} />
+                  <label htmlFor="tender-target-date" className="text-sm font-medium text-foreground">Fecha de embarque</label>
+                  <Input id="tender-target-date" type="date" value={form.targetDate} onChange={(e) => setForm({ ...form, targetDate: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-foreground">Límite respuesta</label>
-                  <Input type="date" value={form.responseDeadline} onChange={(e) => setForm({ ...form, responseDeadline: e.target.value })} />
+                  <label htmlFor="tender-response-deadline" className="text-sm font-medium text-foreground">Límite respuesta</label>
+                  <Input id="tender-response-deadline" type="date" value={form.responseDeadline} onChange={(e) => setForm({ ...form, responseDeadline: e.target.value })} />
                 </div>
               </div>
             </div>

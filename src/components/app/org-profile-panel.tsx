@@ -108,8 +108,9 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
     <div className="space-y-6">
       <div className="rounded-xl border border-border bg-card p-5 space-y-5">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">Descripción</label>
+          <label htmlFor="org-bio" className="text-sm font-medium text-foreground">Descripción</label>
           <Textarea
+            id="org-bio"
             rows={3}
             value={form.bio}
             onChange={(e) => setForm({ ...form, bio: e.target.value })}
@@ -119,8 +120,9 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">Ciudad / sede</label>
+          <label htmlFor="org-city" className="text-sm font-medium text-foreground">Ciudad / sede</label>
           <Input
+            id="org-city"
             value={form.city}
             onChange={(e) => setForm({ ...form, city: e.target.value })}
             placeholder="ej. Barcelona"
@@ -129,8 +131,9 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-foreground">Capacidad mensual estimada (TEU)</label>
+          <label htmlFor="org-monthly-capacity" className="text-sm font-medium text-foreground">Capacidad mensual estimada (TEU)</label>
           <Input
+            id="org-monthly-capacity"
             type="number"
             value={form.monthlyCapacity}
             onChange={(e) => setForm({ ...form, monthlyCapacity: e.target.value })}
