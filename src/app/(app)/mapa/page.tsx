@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { MapPin, Map } from "lucide-react";
-import { Icon } from "@/components/icon";
 import { getOrgContext, listShipments } from "@/lib/erp";
 import { WorldMap } from "@/components/app/world-map";
 import { PageHeader } from "@/components/ui/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
 import { portCoords } from "@/lib/port-coords";
 import { portLabel } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
@@ -72,7 +72,7 @@ export default async function MapaPage() {
               <a
                 key={s.id}
                 href={`/expedientes/${s.id}`}
-                className="group flex items-start gap-3 rounded-lg border border-border bg-card p-3 transition-colors hover:border-primary/30 hover:bg-muted/40"
+                className="group flex items-start gap-3 rounded-xl border border-border bg-card p-3 transition-colors hover:border-primary/30 hover:bg-muted/40"
               >
                 <span className={cn("mt-1 size-2 shrink-0 rounded-full", STATUS_DOT[s.status] ?? "bg-muted-foreground")} />
                 <div className="min-w-0">
@@ -98,12 +98,10 @@ export default async function MapaPage() {
       )}
 
       {active.length === 0 && (
-        <div className="flex flex-col items-center gap-3 py-16 text-center">
-          <Icon icon={MapPin} size={32} className="text-muted-foreground/55" />
-          <p className="text-base text-muted-foreground">
-            No hay expedientes activos en este momento.
-          </p>
-        </div>
+        <EmptyState
+          icon={<MapPin strokeWidth={1.5} />}
+          title="No hay expedientes activos en este momento."
+        />
       )}
     </div>
   );

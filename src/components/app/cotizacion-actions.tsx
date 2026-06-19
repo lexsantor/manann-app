@@ -11,6 +11,8 @@ import {
   convertQuotationToShipment,
 } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface CotizacionActionsProps {
   quotationId: string;
@@ -88,19 +90,18 @@ export function CotizacionActions({
 
       {showEmailForm && (
         <div className="flex items-center gap-1.5">
-          <input type="email" value={email} autoFocus
+          <Input type="email" value={email} autoFocus
             onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
             onKeyDown={(e) => e.key === "Enter" && handleEmailSend()}
             placeholder="cliente@empresa.com"
             className={cn(
-              "h-8 w-56 rounded-md border bg-background px-3 text-base outline-none focus:ring-1 focus:ring-primary transition-colors",
-              emailError ? "border-destructive focus:ring-destructive" : "border-border",
+              "w-56",
+              emailError && "border-destructive focus-visible:ring-destructive",
             )} />
-          <button onClick={handleEmailSend} disabled={emailPending}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50">
+          <Button variant="secondary" onClick={handleEmailSend} disabled={emailPending} size="sm" className="gap-1.5">
             {emailPending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
             Enviar
-          </button>
+          </Button>
           <button onClick={() => setShowEmailForm(false)}
             className="flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:text-foreground transition-colors">
             <X className="size-4" />
@@ -127,11 +128,10 @@ export function CotizacionActions({
 
       {/* Convert to expediente */}
       {canConvert && (
-        <button onClick={handleConvert} disabled={convertPending}
-          className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50">
+        <Button variant="secondary" onClick={handleConvert} disabled={convertPending} size="sm" className="gap-1.5">
           {convertPending ? <Loader2 className="size-4 animate-spin" /> : <ArrowRight className="size-4" />}
           Convertir en expediente
-        </button>
+        </Button>
       )}
 
       {/* Link to expediente if already converted */}

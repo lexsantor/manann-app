@@ -4,6 +4,7 @@ import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Sparkles, Upload, ArrowRight, CheckCircle2, X } from "lucide-react";
 import { completeOnboarding } from "@/lib/erp-actions";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useFocusTrap } from "@/lib/use-focus-trap";
 
@@ -127,14 +128,10 @@ export function OnboardingWizard() {
             >
               Omitir
             </button>
-            <button
-              onClick={handleNext}
-              disabled={pending}
-              className="flex items-center gap-2 rounded-lg bg-primary/10 px-5 py-2.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
-            >
+            <Button variant="secondary" onClick={handleNext} disabled={pending}>
               {current.cta}
               <ArrowRight className="size-4" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>

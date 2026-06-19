@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Plus, Trash2, Check, X } from "lucide-react";
 import { upsertSystemParam, deleteSystemParam } from "@/lib/maestros-actions";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const SUGGESTED_KEYS = [
   { key: "empresa.nombre", label: "Nombre fiscal de la empresa" },
@@ -82,10 +83,10 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
           <div className="grid grid-cols-1 gap-3">
             <div className="space-y-1">
               <label htmlFor="clave" className="text-xs text-muted-foreground">Clave</label>
-              <input
+              <Input
                 id="clave"
                 list="suggested-keys"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono"
                 placeholder="empresa.nombre"
                 value={form.key}
                 onChange={(e) => {
@@ -100,9 +101,8 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
             </div>
             <div className="space-y-1">
               <label htmlFor="etiqueta-opcional" className="text-xs text-muted-foreground">Etiqueta (opcional)</label>
-              <input
+              <Input
                 id="etiqueta-opcional"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Nombre descriptivo"
                 value={form.label}
                 onChange={(e) => setForm({ ...form, label: e.target.value })}
@@ -110,9 +110,8 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
             </div>
             <div className="space-y-1">
               <label htmlFor="valor" className="text-xs text-muted-foreground">Valor</label>
-              <input
+              <Input
                 id="valor"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Valor del parámetro"
                 value={form.value}
                 onChange={(e) => setForm({ ...form, value: e.target.value })}
@@ -123,13 +122,12 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
             <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
               Cancelar
             </button>
-            <button
+            <Button
               onClick={handleCreate}
               disabled={pending || !form.key || !form.value}
-              className="rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-colors"
             >
               Guardar
-            </button>
+            </Button>
           </div>
         </div>
       )}

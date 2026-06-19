@@ -16,7 +16,7 @@ export default async function PartnersPage() {
   ]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <PageHeader
         eyebrow="Comercial"
         icon={<Handshake strokeWidth={1.5} />}

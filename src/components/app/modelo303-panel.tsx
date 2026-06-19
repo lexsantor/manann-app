@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { getModelo303Data } from "@/lib/contabilidad-actions";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -80,13 +81,9 @@ export function Modelo303Panel() {
             </SelectContent>
           </Select>
         </div>
-        <button
-          onClick={handleCalc}
-          disabled={pending}
-          className="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-        >
+        <Button onClick={handleCalc} disabled={pending}>
           {pending ? "Calculando…" : "Calcular 303"}
-        </button>
+        </Button>
       </div>
 
       {data && (
@@ -100,10 +97,10 @@ export function Modelo303Panel() {
             </div>
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border/50">
-                  <th className="px-4 py-2 text-left text-xs text-muted-foreground">Tipo IVA</th>
-                  <th className="px-4 py-2 text-right text-xs text-muted-foreground">Base imponible</th>
-                  <th className="px-4 py-2 text-right text-xs text-muted-foreground">Cuota</th>
+                <tr className="border-b border-border bg-muted/70">
+                  <th className="px-4 py-3 text-left font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Tipo IVA</th>
+                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Base imponible</th>
+                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Cuota</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
@@ -114,8 +111,14 @@ export function Modelo303Panel() {
                     </td>
                   </tr>
                 ) : (
-                  data.repercutidas.map((r) => (
-                    <tr key={r.taxRate} className="hover:bg-muted/20">
+                  data.repercutidas.map((r, i) => (
+                    <tr
+                      key={r.taxRate}
+                      className={cn(
+                        "transition-colors hover:bg-primary/[0.06]",
+                        i % 2 === 0 ? "bg-card" : "bg-muted/40",
+                      )}
+                    >
                       <td className="px-4 py-2.5 text-xs font-medium text-foreground">{r.taxRate}%</td>
                       <td className="px-4 py-2.5 text-right font-mono text-xs text-muted-foreground">{fmt(r.base)} €</td>
                       <td className="px-4 py-2.5 text-right font-mono text-xs text-foreground">{fmt(r.cuota)} €</td>
@@ -144,10 +147,10 @@ export function Modelo303Panel() {
             </div>
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border/50">
-                  <th className="px-4 py-2 text-left text-xs text-muted-foreground">Tipo IVA</th>
-                  <th className="px-4 py-2 text-right text-xs text-muted-foreground">Base imponible</th>
-                  <th className="px-4 py-2 text-right text-xs text-muted-foreground">Cuota</th>
+                <tr className="border-b border-border bg-muted/70">
+                  <th className="px-4 py-3 text-left font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Tipo IVA</th>
+                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Base imponible</th>
+                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Cuota</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
@@ -158,8 +161,14 @@ export function Modelo303Panel() {
                     </td>
                   </tr>
                 ) : (
-                  data.soportadas.map((r) => (
-                    <tr key={r.taxRate} className="hover:bg-muted/20">
+                  data.soportadas.map((r, i) => (
+                    <tr
+                      key={r.taxRate}
+                      className={cn(
+                        "transition-colors hover:bg-primary/[0.06]",
+                        i % 2 === 0 ? "bg-card" : "bg-muted/40",
+                      )}
+                    >
                       <td className="px-4 py-2.5 text-xs font-medium text-foreground">{r.taxRate}%</td>
                       <td className="px-4 py-2.5 text-right font-mono text-xs text-muted-foreground">{fmt(r.base)} €</td>
                       <td className="px-4 py-2.5 text-right font-mono text-xs text-foreground">{fmt(r.cuota)} €</td>

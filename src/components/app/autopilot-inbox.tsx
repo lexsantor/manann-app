@@ -16,6 +16,7 @@ import { type AutopilotAction } from "@/lib/autopilot";
 import { resolveAtRiskCharge } from "@/lib/erp-actions";
 import { formatMoney } from "@/lib/erp-format";
 import { Icon } from "@/components/icon";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const KIND_META: Record<AutopilotAction["kind"], {
@@ -260,13 +261,15 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
             Impacto total: <span className="font-semibold text-foreground">{formatMoney(String(totalImpact), "EUR")}</span>
           </span>
         </div>
-        <button
+        <Button
+          variant="secondary"
+          size="sm"
           onClick={handleApproveAll}
-          className="flex h-11 w-full items-center justify-center gap-1.5 rounded-md bg-primary/10 px-3 text-base font-medium text-primary transition-colors hover:bg-primary/15 sm:h-auto sm:w-auto sm:py-1.5"
+          className="w-full sm:w-auto"
         >
           <Icon icon={CheckCircle2} size={12} />
           Aprobar todo ({actions.length})
-        </button>
+        </Button>
       </div>
 
       {/* Actions list */}

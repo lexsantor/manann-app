@@ -3,6 +3,8 @@
 import { useState, useTransition } from "react";
 import { Key, Plus, Trash2, Copy, Check, Loader2, Eye, EyeOff } from "lucide-react";
 import { Icon } from "@/components/icon";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { createApiKey, revokeApiKey } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
 
@@ -69,13 +71,10 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
           <Icon icon={Key} size={15} className="text-muted-foreground" />
           <h2 className="font-display text-base font-medium tracking-tight">API Keys</h2>
         </div>
-        <button
-          onClick={() => setShowForm((v) => !v)}
-          className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/15 transition-colors"
-        >
+        <Button variant="secondary" size="sm" onClick={() => setShowForm((v) => !v)}>
           <Plus className="size-4" />
           Nueva key
-        </button>
+        </Button>
       </div>
 
       {revealed && (
@@ -111,21 +110,17 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
         <div className="border-b border-border px-5 py-4 bg-surface-2/20">
           <label htmlFor="nombre-de-la-key" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre de la key</label>
           <div className="mt-1 flex gap-2">
-            <input
+            <Input
               id="nombre-de-la-key"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="p.ej. Producción · WMS interno"
-              className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary/50"
+              className="flex-1"
               onKeyDown={(e) => e.key === "Enter" && handleCreate()}
             />
-            <button
-              onClick={handleCreate}
-              disabled={pending || !newName.trim()}
-              className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
-            >
+            <Button onClick={handleCreate} disabled={pending || !newName.trim()}>
               {pending ? <Loader2 className="size-4 animate-spin" /> : "Crear"}
-            </button>
+            </Button>
           </div>
           {error && <p className="mt-1 text-xs text-accent">{error}</p>}
         </div>

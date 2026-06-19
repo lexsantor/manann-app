@@ -7,6 +7,7 @@ import { createRate, updateRate, type RateInput } from "@/lib/erp-actions";
 import { type RateItem } from "@/lib/erp";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
 
 function DateInput({
@@ -123,13 +124,12 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
             <label htmlFor="concepto" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Concepto
             </label>
-            <input
+            <Input
               id="concepto"
               type="text"
               value={form.concept}
               onChange={(e) => set("concept", e.target.value)}
               placeholder='Ej: Flete FCL 20" Valencia–Shanghai'
-              className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors"
             />
           </div>
 
@@ -187,7 +187,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
               Precio base
             </label>
             <div className="relative">
-              <input
+              <Input
                 id="precio-base"
                 type="number"
                 min="0"
@@ -195,7 +195,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
                 value={form.basePrice}
                 onChange={(e) => set("basePrice", e.target.value)}
                 placeholder="0.00"
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 pr-14 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                className="pr-14 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-base text-muted-foreground">
                 {form.currency}
@@ -247,14 +247,15 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           >
             Cancelar
           </button>
-          <button
+          <Button
+            variant="secondary"
             onClick={handleSubmit}
             disabled={pending}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-4 py-2 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
+            className="gap-1.5"
           >
             {pending ? <Loader2 className="size-4 animate-spin" /> : <Plus className="size-4" />}
             {existing ? "Guardar cambios" : "Crear tarifa"}
-          </button>
+          </Button>
         </div>
       </div>
     </>

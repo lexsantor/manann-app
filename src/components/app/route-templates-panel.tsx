@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { createRouteTemplate, deleteRouteTemplate } from "@/lib/tier-s-actions";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { ModeBadge } from "@/components/ui/badges";
 import { ConfirmButton } from "@/components/ui/confirm-button";
@@ -78,7 +79,8 @@ export function RouteTemplatesPanel({ templates: initial }: { templates: RouteTe
     {
       key: "name",
       header: "Nombre",
-      cell: (t) => <span className="font-medium text-foreground">{t.name}</span>,
+      card: "title",
+      cell: (t) => t.name,
     },
     {
       key: "transit",
@@ -122,9 +124,8 @@ export function RouteTemplatesPanel({ templates: initial }: { templates: RouteTe
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-2 space-y-1">
               <label htmlFor="nombre" className="text-xs text-muted-foreground">Nombre</label>
-              <input
+              <Input
                 id="nombre"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Barcelona → Shanghai FCL 30 días"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -146,11 +147,11 @@ export function RouteTemplatesPanel({ templates: initial }: { templates: RouteTe
             </div>
             <div className="space-y-1">
               <label htmlFor="dias-de-transito" className="text-xs text-muted-foreground">Días de tránsito</label>
-              <input
+              <Input
                 id="dias-de-transito"
                 type="number"
                 min={1}
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono"
                 placeholder="30"
                 value={form.transitDays}
                 onChange={(e) => setForm({ ...form, transitDays: e.target.value })}

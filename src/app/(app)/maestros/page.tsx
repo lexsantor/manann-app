@@ -99,7 +99,7 @@ export default async function MaestrosPage() {
   if (!ctx?.org) notFound();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <PageHeader
         eyebrow="Maestros"
         icon={<Database strokeWidth={1.5} />}
@@ -112,7 +112,7 @@ export default async function MaestrosPage() {
           <Link
             key={s.href}
             href={s.href}
-            className="group flex flex-col gap-2 rounded-md border border-border bg-card p-4 hover:border-primary/40 hover:bg-accent/30 transition-colors"
+            className="group flex flex-col gap-2 rounded-xl border border-border bg-card p-4 hover:border-primary/40 hover:bg-accent/30 transition-colors"
           >
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-2">

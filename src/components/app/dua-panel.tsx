@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FileCheck2, ChevronDown, ChevronUp, Loader2, AlertTriangle } from "lucide-react";
 import { markShipmentEnAduana } from "@/lib/erp-actions";
 import { Icon } from "@/components/icon";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectTrigger,
@@ -153,14 +154,10 @@ export function DuaPanel({
                 En aduana ✓
               </span>
             ) : (
-              <button
-                onClick={handleEnAduana}
-                disabled={pending}
-                className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
-              >
+              <Button onClick={handleEnAduana} disabled={pending} variant="secondary" size="sm">
                 {pending ? <Loader2 className="size-4 animate-spin" /> : <FileCheck2 className="size-4" />}
                 Marcar en aduana
-              </button>
+              </Button>
             )}
           </div>
         </div>

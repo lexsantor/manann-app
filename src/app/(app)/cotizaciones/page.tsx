@@ -83,7 +83,7 @@ export default async function CotizacionesPage({ searchParams }: PageProps) {
   ];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <PageHeader
         eyebrow="Comercial"
         icon={<FileText strokeWidth={1.5} />}

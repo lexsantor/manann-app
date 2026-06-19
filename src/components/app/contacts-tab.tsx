@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 import { createContact, updateContact, deleteContact, importContactsAction } from "@/lib/erp-actions";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import type { ContactWithGP } from "@/lib/erp";
 
 const ROLE_LABEL: Record<string, string> = {
@@ -79,7 +82,7 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2">
               <label htmlFor="name" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre *</label>
-              <input id="name" name="name" required defaultValue={c?.name} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
+              <Input id="name" name="name" required defaultValue={c?.name} />
             </div>
             <div>
               <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Rol *</label>
@@ -93,27 +96,27 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
             </div>
             <div>
               <label htmlFor="taxId" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">NIF / EORI</label>
-              <input id="taxId" name="taxId" defaultValue={c?.taxId ?? ""} placeholder="B12345678" className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60" />
+              <Input id="taxId" name="taxId" defaultValue={c?.taxId ?? ""} placeholder="B12345678" />
             </div>
             <div>
               <label htmlFor="email" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Email</label>
-              <input id="email" name="email" type="email" defaultValue={c?.email ?? ""} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
+              <Input id="email" name="email" type="email" defaultValue={c?.email ?? ""} />
             </div>
             <div>
               <label htmlFor="phone" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Teléfono</label>
-              <input id="phone" name="phone" defaultValue={c?.phone ?? ""} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
+              <Input id="phone" name="phone" defaultValue={c?.phone ?? ""} />
             </div>
             <div>
               <label htmlFor="city" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Ciudad</label>
-              <input id="city" name="city" defaultValue={c?.city ?? ""} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
+              <Input id="city" name="city" defaultValue={c?.city ?? ""} />
             </div>
             <div>
               <label htmlFor="country" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">País (ISO)</label>
-              <input id="country" name="country" defaultValue={c?.country ?? ""} placeholder="ES" className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60" />
+              <Input id="country" name="country" defaultValue={c?.country ?? ""} placeholder="ES" />
             </div>
             <div>
               <label htmlFor="creditLimit" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Límite crédito (€)</label>
-              <input id="creditLimit" name="creditLimit" defaultValue={c?.creditLimit ?? ""} placeholder="50000" className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60" />
+              <Input id="creditLimit" name="creditLimit" defaultValue={c?.creditLimit ?? ""} placeholder="50000" />
             </div>
             <div className="col-span-2">
               <label htmlFor="contactos-notes" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Notas</label>
@@ -124,9 +127,9 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
             <button type="button" onClick={onClose} className="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground hover:text-foreground">
               Cancelar
             </button>
-            <button type="submit" disabled={pending} className={cn("rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground", pending && "opacity-60")}>
+            <Button type="submit" disabled={pending}>
               {pending ? "Guardando…" : mode?.type === "edit" ? "Guardar" : "Crear"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>
@@ -205,25 +208,22 @@ export function ContactsTab({ contacts }: ContactsTabProps) {
               {importResult.created} contacto{importResult.created !== 1 ? "s" : ""} importado{importResult.created !== 1 ? "s" : ""}
             </span>
           )}
-          <button
-            onClick={() => setForm({ type: "create" })}
-            className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-          >
+          <Button onClick={() => setForm({ type: "create" })} className="gap-1.5">
             <Icon icon={Plus} size={13} />
             Nuevo contacto
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Contact list */}
       {visible.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-border bg-secondary/[0.04] px-5 py-12 text-center">
-          <p className="text-sm text-muted-foreground">
-            {contacts.length === 0
+        <EmptyState
+          title={
+            contacts.length === 0
               ? "No hay contactos. Importa desde tus expedientes o crea uno nuevo."
-              : "No hay contactos con ese rol."}
-          </p>
-        </div>
+              : "No hay contactos con ese rol."
+          }
+        />
       ) : (
         <div className="overflow-hidden rounded-xl border border-border bg-card">
           {/* Header row */}

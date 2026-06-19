@@ -71,7 +71,7 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
     {
       key: "category",
       header: "Categoría",
-      cell: (i) => <span className="font-medium text-foreground">{CAT_LABELS[i.category] ?? i.category}</span>,
+      cell: (i) => CAT_LABELS[i.category] ?? i.category,
     },
     {
       key: "description",

@@ -9,6 +9,7 @@ import { BulkActionsBar } from "@/components/app/bulk-actions-bar";
 import { DataTable, CellStacked, MiniBar, type Column } from "@/components/ui/data-table";
 import { StatusBadge, ModeBadge } from "@/components/ui/badges";
 import { Checkbox } from "@/components/ui/checkbox";
+import { EmptyState } from "@/components/ui/empty-state";
 import { STATUS, MODE, formatMoney } from "@/lib/erp-format";
 
 interface ShipmentListClientProps {
@@ -100,11 +101,7 @@ export function ShipmentListClient({ shipments, members, view }: ShipmentListCli
   const someSelected = selected.size > 0 && selected.size < shipments.length;
 
   if (shipments.length === 0) {
-    return (
-      <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-        <p className="text-base text-muted-foreground">No hay expedientes con ese estado.</p>
-      </div>
-    );
+    return <EmptyState title="No hay expedientes con ese estado." />;
   }
 
   const columns: Column<ShipmentListItem>[] = [

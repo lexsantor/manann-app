@@ -12,7 +12,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { addPartyToShipment } from "@/lib/erp-actions";
-import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 
 interface Contact {
   id: string;
@@ -89,7 +89,7 @@ export function AddPartyForm({ shipmentId, contacts }: AddPartyFormProps) {
     <div className="mt-3 rounded-lg border border-border bg-surface-2/40 p-4">
       <div className="mb-3 flex items-center justify-between">
         <p className="text-sm font-medium text-foreground">Añadir parte</p>
-        <button onClick={() => setOpen(false)} className="text-muted-foreground hover:text-foreground">
+        <button onClick={() => setOpen(false)} aria-label="Cerrar" className="text-muted-foreground hover:text-foreground">
           <Icon icon={X} size={14} />
         </button>
       </div>
@@ -147,28 +147,19 @@ export function AddPartyForm({ shipmentId, contacts }: AddPartyFormProps) {
 
         {/* Optional fields */}
         <div className="grid grid-cols-2 gap-2">
-          <input
+          <Input
             name="taxId"
             placeholder="NIF/EORI (opcional)"
-            className="rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60"
           />
-          <input
+          <Input
             name="country"
             placeholder="País (ES, DE…)"
-            className="rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60"
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={pending}
-          className={cn(
-            "w-full rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity",
-            pending && "opacity-60",
-          )}
-        >
+        <Button type="submit" disabled={pending} className="w-full">
           {pending ? "Añadiendo…" : "Añadir"}
-        </button>
+        </Button>
       </form>
     </div>
   );

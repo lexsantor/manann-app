@@ -4,6 +4,8 @@ import { useState, useTransition } from "react";
 import { FileKey2, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { StatusBadge } from "@/components/ui/badges";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { issueEbl, transferEbl } from "@/lib/tier-v-actions";
 
@@ -24,11 +26,11 @@ type EBl = {
   transfers: EBlTransfer[];
 };
 
-const STATUS_COLORS: Record<string, string> = {
-  Original: "text-primary bg-primary/10",
-  Endorsed: "text-warning bg-warning/10",
-  Surrendered: "text-success bg-success/10",
-  Void: "text-muted-foreground bg-muted/50",
+const STATUS_TONE: Record<string, "success" | "info" | "warning" | "danger" | "neutral"> = {
+  Original: "info",
+  Endorsed: "warning",
+  Surrendered: "success",
+  Void: "neutral",
 };
 
 export function EblPanel({
@@ -67,21 +69,21 @@ export function EblPanel({
   if (!ebl) {
     return (
       <>
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-10 text-center">
-          <FileKey2 className="mb-2 h-8 w-8 text-muted-foreground/60" strokeWidth={1} />
-          <p className="text-sm font-medium text-foreground">Sin e-BL emitido</p>
-          <p className="mt-0.5 text-xs text-muted-foreground">
-            Emite el título electrónico para este expediente marítimo
-          </p>
-          <Button
-            size="sm"
-            variant="secondary"
-            className="mt-3 gap-1.5"
-            onClick={() => setIssueOpen(true)}
-          >
-            Emitir e-BL
-          </Button>
-        </div>
+        <EmptyState
+          icon={<FileKey2 strokeWidth={1} />}
+          title="Sin e-BL emitido"
+          hint="Emite el título electrónico para este expediente marítimo"
+          action={
+            <Button
+              size="sm"
+              variant="secondary"
+              className="gap-1.5"
+              onClick={() => setIssueOpen(true)}
+            >
+              Emitir e-BL
+            </Button>
+          }
+        />
 
         {issueOpen && (
           <div className="fixed inset-0 z-50 flex items-end justify-end sm:items-start">
@@ -139,11 +141,7 @@ export function EblPanel({
           <div className="flex items-center gap-2">
             <FileKey2 className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />
             <span className="text-sm font-medium text-foreground">e-BL</span>
-            <span
-              className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium ${STATUS_COLORS[ebl.status] ?? ""}`}
-            >
-              {ebl.status}
-            </span>
+            <StatusBadge status={ebl.status} label={ebl.status} tone={STATUS_TONE[ebl.status] ?? "neutral"} />
           </div>
           {canTransfer && (
             <Button size="sm" variant="secondary" onClick={() => setTransferOpen(true)} className="gap-1.5">

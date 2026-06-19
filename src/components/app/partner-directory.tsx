@@ -8,6 +8,8 @@ import type { PartnerRow } from "@/lib/erp";
 import { cn } from "@/lib/utils";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { SearchField } from "@/components/ui/search-field";
 
 const TYPE_LABEL: Record<string, string> = {
   agent: "Agente",
@@ -103,13 +105,11 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
           Comprueba si un tercero aparece en listas de sanciones internacionales antes de añadirlo como partner.
         </p>
         <div className="flex gap-2">
-          <input
-            type="search"
-            aria-label="Buscar"
+          <SearchField
             value={screeningName}
-            onChange={(e) => setScreeningName(e.target.value)}
+            onChange={setScreeningName}
             placeholder="Nombre del tercero…"
-            className="flex-1 rounded-md border border-border bg-surface-2/30 px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary/50"
+            className="flex-1"
           />
           <Button
             onClick={handleScreen}
@@ -174,11 +174,11 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
                 <label htmlFor="nombre" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre *</label>
-                <input
+                <Input
                   id="nombre"
                   value={form.name}
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
+                  className="mt-1"
                 />
               </div>
               <div>
@@ -199,41 +199,41 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
               </div>
               <div>
                 <label htmlFor="region" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Región</label>
-                <input
+                <Input
                   id="region"
                   value={form.region}
                   onChange={(e) => setForm((f) => ({ ...f, region: e.target.value }))}
                   placeholder="p.ej. Asia-Pacífico"
-                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary/50"
+                  className="mt-1"
                 />
               </div>
               <div>
                 <label htmlFor="servicios-separados-por-coma" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Servicios (separados por coma)</label>
-                <input
+                <Input
                   id="servicios-separados-por-coma"
                   value={form.services}
                   onChange={(e) => setForm((f) => ({ ...f, services: e.target.value }))}
                   placeholder="FCL, LCL, Air Freight"
-                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary/50"
+                  className="mt-1"
                 />
               </div>
               <div>
                 <label htmlFor="email-contacto" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Email contacto</label>
-                <input
+                <Input
                   id="email-contacto"
                   type="email"
                   value={form.contactEmail}
                   onChange={(e) => setForm((f) => ({ ...f, contactEmail: e.target.value }))}
-                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
+                  className="mt-1"
                 />
               </div>
               <div>
                 <label htmlFor="nif-vat" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">NIF / VAT</label>
-                <input
+                <Input
                   id="nif-vat"
                   value={form.taxId}
                   onChange={(e) => setForm((f) => ({ ...f, taxId: e.target.value }))}
-                  className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
+                  className="mt-1"
                 />
               </div>
             </div>
@@ -245,14 +245,14 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
               >
                 Cancelar
               </button>
-              <button
+              <Button
                 onClick={handleCreate}
                 disabled={pending || !form.name.trim()}
-                className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
+                className="gap-1.5"
               >
                 {pending ? <Loader2 className="size-4 animate-spin" /> : null}
                 Guardar
-              </button>
+              </Button>
             </div>
           </div>
         )}

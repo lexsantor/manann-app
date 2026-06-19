@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Search, Globe, CheckCircle2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type NetworkAgent = {
@@ -109,10 +110,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
       <p className="text-sm text-muted-foreground">{filtered.length} agente(s) en la red</p>
 
       {filtered.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border py-12 text-center">
-          <Globe className="mb-2 h-8 w-8 text-muted-foreground/60" strokeWidth={1} />
-          <p className="text-sm text-muted-foreground">Sin resultados</p>
-        </div>
+        <EmptyState icon={<Globe strokeWidth={1} />} title="Sin resultados" />
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
           {filtered.map((agent) => (

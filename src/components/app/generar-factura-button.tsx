@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
 
 interface RevenueLine {
@@ -158,24 +159,22 @@ export function GenerarFacturaButton({
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2">
                       <label htmlFor="nombre-razon-social" className="mb-1 block text-base text-muted-foreground">Nombre / Razón social</label>
-                      <input
+                      <Input
                         id="nombre-razon-social"
                         type="text"
                         value={client}
                         onChange={(e) => setClient(e.target.value)}
                         placeholder="Importaciones García S.L."
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/65 focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                     </div>
                     <div>
                       <label htmlFor="nif-cif" className="mb-1 block text-base text-muted-foreground">NIF / CIF</label>
-                      <input
+                      <Input
                         id="nif-cif"
                         type="text"
                         value={clientNif}
                         onChange={(e) => setClientNif(e.target.value)}
                         placeholder="B-12345678"
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/65 focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                     </div>
                     <div>
@@ -237,29 +236,29 @@ export function GenerarFacturaButton({
 
                   {lines.map((l, i) => (
                     <div key={i} className="grid grid-cols-[1fr_56px_88px_24px] items-center gap-2">
-                      <input
+                      <Input
                         type="text"
                         value={l.concept}
                         onChange={(e) => updateLine(i, "concept", e.target.value)}
                         placeholder="Flete marítimo FCL"
-                        className="rounded-md border border-border bg-background px-2 py-1.5 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="px-2"
                       />
-                      <input
+                      <Input
                         type="number"
                         min="0.001"
                         step="0.001"
                         value={l.quantity}
                         onChange={(e) => updateLine(i, "quantity", e.target.value)}
-                        className="rounded-md border border-border bg-background px-2 py-1.5 text-right font-mono text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="px-2 text-right font-mono"
                       />
-                      <input
+                      <Input
                         type="number"
                         min="0"
                         step="0.01"
                         value={l.unitPrice}
                         onChange={(e) => updateLine(i, "unitPrice", e.target.value)}
                         placeholder="0,00"
-                        className="rounded-md border border-border bg-background px-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary"
+                        className="px-2 text-right font-mono"
                       />
                       <button
                         type="button"

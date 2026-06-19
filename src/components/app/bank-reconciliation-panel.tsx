@@ -5,6 +5,7 @@ import { Upload, Check, X, Trash2 } from "lucide-react";
 import { importBankLines, reconcileLine, deleteBankLine } from "@/lib/contabilidad-actions";
 import { cn } from "@/lib/utils";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { DataTable, type Column } from "@/components/ui/data-table";
 
 interface BankLine {
   id: string;
@@ -117,6 +118,111 @@ export function BankReconciliationPanel({
   const pendingCount = lines.filter((l) => !l.reconciled).length;
   const reconciledCount = lines.filter((l) => l.reconciled).length;
 
+  const columns: Column<BankLine>[] = [
+    {
+      key: "date",
+      header: "Fecha",
+      cell: (l) => (
+        <span className="font-mono text-xs text-muted-foreground">
+          {new Date(l.statementDate).toLocaleDateString("es-ES", { day: "2-digit", month: "short" })}
+        </span>
+      ),
+    },
+    {
+      key: "description",
+      header: "Descripción",
+      card: "title",
+      cell: (l) => <span className="block max-w-xs truncate text-xs text-foreground">{l.description}</span>,
+    },
+    {
+      key: "amount",
+      header: "Importe",
+      align: "right",
+      cell: (l) => {
+        const amount = Number(l.amount);
+        return (
+          <span className={cn("font-mono text-xs font-medium", amount >= 0 ? "text-success" : "text-destructive")}>
+            {amount >= 0 ? "+" : ""}{fmt(amount)} {l.currency}
+          </span>
+        );
+      },
+    },
+    {
+      key: "entry",
+      header: "Asiento",
+      cell: (l) => {
+        const isMatching = matchingId === l.id;
+        if (l.reconciled) {
+          return (
+            <span className="inline-flex items-center gap-1 text-xs text-success">
+              <Check className="h-3 w-3" />
+              {journalEntries.find((j) => j.id === l.journalEntryId)?.reference ?? "Conciliado"}
+            </span>
+          );
+        }
+        if (isMatching) {
+          return (
+            <Select value="" onValueChange={(v) => { if (v) handleMatch(l.id, v); }}>
+              <SelectTrigger className="w-full border-primary px-2 py-0.5 text-xs" aria-label="Seleccionar asiento">
+                <SelectValue placeholder="Seleccionar asiento…" />
+              </SelectTrigger>
+              <SelectContent>
+                {journalEntries.map((j) => (
+                  <SelectItem key={j.id} value={j.id}>{j.reference} — {j.description}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          );
+        }
+        return <span className="text-xs text-muted-foreground/65">—</span>;
+      },
+    },
+    {
+      key: "actions",
+      header: "",
+      align: "right",
+      card: "hidden",
+      cell: (l) => {
+        const isMatching = matchingId === l.id;
+        return (
+          <div className="flex items-center justify-end gap-1">
+            {l.reconciled ? (
+              <button
+                onClick={() => handleUnmatch(l.id)}
+                disabled={pending}
+                aria-label="Deshacer conciliación"
+                className="text-muted-foreground hover:text-warning transition-colors"
+                title="Deshacer conciliación"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            ) : (
+              <button
+                onClick={() => setMatchingId(isMatching ? null : l.id)}
+                disabled={pending}
+                aria-label={isMatching ? "Cancelar conciliación" : "Conciliar línea"}
+                className={cn(
+                  "rounded px-2 py-0.5 text-xs font-medium transition-colors",
+                  isMatching ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                Conciliar
+              </button>
+            )}
+            <button
+              onClick={() => handleDelete(l.id)}
+              disabled={pending}
+              aria-label="Eliminar línea"
+              className="text-muted-foreground hover:text-destructive transition-colors"
+            >
+              <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
+            </button>
+          </div>
+        );
+      },
+    },
+  ];
+
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -153,102 +259,13 @@ export function BankReconciliationPanel({
         Formato CSV: <span className="font-mono">fecha,descripción,importe</span> (positivo = ingreso, negativo = pago). Separador coma o punto y coma.
       </p>
 
-      <div className="overflow-hidden rounded-xl border border-border bg-card">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border bg-muted/30">
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Fecha</th>
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Descripción</th>
-              <th className="px-4 py-2.5 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">Importe</th>
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Asiento</th>
-              <th className="px-4 py-2.5 w-24" />
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {filtered.map((l) => {
-              const amount = Number(l.amount);
-              const isMatching = matchingId === l.id;
-              return (
-                <tr key={l.id} className={cn("hover:bg-muted/20 transition-colors", l.reconciled && "opacity-60")}>
-                  <td className="px-4 py-2.5 text-xs text-muted-foreground font-mono">
-                    {new Date(l.statementDate).toLocaleDateString("es-ES", { day: "2-digit", month: "short" })}
-                  </td>
-                  <td className="px-4 py-2.5 text-xs text-foreground max-w-xs truncate">{l.description}</td>
-                  <td className={cn(
-                    "px-4 py-2.5 text-right font-mono text-xs font-medium",
-                    amount >= 0 ? "text-success" : "text-destructive",
-                  )}>
-                    {amount >= 0 ? "+" : ""}{fmt(amount)} {l.currency}
-                  </td>
-                  <td className="px-4 py-2.5 text-xs">
-                    {l.reconciled ? (
-                      <span className="inline-flex items-center gap-1 text-success">
-                        <Check className="h-3 w-3" />
-                        {journalEntries.find((j) => j.id === l.journalEntryId)?.reference ?? "Conciliado"}
-                      </span>
-                    ) : isMatching ? (
-                      <Select
-                        value=""
-                        onValueChange={(v) => { if (v) handleMatch(l.id, v); }}
-                      >
-                        <SelectTrigger className="w-full border-primary px-2 py-0.5 text-xs" aria-label="Seleccionar asiento">
-                          <SelectValue placeholder="Seleccionar asiento…" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {journalEntries.map((j) => (
-                            <SelectItem key={j.id} value={j.id}>{j.reference} — {j.description}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    ) : (
-                      <span className="text-muted-foreground/65">—</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-2.5 text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      {l.reconciled ? (
-                        <button
-                          onClick={() => handleUnmatch(l.id)}
-                          disabled={pending}
-                          className="text-muted-foreground hover:text-warning transition-colors"
-                          title="Deshacer conciliación"
-                        >
-                          <X className="h-3.5 w-3.5" />
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => setMatchingId(isMatching ? null : l.id)}
-                          disabled={pending}
-                          className={cn(
-                            "rounded px-2 py-0.5 text-[10px] font-medium transition-colors",
-                            isMatching
-                              ? "bg-primary/10 text-primary"
-                              : "text-muted-foreground hover:text-foreground",
-                          )}
-                        >
-                          Conciliar
-                        </button>
-                      )}
-                      <button
-                        onClick={() => handleDelete(l.id)}
-                        disabled={pending}
-                        className="text-muted-foreground hover:text-destructive transition-colors"
-                      >
-                        <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        {filtered.length === 0 && (
-          <div className="py-10 text-center text-sm text-muted-foreground">
-            {lines.length === 0 ? "Importa un extracto bancario para empezar" : "Sin líneas en este filtro"}
-          </div>
-        )}
-      </div>
+      <DataTable
+        columns={columns}
+        rows={filtered}
+        getRowKey={(l) => l.id}
+        empty={lines.length === 0 ? "Importa un extracto bancario para empezar" : "Sin líneas en este filtro"}
+        caption="Líneas de extracto bancario"
+      />
     </div>
   );
 }

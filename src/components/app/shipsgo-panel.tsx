@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Satellite, AlertTriangle, CheckCircle, X } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { subscribeContainerTracking } from "@/lib/erp-actions";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 interface TrackingSub {
@@ -118,25 +119,18 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
           </p>
 
           <div className="space-y-2">
-            <input
+            <Input
               type="text"
               value={containerNumber}
               onChange={(e) => setContainerNumber(e.target.value.toUpperCase())}
               placeholder="Nº contenedor ISO 6346 (p.ej. MSCU1234567)"
-              className={cn(
-                "w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-base text-foreground",
-                "placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary",
-              )}
+              className="font-mono"
             />
-            <input
+            <Input
               type="text"
               value={shippingLine}
               onChange={(e) => setShippingLine(e.target.value)}
               placeholder="Naviera (p.ej. MSC, MAERSK, CMA CGM)"
-              className={cn(
-                "w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground",
-                "placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary",
-              )}
             />
           </div>
 

@@ -6,6 +6,7 @@ import { X, Send, Sparkles, Loader2, ExternalLink, AlertTriangle, TrendingUp, Us
 import { getCopilotoContext } from "@/lib/erp-actions";
 import { formatMoney } from "@/lib/erp-format";
 import { Icon } from "@/components/icon";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type CopilotoContext = Awaited<ReturnType<typeof getCopilotoContext>>;
@@ -74,12 +75,14 @@ function BlockRenderer({ blocks }: { blocks: Block[] }) {
               <p className="text-base text-foreground whitespace-pre-wrap border-t border-primary/10 pt-2 mt-2">
                 {b.body}
               </p>
-              <button
+              <Button
+                variant="secondary"
+                size="sm"
+                className="mt-1"
                 onClick={() => copy(full, `email-${i}`)}
-                className="mt-1 rounded bg-primary/10 px-2.5 py-1 text-base font-medium text-primary hover:bg-primary/15"
               >
                 {copied === `email-${i}` ? "Copiado ✓" : "Copiar"}
-              </button>
+              </Button>
             </div>
           );
         }
@@ -445,16 +448,16 @@ export function CopilotoPanel() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Pregunta sobre tus datos…"
-              className="flex-1 rounded-lg border border-border bg-background px-3 py-2 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+              className="flex-1 rounded-md border border-border bg-background px-3 py-2 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
             />
-            <button
+            <Button
               type="submit"
               aria-label="Enviar mensaje"
               disabled={!input.trim() || thinking}
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-opacity disabled:opacity-40"
+              className="h-9 w-9 shrink-0 px-0"
             >
               <Icon icon={Send} size={15} />
-            </button>
+            </Button>
           </form>
           <p className="mt-1.5 text-center font-mono text-base text-muted-foreground/65">
             ⌘J para abrir/cerrar · Respuestas basadas en tus datos reales

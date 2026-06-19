@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { EmptyState } from "@/components/ui/empty-state";
+import { DataTable, type Column } from "@/components/ui/data-table";
+import { StatusBadge } from "@/components/ui/badges";
 
 interface ShipmentRow {
   id: string;
@@ -20,11 +20,11 @@ interface ShipmentRow {
   createdAt: Date;
 }
 
-const STATUS_STYLES: Record<string, string> = {
-  borrador: "bg-muted text-muted-foreground",
-  en_transito: "bg-info/10 text-info",
-  entregado: "bg-success/10 text-success",
-  cancelado: "bg-destructive/10 text-destructive",
+const STATUS_TONE: Record<string, "success" | "info" | "warning" | "danger" | "neutral"> = {
+  borrador: "neutral",
+  en_transito: "info",
+  entregado: "success",
+  cancelado: "danger",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -34,6 +34,11 @@ const STATUS_LABELS: Record<string, string> = {
   cancelado: "Cancelado",
 };
 
+function fmtShort(d: Date | string | null | undefined): string {
+  if (!d) return "—";
+  return new Date(d).toLocaleDateString("es-ES", { day: "2-digit", month: "short" });
+}
+
 export function ShipmentModeList({
   shipments,
   emptyLabel = "Sin expedientes",
@@ -41,63 +46,72 @@ export function ShipmentModeList({
   shipments: ShipmentRow[];
   emptyLabel?: string;
 }) {
-  if (shipments.length === 0) {
-    return <EmptyState title={emptyLabel} />;
-  }
+  const columns: Column<ShipmentRow>[] = [
+    {
+      key: "reference",
+      header: "Referencia",
+      card: "title",
+      cell: (s) => (
+        <>
+          <Link href={`/expedientes/${s.id}`} className="font-mono text-xs font-medium text-primary hover:underline">
+            {s.reference}
+          </Link>
+          {s.blNumber && (
+            <div className="mt-0.5 text-xs text-muted-foreground/60">{s.blNumber}</div>
+          )}
+        </>
+      ),
+    },
+    {
+      key: "route",
+      header: "Ruta",
+      cell: (s) => <>{s.pol || "—"} → {s.pod || "—"}</>,
+    },
+    {
+      key: "carrier",
+      header: "Carrier",
+      cell: (s) => s.carrier || "—",
+    },
+    {
+      key: "etd",
+      header: "ETD",
+      cell: (s) => fmtShort(s.etd),
+    },
+    {
+      key: "eta",
+      header: "ETA",
+      cell: (s) => fmtShort(s.eta),
+    },
+    {
+      key: "status",
+      header: "Estado",
+      cell: (s) => (
+        <StatusBadge
+          status={s.status ?? ""}
+          label={STATUS_LABELS[s.status ?? ""] ?? s.status ?? "—"}
+          tone={STATUS_TONE[s.status ?? ""] ?? "neutral"}
+        />
+      ),
+    },
+    {
+      key: "action",
+      header: "",
+      align: "right",
+      card: "hidden",
+      cell: (s) => (
+        <Link href={`/expedientes/${s.id}`} aria-label={`Ver expediente ${s.reference}`} className="text-muted-foreground hover:text-foreground">
+          <ArrowRight aria-hidden className="h-3.5 w-3.5" />
+        </Link>
+      ),
+    },
+  ];
 
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-card">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-b border-border bg-muted/30">
-            <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Referencia</th>
-            <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Origen → Destino</th>
-            <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Naviera / Carrier</th>
-            <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">ETD</th>
-            <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">ETA</th>
-            <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Estado</th>
-            <th className="px-4 py-2.5 w-8" />
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-border">
-          {shipments.map((s) => {
-            const statusClass = STATUS_STYLES[s.status ?? ""] ?? "bg-muted text-muted-foreground";
-            const statusLabel = STATUS_LABELS[s.status ?? ""] ?? s.status ?? "—";
-            return (
-              <tr key={s.id} className="hover:bg-muted/20 transition-colors">
-                <td className="px-4 py-2.5">
-                  <Link href={`/expedientes/${s.id}`} className="font-mono text-xs font-medium text-primary hover:underline">
-                    {s.reference}
-                  </Link>
-                  {s.blNumber && (
-                    <div className="text-xs text-muted-foreground/60 mt-0.5">{s.blNumber}</div>
-                  )}
-                </td>
-                <td className="px-4 py-2.5 text-xs text-muted-foreground">
-                  {s.pol || "—"} → {s.pod || "—"}
-                </td>
-                <td className="px-4 py-2.5 text-xs text-muted-foreground">{s.carrier || "—"}</td>
-                <td className="px-4 py-2.5 text-xs text-muted-foreground">
-                  {s.etd ? new Date(s.etd).toLocaleDateString("es-ES", { day: "2-digit", month: "short" }) : "—"}
-                </td>
-                <td className="px-4 py-2.5 text-xs text-muted-foreground">
-                  {s.eta ? new Date(s.eta).toLocaleDateString("es-ES", { day: "2-digit", month: "short" }) : "—"}
-                </td>
-                <td className="px-4 py-2.5">
-                  <span className={cn("inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium", statusClass)}>
-                    {statusLabel}
-                  </span>
-                </td>
-                <td className="px-4 py-2.5 text-right">
-                  <Link href={`/expedientes/${s.id}`} aria-label={`Ver expediente ${s.reference}`} className="text-muted-foreground hover:text-foreground">
-                    <ArrowRight aria-hidden className="h-3.5 w-3.5" />
-                  </Link>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <DataTable
+      columns={columns}
+      rows={shipments}
+      getRowKey={(s) => s.id}
+      empty={emptyLabel}
+    />
   );
 }

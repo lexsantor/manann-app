@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ChevronRight, Sparkles, X } from "lucide-react";
 
 import { Icon } from "@/components/icon";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const STEPS = [
@@ -106,17 +107,13 @@ export function DemoTour() {
                     />
                   ))}
                 </div>
-                <button
-                  type="button"
-                  onClick={next}
-                  className="inline-flex items-center gap-1 rounded-md bg-primary px-3 py-1.5 text-base font-medium text-primary-foreground transition-opacity hover:opacity-90"
-                >
+                <Button type="button" size="sm" onClick={next}>
                   {(step ?? 0) < STEPS.length - 1 ? (
                     <>Siguiente <Icon icon={ChevronRight} size={13} /></>
                   ) : (
                     "Entendido"
                   )}
-                </button>
+                </Button>
               </div>
             </div>
           </div>

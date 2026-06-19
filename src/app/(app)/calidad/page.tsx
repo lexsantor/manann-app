@@ -79,7 +79,7 @@ export default async function CalidadPage() {
           <Link
             key={item.href}
             href={item.href}
-            className="flex items-start gap-2.5 rounded-md border border-border bg-card p-4 transition-colors hover:border-primary/30 hover:bg-primary/5"
+            className="flex items-start gap-2.5 rounded-xl border border-border bg-card p-4 transition-colors hover:border-primary/30 hover:bg-primary/5"
           >
             <item.icon
               className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground"

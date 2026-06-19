@@ -4,8 +4,8 @@ import { useState, useTransition } from "react";
 import { FileCheck, ChevronDown, ChevronUp, Loader2, CheckCircle2 } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { submitDeclaration } from "@/lib/erp-actions";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { StatusBadge } from "@/components/ui/badges";
 
 interface ComplianceDeclaration {
   id: string;
@@ -51,12 +51,6 @@ const DECL_META: Record<DeclType, { label: string; full: string; description: st
   },
 };
 
-const STATUS_COLOR: Record<string, string> = {
-  pendiente: "text-warning bg-warning/10",
-  enviada: "text-info bg-info/10",
-  aceptada: "text-success bg-success/10",
-  rechazada: "text-accent bg-accent/10",
-};
 
 function DeclarationBlock({
   type,
@@ -103,11 +97,9 @@ function DeclarationBlock({
           <span className="font-mono text-sm font-semibold text-foreground">{meta.label}</span>
           <span className="text-xs text-muted-foreground">{meta.full}</span>
           {decl ? (
-            <span className={cn("rounded-full px-1.5 py-0.5 font-mono text-[10px]", STATUS_COLOR[decl.status] ?? "text-muted-foreground bg-muted/60")}>
-              {decl.referenceNumber}
-            </span>
+            <StatusBadge status={decl.status} label={decl.referenceNumber ?? undefined} className="font-mono" />
           ) : (
-            <span className="rounded-full bg-muted/40 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">Pendiente</span>
+            <StatusBadge status="pendiente" label="Pendiente" tone="neutral" />
           )}
         </div>
         <Icon icon={open ? ChevronUp : ChevronDown} size={14} className="text-muted-foreground" />

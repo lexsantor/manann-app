@@ -4,6 +4,8 @@ import { ArrowLeft, MapPin, Mail, Phone, CreditCard, TrendingUp } from "lucide-r
 import { getOrgContext, getContactById, getContactHistory, getContactGPStats } from "@/lib/erp";
 import { Icon } from "@/components/icon";
 import { StatusPill } from "@/components/app/status-pill";
+import { PageHeader } from "@/components/ui/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
 
 const ROLE_LABEL: Record<string, string> = {
@@ -55,25 +57,25 @@ export default async function ContactDetailPage({
       </Link>
 
       {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
-            {ROLE_LABEL[c.role] ?? c.role}
-          </p>
-          <h1 className="mt-1 font-display text-2xl font-medium tracking-tight text-foreground">{c.name}</h1>
-          {!c.active && (
-            <span className="mt-1 inline-block rounded-full border border-border px-2 py-0.5 font-mono text-xs text-muted-foreground">
+      <PageHeader
+        eyebrow={ROLE_LABEL[c.role] ?? c.role}
+        title={c.name}
+        subtitle={
+          !c.active ? (
+            <span className="inline-block rounded-full border border-border px-2 py-0.5 font-mono text-xs text-muted-foreground">
               Inactivo
             </span>
-          )}
-        </div>
-        <Link
-          href="/contactos?tab=contactos"
-          className="rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground"
-        >
-          Volver y editar
-        </Link>
-      </div>
+          ) : undefined
+        }
+        actions={
+          <Link
+            href="/contactos?tab=contactos"
+            className="rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground"
+          >
+            Volver y editar
+          </Link>
+        }
+      />
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4">
@@ -95,11 +97,7 @@ export default async function ContactDetailPage({
         <div className="space-y-3">
           <h2 className="font-display text-base font-medium text-foreground">Expedientes recientes</h2>
           {history.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-border px-5 py-8 text-center">
-              <p className="text-sm text-muted-foreground">
-                Sin expedientes — el historial aparece cuando este contacto es parte de un envío.
-              </p>
-            </div>
+            <EmptyState title="Sin expedientes — el historial aparece cuando este contacto es parte de un envío." />
           ) : (
             <div className="divide-y divide-border/60 overflow-hidden rounded-xl border border-border bg-card">
               {history.map((s) => {

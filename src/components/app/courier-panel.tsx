@@ -5,6 +5,8 @@ import { Package, Truck, ExternalLink } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import { updateCourierInfo } from "@/lib/erp-actions";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
   Select,
@@ -68,8 +70,6 @@ function CourierEditForm({
     });
   }
 
-  const inputCls = "w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary transition-colors";
-
   return (
     <form onSubmit={handleSubmit} className="mt-3 space-y-3 rounded-md border border-border/60 bg-surface-2/30 p-3">
       <p className="font-mono text-sm font-medium text-foreground uppercase tracking-wide">Datos courier</p>
@@ -89,7 +89,7 @@ function CourierEditForm({
         </div>
         <div>
           <label htmlFor="trackingNumber" className="mb-1 block font-mono text-sm text-muted-foreground">Nº de seguimiento</label>
-          <input id="trackingNumber" name="trackingNumber" placeholder="1Z999AA10123456784" defaultValue={current.tracking ?? ""} className={inputCls} />
+          <Input id="trackingNumber" name="trackingNumber" placeholder="1Z999AA10123456784" defaultValue={current.tracking ?? ""} />
         </div>
         <div className="col-span-2">
           <label htmlFor="estimatedDelivery" className="mb-1 block font-mono text-sm text-muted-foreground">Entrega estimada</label>
@@ -97,16 +97,12 @@ function CourierEditForm({
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded-md bg-primary px-3 py-1.5 font-mono text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
-        >
+        <Button type="submit" disabled={pending}>
           {pending ? "Guardando…" : "Guardar"}
-        </button>
-        <button type="button" onClick={onDone} className="rounded-md px-3 py-1.5 font-mono text-sm text-muted-foreground hover:text-foreground">
+        </Button>
+        <Button type="button" variant="ghost" onClick={onDone}>
           Cancelar
-        </button>
+        </Button>
       </div>
     </form>
   );

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Plus, Check, X } from "lucide-react";
 import { upsertDocumentSeries } from "@/lib/maestros-actions";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import {
   Select,
@@ -185,9 +186,9 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
             </div>
             <div className="space-y-1">
               <label htmlFor="prefijo" className="text-xs text-muted-foreground">Prefijo</label>
-              <input
+              <Input
                 id="prefijo"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono uppercase"
                 placeholder="EXP-"
                 value={form.prefix}
                 onChange={(e) => setForm({ ...form, prefix: e.target.value })}
@@ -195,23 +196,23 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
             </div>
             <div className="space-y-1">
               <label htmlFor="siguiente-numero" className="text-xs text-muted-foreground">Siguiente número</label>
-              <input
+              <Input
                 id="siguiente-numero"
                 type="number"
                 min={1}
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono"
                 value={form.nextNumber}
                 onChange={(e) => setForm({ ...form, nextNumber: Number(e.target.value) })}
               />
             </div>
             <div className="space-y-1">
               <label htmlFor="digitos" className="text-xs text-muted-foreground">Dígitos (relleno)</label>
-              <input
+              <Input
                 id="digitos"
                 type="number"
                 min={1}
                 max={10}
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono"
                 value={form.padding}
                 onChange={(e) => setForm({ ...form, padding: Number(e.target.value) })}
               />

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
 import { Icon } from "@/components/icon";
+import { EmptyState } from "@/components/ui/empty-state";
 import { StatusPill } from "@/components/app/status-pill";
 import { PriorityPill } from "@/components/app/priority-pill";
 import { formatDate } from "@/lib/erp-format";
@@ -33,11 +34,7 @@ export function KanbanBoard({ shipments }: KanbanBoardProps) {
   const cols = COLUMN_ORDER.filter((k) => byStatus[k]?.length > 0);
 
   if (cols.length === 0) {
-    return (
-      <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-        <p className="text-base text-muted-foreground">No hay expedientes.</p>
-      </div>
-    );
+    return <EmptyState title="No hay expedientes." />;
   }
 
   return (

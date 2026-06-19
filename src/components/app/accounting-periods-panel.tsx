@@ -3,7 +3,9 @@
 import { useState, useTransition } from "react";
 import { Lock, LockOpen, Plus } from "lucide-react";
 import { closePeriod, reopenPeriod, ensurePeriod } from "@/lib/contabilidad-actions";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { StatusBadge } from "@/components/ui/badges";
+import { DataTable, type Column } from "@/components/ui/data-table";
 
 interface Period {
   id: string;
@@ -64,85 +66,79 @@ export function AccountingPeriodsPanel({ periods: initial }: { periods: Period[]
   const thisMonth = today.getMonth() + 1;
   const hasCurrentPeriod = periods.some((p) => p.year === thisYear && p.month === thisMonth);
 
+  const columns: Column<Period>[] = [
+    {
+      key: "period",
+      header: "Período",
+      cell: (p) => (
+        <span className="font-mono text-sm font-medium text-foreground">
+          {MONTHS[p.month - 1]} {p.year}
+        </span>
+      ),
+    },
+    {
+      key: "status",
+      header: "Estado",
+      cell: (p) =>
+        p.status === "closed" ? (
+          <StatusBadge status="closed" label="Cerrado" tone="neutral" />
+        ) : (
+          <StatusBadge status="open" label="Abierto" tone="success" />
+        ),
+    },
+    {
+      key: "closedAt",
+      header: "Cerrado el",
+      cell: (p) => (
+        <span className="text-xs text-muted-foreground">
+          {p.closedAt
+            ? new Date(p.closedAt).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "numeric" })
+            : "—"}
+        </span>
+      ),
+    },
+    {
+      key: "actions",
+      header: "",
+      align: "right",
+      card: "hidden",
+      cell: (p) =>
+        p.status === "open" ? (
+          <button
+            onClick={() => handleClose(p.year, p.month)}
+            disabled={pending}
+            className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1 text-xs text-muted-foreground hover:border-primary/40 hover:text-foreground transition-colors disabled:opacity-40"
+          >
+            <Lock className="h-3 w-3" /> Cerrar período
+          </button>
+        ) : (
+          <button
+            onClick={() => handleReopen(p.year, p.month)}
+            disabled={pending}
+            className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1 text-xs text-muted-foreground hover:border-warning/40 hover:text-foreground transition-colors disabled:opacity-40"
+          >
+            <LockOpen className="h-3 w-3" /> Reabrir
+          </button>
+        ),
+    },
+  ];
+
   return (
     <div className="space-y-4">
       {!hasCurrentPeriod && (
-        <button
-          onClick={handleCreate}
-          disabled={pending}
-          className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
-        >
+        <Button onClick={handleCreate} disabled={pending} size="sm">
           <Plus className="h-3.5 w-3.5" strokeWidth={2} />
           Abrir período {MONTHS[thisMonth - 1]} {thisYear}
-        </button>
+        </Button>
       )}
 
-      <div className="overflow-hidden rounded-xl border border-border bg-card">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border bg-muted/30">
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Período</th>
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Estado</th>
-              <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Cerrado el</th>
-              <th className="px-4 py-2.5 w-32" />
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {periods.map((p) => (
-              <tr key={p.id} className="hover:bg-muted/20 transition-colors">
-                <td className="px-4 py-3">
-                  <span className="font-mono text-sm font-medium text-foreground">
-                    {MONTHS[p.month - 1]} {p.year}
-                  </span>
-                </td>
-                <td className="px-4 py-3">
-                  <span
-                    className={cn(
-                      "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium",
-                      p.status === "closed"
-                        ? "bg-muted text-muted-foreground"
-                        : "bg-success/10 text-success",
-                    )}
-                  >
-                    {p.status === "closed" ? (
-                      <><Lock className="h-2.5 w-2.5" /> Cerrado</>
-                    ) : (
-                      <><LockOpen className="h-2.5 w-2.5" /> Abierto</>
-                    )}
-                  </span>
-                </td>
-                <td className="px-4 py-3 text-xs text-muted-foreground">
-                  {p.closedAt
-                    ? new Date(p.closedAt).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "numeric" })
-                    : "—"}
-                </td>
-                <td className="px-4 py-3 text-right">
-                  {p.status === "open" ? (
-                    <button
-                      onClick={() => handleClose(p.year, p.month)}
-                      disabled={pending}
-                      className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1 text-xs text-muted-foreground hover:border-primary/40 hover:text-foreground transition-colors disabled:opacity-40"
-                    >
-                      <Lock className="h-3 w-3" /> Cerrar período
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleReopen(p.year, p.month)}
-                      disabled={pending}
-                      className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1 text-xs text-muted-foreground hover:border-warning/40 hover:text-foreground transition-colors disabled:opacity-40"
-                    >
-                      <LockOpen className="h-3 w-3" /> Reabrir
-                    </button>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {periods.length === 0 && (
-          <div className="py-10 text-center text-sm text-muted-foreground">Sin períodos registrados</div>
-        )}
-      </div>
+      <DataTable
+        columns={columns}
+        rows={periods}
+        getRowKey={(p) => p.id}
+        empty="Sin períodos registrados"
+        caption="Períodos contables"
+      />
 
       <p className="text-xs text-muted-foreground">
         Los asientos en períodos cerrados no pueden modificarse. Reabrir un período queda registrado en el diario de auditoría.

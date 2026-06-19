@@ -8,6 +8,8 @@ import { addCharge, deleteCharge, updateChargeAccrual, type AddChargeInput } fro
 import { GenerarFacturaButton } from "@/components/app/generar-factura-button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { ShipmentDetail } from "@/lib/erp";
 
@@ -89,28 +91,27 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
             </SelectContent>
           </Select>
         </div>
-        <input
+        <Input
           type="text"
           placeholder="Descripción (opcional)"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="rounded-md border border-border bg-background px-2 py-1.5 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
         />
         <div className="relative">
           <span className="absolute left-2 top-1/2 -translate-y-1/2 font-mono text-base text-muted-foreground">Venta</span>
-          <input
+          <Input
             type="number"
             placeholder="0,00"
             step="0.01"
             min="0"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full rounded-md border border-border bg-background pl-10 pr-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="pl-10 pr-2 text-right font-mono [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
         <div className="relative">
           <span className="absolute left-2 top-1/2 -translate-y-1/2 font-mono text-base text-muted-foreground">Compra</span>
-          <input
+          <Input
             type="number"
             placeholder="0,00"
             step="0.01"
@@ -118,7 +119,7 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
             value={passThrough ? amount : buyAmount}
             disabled={passThrough}
             onChange={(e) => setBuyAmount(e.target.value)}
-            className="w-full rounded-md border border-border bg-background pl-12 pr-2 py-1.5 text-right font-mono text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary disabled:opacity-40 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="pl-12 pr-2 text-right font-mono [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
       </div>
@@ -159,14 +160,10 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
         <button type="button" onClick={onDone} className="rounded-md px-3 py-1.5 text-base text-muted-foreground hover:text-foreground">
           Cancelar
         </button>
-        <button
-          type="submit"
-          disabled={pending}
-          className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 disabled:opacity-50"
-        >
+        <Button type="submit" variant="secondary" size="sm" disabled={pending}>
           {pending && <Loader2 className="size-3 animate-spin" />}
           Guardar
-        </button>
+        </Button>
       </div>
     </form>
   );
@@ -532,14 +529,16 @@ function CostRow({ charge: c, shipmentId }: { charge: Charge; shipmentId: string
                 autoFocus
                 onKeyDown={(e) => { if (e.key === "Enter") handleSaveAccrual(); if (e.key === "Escape") setEditingAccrual(false); }}
               />
-              <button
+              <Button
                 onClick={handleSaveAccrual}
                 disabled={pending}
-                className="flex items-center gap-1 rounded bg-primary/10 px-2 py-0.5 font-mono text-base text-primary hover:bg-primary/15 disabled:opacity-50"
+                variant="secondary"
+                size="sm"
+                className="font-mono"
               >
                 {pending && <Loader2 className="size-2.5 animate-spin" />}
                 Guardar
-              </button>
+              </Button>
               <button onClick={() => setEditingAccrual(false)} className="text-muted-foreground hover:text-foreground">✕</button>
             </div>
           ) : (

@@ -13,6 +13,7 @@ import { formatMoney } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/page-header";
 import { buttonVariants } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 
 const TERMINAL = new Set(["entregado", "cerrado"]);
 
@@ -81,7 +82,7 @@ export default async function DashboardPage() {
     }));
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <PageHeader
         eyebrow={ctx.org.name}
         title={`Hola, ${name}.`}
@@ -169,19 +170,19 @@ export default async function DashboardPage() {
           <div className="overflow-hidden rounded-xl border border-border bg-card">
             <table className="w-full text-base">
               <thead>
-                <tr className="border-b border-border">
-                  <th className="px-4 py-2.5 text-left font-mono text-sm uppercase tracking-wide text-muted-foreground">Cliente</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-sm uppercase tracking-wide text-muted-foreground">Expedientes</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-sm uppercase tracking-wide text-muted-foreground">Venta</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-sm uppercase tracking-wide text-muted-foreground">GP</th>
-                  <th className="px-4 py-2.5 text-right font-mono text-sm uppercase tracking-wide text-muted-foreground">Margen</th>
-                  <th className="px-4 py-2.5 text-center font-mono text-sm uppercase tracking-wide text-muted-foreground">Tier</th>
+                <tr className="border-b border-border bg-muted/70">
+                  <th className="px-4 py-3 text-left font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Cliente</th>
+                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Expedientes</th>
+                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Venta</th>
+                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">GP</th>
+                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Margen</th>
+                  <th className="px-4 py-3 text-center font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Tier</th>
                 </tr>
               </thead>
               <tbody>
-                {gpByClient.slice(0, 8).map((row) => (
-                  <tr key={row.name} className="border-b border-border/50 last:border-0 transition-colors hover:bg-surface-2">
-                    <td className="px-4 py-2.5 font-medium text-foreground">{row.name}</td>
+                {gpByClient.slice(0, 8).map((row, i) => (
+                  <tr key={row.name} className={cn("border-b border-border/50 last:border-0 transition-colors hover:bg-surface-2", i % 2 === 0 ? "bg-card" : "bg-muted/40")}>
+                    <td className="px-4 py-2.5">{row.name}</td>
                     <td className="px-4 py-2.5 text-right font-mono text-muted-foreground">{row.shipmentCount}</td>
                     <td className="px-4 py-2.5 text-right font-mono text-muted-foreground">{formatMoney(String(row.revenue), "EUR")}</td>
                     <td className={cn("px-4 py-2.5 text-right font-mono font-medium", row.gp >= 0 ? "text-success" : "text-destructive")}>
@@ -236,11 +237,7 @@ export default async function DashboardPage() {
             ))}
           </div>
         ) : (
-          <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-            <p className="text-base text-muted-foreground">
-              Todos los expedientes están entregados o cerrados.
-            </p>
-          </div>
+          <EmptyState title="Todos los expedientes están entregados o cerrados." />
         )}
       </section>
 

@@ -5,6 +5,7 @@ import { ShieldCheck, ChevronDown, ChevronUp, Loader2, CheckCircle2 } from "luci
 import { Icon } from "@/components/icon";
 import { submitVerifactu } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface VerifactuDeclaration {
   id: string;
@@ -158,14 +159,10 @@ export function VerifactuPanel({ invoiceId, invoiceRef, invoiceTotal, issueDate,
               {error && <p className="text-sm text-accent">{error}</p>}
               <div className="flex items-center justify-between">
                 <p className="font-mono text-sm text-muted-foreground/60">Simulación — AEAT en producción</p>
-                <button
-                  onClick={handleSubmit}
-                  disabled={pending}
-                  className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
-                >
+                <Button onClick={handleSubmit} disabled={pending} variant="secondary" size="sm">
                   {pending ? <Loader2 className="size-4 animate-spin" /> : <ShieldCheck className="size-4" />}
                   Registrar en AEAT
-                </button>
+                </Button>
               </div>
             </div>
           )}

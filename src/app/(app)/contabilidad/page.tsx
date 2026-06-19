@@ -46,7 +46,7 @@ export default async function ContabilidadPage() {
           <Link
             key={item.href}
             href={item.href}
-            className="flex items-start gap-2.5 rounded-md border border-border bg-card p-3 hover:border-primary/30 hover:bg-primary/5 transition-colors"
+            className="flex items-start gap-2.5 rounded-xl border border-border bg-card p-3 hover:border-primary/30 hover:bg-primary/5 transition-colors"
           >
             <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" strokeWidth={1.5} />
             <div>

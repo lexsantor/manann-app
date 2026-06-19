@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import { Upload, FileText, CheckCircle2, AlertCircle, Loader2, X } from "lucide-react";
 import { Icon } from "@/components/icon";
+import { Button } from "@/components/ui/button";
 import { bulkImportRates } from "@/lib/erp-actions";
 import type { RateInput } from "@/lib/erp-actions";
 
@@ -145,14 +146,15 @@ export function RateCsvImport() {
             ) : (
               <p className="text-xs text-muted-foreground/60">Revisa la previsualización antes de importar</p>
             )}
-            <button
+            <Button
               onClick={handleImport}
               disabled={pending || preview.length === 0}
-              className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
+              size="sm"
+              className="gap-1.5"
             >
               {pending ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}
               Importar {preview.length} tarifas
-            </button>
+            </Button>
           </div>
           {result?.errors && result.errors.length > 0 && (
             <div className="border-t border-border/40 px-4 py-3 space-y-1">

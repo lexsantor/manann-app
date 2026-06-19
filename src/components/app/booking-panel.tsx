@@ -5,6 +5,7 @@ import { BookOpen, Plus, Trash2 } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { createBooking, updateBookingStatus, deleteBooking } from "@/lib/erp-actions";
 import { DatePicker } from "@/components/ui/date-picker";
 
@@ -171,23 +172,21 @@ function CreateBookingForm({
     });
   }
 
-  const inputCls = "w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary transition-colors";
-
   return (
     <form onSubmit={handleSubmit} className="mt-3 space-y-3 rounded-md border border-border/60 bg-surface-2/30 p-3">
       <p className="font-mono text-sm font-medium text-foreground uppercase tracking-wide">Nuevo booking DCSA 2.0</p>
       <div className="grid grid-cols-2 gap-2">
         <div>
           <label htmlFor="carrierCode" className="mb-1 block font-mono text-sm text-muted-foreground">Naviera (SCAC) *</label>
-          <input id="carrierCode" name="carrierCode" required placeholder="MSC" defaultValue={defaultCarrier ?? ""} className={inputCls} />
+          <Input id="carrierCode" name="carrierCode" required placeholder="MSC" defaultValue={defaultCarrier ?? ""} />
         </div>
         <div>
           <label htmlFor="vesselName" className="mb-1 block font-mono text-sm text-muted-foreground">Buque</label>
-          <input id="vesselName" name="vesselName" placeholder="MSC IRINA" defaultValue={defaultVessel ?? ""} className={inputCls} />
+          <Input id="vesselName" name="vesselName" placeholder="MSC IRINA" defaultValue={defaultVessel ?? ""} />
         </div>
         <div>
           <label htmlFor="voyageNumber" className="mb-1 block font-mono text-sm text-muted-foreground">Viaje</label>
-          <input id="voyageNumber" name="voyageNumber" placeholder="043E" defaultValue={defaultVoyage ?? ""} className={inputCls} />
+          <Input id="voyageNumber" name="voyageNumber" placeholder="043E" defaultValue={defaultVoyage ?? ""} />
         </div>
         <div>
           <label htmlFor="cutoffDate" className="mb-1 block font-mono text-sm text-muted-foreground">Cutoff VGM/carga</label>
@@ -195,11 +194,11 @@ function CreateBookingForm({
         </div>
         <div>
           <label htmlFor="pol" className="mb-1 block font-mono text-sm text-muted-foreground">POL</label>
-          <input id="pol" name="pol" placeholder="ESBCN" defaultValue={defaultPol ?? ""} className={inputCls} />
+          <Input id="pol" name="pol" placeholder="ESBCN" defaultValue={defaultPol ?? ""} />
         </div>
         <div>
           <label htmlFor="pod" className="mb-1 block font-mono text-sm text-muted-foreground">POD</label>
-          <input id="pod" name="pod" placeholder="NLRTM" defaultValue={defaultPod ?? ""} className={inputCls} />
+          <Input id="pod" name="pod" placeholder="NLRTM" defaultValue={defaultPod ?? ""} />
         </div>
         <div>
           <label htmlFor="etd" className="mb-1 block font-mono text-sm text-muted-foreground">ETD</label>
@@ -212,7 +211,7 @@ function CreateBookingForm({
       </div>
       <div>
         <label htmlFor="notes" className="mb-1 block font-mono text-sm text-muted-foreground">Notas</label>
-        <input id="notes" name="notes" placeholder="Instrucciones especiales…" className={inputCls} />
+        <Input id="notes" name="notes" placeholder="Instrucciones especiales…" />
       </div>
       <div className="flex items-center justify-end gap-2">
         <Button type="button" variant="ghost" onClick={onDone}>

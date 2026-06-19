@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 import { Tag } from "lucide-react";
 import { getOrgContext, listRates } from "@/lib/erp";
 import { formatMoney, formatDate } from "@/lib/erp-format";
-import { Icon } from "@/components/icon";
 import { PageHeader } from "@/components/ui/page-header";
+import { EmptyState } from "@/components/ui/empty-state";
 import { DataTable, CellStacked, type Column } from "@/components/ui/data-table";
 import { RateFormTrigger, RateEditTrigger } from "@/components/app/rate-form";
 import { RateRowActions } from "@/components/app/rate-row-actions";
@@ -122,7 +122,7 @@ export default async function TarifasPage() {
   const inactive = rates.filter((r) => !r.active);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       <PageHeader
         eyebrow="Finanzas"
         icon={<Tag strokeWidth={1.5} />}
@@ -141,13 +141,11 @@ export default async function TarifasPage() {
       </div>
 
       {rates.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border/60 py-20 text-center">
-          <Icon icon={Tag} size={32} className="mb-3 text-muted-foreground/55" />
-          <p className="text-base font-medium text-muted-foreground">Sin tarifas todavía</p>
-          <p className="mt-1 text-base text-muted-foreground/60">
-            Crea tu primera tarifa para usarla al generar facturas y cotizaciones.
-          </p>
-        </div>
+        <EmptyState
+          icon={<Tag strokeWidth={1.5} />}
+          title="Sin tarifas todavía"
+          hint="Crea tu primera tarifa para usarla al generar facturas y cotizaciones."
+        />
       ) : (
         <>
           <RatesTable rates={active} title="Activas" />

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { createChargeConcept, deleteChargeConcept } from "@/lib/maestros-actions";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { SearchField } from "@/components/ui/search-field";
 import {
@@ -114,6 +115,7 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
         <button
           onClick={() => handleDelete(c.id)}
           disabled={pending}
+          aria-label="Eliminar concepto"
           className="text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
         >
           <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
@@ -144,9 +146,9 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <label htmlFor="codigo" className="text-xs text-muted-foreground">Código</label>
-              <input
+              <Input
                 id="codigo"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono uppercase"
                 placeholder="BL"
                 value={form.code}
                 onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })}
@@ -154,9 +156,8 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
             </div>
             <div className="space-y-1">
               <label htmlFor="nombre" className="text-xs text-muted-foreground">Nombre</label>
-              <input
+              <Input
                 id="nombre"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Bill of Lading"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}

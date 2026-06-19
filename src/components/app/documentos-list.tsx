@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FileText, FileCheck2, FileX2, FileClock, FileSearch, ExternalLink } from "lucide-react";
 
 import { Icon } from "@/components/icon";
+import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
 import { DocPreviewPanel } from "@/components/app/doc-preview-panel";
 import type { DocumentItem } from "@/lib/erp";
@@ -57,11 +58,10 @@ export function DocumentosList({ docs }: DocumentosListProps) {
 
   if (docs.length === 0) {
     return (
-      <div className="rounded-md border border-dashed border-border bg-secondary/[0.04] px-5 py-10 text-center">
-        <p className="text-base text-muted-foreground">
-          No hay documentos con ese tipo.
-        </p>
-      </div>
+      <EmptyState
+        icon={<FileSearch />}
+        title="No hay documentos con ese tipo."
+      />
     );
   }
 

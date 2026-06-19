@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
 import { NotificationsBell } from "./notifications-bell";
 import { createDraftShipment } from "@/lib/erp-actions";
 import { signOut } from "@/lib/auth-client";
@@ -134,14 +135,14 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
 
       {/* +Crear */}
       <div className="relative shrink-0">
-        <button
+        <Button
           type="button"
+          size="sm"
           onClick={() => setMenu(menu === "crear" ? null : "crear")}
-          className="flex h-9 items-center gap-1.5 rounded-md bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
         >
           <Plus className="h-4 w-4" strokeWidth={2} />
           <span className="hidden sm:inline">Crear</span>
-        </button>
+        </Button>
         {menu === "crear" && (
           <div className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-lg">
             <form action={createDraftShipment}>
@@ -266,17 +267,19 @@ function HelpModal({ onClose, pathname }: { onClose: () => void; pathname: strin
           </ul>
         )}
         {hasTour && (
-          <button
+          <Button
             type="button"
+            variant="secondary"
+            size="sm"
+            className="mt-5"
             onClick={() => {
               window.dispatchEvent(new CustomEvent("manann:open-tour"));
               onClose();
             }}
-            className="mt-5 inline-flex items-center gap-1.5 rounded-md border border-primary/30 bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
           >
             <Sparkles className="h-3.5 w-3.5" />
             Ver guía de esta pantalla
-          </button>
+          </Button>
         )}
         <p className="mt-6 mb-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">Atajos</p>
         <ul className="space-y-3">

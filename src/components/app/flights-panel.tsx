@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Plus, Trash2, PlaneTakeoff } from "lucide-react";
 import { createFlight, deleteFlight } from "@/lib/tier-s-actions";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { ConfirmButton } from "@/components/ui/confirm-button";
@@ -172,9 +173,9 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-1">
               <label htmlFor="numero-de-vuelo" className="text-xs text-muted-foreground">Número de vuelo</label>
-              <input
+              <Input
                 id="numero-de-vuelo"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono uppercase"
                 placeholder="IB6251"
                 value={form.flightNumber}
                 onChange={(e) => setForm({ ...form, flightNumber: e.target.value.toUpperCase() })}
@@ -219,9 +220,9 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
             </div>
             <div className="space-y-1">
               <label htmlFor="tipo-aeronave" className="text-xs text-muted-foreground">Tipo aeronave</label>
-              <input
+              <Input
                 id="tipo-aeronave"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono"
                 placeholder="B747F"
                 value={form.aircraftType}
                 onChange={(e) => setForm({ ...form, aircraftType: e.target.value })}
@@ -245,10 +246,10 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
             </div>
             <div className="space-y-1">
               <label htmlFor="capacidad-kg" className="text-xs text-muted-foreground">Capacidad (kg)</label>
-              <input
+              <Input
                 id="capacidad-kg"
                 type="number"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono"
                 placeholder="100000"
                 value={form.capacityKg}
                 onChange={(e) => setForm({ ...form, capacityKg: e.target.value })}
@@ -256,10 +257,10 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
             </div>
             <div className="space-y-1">
               <label htmlFor="disponible-kg" className="text-xs text-muted-foreground">Disponible (kg)</label>
-              <input
+              <Input
                 id="disponible-kg"
                 type="number"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono"
                 placeholder="80000"
                 value={form.availableKg}
                 onChange={(e) => setForm({ ...form, availableKg: e.target.value })}

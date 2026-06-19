@@ -10,6 +10,7 @@ import {
 } from "@/lib/tier-s-actions";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import {
   Select,
@@ -171,9 +172,9 @@ export function AirManifestsPanel({
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <label htmlFor="mawb-number" className="text-xs text-muted-foreground">MAWB</label>
-              <input
+              <Input
                 id="mawb-number"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono uppercase"
                 placeholder="176-12345678"
                 value={form.mawbNumber}
                 onChange={(e) => setForm({ ...form, mawbNumber: e.target.value })}
@@ -181,9 +182,8 @@ export function AirManifestsPanel({
             </div>
             <div className="space-y-1">
               <label htmlFor="carrier" className="text-xs text-muted-foreground">Carrier</label>
-              <input
+              <Input
                 id="carrier"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Iberia Cargo"
                 value={form.carrier}
                 onChange={(e) => setForm({ ...form, carrier: e.target.value })}
@@ -341,29 +341,28 @@ export function AirManifestsPanel({
 
                   {/* Add HAWB form */}
                   <div className="grid grid-cols-2 gap-2 pt-2 border-t border-border/50 sm:grid-cols-5">
-                    <input
-                      className="h-10 rounded border border-border bg-background px-2 text-sm font-mono focus:outline-none focus:ring-1 focus:ring-primary/30 sm:h-auto sm:py-1 sm:text-xs"
+                    <Input
+                      className="font-mono"
                       placeholder="HAWB"
                       value={hawbForm.hawbNumber}
                       onChange={(e) => setHawbForm({ ...hawbForm, hawbNumber: e.target.value })}
                     />
-                    <input
-                      className="h-10 rounded border border-border bg-background px-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary/30 sm:h-auto sm:py-1 sm:text-xs"
+                    <Input
                       placeholder="Consignatario"
                       value={hawbForm.consignee}
                       onChange={(e) => setHawbForm({ ...hawbForm, consignee: e.target.value })}
                     />
-                    <input
+                    <Input
                       type="number"
                       min={1}
-                      className="h-10 rounded border border-border bg-background px-2 text-sm font-mono focus:outline-none focus:ring-1 focus:ring-primary/30 sm:h-auto sm:py-1 sm:text-xs"
+                      className="font-mono"
                       placeholder="Bultos"
                       value={hawbForm.pieces}
                       onChange={(e) => setHawbForm({ ...hawbForm, pieces: e.target.value })}
                     />
-                    <input
+                    <Input
                       type="number"
-                      className="h-10 rounded border border-border bg-background px-2 text-sm font-mono focus:outline-none focus:ring-1 focus:ring-primary/30 sm:h-auto sm:py-1 sm:text-xs"
+                      className="font-mono"
                       placeholder="Peso kg"
                       value={hawbForm.weightKg}
                       onChange={(e) => setHawbForm({ ...hawbForm, weightKg: e.target.value })}

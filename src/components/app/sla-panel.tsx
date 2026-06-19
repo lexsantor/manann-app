@@ -79,7 +79,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
     {
       key: "name",
       header: "Nombre",
-      cell: (i) => <span className="font-medium text-foreground">{i.name}</span>,
+      cell: (i) => i.name,
     },
     {
       key: "metric",

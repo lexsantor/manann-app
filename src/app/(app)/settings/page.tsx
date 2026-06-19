@@ -23,7 +23,7 @@ export default async function SettingsPage() {
   const apiKeys = isOwner ? await listApiKeys() : [];
 
   return (
-    <div className="space-y-10 py-10">
+    <div className="space-y-6">
       <PageHeader
         icon={<Settings strokeWidth={1.5} />}
         title="Ajustes"
@@ -35,7 +35,7 @@ export default async function SettingsPage() {
         <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
           Organización
         </h2>
-        <div className="rounded-md border bg-card p-5">
+        <div className="rounded-xl border border-border bg-card p-5">
           <OrgNameForm currentName={data.org.name} isOwner={isOwner} />
         </div>
       </section>
@@ -56,7 +56,7 @@ export default async function SettingsPage() {
           isOwner={isOwner}
         />
         {isOwner && (
-          <div className="rounded-md border bg-card p-5">
+          <div className="rounded-xl border border-border bg-card p-5">
             <p className="mb-3 text-base font-medium">Invitar miembro</p>
             <InviteForm />
           </div>

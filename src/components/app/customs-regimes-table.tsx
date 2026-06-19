@@ -18,7 +18,7 @@ const COLUMNS: Column<Regime>[] = [
     header: "Código",
     cell: (r) => <span className="font-mono text-xs font-bold text-primary">{r.code}</span>,
   },
-  { key: "name", header: "Nombre", card: "title", cell: (r) => <span className="font-medium">{r.name}</span> },
+  { key: "name", header: "Nombre", card: "title", cell: (r) => r.name },
   {
     key: "description",
     header: "Descripción",

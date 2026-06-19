@@ -29,7 +29,7 @@ export default async function PipelinePage() {
   const winRate = decided > 0 ? Math.round((won.count / decided) * 100) : 0;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="space-y-6">
       <PageHeader
         eyebrow="Comercial"
         icon={<TrendingUp strokeWidth={1.5} />}

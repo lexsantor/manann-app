@@ -97,17 +97,23 @@ export function BalanceSumasSaldos() {
           <div className="overflow-x-auto">
           <table className="w-full min-w-[640px] text-sm">
             <thead>
-              <tr className="border-b border-border bg-muted/30">
-                <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Cuenta</th>
-                <th className="px-4 py-2.5 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Nombre</th>
-                <th className="px-4 py-2.5 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">Debe</th>
-                <th className="px-4 py-2.5 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">Haber</th>
-                <th className="px-4 py-2.5 text-right text-xs font-medium text-muted-foreground uppercase tracking-wide">Saldo</th>
+              <tr className="border-b border-border bg-muted/70">
+                <th className="px-4 py-3 text-left font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Cuenta</th>
+                <th className="px-4 py-3 text-left font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Nombre</th>
+                <th className="px-4 py-3 text-right font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Debe</th>
+                <th className="px-4 py-3 text-right font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Haber</th>
+                <th className="px-4 py-3 text-right font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Saldo</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {rows.map((r) => (
-                <tr key={r.accountCode} className="hover:bg-muted/20 transition-colors">
+              {rows.map((r, i) => (
+                <tr
+                  key={r.accountCode}
+                  className={cn(
+                    "transition-colors hover:bg-primary/[0.06]",
+                    i % 2 === 0 ? "bg-card" : "bg-muted/40",
+                  )}
+                >
                   <td className="px-4 py-2.5 font-mono text-xs font-bold text-foreground">{r.accountCode}</td>
                   <td className="px-4 py-2.5 text-xs text-muted-foreground">{r.accountName}</td>
                   <td className="px-4 py-2.5 text-right font-mono text-xs text-foreground">{fmt(r.totalDebit)}</td>

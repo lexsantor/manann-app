@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
 
 const UNIT_LABELS: Record<string, string> = {
@@ -153,15 +154,13 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2">
               <label htmlFor="cliente" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Cliente *</label>
-              <input id="cliente" type="text" value={clientName} onChange={(e) => setClientName(e.target.value)}
-                placeholder="Nombre del cliente"
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+              <Input id="cliente" type="text" value={clientName} onChange={(e) => setClientName(e.target.value)}
+                placeholder="Nombre del cliente" />
             </div>
             <div>
               <label htmlFor="email-del-cliente" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Email del cliente</label>
-              <input id="email-del-cliente" type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)}
-                placeholder="cliente@empresa.com"
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+              <Input id="email-del-cliente" type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)}
+                placeholder="cliente@empresa.com" />
             </div>
             <div>
               <label htmlFor="valida-hasta" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Válida hasta</label>
@@ -219,11 +218,11 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
             <div className="space-y-1.5">
               {lines.map((l, i) => (
                 <div key={i} className="grid gap-2 items-center" style={{ gridTemplateColumns: "1fr 70px 90px 90px 28px" }}>
-                  <input type="text" value={l.concept} onChange={(e) => updateLine(i, "concept", e.target.value)}
+                  <Input type="text" value={l.concept} onChange={(e) => updateLine(i, "concept", e.target.value)}
                     placeholder="Concepto"
-                    className="rounded-md border border-border bg-surface-2/30 px-2 py-1.5 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+                    className="px-2" />
                   <Select value={l.unit} onValueChange={(v) => updateLine(i, "unit", v)}>
-                    <SelectTrigger className="h-[34px] text-base" aria-label="Unidad">
+                    <SelectTrigger className="text-base" aria-label="Unidad">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -232,12 +231,12 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
                       ))}
                     </SelectContent>
                   </Select>
-                  <input type="number" value={l.quantity} onChange={(e) => updateLine(i, "quantity", e.target.value)}
+                  <Input type="number" value={l.quantity} onChange={(e) => updateLine(i, "quantity", e.target.value)}
                     min="0" step="1"
-                    className="rounded-md border border-border bg-surface-2/30 px-2 py-1.5 text-right text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
-                  <input type="number" value={l.unitPrice} onChange={(e) => updateLine(i, "unitPrice", e.target.value)}
+                    className="px-2 text-right [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
+                  <Input type="number" value={l.unitPrice} onChange={(e) => updateLine(i, "unitPrice", e.target.value)}
                     min="0" step="0.01"
-                    className="rounded-md border border-border bg-surface-2/30 px-2 py-1.5 text-right text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
+                    className="px-2 text-right [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
                   <button onClick={() => removeLine(i)} disabled={lines.length === 1}
                     className="flex size-7 items-center justify-center rounded text-muted-foreground/55 hover:text-destructive transition-colors disabled:pointer-events-none">
                     <Trash2 className="size-3.5" />
@@ -304,11 +303,10 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
             className="rounded-md border border-border px-4 py-2 text-base text-muted-foreground hover:text-foreground transition-colors">
             Cancelar
           </button>
-          <button onClick={handleSubmit} disabled={pending}
-            className="flex items-center gap-1.5 rounded-md bg-primary/10 px-4 py-2 text-base font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50">
+          <Button variant="secondary" onClick={handleSubmit} disabled={pending} className="gap-1.5">
             {pending ? <Loader2 className="size-4 animate-spin" /> : <Plus className="size-4" />}
             Crear cotización
-          </button>
+          </Button>
         </div>
       </div>
     </>

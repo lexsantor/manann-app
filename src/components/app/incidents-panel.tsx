@@ -79,7 +79,7 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
     {
       key: "type",
       header: "Tipo",
-      cell: (i) => <span className="font-medium text-foreground">{TYPE_LABELS[i.type] ?? i.type}</span>,
+      cell: (i) => TYPE_LABELS[i.type] ?? i.type,
     },
     {
       key: "description",
