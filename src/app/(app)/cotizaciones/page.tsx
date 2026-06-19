@@ -89,8 +89,12 @@ export default async function CotizacionesPage({ searchParams }: PageProps) {
         icon={<FileText strokeWidth={1.5} />}
         title="Cotizaciones"
         subtitle={`${quotations.length} ${quotations.length === 1 ? "cotización" : "cotizaciones"}`}
-        actions={<GenerarCotizacionButton rates={rates} />}
       />
+
+      {/* Barra de acciones (fuera del hero) */}
+      <div className="flex sm:justify-end [&>button]:w-full sm:[&>button]:w-auto">
+        <GenerarCotizacionButton rates={rates} />
+      </div>
 
       {created && (
         <div className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-primary">

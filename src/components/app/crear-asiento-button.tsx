@@ -6,6 +6,7 @@ import { Icon } from "@/components/icon";
 import { createJournalEntry } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 
 interface AccountRow {
   id: string;
@@ -114,13 +115,10 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90"
-      >
-        <Icon icon={Plus} size={11} />
+      <Button onClick={() => setOpen(true)} className="gap-1.5">
+        <Icon icon={Plus} size={16} />
         Nuevo asiento
-      </button>
+      </Button>
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">

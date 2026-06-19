@@ -128,7 +128,7 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
         <p className="text-sm text-muted-foreground">
           {items.length} {items.length === 1 ? "no conformidad" : "no conformidades"}
         </p>
-        <Button size="sm" variant="secondary" onClick={() => setOpen(true)} className="w-full gap-1.5 sm:w-auto">
+        <Button onClick={() => setOpen(true)} className="w-full gap-1.5 sm:w-auto">
           <Plus className="h-3.5 w-3.5" />
           Nueva NC
         </Button>

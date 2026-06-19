@@ -89,13 +89,10 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
             onChange={(e) => setQ(e.target.value)}
           />
         </div>
-        <button
-          onClick={() => setShowForm((v) => !v)}
-          className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
-        >
+        <Button onClick={() => setShowForm((v) => !v)} className="shrink-0 gap-1.5">
           <Plus className="h-3.5 w-3.5" strokeWidth={2} />
-          Nuevo
-        </button>
+          Nuevo concepto
+        </Button>
       </div>
 
       {showForm && (

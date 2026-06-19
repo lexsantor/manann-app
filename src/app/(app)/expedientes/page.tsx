@@ -64,31 +64,31 @@ export default async function ExpedientesPage({
         icon={<Package strokeWidth={1.5} />}
         title="Expedientes"
         subtitle={`${all.length} expediente${all.length !== 1 ? "s" : ""}`}
-        actions={
-          <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:items-center">
-            <Link
-              href="/expedientes/importar"
-              prefetch={false}
-              className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "w-full gap-1.5 sm:w-auto")}
-            >
-              <Icon icon={Upload} size={14} />
-              Importar CSV
-            </Link>
-            <a
-              href="/api/expedientes/export"
-              className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "w-full gap-1.5 sm:w-auto")}
-            >
-              <Icon icon={Download} size={14} />
-              Exportar CSV
-            </a>
-            <form action={createDraftShipment} className="col-span-2 sm:col-auto">
-              <Button type="submit" size="sm" className="w-full sm:w-auto">
-                <Icon icon={Plus} size={16} /> Nuevo expediente
-              </Button>
-            </form>
-          </div>
-        }
       />
+
+      {/* Barra de acciones (fuera del hero, alineada a la derecha en desktop) */}
+      <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:justify-end">
+        <Link
+          href="/expedientes/importar"
+          prefetch={false}
+          className={cn(buttonVariants({ variant: "secondary" }), "w-full gap-1.5 sm:w-auto")}
+        >
+          <Icon icon={Upload} size={14} />
+          Importar CSV
+        </Link>
+        <a
+          href="/api/expedientes/export"
+          className={cn(buttonVariants({ variant: "secondary" }), "w-full gap-1.5 sm:w-auto")}
+        >
+          <Icon icon={Download} size={14} />
+          Exportar CSV
+        </a>
+        <form action={createDraftShipment} className="col-span-2 sm:col-auto">
+          <Button type="submit" className="w-full sm:w-auto">
+            <Icon icon={Plus} size={16} /> Nuevo expediente
+          </Button>
+        </form>
+      </div>
 
       <SearchInput defaultValue={q} estado={estado} />
 

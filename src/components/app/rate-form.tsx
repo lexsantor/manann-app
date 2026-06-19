@@ -6,6 +6,7 @@ import { X, Loader2, Plus, CalendarDays } from "lucide-react";
 import { createRate, updateRate, type RateInput } from "@/lib/erp-actions";
 import { type RateItem } from "@/lib/erp";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 function DateInput({
   value,
@@ -282,13 +283,10 @@ export function RateFormTrigger() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors"
-      >
+      <Button onClick={() => setOpen(true)} className="gap-1.5">
         <Plus className="size-4" />
         Nueva tarifa
-      </button>
+      </Button>
       {open && <RateForm onClose={() => setOpen(false)} />}
     </>
   );

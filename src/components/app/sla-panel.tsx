@@ -151,7 +151,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
         <p className="text-sm text-muted-foreground">
           {items.length} {items.length === 1 ? "SLA definido" : "SLAs definidos"}
         </p>
-        <Button size="sm" variant="secondary" onClick={() => setOpen(true)} className="w-full gap-1.5 sm:w-auto">
+        <Button onClick={() => setOpen(true)} className="w-full gap-1.5 sm:w-auto">
           <Plus className="h-3.5 w-3.5" />
           Nuevo SLA
         </Button>

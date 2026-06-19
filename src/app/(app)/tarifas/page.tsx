@@ -128,8 +128,12 @@ export default async function TarifasPage() {
         icon={<Tag strokeWidth={1.5} />}
         title="Tarifas"
         subtitle={`${active.length} activas · ${inactive.length} inactivas`}
-        actions={<RateFormTrigger />}
       />
+
+      {/* Barra de acciones (fuera del hero) */}
+      <div className="flex sm:justify-end [&>button]:w-full sm:[&>button]:w-auto">
+        <RateFormTrigger />
+      </div>
 
       <div className="rounded-xl border border-border bg-card p-5">
         <p className="mb-3 font-mono text-xs uppercase tracking-wider text-muted-foreground/60">Importar desde CSV</p>

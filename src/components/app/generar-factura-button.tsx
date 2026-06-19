@@ -14,6 +14,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 interface RevenueLine {
   concept: string;
@@ -110,13 +111,10 @@ export function GenerarFacturaButton({
 
   return (
     <>
-      <button
-        onClick={() => setOpen(true)}
-        className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-base font-medium text-primary hover:bg-primary/15 transition-colors"
-      >
+      <Button onClick={() => setOpen(true)} className="gap-1.5">
         <FileText className="size-3.5" />
         Generar factura
-      </button>
+      </Button>
 
       {/* Overlay */}
       {open && (
