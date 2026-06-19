@@ -119,6 +119,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
           />
         </div>
 
+        <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
           <label htmlFor="org-city" className="text-sm font-medium text-foreground">Ciudad / sede</label>
           <Input
@@ -126,7 +127,6 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
             value={form.city}
             onChange={(e) => setForm({ ...form, city: e.target.value })}
             placeholder="ej. Barcelona"
-            className="max-w-xs"
           />
         </div>
 
@@ -138,7 +138,6 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
             value={form.monthlyCapacity}
             onChange={(e) => setForm({ ...form, monthlyCapacity: e.target.value })}
             placeholder="ej. 150"
-            className="max-w-xs"
           />
         </div>
 
@@ -169,6 +168,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
           onChange={(v) => setForm({ ...form, languages: v })}
           placeholder="ej. es, en, fr…"
         />
+        </div>
       </div>
 
       <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">

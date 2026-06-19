@@ -73,12 +73,12 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Buscar por nombre, ciudad, corredor…"
-            className="pl-9"
+            className="bg-card pl-9"
           />
         </div>
         <div className="grid grid-cols-2 gap-2 sm:contents">
         <Select value={filterCountry} onValueChange={setFilterCountry}>
-          <SelectTrigger className="w-full sm:w-40" aria-label="País">
+          <SelectTrigger className="w-full bg-card sm:w-40" aria-label="País">
             <SelectValue placeholder="País" />
           </SelectTrigger>
           <SelectContent>
@@ -91,7 +91,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
           </SelectContent>
         </Select>
         <Select value={filterMode} onValueChange={setFilterMode}>
-          <SelectTrigger className="w-full sm:w-36" aria-label="Modo">
+          <SelectTrigger className="w-full bg-card sm:w-36" aria-label="Modo">
             <SelectValue placeholder="Modo" />
           </SelectTrigger>
           <SelectContent>
@@ -128,7 +128,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
                       <CheckCircle2 className="h-3.5 w-3.5 text-success shrink-0" />
                     )}
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     {agent.city ? `${agent.city}, ` : ""}{COUNTRIES[agent.country] ?? agent.country}
                   </p>
                 </div>
@@ -146,7 +146,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
               </div>
 
               {agent.corridors.length > 0 && (
-                <p className="text-xs text-muted-foreground line-clamp-1">
+                <p className="text-sm text-muted-foreground line-clamp-1">
                   {agent.corridors.join(" · ")}
                 </p>
               )}
@@ -165,7 +165,7 @@ export function NetworkAgentsPanel({ agents }: { agents: NetworkAgent[] }) {
               )}
 
               {agent.contactEmail && (
-                <p className="text-xs text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                   {agent.contactName && <span>{agent.contactName} · </span>}
                   <a
                     href={`mailto:${agent.contactEmail}`}
