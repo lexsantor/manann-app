@@ -72,7 +72,7 @@ export default async function MapaPage() {
               <a
                 key={s.id}
                 href={`/expedientes/${s.id}`}
-                className="group flex items-start gap-3 rounded-lg border border-border bg-surface-2/30 p-3 transition-colors hover:border-primary/30 hover:bg-surface-2/60"
+                className="group flex items-start gap-3 rounded-lg border border-border bg-card p-3 transition-colors hover:border-primary/30 hover:bg-muted/40"
               >
                 <span className={cn("mt-1 size-2 shrink-0 rounded-full", STATUS_DOT[s.status] ?? "bg-muted-foreground")} />
                 <div className="min-w-0">

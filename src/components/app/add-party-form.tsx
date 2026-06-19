@@ -3,6 +3,7 @@
 import { useState, useTransition, useRef, useEffect } from "react";
 import { Plus, X, Search } from "lucide-react";
 import { Icon } from "@/components/icon";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectTrigger,
@@ -77,13 +78,10 @@ export function AddPartyForm({ shipmentId, contacts }: AddPartyFormProps) {
 
   if (!open) {
     return (
-      <button
-        onClick={() => setOpen(true)}
-        className="mt-3 flex items-center gap-1.5 rounded-md border border-dashed border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
-      >
+      <Button variant="secondary" onClick={() => setOpen(true)} className="mt-3 gap-1.5">
         <Icon icon={Plus} size={13} />
         Añadir parte
-      </button>
+      </Button>
     );
   }
 

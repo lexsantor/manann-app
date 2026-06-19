@@ -5,6 +5,7 @@ import { FileCheck, ChevronDown, ChevronUp, Loader2, CheckCircle2 } from "lucide
 import { Icon } from "@/components/icon";
 import { submitDeclaration } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface ComplianceDeclaration {
   id: string;
@@ -145,14 +146,10 @@ function DeclarationBlock({
               {error && <p className="text-xs text-accent">{error}</p>}
               <div className="flex items-center justify-between pt-1">
                 <p className="font-mono text-xs text-muted-foreground">Simulación — integración real en producción</p>
-                <button
-                  type="submit"
-                  disabled={pending}
-                  className="flex items-center gap-1.5 rounded-md bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/15 transition-colors disabled:opacity-50"
-                >
+                <Button type="submit" variant="secondary" disabled={pending} className="gap-1.5">
                   {pending ? <Loader2 className="size-3.5 animate-spin" /> : <FileCheck className="size-3.5" />}
                   Enviar declaración
-                </button>
+                </Button>
               </div>
             </form>
           )}

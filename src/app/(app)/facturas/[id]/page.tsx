@@ -196,7 +196,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
       </div>
 
       {/* Verifactu — fuera del área de impresión */}
-      <div className="mx-auto max-w-4xl px-5 pb-8 print:hidden">
+      <div className="mx-auto mt-6 max-w-4xl pb-8 print:hidden">
         <VerifactuPanel
           invoiceId={id}
           invoiceRef={inv.reference}

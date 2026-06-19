@@ -95,6 +95,7 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
               key={r.id}
               from={from}
               to={to}
+              className="route-flow"
               stroke={color}
               strokeWidth={1.2}
               strokeLinecap="round"
