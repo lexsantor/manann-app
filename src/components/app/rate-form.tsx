@@ -1,12 +1,13 @@
 "use client";
 
-import { useTransition, useState, useRef } from "react";
+import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
-import { X, Loader2, Plus, CalendarDays } from "lucide-react";
+import { X, Loader2, Plus } from "lucide-react";
 import { createRate, updateRate, type RateInput } from "@/lib/erp-actions";
 import { type RateItem } from "@/lib/erp";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 
 function DateInput({
   value,
@@ -15,26 +16,7 @@ function DateInput({
   value: string | null;
   onChange: (v: string | null) => void;
 }) {
-  const ref = useRef<HTMLInputElement>(null);
-  return (
-    <div className="relative">
-      <input
-        ref={ref}
-        type="date"
-        value={value ?? ""}
-        onChange={(e) => onChange(e.target.value || null)}
-        className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 pr-10 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:cursor-pointer"
-      />
-      <button
-        type="button"
-        tabIndex={-1}
-        onClick={() => (ref.current as HTMLInputElement & { showPicker?: () => void })?.showPicker?.()}
-        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors pointer-events-none"
-      >
-        <CalendarDays className="size-4" />
-      </button>
-    </div>
-  );
+  return <DatePicker value={value ?? undefined} onChange={(v) => onChange(v || null)} aria-label="Fecha" />;
 }
 import {
   Select,

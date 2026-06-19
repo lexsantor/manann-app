@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable, CellStacked, type Column } from "@/components/ui/data-table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ConfirmButton } from "@/components/ui/confirm-button";
+import { DatePicker } from "@/components/ui/date-picker";
 import { cn } from "@/lib/utils";
 
 interface TransportOrder {
@@ -250,22 +251,18 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
             </div>
             <div className="space-y-1">
               <label htmlFor="fecha-recogida" className="text-xs text-muted-foreground">Fecha recogida</label>
-              <input
+              <DatePicker
                 id="fecha-recogida"
-                type="date"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 value={form.pickupDate}
-                onChange={(e) => setForm({ ...form, pickupDate: e.target.value })}
+                onChange={(v) => setForm({ ...form, pickupDate: v })}
               />
             </div>
             <div className="space-y-1">
               <label htmlFor="fecha-entrega" className="text-xs text-muted-foreground">Fecha entrega</label>
-              <input
+              <DatePicker
                 id="fecha-entrega"
-                type="date"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 value={form.deliveryDate}
-                onChange={(e) => setForm({ ...form, deliveryDate: e.target.value })}
+                onChange={(v) => setForm({ ...form, deliveryDate: v })}
               />
             </div>
             <div className="col-span-2 space-y-1">

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { ConfirmButton } from "@/components/ui/confirm-button";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   Select,
   SelectTrigger,
@@ -228,22 +229,18 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
             </div>
             <div className="space-y-1">
               <label htmlFor="salida" className="text-xs text-muted-foreground">Salida</label>
-              <input
+              <DatePicker
                 id="salida"
-                type="date"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 value={form.departureDate}
-                onChange={(e) => setForm({ ...form, departureDate: e.target.value })}
+                onChange={(v) => setForm({ ...form, departureDate: v })}
               />
             </div>
             <div className="space-y-1">
               <label htmlFor="llegada" className="text-xs text-muted-foreground">Llegada</label>
-              <input
+              <DatePicker
                 id="llegada"
-                type="date"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 value={form.arrivalDate}
-                onChange={(e) => setForm({ ...form, arrivalDate: e.target.value })}
+                onChange={(v) => setForm({ ...form, arrivalDate: v })}
               />
             </div>
             <div className="space-y-1">

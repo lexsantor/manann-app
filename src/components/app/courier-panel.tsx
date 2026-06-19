@@ -5,6 +5,7 @@ import { Package, Truck, ExternalLink } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import { updateCourierInfo } from "@/lib/erp-actions";
+import { DatePicker } from "@/components/ui/date-picker";
 import {
   Select,
   SelectContent,
@@ -92,7 +93,7 @@ function CourierEditForm({
         </div>
         <div className="col-span-2">
           <label htmlFor="estimatedDelivery" className="mb-1 block font-mono text-sm text-muted-foreground">Entrega estimada</label>
-          <input id="estimatedDelivery" name="estimatedDelivery" type="date" defaultValue={current.delivery ?? ""} className={inputCls} />
+          <DatePicker id="estimatedDelivery" name="estimatedDelivery" defaultValue={current.delivery ?? ""} />
         </div>
       </div>
       <div className="flex items-center gap-2">

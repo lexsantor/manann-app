@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { StatusBadge, ModeBadge } from "@/components/ui/badges";
 import { EmptyState } from "@/components/ui/empty-state";
 import { createTender, closeTender, addSimulatedBids } from "@/lib/tier-v-actions";
+import { DatePicker } from "@/components/ui/date-picker";
 
 type TenderBid = {
   id: string;
@@ -309,11 +310,11 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <label htmlFor="tender-target-date" className="text-sm font-medium text-foreground">Fecha de embarque</label>
-                  <Input id="tender-target-date" type="date" value={form.targetDate} onChange={(e) => setForm({ ...form, targetDate: e.target.value })} />
+                  <DatePicker id="tender-target-date" value={form.targetDate} onChange={(v) => setForm({ ...form, targetDate: v })} />
                 </div>
                 <div className="space-y-1.5">
                   <label htmlFor="tender-response-deadline" className="text-sm font-medium text-foreground">Límite respuesta</label>
-                  <Input id="tender-response-deadline" type="date" value={form.responseDeadline} onChange={(e) => setForm({ ...form, responseDeadline: e.target.value })} />
+                  <DatePicker id="tender-response-deadline" value={form.responseDeadline} onChange={(v) => setForm({ ...form, responseDeadline: v })} />
                 </div>
               </div>
             </div>

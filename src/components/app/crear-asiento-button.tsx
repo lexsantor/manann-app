@@ -7,6 +7,7 @@ import { createJournalEntry } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 
 interface AccountRow {
   id: string;
@@ -146,14 +147,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
                 </div>
                 <div>
                   <label htmlFor="fecha" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Fecha *</label>
-                  <input
-                    id="fecha"
-                    required
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60"
-                  />
+                  <DatePicker id="fecha" value={date} onChange={(v) => setDate(v)} />
                 </div>
                 <div className="col-span-2">
                   <label htmlFor="descripcion" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Descripción *</label>

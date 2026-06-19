@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/ui/date-picker";
 
 interface RevenueLine {
   concept: string;
@@ -191,22 +192,18 @@ export function GenerarFacturaButton({
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label htmlFor="emision" className="mb-1 block text-base text-muted-foreground">Emisión</label>
-                      <input
+                      <DatePicker
                         id="emision"
-                        type="date"
                         value={issueDate}
-                        onChange={(e) => setIssueDate(e.target.value)}
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                        onChange={(v) => setIssueDate(v)}
                       />
                     </div>
                     <div>
                       <label htmlFor="vencimiento" className="mb-1 block text-base text-muted-foreground">Vencimiento</label>
-                      <input
+                      <DatePicker
                         id="vencimiento"
-                        type="date"
                         value={dueDate}
-                        onChange={(e) => setDueDate(e.target.value)}
-                        className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors"
+                        onChange={(v) => setDueDate(v)}
                       />
                     </div>
                   </div>

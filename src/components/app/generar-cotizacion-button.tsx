@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { DatePicker } from "@/components/ui/date-picker";
 
 const UNIT_LABELS: Record<string, string> = {
   contenedor: "contenedor", bl: "BL", kg: "kg",
@@ -155,8 +156,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
             </div>
             <div>
               <label htmlFor="valida-hasta" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Válida hasta</label>
-              <input id="valida-hasta" type="date" value={validUntil} onChange={(e) => setValidUntil(e.target.value)}
-                className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
+              <DatePicker id="valida-hasta" value={validUntil} onChange={(v) => setValidUntil(v)} />
             </div>
           </div>
 

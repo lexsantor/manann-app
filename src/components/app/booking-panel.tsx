@@ -6,6 +6,7 @@ import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { createBooking, updateBookingStatus, deleteBooking } from "@/lib/erp-actions";
+import { DatePicker } from "@/components/ui/date-picker";
 
 type BookingStatus = "pendiente" | "recibido" | "confirmado" | "rechazado";
 
@@ -190,7 +191,7 @@ function CreateBookingForm({
         </div>
         <div>
           <label htmlFor="cutoffDate" className="mb-1 block font-mono text-sm text-muted-foreground">Cutoff VGM/carga</label>
-          <input id="cutoffDate" name="cutoffDate" type="date" className={inputCls} />
+          <DatePicker id="cutoffDate" name="cutoffDate" />
         </div>
         <div>
           <label htmlFor="pol" className="mb-1 block font-mono text-sm text-muted-foreground">POL</label>
@@ -202,11 +203,11 @@ function CreateBookingForm({
         </div>
         <div>
           <label htmlFor="etd" className="mb-1 block font-mono text-sm text-muted-foreground">ETD</label>
-          <input id="etd" name="etd" type="date" className={inputCls} />
+          <DatePicker id="etd" name="etd" />
         </div>
         <div>
           <label htmlFor="eta" className="mb-1 block font-mono text-sm text-muted-foreground">ETA</label>
-          <input id="eta" name="eta" type="date" className={inputCls} />
+          <DatePicker id="eta" name="eta" />
         </div>
       </div>
       <div>

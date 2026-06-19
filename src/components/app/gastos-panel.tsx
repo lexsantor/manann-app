@@ -9,6 +9,7 @@ import { KpiCard } from "@/components/ui/kpi-card";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { createExpense, deleteExpense } from "@/lib/expense-actions";
+import { DatePicker } from "@/components/ui/date-picker";
 
 type Expense = {
   id: string;
@@ -143,7 +144,7 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <label htmlFor="gastos-fecha" className="text-sm font-medium text-foreground">Fecha</label>
-                  <Input id="gastos-fecha" type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} />
+                  <DatePicker id="gastos-fecha" value={form.date} onChange={(v) => setForm({ ...form, date: v })} />
                 </div>
                 <div className="space-y-1.5">
                   <label htmlFor="gastos-importe" className="text-sm font-medium text-foreground">Importe (€)</label>
