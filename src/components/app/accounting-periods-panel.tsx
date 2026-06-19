@@ -77,7 +77,7 @@ export function AccountingPeriodsPanel({ periods: initial }: { periods: Period[]
         </button>
       )}
 
-      <div className="rounded-md border border-border overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-border bg-card">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/30">

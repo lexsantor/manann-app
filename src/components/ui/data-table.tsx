@@ -88,7 +88,13 @@ export function DataTable<T>({
                 {columns.map((c) => (
                   <td
                     key={c.key}
-                    className={cn("px-4 py-3 align-middle", ALIGN[c.align ?? "left"], c.className)}
+                    className={cn(
+                      "px-4 py-3 align-middle",
+                      // La columna-título destaca (foreground); el resto, muted.
+                      c === titleCol ? "font-medium text-foreground" : "text-muted-foreground",
+                      ALIGN[c.align ?? "left"],
+                      c.className,
+                    )}
                   >
                     {c.cell(row)}
                   </td>

@@ -139,19 +139,22 @@ export function DocumentosList({ docs }: DocumentosListProps) {
                 {formatDate(doc.createdAt)}
               </span>
 
-              {/* Abrir en nueva pestaña */}
-              {doc.blobUrl && (
-                <a
-                  href={doc.blobUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="shrink-0 text-muted-foreground transition-colors hover:text-foreground"
-                  title="Abrir documento"
-                >
-                  <Icon icon={ExternalLink} size={14} />
-                </a>
-              )}
+              {/* Abrir en nueva pestaña — slot reservado para alinear todas las filas */}
+              <span className="flex w-5 shrink-0 justify-end">
+                {doc.blobUrl && (
+                  <a
+                    href={doc.blobUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-muted-foreground transition-colors hover:text-foreground"
+                    title="Abrir documento"
+                    aria-label="Abrir documento en ventana nueva"
+                  >
+                    <Icon icon={ExternalLink} size={14} />
+                  </a>
+                )}
+              </span>
             </button>
           );
         })}

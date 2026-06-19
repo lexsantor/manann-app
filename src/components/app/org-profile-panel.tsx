@@ -49,7 +49,12 @@ function TagInput({
           placeholder={placeholder}
           className="flex-1"
         />
-        <Button size="sm" variant="secondary" onClick={add} className="shrink-0">
+        <Button
+          variant="secondary"
+          onClick={add}
+          aria-label={`Añadir ${label.toLowerCase()}`}
+          className="h-11 w-11 shrink-0 p-0 sm:h-10 sm:w-10"
+        >
           <Plus className="h-3.5 w-3.5" />
         </Button>
       </div>

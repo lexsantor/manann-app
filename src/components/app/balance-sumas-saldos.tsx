@@ -93,7 +93,7 @@ export function BalanceSumasSaldos() {
       </div>
 
       {loaded && (
-        <div className="rounded-md border border-border overflow-hidden">
+        <div className="overflow-hidden rounded-xl border border-border bg-card">
           <div className="overflow-x-auto">
           <table className="w-full min-w-[640px] text-sm">
             <thead>

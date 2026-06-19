@@ -153,7 +153,7 @@ export function BankReconciliationPanel({
         Formato CSV: <span className="font-mono">fecha,descripción,importe</span> (positivo = ingreso, negativo = pago). Separador coma o punto y coma.
       </p>
 
-      <div className="rounded-md border border-border overflow-hidden">
+      <div className="overflow-hidden rounded-xl border border-border bg-card">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/30">

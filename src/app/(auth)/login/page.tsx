@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { MailCheck } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 import { signIn } from "@/lib/auth-client";
 import { enterDemo } from "@/lib/demo-login";
@@ -44,20 +45,31 @@ export default function LoginPage() {
       <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
         <div className="grid md:grid-cols-[1fr_1.15fr]">
 
-          {/* Panel de marca — solo visible en md+ */}
-          <div className="hidden flex-col justify-between bg-surface-2 p-8 md:flex lg:p-10">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+          {/* Panel de marca — imagen de puerto + scrim, solo visible en md+ */}
+          <div className="relative hidden flex-col justify-between overflow-hidden p-8 md:flex lg:p-10">
+            <Image
+              src="/images/rotterdam.webp"
+              alt=""
+              fill
+              priority
+              sizes="(min-width: 768px) 45vw, 0px"
+              className="object-cover"
+            />
+            {/* Scrim oscuro (legibilidad en ambos temas) + glow de marca */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/40" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-transparent" />
+            <p className="relative font-mono text-[10px] uppercase tracking-[0.18em] text-white/70">
               Manann ERP
             </p>
-            <div className="space-y-1.5">
-              <p className="font-display text-[1.6rem] font-medium leading-snug tracking-tight text-foreground">
+            <div className="relative space-y-1.5">
+              <p className="font-display text-[1.6rem] font-medium leading-snug tracking-tight text-white">
                 El sistema conoce la ruta.
               </p>
               <p className="font-display text-[1.6rem] font-medium leading-snug tracking-tight text-primary">
                 Tú mantienes el rumbo.
               </p>
             </div>
-            <p className="text-xs text-ink-subtle">
+            <p className="relative text-xs text-white/60">
               Demo sin fines comerciales · datos simulados
             </p>
           </div>

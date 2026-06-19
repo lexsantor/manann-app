@@ -92,7 +92,7 @@ export function Modelo303Panel() {
       {data && (
         <div className="space-y-5">
           {/* IVA Repercutido */}
-          <section className="rounded-md border border-border overflow-hidden">
+          <section className="overflow-hidden rounded-xl border border-border bg-card">
             <div className="border-b border-border bg-muted/30 px-4 py-2.5">
               <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                 IVA Repercutido (ventas)
@@ -133,7 +133,7 @@ export function Modelo303Panel() {
           </section>
 
           {/* IVA Soportado */}
-          <section className="rounded-md border border-border overflow-hidden">
+          <section className="overflow-hidden rounded-xl border border-border bg-card">
             <div className="border-b border-border bg-muted/30 px-4 py-2.5 flex items-center justify-between">
               <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                 IVA Soportado (compras)

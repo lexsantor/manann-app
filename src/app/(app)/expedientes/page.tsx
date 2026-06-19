@@ -66,8 +66,10 @@ export default async function ExpedientesPage({
         subtitle={`${all.length} expediente${all.length !== 1 ? "s" : ""}`}
       />
 
-      {/* Barra de acciones (fuera del hero, alineada a la derecha en desktop) */}
-      <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:justify-end">
+      {/* Barra: búsqueda (izq) + acciones (dcha) en la misma fila */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <SearchInput defaultValue={q} estado={estado} />
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
         <Link
           href="/expedientes/importar"
           prefetch={false}
@@ -88,9 +90,8 @@ export default async function ExpedientesPage({
             <Icon icon={Plus} size={16} /> Nuevo expediente
           </Button>
         </form>
+        </div>
       </div>
-
-      <SearchInput defaultValue={q} estado={estado} />
 
       {/* Filtros por estado */}
       <div className="flex flex-wrap gap-2">

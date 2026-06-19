@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Plus, Check, X } from "lucide-react";
 import { upsertDocumentSeries } from "@/lib/maestros-actions";
 import { Button } from "@/components/ui/button";
+import { DataTable, type Column } from "@/components/ui/data-table";
 import {
   Select,
   SelectContent,
@@ -73,6 +74,87 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
       setEditingId(null);
     });
   }
+
+  // COLUMNS dentro del componente: las celdas (prefijo/siguiente/ejemplo/acciones)
+  // leen estado de edición inline (editingId/editData) y handlers vía closure.
+  const COLUMNS: Column<Series>[] = [
+    {
+      key: "type",
+      header: "Tipo",
+      card: "title",
+      cell: (s) => {
+        const typeLabel = DOC_TYPES.find((t) => t.value === s.docType)?.label ?? s.docType;
+        return <span className="font-medium">{typeLabel}</span>;
+      },
+    },
+    {
+      key: "prefix",
+      header: "Prefijo",
+      cell: (s) => {
+        const isEditing = editingId === s.id;
+        return isEditing ? (
+          <input
+            className="w-28 rounded border border-primary px-2 py-0.5 text-xs font-mono uppercase bg-background focus:outline-none"
+            value={editData.prefix}
+            onChange={(e) => setEditData({ ...editData, prefix: e.target.value })}
+          />
+        ) : (
+          <span className="font-mono text-xs text-primary">{s.prefix}</span>
+        );
+      },
+    },
+    {
+      key: "next",
+      header: "Siguiente",
+      cell: (s) => {
+        const isEditing = editingId === s.id;
+        return isEditing ? (
+          <input
+            type="number"
+            className="w-20 rounded border border-primary px-2 py-0.5 text-xs font-mono bg-background focus:outline-none"
+            value={editData.nextNumber}
+            onChange={(e) => setEditData({ ...editData, nextNumber: Number(e.target.value) })}
+          />
+        ) : (
+          <span className="font-mono text-xs text-muted-foreground">{s.nextNumber}</span>
+        );
+      },
+    },
+    {
+      key: "preview",
+      header: "Ejemplo",
+      cell: (s) => {
+        const isEditing = editingId === s.id;
+        return (
+          <span className="font-mono text-xs text-muted-foreground">
+            {previewNumber(isEditing ? editData.prefix : s.prefix, isEditing ? editData.nextNumber : s.nextNumber, s.padding)}
+          </span>
+        );
+      },
+    },
+    {
+      key: "actions",
+      header: "",
+      align: "right",
+      card: "hidden",
+      cell: (s) => {
+        const isEditing = editingId === s.id;
+        return isEditing ? (
+          <div className="flex items-center justify-end gap-1">
+            <button onClick={() => saveEdit(s)} className="text-primary hover:text-primary/70"><Check className="h-3.5 w-3.5" strokeWidth={2} /></button>
+            <button onClick={() => setEditingId(null)} className="text-muted-foreground hover:text-foreground"><X className="h-3.5 w-3.5" strokeWidth={2} /></button>
+          </div>
+        ) : (
+          <button
+            onClick={() => startEdit(s)}
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Editar
+          </button>
+        );
+      },
+    },
+  ];
 
   return (
     <div className="space-y-4">
@@ -147,74 +229,13 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
         </div>
       )}
 
-      <div className="rounded-md border border-border overflow-hidden">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border bg-muted/30">
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Tipo</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Prefijo</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Siguiente</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Ejemplo</th>
-              <th className="px-3 py-2 w-20" />
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {series.map((s) => {
-              const typeLabel = DOC_TYPES.find((t) => t.value === s.docType)?.label ?? s.docType;
-              const isEditing = editingId === s.id;
-              return (
-                <tr key={s.id} className="hover:bg-muted/20 transition-colors">
-                  <td className="px-3 py-2 text-foreground font-medium">{typeLabel}</td>
-                  <td className="px-3 py-2">
-                    {isEditing ? (
-                      <input
-                        className="w-28 rounded border border-primary px-2 py-0.5 text-xs font-mono uppercase bg-background focus:outline-none"
-                        value={editData.prefix}
-                        onChange={(e) => setEditData({ ...editData, prefix: e.target.value })}
-                      />
-                    ) : (
-                      <span className="font-mono text-xs text-primary">{s.prefix}</span>
-                    )}
-                  </td>
-                  <td className="px-3 py-2">
-                    {isEditing ? (
-                      <input
-                        type="number"
-                        className="w-20 rounded border border-primary px-2 py-0.5 text-xs font-mono bg-background focus:outline-none"
-                        value={editData.nextNumber}
-                        onChange={(e) => setEditData({ ...editData, nextNumber: Number(e.target.value) })}
-                      />
-                    ) : (
-                      <span className="font-mono text-xs text-muted-foreground">{s.nextNumber}</span>
-                    )}
-                  </td>
-                  <td className="px-3 py-2 font-mono text-xs text-muted-foreground">
-                    {previewNumber(isEditing ? editData.prefix : s.prefix, isEditing ? editData.nextNumber : s.nextNumber, s.padding)}
-                  </td>
-                  <td className="px-3 py-2 text-right">
-                    {isEditing ? (
-                      <div className="flex items-center justify-end gap-1">
-                        <button onClick={() => saveEdit(s)} className="text-primary hover:text-primary/70"><Check className="h-3.5 w-3.5" strokeWidth={2} /></button>
-                        <button onClick={() => setEditingId(null)} className="text-muted-foreground hover:text-foreground"><X className="h-3.5 w-3.5" strokeWidth={2} /></button>
-                      </div>
-                    ) : (
-                      <button
-                        onClick={() => startEdit(s)}
-                        className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-                      >
-                        Editar
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        {series.length === 0 && (
-          <div className="py-8 text-center text-sm text-muted-foreground">Sin series configuradas</div>
-        )}
-      </div>
+      <DataTable
+        columns={COLUMNS}
+        rows={series}
+        getRowKey={(s) => s.id}
+        caption="Series de documentos"
+        empty="Sin series configuradas"
+      />
     </div>
   );
 }

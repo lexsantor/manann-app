@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { DataTable, type Column } from "@/components/ui/data-table";
+import { SearchField } from "@/components/ui/search-field";
 
 interface Regime {
   id: string;
@@ -10,6 +11,21 @@ interface Regime {
   description: string | null;
   active: boolean;
 }
+
+const COLUMNS: Column<Regime>[] = [
+  {
+    key: "code",
+    header: "Código",
+    cell: (r) => <span className="font-mono text-xs font-bold text-primary">{r.code}</span>,
+  },
+  { key: "name", header: "Nombre", card: "title", cell: (r) => <span className="font-medium">{r.name}</span> },
+  {
+    key: "description",
+    header: "Descripción",
+    card: "hidden",
+    cell: (r) => <span className="text-xs text-muted-foreground">{r.description ?? "—"}</span>,
+  },
+];
 
 export function CustomsRegimesTable({ regimes }: { regimes: Regime[] }) {
   const [q, setQ] = useState("");
@@ -24,39 +40,20 @@ export function CustomsRegimesTable({ regimes }: { regimes: Regime[] }) {
 
   return (
     <div className="space-y-3">
-      <div className="relative max-w-xs">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" strokeWidth={1.5} />
-        <input
-          className="h-11 w-full rounded-md border border-input bg-transparent pl-9 pr-3 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring sm:h-10 md:text-sm"
-          placeholder="Buscar régimen..."
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
-      </div>
-
-      <div className="rounded-md border border-border overflow-hidden">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-border bg-muted/30">
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide w-20">Código</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide">Nombre</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wide hidden sm:table-cell">Descripción</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
-            {filtered.map((r) => (
-              <tr key={r.id} className="hover:bg-muted/20 transition-colors">
-                <td className="px-3 py-2 font-mono text-xs font-bold text-primary">{r.code}</td>
-                <td className="px-3 py-2 text-foreground font-medium">{r.name}</td>
-                <td className="px-3 py-2 text-xs text-muted-foreground hidden sm:table-cell">{r.description ?? "—"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {filtered.length === 0 && (
-          <div className="py-8 text-center text-sm text-muted-foreground">Sin resultados</div>
-        )}
-      </div>
+      <SearchField
+        value={q}
+        onChange={setQ}
+        placeholder="Buscar régimen…"
+        className="max-w-xs"
+        aria-label="Buscar régimen"
+      />
+      <DataTable
+        columns={COLUMNS}
+        rows={filtered}
+        getRowKey={(r) => r.id}
+        caption="Regímenes aduaneros"
+        empty="Sin resultados"
+      />
       {regimes.length === 0 && (
         <p className="text-xs text-muted-foreground">
           Los regímenes se cargan mediante seed de base de datos. Ejecuta la migración inicial.
