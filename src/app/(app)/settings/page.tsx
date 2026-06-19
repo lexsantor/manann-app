@@ -9,6 +9,8 @@ import { OrgNameForm } from "@/components/app/settings-org-name";
 import { MembersTable } from "@/components/app/settings-members";
 import { InviteForm } from "@/components/app/settings-invite";
 import { DisplayPrefsSection } from "@/components/app/settings-display-prefs";
+import { NotificationsSection } from "@/components/app/settings-notifications";
+import { SecuritySection, DataPrivacySection } from "@/components/app/settings-account";
 import { ApiKeysPanel } from "@/components/app/api-keys-panel";
 
 export const metadata: Metadata = { title: "Ajustes — Manann" };
@@ -25,7 +27,7 @@ export default async function SettingsPage() {
       <PageHeader
         icon={<Settings strokeWidth={1.5} />}
         title="Ajustes"
-        subtitle="Gestiona tu organización y el equipo."
+        subtitle="Organización, equipo, notificaciones, seguridad y preferencias."
       />
 
       {/* Organización */}
@@ -61,7 +63,13 @@ export default async function SettingsPage() {
         )}
       </section>
 
+      <NotificationsSection />
+
       <DisplayPrefsSection />
+
+      <SecuritySection />
+
+      {isOwner && <DataPrivacySection />}
 
       {/* API — solo owner */}
       {isOwner && (
