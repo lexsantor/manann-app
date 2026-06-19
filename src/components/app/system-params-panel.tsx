@@ -134,7 +134,7 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
         </div>
       )}
 
-      <div className="rounded-md border border-border overflow-hidden divide-y divide-border">
+      <div className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
         {params.length === 0 && (
           <div className="py-8 text-center text-sm text-muted-foreground">Sin parámetros aún</div>
         )}

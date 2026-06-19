@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { StatusBadge } from "@/components/ui/badges";
+import { DataTable, type Column } from "@/components/ui/data-table";
 
 type Declaration = {
   id: string;
@@ -17,6 +18,49 @@ type Declaration = {
 };
 
 const TYPE_LABEL: Record<string, string> = { dua: "DUA", ens: "ENS", ncts: "NCTS", aes: "AES" };
+
+const COLUMNS: Column<Declaration>[] = [
+  {
+    key: "type",
+    header: "Tipo",
+    cell: (d) => (
+      <span className="inline-flex w-fit rounded-md bg-secondary/20 px-1.5 py-0.5 font-mono text-xs font-medium text-foreground">
+        {TYPE_LABEL[d.type] ?? d.type}
+      </span>
+    ),
+  },
+  {
+    key: "ref",
+    header: "Referencia",
+    cell: (d) => <span className="font-mono text-xs text-foreground">{d.referenceNumber ?? "—"}</span>,
+  },
+  {
+    key: "shipment",
+    header: "Expediente",
+    cell: (d) =>
+      d.shipmentId && d.shipmentRef ? (
+        <Link href={`/expedientes/${d.shipmentId}`} className="font-mono text-xs text-primary hover:underline">
+          {d.shipmentRef}
+        </Link>
+      ) : (
+        <span className="text-muted-foreground">—</span>
+      ),
+  },
+  {
+    key: "status",
+    header: "Estado",
+    cell: (d) => <StatusBadge status={d.status} />,
+  },
+  {
+    key: "date",
+    header: "Fecha",
+    cell: (d) => (
+      <span className="font-mono text-xs text-muted-foreground">
+        {new Date(d.submittedAt ?? d.createdAt).toLocaleDateString("es-ES")}
+      </span>
+    ),
+  },
+];
 
 export function AduanasPanel({ declarations }: { declarations: Declaration[] }) {
   const [type, setType] = useState<string>("all");
@@ -45,54 +89,13 @@ export function AduanasPanel({ declarations }: { declarations: Declaration[] }) 
         ))}
       </div>
 
-      {filtered.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-border py-12 text-center text-sm text-muted-foreground">
-          Sin declaraciones. Se generan desde cada expediente (panel de Aduanas / Declaraciones).
-        </div>
-      ) : (
-        <div className="overflow-hidden rounded-xl border border-border">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border bg-card text-left">
-                  {["Tipo", "Referencia", "Expediente", "Estado", "Fecha"].map((h) => (
-                    <th key={h} className="px-4 py-2.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border/50">
-                {filtered.map((d) => (
-                  <tr key={d.id} className="hover:bg-surface-2/30">
-                    <td className="px-4 py-2.5">
-                      <span className="inline-flex w-fit rounded-md bg-secondary/20 px-1.5 py-0.5 font-mono text-xs font-medium text-foreground">
-                        {TYPE_LABEL[d.type] ?? d.type}
-                      </span>
-                    </td>
-                    <td className="px-4 py-2.5 font-mono text-xs text-foreground">{d.referenceNumber ?? "—"}</td>
-                    <td className="px-4 py-2.5">
-                      {d.shipmentId && d.shipmentRef ? (
-                        <Link href={`/expedientes/${d.shipmentId}`} className="font-mono text-xs text-primary hover:underline">
-                          {d.shipmentRef}
-                        </Link>
-                      ) : (
-                        <span className="text-muted-foreground">—</span>
-                      )}
-                    </td>
-                    <td className="px-4 py-2.5">
-                      <StatusBadge status={d.status} />
-                    </td>
-                    <td className="px-4 py-2.5 font-mono text-xs text-muted-foreground">
-                      {new Date(d.submittedAt ?? d.createdAt).toLocaleDateString("es-ES")}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
+      <DataTable
+        columns={COLUMNS}
+        rows={filtered}
+        getRowKey={(d) => d.id}
+        caption="Declaraciones aduaneras"
+        empty="Sin declaraciones. Se generan desde cada expediente (panel de Aduanas / Declaraciones)."
+      />
 
       <div className="rounded-md border border-warning/20 bg-warning/5 px-3 py-2">
         <p className="text-xs text-warning">
