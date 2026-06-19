@@ -2,7 +2,6 @@ import Link from "next/link";
 import { MoveRight } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { EmptyState } from "@/components/ui/empty-state";
-import { StatusPill } from "@/components/app/status-pill";
 import { PriorityPill } from "@/components/app/priority-pill";
 import { formatDate } from "@/lib/erp-format";
 import { STATUS } from "@/lib/erp-format";

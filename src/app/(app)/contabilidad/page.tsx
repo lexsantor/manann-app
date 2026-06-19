@@ -3,7 +3,6 @@ import { BookOpen, Lock, TableProperties, FileSpreadsheet, ArrowLeftRight } from
 import { PageHeader } from "@/components/ui/page-header";
 import Link from "next/link";
 import { getOrgContext, getAccountingAccounts, getJournalEntries, getTreasuryProjection } from "@/lib/erp";
-import { Icon } from "@/components/icon";
 import { PlanCuentas } from "@/components/app/plan-cuentas";
 import { DiarioContable } from "@/components/app/diario-contable";
 import { TesoreraWidget } from "@/components/app/tesorera-widget";

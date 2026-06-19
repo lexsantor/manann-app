@@ -27,7 +27,6 @@ import { NotificationsBell } from "./notifications-bell";
 import { createDraftShipment } from "@/lib/erp-actions";
 import { signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
 import { helpForPath, ATAJOS } from "@/lib/help-content";
 import { tourForPath } from "@/lib/tours";
 
