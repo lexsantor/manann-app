@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Plus, X, Trash2 } from "lucide-react";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import { Icon } from "@/components/icon";
 import { createJournalEntry } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
@@ -49,6 +50,9 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
   const [description, setDescription] = useState("");
   const [period, setPeriod] = useState(currentPeriod());
   const [lines, setLines] = useState<EntryLine[]>([{ ...EMPTY_LINE }, { ...EMPTY_LINE }]);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(dialogRef, open, handleClose);
 
   const totalDebit = lines.reduce((s, l) => s + (parseFloat(l.debit) || 0), 0);
   const totalCredit = lines.reduce((s, l) => s + (parseFloat(l.credit) || 0), 0);
@@ -123,7 +127,12 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="w-full max-w-2xl rounded-xl border border-border bg-card shadow-2xl">
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
+            className="w-full max-w-2xl rounded-xl border border-border bg-card shadow-2xl outline-none">
             <div className="flex items-center justify-between border-b border-border px-6 py-4">
               <p className="font-display text-base font-medium text-foreground">Nuevo asiento contable</p>
               <button onClick={handleClose} aria-label="Cerrar" className="text-muted-foreground hover:text-foreground">

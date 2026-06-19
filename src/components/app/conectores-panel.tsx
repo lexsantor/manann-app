@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Plug, Check, X } from "lucide-react";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { connectConnector, disconnectConnector } from "@/lib/connector-actions";
@@ -20,6 +21,9 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
   const [configKey, setConfigKey] = useState<string | null>(null);
   const [apiKey, setApiKey] = useState("");
   const [isPending, startTransition] = useTransition();
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(dialogRef, configKey !== null, () => setConfigKey(null));
 
   const configItem = list.find((i) => i.key === configKey);
   const categories = [...new Set(list.map((i) => i.category))];
@@ -98,7 +102,12 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
       {configItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" onClick={() => !isPending && setConfigKey(null)} />
-          <div className="relative z-10 w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-2xl">
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
+            className="relative z-10 w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-2xl outline-none">
             <div className="flex items-start justify-between">
               <h2 className="font-display text-lg font-semibold tracking-tight text-foreground">
                 Conectar {configItem.name}

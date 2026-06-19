@@ -1,7 +1,8 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useTransition, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import { X, Loader2, Plus, Trash2, Tag } from "lucide-react";
 import { createQuotation, type CreateQuotationInput } from "@/lib/erp-actions";
 import { type RateItem } from "@/lib/erp";
@@ -54,6 +55,9 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState("");
   const router = useRouter();
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(dialogRef, true, onClose);
 
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
@@ -128,7 +132,12 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
   return (
     <>
       <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" onClick={onClose} />
-      <div className="fixed right-0 top-0 z-50 flex h-full w-full max-w-[540px] flex-col border-l border-border bg-background shadow-xl">
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        tabIndex={-1}
+        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-[540px] flex-col border-l border-border bg-background shadow-xl outline-none">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <h2 className="font-display text-base font-semibold text-foreground">Nueva cotización</h2>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Plus, Trash2, X } from "lucide-react";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -38,6 +39,9 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
   const [items, setItems] = useState(initialExpenses);
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(dialogRef, open, () => setOpen(false));
   const today = new Date().toISOString().slice(0, 10);
   const [form, setForm] = useState({ date: today, category: "combustible", amount: "", supplier: "", description: "" });
 
@@ -133,7 +137,12 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
       {open && (
         <div className="fixed inset-0 z-50 flex items-end justify-end sm:items-start">
           <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" onClick={() => !isPending && setOpen(false)} />
-          <div className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl sm:w-[420px]">
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
+            className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl outline-none sm:w-[420px]">
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
               <h2 className="font-display text-base font-medium tracking-tight">Nuevo gasto</h2>
               <button onClick={() => !isPending && setOpen(false)} className="rounded-md p-1 text-muted-foreground hover:text-foreground">

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import { X, Plus, Trash2, Loader2, FileText } from "lucide-react";
 import { createInvoice, type CreateInvoiceInput } from "@/lib/erp-actions";
 import { formatMoney } from "@/lib/erp-format";
@@ -46,6 +47,9 @@ export function GenerarFacturaButton({
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
   const router = useRouter();
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(dialogRef, open, () => setOpen(false));
 
   const [client, setClient] = useState(clientName);
   const [clientNif, setClientNif] = useState("");
@@ -127,7 +131,12 @@ export function GenerarFacturaButton({
           />
 
           {/* Panel */}
-          <div className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl sm:w-[520px]">
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            tabIndex={-1}
+            className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl outline-none sm:w-[520px]">
             {/* Header */}
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
               <h2 className="font-display text-base font-medium tracking-tight">Nueva factura</h2>
