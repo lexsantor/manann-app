@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { Zap } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 import { getOrgContext, listShipments } from "@/lib/erp";
 import { computeAutopilotActions } from "@/lib/autopilot";
 import { AutopilotInbox } from "@/components/app/autopilot-inbox";
@@ -17,24 +18,18 @@ export default async function AutopilotPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-            <Zap className="h-5 w-5 shrink-0 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-xl font-semibold tracking-tight">Autopilot</h1>
-            <p className="text-base text-muted-foreground">
-              Manann IA ha preparado {actions.length} acción{actions.length !== 1 ? "es" : ""} sobre tus datos.
-            </p>
-          </div>
-        </div>
-        {critical > 0 && (
-          <span className="mt-1 rounded-full bg-destructive/10 px-3 py-1 font-mono text-sm font-semibold text-destructive uppercase tracking-wide">
-            {critical} crítica{critical > 1 ? "s" : ""}
-          </span>
-        )}
-      </div>
+      <PageHeader
+        icon={<Zap strokeWidth={1.5} />}
+        title="Autopilot"
+        subtitle={`Manann IA ha preparado ${actions.length} acción${actions.length !== 1 ? "es" : ""} sobre tus datos.`}
+        actions={
+          critical > 0 ? (
+            <span className="rounded-full bg-destructive/10 px-3 py-1 font-mono text-sm font-semibold uppercase tracking-wide text-destructive">
+              {critical} crítica{critical > 1 ? "s" : ""}
+            </span>
+          ) : undefined
+        }
+      />
 
       <AutopilotInbox actions={actions} />
     </div>

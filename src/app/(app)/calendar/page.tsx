@@ -111,9 +111,9 @@ export default async function CalendarPage({
         }
       />
 
-      <div className="grid gap-5 lg:grid-cols-3">
-        {/* Calendario */}
-        <div className="lg:col-span-2">
+      <div className="space-y-5">
+        {/* Calendario (ancho completo, igual que el hero) */}
+        <div>
           <div className="overflow-hidden rounded-xl border border-border bg-card">
             {/* Cabecera días de semana */}
             <div className="grid grid-cols-7 border-b border-border">

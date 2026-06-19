@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { Settings } from "lucide-react";
+import { PageHeader } from "@/components/ui/page-header";
 
 import { getOrgSettings } from "@/lib/settings-actions";
 import { listApiKeys } from "@/lib/erp-actions";
@@ -20,16 +21,12 @@ export default async function SettingsPage() {
   const apiKeys = isOwner ? await listApiKeys() : [];
 
   return (
-    <main className="space-y-10 py-10">
-      <div className="flex items-center gap-3">
-        <Settings className="h-5 w-5 shrink-0 self-start mt-1.5 text-muted-foreground" strokeWidth={1.5} />
-        <div>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-foreground">Ajustes</h1>
-          <p className="text-muted-foreground mt-0.5 text-sm">
-            Gestiona tu organización y el equipo.
-          </p>
-        </div>
-      </div>
+    <div className="space-y-10 py-10">
+      <PageHeader
+        icon={<Settings strokeWidth={1.5} />}
+        title="Ajustes"
+        subtitle="Gestiona tu organización y el equipo."
+      />
 
       {/* Organización */}
       <section className="space-y-4">
@@ -75,6 +72,6 @@ export default async function SettingsPage() {
           <ApiKeysPanel keys={apiKeys} />
         </section>
       )}
-    </main>
+    </div>
   );
 }

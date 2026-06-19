@@ -11,6 +11,7 @@ import { Icon } from "@/components/icon";
 import { OperationalMetrics } from "@/components/app/operational-metrics";
 import { formatMoney } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/ui/page-header";
 
 const TERMINAL = new Set(["entregado", "cerrado"]);
 
@@ -80,17 +81,15 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <header>
-        <p className="eyebrow">{ctx.org.name}</p>
-        <h1 className="mt-2 font-display text-3xl font-medium tracking-tight text-foreground">
-          Hola, {name}.
-        </h1>
-        <p className="mt-2 text-base text-muted-foreground">
-          {active.length > 0
+      <PageHeader
+        eyebrow={ctx.org.name}
+        title={`Hola, ${name}.`}
+        subtitle={
+          active.length > 0
             ? `Tienes ${active.length} expediente${active.length === 1 ? "" : "s"} en curso.`
-            : "No tienes expedientes en curso ahora mismo."}
-        </p>
-      </header>
+            : "No tienes expedientes en curso ahora mismo."
+        }
+      />
 
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <KpiCard label="Expedientes" value={stats.total} icon={FileStack} />
