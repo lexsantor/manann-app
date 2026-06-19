@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Sparkles, Upload, ArrowRight, CheckCircle2, X } from "lucide-react";
 import { completeOnboarding } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 const STEPS = [
   {
@@ -32,6 +33,8 @@ export function OnboardingWizard() {
   const [dismissed, setDismissed] = useState(false);
   const [pending, startTransition] = useTransition();
   const router = useRouter();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, !dismissed, () => handleSkip());
 
   if (dismissed) return null;
 
@@ -66,7 +69,14 @@ export function OnboardingWizard() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
-      <div className="relative mx-4 w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl">
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Introducción a Manann"
+        tabIndex={-1}
+        className="relative mx-4 w-full max-w-md rounded-2xl border border-border bg-card shadow-2xl outline-none"
+      >
         {/* Cerrar */}
         <button
           onClick={handleSkip}

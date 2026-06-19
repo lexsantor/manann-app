@@ -1,9 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 // Botón con confirmación para acciones destructivas. Renderiza el trigger
 // (icono/contenido) y, al pulsar, abre un AlertDialog (portal a body, Escape +
@@ -33,8 +34,10 @@ export function ConfirmButton({
 }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => setMounted(true), []);
+  useFocusTrap(dialogRef, open && mounted, () => setOpen(false));
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -65,9 +68,11 @@ export function ConfirmButton({
               onClick={() => setOpen(false)}
             />
             <div
+              ref={dialogRef}
               role="alertdialog"
               aria-modal="true"
-              className="relative z-10 w-full max-w-sm rounded-xl border border-border bg-card p-5 shadow-2xl"
+              tabIndex={-1}
+              className="relative z-10 w-full max-w-sm rounded-xl border border-border bg-card p-5 shadow-2xl outline-none"
             >
               <h2 className="font-display text-base font-semibold tracking-tight text-foreground">{title}</h2>
               {description ? (

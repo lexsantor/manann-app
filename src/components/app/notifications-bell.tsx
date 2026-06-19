@@ -20,6 +20,7 @@ export function NotificationsBell() {
   const [notifs, setNotifs] = useState<Notif[]>([]);
   const [, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const unread = notifs.filter((n) => !n.read).length;
 
@@ -43,8 +44,18 @@ export function NotificationsBell() {
     function onMouseDown(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
+    }
     document.addEventListener("mousedown", onMouseDown);
-    return () => document.removeEventListener("mousedown", onMouseDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onMouseDown);
+      document.removeEventListener("keydown", onKey);
+    };
   }, [open]);
 
   function relativeTime(date: Date) {
@@ -60,8 +71,10 @@ export function NotificationsBell() {
   return (
     <div ref={ref} className="relative">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
         aria-label="Notificaciones"
         className={cn(
           "relative flex size-9 items-center justify-center rounded-md border border-border bg-card transition-colors",
