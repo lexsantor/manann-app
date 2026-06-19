@@ -142,20 +142,20 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
           {/* Cliente */}
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2">
-              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Cliente *</label>
-              <input type="text" value={clientName} onChange={(e) => setClientName(e.target.value)}
+              <label htmlFor="cliente" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Cliente *</label>
+              <input id="cliente" type="text" value={clientName} onChange={(e) => setClientName(e.target.value)}
                 placeholder="Nombre del cliente"
                 className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
             </div>
             <div>
-              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Email del cliente</label>
-              <input type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)}
+              <label htmlFor="email-del-cliente" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Email del cliente</label>
+              <input id="email-del-cliente" type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)}
                 placeholder="cliente@empresa.com"
                 className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
             </div>
             <div>
-              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Válida hasta</label>
-              <input type="date" value={validUntil} onChange={(e) => setValidUntil(e.target.value)}
+              <label htmlFor="valida-hasta" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Válida hasta</label>
+              <input id="valida-hasta" type="date" value={validUntil} onChange={(e) => setValidUntil(e.target.value)}
                 className="w-full rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
             </div>
           </div>
@@ -214,7 +214,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
                     placeholder="Concepto"
                     className="rounded-md border border-border bg-surface-2/30 px-2 py-1.5 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />
                   <Select value={l.unit} onValueChange={(v) => updateLine(i, "unit", v)}>
-                    <SelectTrigger className="h-[34px] text-base">
+                    <SelectTrigger className="h-[34px] text-base" aria-label="Unidad">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -243,7 +243,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
             <div>
               <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">IVA</label>
               <Select value={taxRate} onValueChange={(v) => setTaxRate(v as typeof taxRate)}>
-                <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="w-full" aria-label="IVA"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="21">21%</SelectItem>
                   <SelectItem value="10">10%</SelectItem>
@@ -255,7 +255,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
             <div>
               <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Moneda</label>
               <Select value={currency} onValueChange={setCurrency}>
-                <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="w-full" aria-label="Moneda"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="EUR">EUR</SelectItem>
                   <SelectItem value="USD">USD</SelectItem>

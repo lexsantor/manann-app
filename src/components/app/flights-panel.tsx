@@ -173,8 +173,9 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
           <h3 className="text-sm font-medium text-foreground">Nuevo vuelo</h3>
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Número de vuelo</label>
+              <label htmlFor="numero-de-vuelo" className="text-xs text-muted-foreground">Número de vuelo</label>
               <input
+                id="numero-de-vuelo"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="IB6251"
                 value={form.flightNumber}
@@ -184,7 +185,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
             <div className="col-span-2 space-y-1">
               <label className="text-xs text-muted-foreground">Aerolínea</label>
               <Select value={form.airline} onValueChange={(v) => setForm({ ...form, airline: v })}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" aria-label="Aerolínea">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -195,7 +196,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Origen (IATA)</label>
               <Select value={form.originIata} onValueChange={(v) => setForm({ ...form, originIata: v })}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" aria-label="Origen (IATA)">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -208,7 +209,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
             <div className="space-y-1">
               <label className="text-xs text-muted-foreground">Destino (IATA)</label>
               <Select value={form.destIata} onValueChange={(v) => setForm({ ...form, destIata: v })}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" aria-label="Destino (IATA)">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -219,8 +220,9 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               </Select>
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Tipo aeronave</label>
+              <label htmlFor="tipo-aeronave" className="text-xs text-muted-foreground">Tipo aeronave</label>
               <input
+                id="tipo-aeronave"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="B747F"
                 value={form.aircraftType}
@@ -228,8 +230,9 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Salida</label>
+              <label htmlFor="salida" className="text-xs text-muted-foreground">Salida</label>
               <input
+                id="salida"
                 type="date"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 value={form.departureDate}
@@ -237,8 +240,9 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Llegada</label>
+              <label htmlFor="llegada" className="text-xs text-muted-foreground">Llegada</label>
               <input
+                id="llegada"
                 type="date"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 value={form.arrivalDate}
@@ -246,8 +250,9 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Capacidad (kg)</label>
+              <label htmlFor="capacidad-kg" className="text-xs text-muted-foreground">Capacidad (kg)</label>
               <input
+                id="capacidad-kg"
                 type="number"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="100000"
@@ -256,8 +261,9 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Disponible (kg)</label>
+              <label htmlFor="disponible-kg" className="text-xs text-muted-foreground">Disponible (kg)</label>
               <input
+                id="disponible-kg"
                 type="number"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="80000"

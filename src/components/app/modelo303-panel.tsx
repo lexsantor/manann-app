@@ -54,7 +54,7 @@ export function Modelo303Panel() {
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Año</label>
           <Select value={String(year)} onValueChange={(v) => setYear(Number(v))}>
-            <SelectTrigger className="w-auto">
+            <SelectTrigger className="w-auto" aria-label="Año">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -70,7 +70,7 @@ export function Modelo303Panel() {
             value={String(quarter)}
             onValueChange={(v) => setQuarter(Number(v) as 1 | 2 | 3 | 4)}
           >
-            <SelectTrigger className="w-auto">
+            <SelectTrigger className="w-auto" aria-label="Trimestre">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

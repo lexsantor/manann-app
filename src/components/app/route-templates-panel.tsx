@@ -124,8 +124,9 @@ export function RouteTemplatesPanel({ templates: initial }: { templates: RouteTe
           <h3 className="text-sm font-medium text-foreground">Nueva plantilla de ruta</h3>
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-2 space-y-1">
-              <label className="text-xs text-muted-foreground">Nombre</label>
+              <label htmlFor="nombre" className="text-xs text-muted-foreground">Nombre</label>
               <input
+                id="nombre"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Barcelona → Shanghai FCL 30 días"
                 value={form.name}
@@ -138,7 +139,7 @@ export function RouteTemplatesPanel({ templates: initial }: { templates: RouteTe
                 value={form.mode}
                 onValueChange={(v) => setForm({ ...form, mode: v })}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger aria-label="Modo" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -147,8 +148,9 @@ export function RouteTemplatesPanel({ templates: initial }: { templates: RouteTe
               </Select>
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Días de tránsito</label>
+              <label htmlFor="dias-de-transito" className="text-xs text-muted-foreground">Días de tránsito</label>
               <input
+                id="dias-de-transito"
                 type="number"
                 min={1}
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"

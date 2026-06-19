@@ -137,10 +137,11 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
 
           {/* Concepto */}
           <div>
-            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+            <label htmlFor="concepto" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Concepto
             </label>
             <input
+              id="concepto"
               type="text"
               value={form.concept}
               onChange={(e) => set("concept", e.target.value)}
@@ -155,7 +156,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
               Tipo de servicio
             </label>
             <Select value={form.serviceType} onValueChange={(v) => set("serviceType", v as RateInput["serviceType"])}>
-              <SelectTrigger className="w-full">
+              <SelectTrigger aria-label="Tipo de servicio" className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -173,7 +174,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
                 Unidad
               </label>
               <Select value={form.unit} onValueChange={(v) => set("unit", v as RateInput["unit"])}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger aria-label="Unidad" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -188,7 +189,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
                 Moneda
               </label>
               <Select value={form.currency} onValueChange={(v) => set("currency", v)}>
-                <SelectTrigger className="w-full">
+                <SelectTrigger aria-label="Moneda" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -199,11 +200,12 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           </div>
 
           <div>
-            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+            <label htmlFor="precio-base" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
               Precio base
             </label>
             <div className="relative">
               <input
+                id="precio-base"
                 type="number"
                 min="0"
                 step="0.01"

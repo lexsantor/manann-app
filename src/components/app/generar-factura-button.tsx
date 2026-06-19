@@ -149,8 +149,9 @@ export function GenerarFacturaButton({
                   <legend className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Cliente</legend>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2">
-                      <label className="mb-1 block text-base text-muted-foreground">Nombre / Razón social</label>
+                      <label htmlFor="nombre-razon-social" className="mb-1 block text-base text-muted-foreground">Nombre / Razón social</label>
                       <input
+                        id="nombre-razon-social"
                         type="text"
                         value={client}
                         onChange={(e) => setClient(e.target.value)}
@@ -159,8 +160,9 @@ export function GenerarFacturaButton({
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-base text-muted-foreground">NIF / CIF</label>
+                      <label htmlFor="nif-cif" className="mb-1 block text-base text-muted-foreground">NIF / CIF</label>
                       <input
+                        id="nif-cif"
                         type="text"
                         value={clientNif}
                         onChange={(e) => setClientNif(e.target.value)}
@@ -171,7 +173,7 @@ export function GenerarFacturaButton({
                     <div>
                       <label className="mb-1 block text-base text-muted-foreground">IVA (%)</label>
                       <Select value={taxRate} onValueChange={(v) => setTaxRate(v)}>
-                        <SelectTrigger className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors">
+                        <SelectTrigger aria-label="IVA (%)" className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -190,8 +192,9 @@ export function GenerarFacturaButton({
                   <legend className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Fechas</legend>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="mb-1 block text-base text-muted-foreground">Emisión</label>
+                      <label htmlFor="emision" className="mb-1 block text-base text-muted-foreground">Emisión</label>
                       <input
+                        id="emision"
                         type="date"
                         value={issueDate}
                         onChange={(e) => setIssueDate(e.target.value)}
@@ -199,8 +202,9 @@ export function GenerarFacturaButton({
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-base text-muted-foreground">Vencimiento</label>
+                      <label htmlFor="vencimiento" className="mb-1 block text-base text-muted-foreground">Vencimiento</label>
                       <input
+                        id="vencimiento"
                         type="date"
                         value={dueDate}
                         onChange={(e) => setDueDate(e.target.value)}

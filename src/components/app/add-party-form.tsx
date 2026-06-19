@@ -137,7 +137,7 @@ export function AddPartyForm({ shipmentId, contacts }: AddPartyFormProps) {
         {/* Role */}
         <input type="hidden" name="role" value={role} />
         <Select value={role} onValueChange={(v) => setRole(v)}>
-          <SelectTrigger className="w-full">
+          <SelectTrigger className="w-full" aria-label="Rol">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

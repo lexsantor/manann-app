@@ -104,6 +104,8 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
         </p>
         <div className="flex gap-2">
           <input
+            type="search"
+            aria-label="Buscar"
             value={screeningName}
             onChange={(e) => setScreeningName(e.target.value)}
             placeholder="Nombre del tercero…"
@@ -171,8 +173,9 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
           <div className="border-b border-border px-5 py-4 bg-surface-2/20 space-y-3">
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre *</label>
+                <label htmlFor="nombre" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre *</label>
                 <input
+                  id="nombre"
                   value={form.name}
                   onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
                   className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
@@ -184,7 +187,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                   value={form.type}
                   onValueChange={(v) => setForm((f) => ({ ...f, type: v as typeof form.type }))}
                 >
-                  <SelectTrigger className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50">
+                  <SelectTrigger aria-label="Tipo *" className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -195,8 +198,9 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 </Select>
               </div>
               <div>
-                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Región</label>
+                <label htmlFor="region" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Región</label>
                 <input
+                  id="region"
                   value={form.region}
                   onChange={(e) => setForm((f) => ({ ...f, region: e.target.value }))}
                   placeholder="p.ej. Asia-Pacífico"
@@ -204,8 +208,9 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 />
               </div>
               <div>
-                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Servicios (separados por coma)</label>
+                <label htmlFor="servicios-separados-por-coma" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Servicios (separados por coma)</label>
                 <input
+                  id="servicios-separados-por-coma"
                   value={form.services}
                   onChange={(e) => setForm((f) => ({ ...f, services: e.target.value }))}
                   placeholder="FCL, LCL, Air Freight"
@@ -213,8 +218,9 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 />
               </div>
               <div>
-                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Email contacto</label>
+                <label htmlFor="email-contacto" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Email contacto</label>
                 <input
+                  id="email-contacto"
                   type="email"
                   value={form.contactEmail}
                   onChange={(e) => setForm((f) => ({ ...f, contactEmail: e.target.value }))}
@@ -222,8 +228,9 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 />
               </div>
               <div>
-                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">NIF / VAT</label>
+                <label htmlFor="nif-vat" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">NIF / VAT</label>
                 <input
+                  id="nif-vat"
                   value={form.taxId}
                   onChange={(e) => setForm((f) => ({ ...f, taxId: e.target.value }))}
                   className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"

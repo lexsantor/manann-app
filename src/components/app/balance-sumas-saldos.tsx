@@ -51,7 +51,7 @@ export function BalanceSumasSaldos() {
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Año</label>
           <Select value={String(year)} onValueChange={(v) => setYear(Number(v))}>
-            <SelectTrigger className="text-sm">
+            <SelectTrigger aria-label="Año" className="text-sm">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -64,7 +64,7 @@ export function BalanceSumasSaldos() {
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Desde</label>
           <Select value={String(monthFrom)} onValueChange={(v) => setMonthFrom(Number(v))}>
-            <SelectTrigger className="text-sm">
+            <SelectTrigger aria-label="Desde" className="text-sm">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -75,7 +75,7 @@ export function BalanceSumasSaldos() {
         <div className="space-y-1">
           <label className="text-xs text-muted-foreground">Hasta</label>
           <Select value={String(monthTo)} onValueChange={(v) => setMonthTo(Number(v))}>
-            <SelectTrigger className="text-sm">
+            <SelectTrigger aria-label="Hasta" className="text-sm">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

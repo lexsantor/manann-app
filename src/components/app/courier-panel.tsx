@@ -76,7 +76,7 @@ function CourierEditForm({
         <div>
           <label className="mb-1 block font-mono text-sm text-muted-foreground">Proveedor</label>
           <Select name="provider" defaultValue={current.provider ?? ""}>
-            <SelectTrigger className="w-full">
+            <SelectTrigger aria-label="Proveedor" className="w-full">
               <SelectValue placeholder="Sin courier" />
             </SelectTrigger>
             <SelectContent>
@@ -87,12 +87,12 @@ function CourierEditForm({
           </Select>
         </div>
         <div>
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">Nº de seguimiento</label>
-          <input name="trackingNumber" placeholder="1Z999AA10123456784" defaultValue={current.tracking ?? ""} className={inputCls} />
+          <label htmlFor="trackingNumber" className="mb-1 block font-mono text-sm text-muted-foreground">Nº de seguimiento</label>
+          <input id="trackingNumber" name="trackingNumber" placeholder="1Z999AA10123456784" defaultValue={current.tracking ?? ""} className={inputCls} />
         </div>
         <div className="col-span-2">
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">Entrega estimada</label>
-          <input name="estimatedDelivery" type="date" defaultValue={current.delivery ?? ""} className={inputCls} />
+          <label htmlFor="estimatedDelivery" className="mb-1 block font-mono text-sm text-muted-foreground">Entrega estimada</label>
+          <input id="estimatedDelivery" name="estimatedDelivery" type="date" defaultValue={current.delivery ?? ""} className={inputCls} />
         </div>
       </div>
       <div className="flex items-center gap-2">

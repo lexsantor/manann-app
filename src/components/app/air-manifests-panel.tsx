@@ -173,8 +173,9 @@ export function AirManifestsPanel({
           <h3 className="text-sm font-medium text-foreground">Nuevo manifiesto aéreo</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">MAWB</label>
+              <label htmlFor="mawb-number" className="text-xs text-muted-foreground">MAWB</label>
               <input
+                id="mawb-number"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="176-12345678"
                 value={form.mawbNumber}
@@ -182,8 +183,9 @@ export function AirManifestsPanel({
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Carrier</label>
+              <label htmlFor="carrier" className="text-xs text-muted-foreground">Carrier</label>
               <input
+                id="carrier"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Iberia Cargo"
                 value={form.carrier}
@@ -196,7 +198,7 @@ export function AirManifestsPanel({
                 value={form.originIata}
                 onValueChange={(v) => setForm({ ...form, originIata: v })}
               >
-                <SelectTrigger className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                <SelectTrigger aria-label="Origen" className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -210,7 +212,7 @@ export function AirManifestsPanel({
                 value={form.destIata}
                 onValueChange={(v) => setForm({ ...form, destIata: v })}
               >
-                <SelectTrigger className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                <SelectTrigger aria-label="Destino" className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -259,6 +261,7 @@ export function AirManifestsPanel({
                 <span onClick={(e) => e.stopPropagation()}>
                   <Select value={m.status} onValueChange={(v) => handleStatusChange(m.id, v)}>
                     <SelectTrigger
+                      aria-label="Estado del manifiesto"
                       className={cn(
                         "h-7 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[10px] font-medium focus:ring-1 focus:ring-primary/30 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
                         statusColor,

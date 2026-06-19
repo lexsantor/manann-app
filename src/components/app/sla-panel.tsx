@@ -193,7 +193,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">Métrica</label>
                 <Select value={form.metric} onValueChange={(v) => setForm({ ...form, metric: v })}>
-                  <SelectTrigger>
+                  <SelectTrigger aria-label="Métrica">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -221,7 +221,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
                   value={form.mode || "_all"}
                   onValueChange={(v) => setForm({ ...form, mode: v === "_all" ? "" : v })}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger aria-label="Modo">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

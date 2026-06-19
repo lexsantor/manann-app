@@ -270,7 +270,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">Modo</label>
                 <Select value={form.mode} onValueChange={(v) => setForm({ ...form, mode: v })}>
-                  <SelectTrigger>
+                  <SelectTrigger aria-label="Modo">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

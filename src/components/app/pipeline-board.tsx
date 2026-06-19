@@ -302,7 +302,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
           <div className="space-y-1.5">
             <label className="text-xs font-medium">Etapa</label>
             <Select value={form.stage} onValueChange={(v) => setForm((f) => ({ ...f, stage: v as OppStage }))}>
-              <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+              <SelectTrigger aria-label="Etapa" className="w-full"><SelectValue /></SelectTrigger>
               <SelectContent>
                 {STAGES.map((s) => (<SelectItem key={s.key} value={s.key}>{s.label}</SelectItem>))}
               </SelectContent>
@@ -313,7 +313,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
           <div className="space-y-1.5">
             <label className="text-xs font-medium">Contacto</label>
             <Select value={form.contactId || "__none__"} onValueChange={(v) => setForm((f) => ({ ...f, contactId: v === "__none__" ? "" : v }))}>
-              <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+              <SelectTrigger aria-label="Contacto" className="w-full"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="__none__">— Sin contacto —</SelectItem>
                 {contacts.map((c) => (<SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>))}
@@ -325,7 +325,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
           <div className="space-y-1.5">
             <label className="text-xs font-medium">Modo de transporte</label>
             <Select value={form.mode || "__none__"} onValueChange={(v) => setForm((f) => ({ ...f, mode: v === "__none__" ? "" : v }))}>
-              <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+              <SelectTrigger aria-label="Modo de transporte" className="w-full"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="__none__">— Sin especificar —</SelectItem>
                 {Object.entries(MODE_LABELS).map(([k, v]) => (<SelectItem key={k} value={k}>{v}</SelectItem>))}
@@ -367,7 +367,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
             <div className="space-y-1.5">
               <label className="text-xs font-medium">Moneda</label>
               <Select value={form.currency} onValueChange={(v) => setForm((f) => ({ ...f, currency: v }))}>
-                <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                <SelectTrigger aria-label="Moneda" className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="EUR">EUR</SelectItem>
                   <SelectItem value="USD">USD</SelectItem>

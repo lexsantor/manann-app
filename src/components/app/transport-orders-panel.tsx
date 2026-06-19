@@ -144,6 +144,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
       cell: (o) => (
         <Select value={o.status} onValueChange={(v) => handleStatusChange(o.id, v)}>
           <SelectTrigger
+            aria-label="Estado"
             className={cn(
               "h-7 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[10px] font-medium focus:ring-1 focus:ring-primary/30 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
               STATUS_COLORS[o.status] ?? "bg-muted text-muted-foreground",
@@ -191,8 +192,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
           <h3 className="text-sm font-medium text-foreground">Nueva orden de transporte</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Referencia</label>
+              <label htmlFor="referencia" className="text-xs text-muted-foreground">Referencia</label>
               <input
+                id="referencia"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="OT-2024-001"
                 value={form.reference}
@@ -200,8 +202,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Transportista</label>
+              <label htmlFor="transportista" className="text-xs text-muted-foreground">Transportista</label>
               <input
+                id="transportista"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Nombre o empresa"
                 value={form.carrier}
@@ -209,8 +212,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Origen</label>
+              <label htmlFor="origen" className="text-xs text-muted-foreground">Origen</label>
               <input
+                id="origen"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Madrid"
                 value={form.origin}
@@ -218,8 +222,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Destino</label>
+              <label htmlFor="destino" className="text-xs text-muted-foreground">Destino</label>
               <input
+                id="destino"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Barcelona"
                 value={form.destination}
@@ -227,8 +232,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Conductor</label>
+              <label htmlFor="conductor" className="text-xs text-muted-foreground">Conductor</label>
               <input
+                id="conductor"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Nombre"
                 value={form.driverName}
@@ -236,8 +242,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Matrícula</label>
+              <label htmlFor="matricula" className="text-xs text-muted-foreground">Matrícula</label>
               <input
+                id="matricula"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="1234 ABC"
                 value={form.licensePlate}
@@ -245,8 +252,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Fecha recogida</label>
+              <label htmlFor="fecha-recogida" className="text-xs text-muted-foreground">Fecha recogida</label>
               <input
+                id="fecha-recogida"
                 type="date"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 value={form.pickupDate}
@@ -254,8 +262,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Fecha entrega</label>
+              <label htmlFor="fecha-entrega" className="text-xs text-muted-foreground">Fecha entrega</label>
               <input
+                id="fecha-entrega"
                 type="date"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 value={form.deliveryDate}
@@ -263,8 +272,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="col-span-2 space-y-1">
-              <label className="text-xs text-muted-foreground">Notas</label>
+              <label htmlFor="notas" className="text-xs text-muted-foreground">Notas</label>
               <input
+                id="notas"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Instrucciones especiales…"
                 value={form.notes}

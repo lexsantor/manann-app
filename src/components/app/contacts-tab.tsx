@@ -78,13 +78,13 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
         <form onSubmit={handleSubmit} className="space-y-4 px-6 py-5">
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2">
-              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre *</label>
-              <input name="name" required defaultValue={c?.name} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
+              <label htmlFor="name" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre *</label>
+              <input id="name" name="name" required defaultValue={c?.name} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
             </div>
             <div>
               <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Rol *</label>
               <Select value={role} onValueChange={setRole}>
-                <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
+                <SelectTrigger aria-label="Rol *" className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   {ROLE_OPTIONS.map((r) => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
                 </SelectContent>
@@ -92,28 +92,28 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
               <input type="hidden" name="role" value={role} />
             </div>
             <div>
-              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">NIF / EORI</label>
-              <input name="taxId" defaultValue={c?.taxId ?? ""} placeholder="B12345678" className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60" />
+              <label htmlFor="taxId" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">NIF / EORI</label>
+              <input id="taxId" name="taxId" defaultValue={c?.taxId ?? ""} placeholder="B12345678" className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60" />
             </div>
             <div>
-              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Email</label>
-              <input name="email" type="email" defaultValue={c?.email ?? ""} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
+              <label htmlFor="email" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Email</label>
+              <input id="email" name="email" type="email" defaultValue={c?.email ?? ""} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
             </div>
             <div>
-              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Teléfono</label>
-              <input name="phone" defaultValue={c?.phone ?? ""} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
+              <label htmlFor="phone" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Teléfono</label>
+              <input id="phone" name="phone" defaultValue={c?.phone ?? ""} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
             </div>
             <div>
-              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Ciudad</label>
-              <input name="city" defaultValue={c?.city ?? ""} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
+              <label htmlFor="city" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Ciudad</label>
+              <input id="city" name="city" defaultValue={c?.city ?? ""} className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60" />
             </div>
             <div>
-              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">País (ISO)</label>
-              <input name="country" defaultValue={c?.country ?? ""} placeholder="ES" className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60" />
+              <label htmlFor="country" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">País (ISO)</label>
+              <input id="country" name="country" defaultValue={c?.country ?? ""} placeholder="ES" className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60" />
             </div>
             <div>
-              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Límite crédito (€)</label>
-              <input name="creditLimit" defaultValue={c?.creditLimit ?? ""} placeholder="50000" className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60" />
+              <label htmlFor="creditLimit" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Límite crédito (€)</label>
+              <input id="creditLimit" name="creditLimit" defaultValue={c?.creditLimit ?? ""} placeholder="50000" className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary/60" />
             </div>
             <div className="col-span-2">
               <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Notas</label>

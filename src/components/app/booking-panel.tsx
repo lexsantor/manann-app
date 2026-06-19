@@ -176,41 +176,41 @@ function CreateBookingForm({
       <p className="font-mono text-sm font-medium text-foreground uppercase tracking-wide">Nuevo booking DCSA 2.0</p>
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">Naviera (SCAC) *</label>
-          <input name="carrierCode" required placeholder="MSC" defaultValue={defaultCarrier ?? ""} className={inputCls} />
+          <label htmlFor="carrierCode" className="mb-1 block font-mono text-sm text-muted-foreground">Naviera (SCAC) *</label>
+          <input id="carrierCode" name="carrierCode" required placeholder="MSC" defaultValue={defaultCarrier ?? ""} className={inputCls} />
         </div>
         <div>
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">Buque</label>
-          <input name="vesselName" placeholder="MSC IRINA" defaultValue={defaultVessel ?? ""} className={inputCls} />
+          <label htmlFor="vesselName" className="mb-1 block font-mono text-sm text-muted-foreground">Buque</label>
+          <input id="vesselName" name="vesselName" placeholder="MSC IRINA" defaultValue={defaultVessel ?? ""} className={inputCls} />
         </div>
         <div>
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">Viaje</label>
-          <input name="voyageNumber" placeholder="043E" defaultValue={defaultVoyage ?? ""} className={inputCls} />
+          <label htmlFor="voyageNumber" className="mb-1 block font-mono text-sm text-muted-foreground">Viaje</label>
+          <input id="voyageNumber" name="voyageNumber" placeholder="043E" defaultValue={defaultVoyage ?? ""} className={inputCls} />
         </div>
         <div>
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">Cutoff VGM/carga</label>
-          <input name="cutoffDate" type="date" className={inputCls} />
+          <label htmlFor="cutoffDate" className="mb-1 block font-mono text-sm text-muted-foreground">Cutoff VGM/carga</label>
+          <input id="cutoffDate" name="cutoffDate" type="date" className={inputCls} />
         </div>
         <div>
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">POL</label>
-          <input name="pol" placeholder="ESBCN" defaultValue={defaultPol ?? ""} className={inputCls} />
+          <label htmlFor="pol" className="mb-1 block font-mono text-sm text-muted-foreground">POL</label>
+          <input id="pol" name="pol" placeholder="ESBCN" defaultValue={defaultPol ?? ""} className={inputCls} />
         </div>
         <div>
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">POD</label>
-          <input name="pod" placeholder="NLRTM" defaultValue={defaultPod ?? ""} className={inputCls} />
+          <label htmlFor="pod" className="mb-1 block font-mono text-sm text-muted-foreground">POD</label>
+          <input id="pod" name="pod" placeholder="NLRTM" defaultValue={defaultPod ?? ""} className={inputCls} />
         </div>
         <div>
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">ETD</label>
-          <input name="etd" type="date" className={inputCls} />
+          <label htmlFor="etd" className="mb-1 block font-mono text-sm text-muted-foreground">ETD</label>
+          <input id="etd" name="etd" type="date" className={inputCls} />
         </div>
         <div>
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">ETA</label>
-          <input name="eta" type="date" className={inputCls} />
+          <label htmlFor="eta" className="mb-1 block font-mono text-sm text-muted-foreground">ETA</label>
+          <input id="eta" name="eta" type="date" className={inputCls} />
         </div>
       </div>
       <div>
-        <label className="mb-1 block font-mono text-sm text-muted-foreground">Notas</label>
-        <input name="notes" placeholder="Instrucciones especiales…" className={inputCls} />
+        <label htmlFor="notes" className="mb-1 block font-mono text-sm text-muted-foreground">Notas</label>
+        <input id="notes" name="notes" placeholder="Instrucciones especiales…" className={inputCls} />
       </div>
       <div className="flex items-center gap-2">
         <button

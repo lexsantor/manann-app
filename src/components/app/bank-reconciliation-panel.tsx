@@ -191,7 +191,7 @@ export function BankReconciliationPanel({
                         value=""
                         onValueChange={(v) => { if (v) handleMatch(l.id, v); }}
                       >
-                        <SelectTrigger className="w-full border-primary px-2 py-0.5 text-xs">
+                        <SelectTrigger className="w-full border-primary px-2 py-0.5 text-xs" aria-label="Seleccionar asiento">
                           <SelectValue placeholder="Seleccionar asiento…" />
                         </SelectTrigger>
                         <SelectContent>

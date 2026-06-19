@@ -167,7 +167,7 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
                   value={form.category}
                   onValueChange={(v) => setForm({ ...form, category: v })}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger aria-label="Categoría">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

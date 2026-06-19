@@ -153,7 +153,7 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">Categoría</label>
                 <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v })}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectTrigger aria-label="Categoría"><SelectValue /></SelectTrigger>
                   <SelectContent>
                     {CATEGORIES.map((c) => <SelectItem key={c} value={c}>{CAT_LABEL[c]}</SelectItem>)}
                   </SelectContent>

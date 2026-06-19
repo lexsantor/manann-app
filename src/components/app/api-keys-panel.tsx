@@ -109,9 +109,10 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
 
       {showForm && (
         <div className="border-b border-border px-5 py-4 bg-surface-2/20">
-          <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre de la key</label>
+          <label htmlFor="nombre-de-la-key" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre de la key</label>
           <div className="mt-1 flex gap-2">
             <input
+              id="nombre-de-la-key"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="p.ej. Producción · WMS interno"

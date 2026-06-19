@@ -81,6 +81,8 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" strokeWidth={1.5} />
           <input
+            type="search"
+            aria-label="Buscar"
             className="h-11 w-full rounded-md border border-input bg-transparent pl-9 pr-3 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring sm:h-10 md:text-sm"
             placeholder="Buscar concepto..."
             value={q}
@@ -101,8 +103,9 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
           <h3 className="text-sm font-medium text-foreground">Nuevo concepto</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Código</label>
+              <label htmlFor="codigo" className="text-xs text-muted-foreground">Código</label>
               <input
+                id="codigo"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="BL"
                 value={form.code}
@@ -110,8 +113,9 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Nombre</label>
+              <label htmlFor="nombre" className="text-xs text-muted-foreground">Nombre</label>
               <input
+                id="nombre"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Bill of Lading"
                 value={form.name}
@@ -124,7 +128,7 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
                 value={form.category}
                 onValueChange={(v) => setForm({ ...form, category: v })}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" aria-label="Categoría">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -140,7 +144,7 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
                 value={form.defaultDirection}
                 onValueChange={(v) => setForm({ ...form, defaultDirection: v })}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" aria-label="Dirección por defecto">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

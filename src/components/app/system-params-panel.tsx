@@ -83,8 +83,9 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
           <h3 className="text-sm font-medium text-foreground">Nuevo parámetro</h3>
           <div className="grid grid-cols-1 gap-3">
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Clave</label>
+              <label htmlFor="clave" className="text-xs text-muted-foreground">Clave</label>
               <input
+                id="clave"
                 list="suggested-keys"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="empresa.nombre"
@@ -100,8 +101,9 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
               </datalist>
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Etiqueta (opcional)</label>
+              <label htmlFor="etiqueta-opcional" className="text-xs text-muted-foreground">Etiqueta (opcional)</label>
               <input
+                id="etiqueta-opcional"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Nombre descriptivo"
                 value={form.label}
@@ -109,8 +111,9 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Valor</label>
+              <label htmlFor="valor" className="text-xs text-muted-foreground">Valor</label>
               <input
+                id="valor"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Valor del parámetro"
                 value={form.value}

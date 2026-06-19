@@ -182,7 +182,7 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">Tipo</label>
                 <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v })}>
-                  <SelectTrigger>
+                  <SelectTrigger aria-label="Tipo">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

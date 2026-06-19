@@ -130,10 +130,11 @@ function DeclarationBlock({
               <div className="grid gap-2 sm:grid-cols-2">
                 {Object.entries(prefilled).map(([k, v]) => (
                   <div key={k}>
-                    <label className="mb-0.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <label htmlFor={k} className="mb-0.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                       {k.replace(/_/g, " ")}
                     </label>
                     <input
+                      id={k}
                       name={k}
                       defaultValue={v}
                       className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs text-foreground outline-none focus:border-primary/60 placeholder:text-muted-foreground"

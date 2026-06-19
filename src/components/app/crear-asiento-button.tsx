@@ -136,8 +136,9 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
               {/* Header fields */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Referencia *</label>
+                  <label htmlFor="referencia" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Referencia *</label>
                   <input
+                    id="referencia"
                     required
                     value={reference}
                     onChange={(e) => setReference(e.target.value)}
@@ -146,8 +147,9 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Fecha *</label>
+                  <label htmlFor="fecha" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Fecha *</label>
                   <input
+                    id="fecha"
                     required
                     type="date"
                     value={date}
@@ -156,8 +158,9 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Descripción *</label>
+                  <label htmlFor="descripcion" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Descripción *</label>
                   <input
+                    id="descripcion"
                     required
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}

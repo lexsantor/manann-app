@@ -108,7 +108,7 @@ export function DuaPanel({
             </label>
             <div className="relative">
               <Select value={regimen} onValueChange={(v) => setRegimen(v)}>
-                <SelectTrigger className="w-full bg-surface-2/30">
+                <SelectTrigger aria-label="Régimen aduanero" className="w-full bg-surface-2/30">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

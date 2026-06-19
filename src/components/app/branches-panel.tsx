@@ -83,8 +83,9 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
           <h3 className="text-sm font-medium text-foreground">Nueva sucursal</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Código</label>
+              <label htmlFor="codigo" className="text-xs text-muted-foreground">Código</label>
               <input
+                id="codigo"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="BCN"
                 value={form.code}
@@ -92,8 +93,9 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Nombre</label>
+              <label htmlFor="nombre" className="text-xs text-muted-foreground">Nombre</label>
               <input
+                id="nombre"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Barcelona"
                 value={form.name}
@@ -101,8 +103,9 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Ciudad</label>
+              <label htmlFor="ciudad" className="text-xs text-muted-foreground">Ciudad</label>
               <input
+                id="ciudad"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Barcelona"
                 value={form.city}
@@ -115,7 +118,7 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
                 value={form.countryCode}
                 onValueChange={(v) => setForm({ ...form, countryCode: v })}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger className="w-full" aria-label="País">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -126,8 +129,9 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
               </Select>
             </div>
             <div className="col-span-2 space-y-1">
-              <label className="text-xs text-muted-foreground">Dirección</label>
+              <label htmlFor="direccion" className="text-xs text-muted-foreground">Dirección</label>
               <input
+                id="direccion"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Carrer de l'Exemple 123, 08001"
                 value={form.address}

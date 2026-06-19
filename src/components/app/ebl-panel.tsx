@@ -217,7 +217,7 @@ export function EblPanel({
               <div className="space-y-1.5">
                 <label className="text-sm font-medium text-foreground">Acción</label>
                 <Select value={action} onValueChange={setAction}>
-                  <SelectTrigger>
+                  <SelectTrigger aria-label="Acción">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

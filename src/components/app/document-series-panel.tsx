@@ -96,7 +96,7 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
                 value={form.docType}
                 onValueChange={(v) => setForm({ ...form, docType: v })}
               >
-                <SelectTrigger className="w-full">
+                <SelectTrigger aria-label="Tipo de documento" className="w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -105,8 +105,9 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
               </Select>
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Prefijo</label>
+              <label htmlFor="prefijo" className="text-xs text-muted-foreground">Prefijo</label>
               <input
+                id="prefijo"
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="EXP-"
                 value={form.prefix}
@@ -114,8 +115,9 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Siguiente número</label>
+              <label htmlFor="siguiente-numero" className="text-xs text-muted-foreground">Siguiente número</label>
               <input
+                id="siguiente-numero"
                 type="number"
                 min={1}
                 className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary/30"
@@ -124,8 +126,9 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Dígitos (relleno)</label>
+              <label htmlFor="digitos" className="text-xs text-muted-foreground">Dígitos (relleno)</label>
               <input
+                id="digitos"
                 type="number"
                 min={1}
                 max={10}
