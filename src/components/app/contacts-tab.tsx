@@ -228,9 +228,11 @@ export function ContactsTab({ contacts }: ContactsTabProps) {
         <div className="overflow-hidden rounded-xl border border-border bg-card">
           {/* Header row */}
           <div className="hidden grid-cols-[1fr_120px_90px_100px_80px] items-center gap-4 border-b border-border px-4 py-2 sm:grid">
-            {["Nombre", "Rol", "Expedientes", "GP acumulado", ""].map((h) => (
-              <span key={h} className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{h}</span>
-            ))}
+            <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre</span>
+            <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Rol</span>
+            <span className="text-center font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Expedientes</span>
+            <span className="text-right font-mono text-[10px] uppercase tracking-wider text-muted-foreground">GP acumulado</span>
+            <span />
           </div>
           {visible.map((c, i) => {
             const loc = [c.city, c.country].filter(Boolean).join(", ");

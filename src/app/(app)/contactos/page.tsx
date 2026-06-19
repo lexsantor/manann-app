@@ -112,10 +112,11 @@ export default async function ContactosPage({
             key={t.key}
             href={`/contactos?tab=${t.key}`}
             prefetch={false}
+            aria-current={tab === t.key ? "page" : undefined}
             className={cn(
               "whitespace-nowrap shrink-0 rounded-md px-4 py-1.5 text-sm font-medium transition-colors",
               tab === t.key
-                ? "bg-background text-foreground shadow-sm"
+                ? "bg-primary/10 text-primary shadow-sm"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
