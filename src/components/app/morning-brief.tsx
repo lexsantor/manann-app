@@ -6,6 +6,7 @@ import { type AutopilotAction } from "@/lib/autopilot";
 import { formatMoney } from "@/lib/erp-format";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
 
 // ─── Time Saved Donut ────────────────────────────────────────────────────────
 
@@ -206,7 +207,7 @@ export function MorningBrief({
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-base font-medium tracking-tight text-foreground">Plan para hoy</h2>
-            <Link href="/autopilot" className="flex items-center gap-1 text-base text-muted-foreground transition-colors hover:text-foreground">
+            <Link href="/autopilot" className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "gap-1")}>
               Ver todo
               <Icon icon={ArrowRight} size={12} />
             </Link>

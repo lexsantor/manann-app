@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { BookOpen, Plus, Trash2 } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { createBooking, updateBookingStatus, deleteBooking } from "@/lib/erp-actions";
 
 type BookingStatus = "pendiente" | "recibido" | "confirmado" | "rechazado";
@@ -212,21 +213,13 @@ function CreateBookingForm({
         <label htmlFor="notes" className="mb-1 block font-mono text-sm text-muted-foreground">Notas</label>
         <input id="notes" name="notes" placeholder="Instrucciones especiales…" className={inputCls} />
       </div>
-      <div className="flex items-center gap-2">
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded-md bg-primary px-3 py-1.5 font-mono text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
-        >
-          {pending ? "Creando…" : "Crear booking"}
-        </button>
-        <button
-          type="button"
-          onClick={onDone}
-          className="rounded-md px-3 py-1.5 font-mono text-sm text-muted-foreground hover:text-foreground"
-        >
+      <div className="flex items-center justify-end gap-2">
+        <Button type="button" variant="ghost" onClick={onDone}>
           Cancelar
-        </button>
+        </Button>
+        <Button type="submit" disabled={pending}>
+          {pending ? "Creando…" : "Crear booking"}
+        </Button>
       </div>
     </form>
   );
