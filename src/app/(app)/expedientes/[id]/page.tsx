@@ -673,7 +673,9 @@ function Documents({
                       )}
                     </p>
                   </div>
-                  {d.blobUrl && (
+                  {/* La extracción IA aplica a documentos de transporte (BL/AWB/CMR),
+                      no a la factura comercial (esa va por la comparativa). */}
+                  {d.blobUrl && d.type !== "factura_comercial" && (
                     <AiExtractionPanel
                       documentId={d.id}
                       status={d.status}

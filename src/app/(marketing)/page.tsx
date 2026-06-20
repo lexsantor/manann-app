@@ -297,7 +297,7 @@ export default function HomePage() {
               Cada módulo, conectado desde el día uno.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-              Expedientes, aduanas, clientes, finanzas y reportes. Un solo sistema — sin integraciones de terceros que mantener.
+              Expedientes, aduanas, clientes, finanzas y reportes en un solo sistema — no diez herramientas sueltas pegadas entre sí.
             </p>
           </FadeUp>
           <div className="mt-14">

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { GitCompare, Loader2, CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
 import { compareDocuments, type CompareResult } from "@/lib/erp-actions";
 import { Icon } from "@/components/icon";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface DocumentCompareProps {
@@ -72,14 +73,10 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
             </span>
           )}
         </div>
-        <button
-          onClick={handleCompare}
-          disabled={pending}
-          className="flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-base text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors disabled:opacity-50"
-        >
-          {pending ? <Loader2 className="size-3 animate-spin" /> : <GitCompare className="size-3" />}
+        <Button variant="secondary" size="sm" onClick={handleCompare} disabled={pending}>
+          {pending ? <Loader2 className="size-3.5 animate-spin" /> : <GitCompare className="size-3.5" />}
           {result ? "Volver a comparar" : "Comparar documentos"}
-        </button>
+        </Button>
       </div>
 
       {error && (
@@ -101,7 +98,7 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
               {result.discrepancySummary}
             </div>
           )}
-          <div className="overflow-x-auto overflow-hidden rounded-lg border border-border/60">
+          <div className="overflow-x-auto overflow-hidden rounded-xl border border-border/60">
             <div className="grid grid-cols-[1fr_1fr_1fr] border-b border-border/40 bg-surface-2/30 px-3 py-1.5 font-mono text-sm uppercase tracking-wider text-muted-foreground/60">
               <span>Campo</span>
               <span>BL</span>
