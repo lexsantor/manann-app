@@ -167,7 +167,7 @@ export function AiExtractionPanel({
         <div>
           <p className="text-base font-semibold text-accent">Propuesta de la IA</p>
           <p className="mt-0.5 text-base text-muted-foreground">
-            Revisa y confirma los datos extraídos
+            <span className="font-semibold text-foreground">{fields.length} campo{fields.length !== 1 ? "s" : ""}</span> extraídos del PDF · 0 tecleados a mano. Revisa y confirma.
           </p>
         </div>
       </div>
