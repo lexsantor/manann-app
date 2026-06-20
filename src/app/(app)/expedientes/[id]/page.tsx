@@ -35,6 +35,7 @@ import { RouteMap } from "@/components/app/route-map";
 import { DocumentUpload } from "@/components/app/document-upload";
 import { AiExtractionPanel } from "@/components/app/ai-extraction-panel";
 import { PdfViewer } from "@/components/app/pdf-viewer";
+import { ExtractionReviewModal } from "@/components/app/extraction-review-modal";
 import { HsCodeSuggest } from "@/components/app/hs-code-suggest";
 import { HsCodeSearch } from "@/components/app/hs-code-search";
 import { StatusTimeline } from "@/components/app/status-timeline";
@@ -669,6 +670,17 @@ function Documents({
                     />
                   )}
                 </div>
+                {/* Revisión lado a lado (documento → expediente) — solo con propuesta IA */}
+                {d.blobUrl && (d.status === "extracted" || d.status === "confirmed") && (
+                  <ExtractionReviewModal
+                    pdfUrl={d.blobUrl}
+                    filename={d.filename}
+                    documentId={d.id}
+                    status={d.status}
+                    extraction={d.extraction}
+                    docType={d.type}
+                  />
+                )}
                 {/* Vista previa inline del PDF */}
                 {d.blobUrl && (
                   <PdfViewer url={d.blobUrl} filename={d.filename} />
