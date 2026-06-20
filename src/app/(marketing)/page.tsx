@@ -3,6 +3,8 @@ import Link from "next/link";
 import {
   ScanText,
   Sparkles,
+  Check,
+  X,
   CalendarDays,
   Satellite,
   ClipboardList,
@@ -135,6 +137,15 @@ const RESULTS = [
   { value: "100%", label: "de los cambios, trazados", sub: "humano, IA o sistema, siempre registrado" },
 ];
 
+const VERSUS = [
+  { dim: "Crear un expediente", old: "40+ campos a mano, unos 20 minutos", neo: "Arrastras el BL y lo confirmas en minutos" },
+  { dim: "El papel de la IA", old: "Un copiloto pegado al borde, si lo hay", neo: "Nativa. El expediente nace del documento" },
+  { dim: "Documentos", old: "Tecleas y cuadras a mano", neo: "Lee y cruza BL y factura, marca lo que no encaja" },
+  { dim: "Puesta en marcha", old: "Meses de implantación y formación", neo: "Entras y operas el mismo día" },
+  { dim: "La interfaz", old: "Pantallas de hace veinte años", neo: "Densa, rápida, hecha para trabajar" },
+  { dim: "Tus datos", old: "Repartidos entre Excel, correo y herramientas sueltas", neo: "Un solo sistema, todo trazado" },
+];
+
 const ENTERPRISE = [
   { icon: Shield, title: "Seguridad por defecto", body: "HTTPS/HSTS, CSP estricta y X-Frame-Options DENY. Cifrado en reposo del proveedor (Neon). Acceso por enlace mágico, sin contraseñas que filtrar." },
   { icon: Zap, title: "Infraestructura serverless", body: "Desplegado en Vercel con escalado automático. Base de datos Neon con residencia configurable en la UE." },
@@ -243,6 +254,53 @@ export default function HomePage() {
               ))}
             </StaggerGrid>
           </div>
+        </div>
+      </section>
+
+      {/* ── El cambio (versus) ────────────────────────────────── */}
+      <section className="border-t border-border">
+        <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
+          <FadeUp>
+            <span className="eyebrow">El cambio</span>
+            <h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
+              Así trabaja el sector.{" "}
+              <span className="text-gradient-primary">Así trabaja Manann.</span>
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+              El software de siempre y Manann, lado a lado. Tú juzgas.
+            </p>
+          </FadeUp>
+
+          <FadeUp delay={0.1}>
+            <div className="mt-12 overflow-hidden rounded-xl border border-border bg-card">
+              <div className="hidden grid-cols-2 border-b border-border sm:grid">
+                <div className="px-6 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/60">
+                  El ERP de siempre
+                </div>
+                <div className="border-l border-border px-6 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-primary">
+                  Manann
+                </div>
+              </div>
+
+              {VERSUS.map((r) => (
+                <div key={r.dim} className="border-b border-border/60 px-6 py-5 last:border-0">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/45">
+                    {r.dim}
+                  </p>
+                  <div className="mt-2.5 grid gap-3 sm:grid-cols-2 sm:gap-0">
+                    <div className="flex items-start gap-2.5 sm:pr-6">
+                      <X size={15} className="mt-0.5 shrink-0 text-muted-foreground/40" />
+                      <p className="text-sm leading-relaxed text-muted-foreground/70">{r.old}</p>
+                    </div>
+                    <div className="flex items-start gap-2.5 sm:border-l sm:border-border/60 sm:pl-6">
+                      <Check size={15} className="mt-0.5 shrink-0 text-primary" />
+                      <p className="text-sm leading-relaxed text-foreground">{r.neo}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </FadeUp>
         </div>
       </section>
 
