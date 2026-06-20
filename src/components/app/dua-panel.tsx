@@ -6,6 +6,7 @@ import { FileCheck2, ChevronDown, ChevronUp, Loader2, AlertTriangle } from "luci
 import { markShipmentEnAduana } from "@/lib/erp-actions";
 import { Icon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectTrigger,
@@ -104,9 +105,9 @@ export function DuaPanel({
           </p>
 
           <div className="mb-4">
-            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+            <Label className="mb-1.5 block">
               Régimen aduanero
-            </label>
+            </Label>
             <div className="relative">
               <Select value={regimen} onValueChange={(v) => setRegimen(v)}>
                 <SelectTrigger aria-label="Régimen aduanero" className="w-full bg-surface-2/30">

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { getBalanceSumasSaldos } from "@/lib/contabilidad-actions";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectTrigger,
@@ -50,7 +51,7 @@ export function BalanceSumasSaldos() {
       {/* Filtros */}
       <div className="flex flex-wrap items-end gap-3 rounded-md border border-border bg-card p-4">
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Año</label>
+          <Label>Año</Label>
           <Select value={String(year)} onValueChange={(v) => setYear(Number(v))}>
             <SelectTrigger aria-label="Año" className="text-sm">
               <SelectValue />
@@ -63,7 +64,7 @@ export function BalanceSumasSaldos() {
           </Select>
         </div>
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Desde</label>
+          <Label>Desde</Label>
           <Select value={String(monthFrom)} onValueChange={(v) => setMonthFrom(Number(v))}>
             <SelectTrigger aria-label="Desde" className="text-sm">
               <SelectValue />
@@ -74,7 +75,7 @@ export function BalanceSumasSaldos() {
           </Select>
         </div>
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Hasta</label>
+          <Label>Hasta</Label>
           <Select value={String(monthTo)} onValueChange={(v) => setMonthTo(Number(v))}>
             <SelectTrigger aria-label="Hasta" className="text-sm">
               <SelectValue />

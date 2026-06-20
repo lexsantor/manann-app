@@ -9,6 +9,7 @@ import { StatusBadge, ModeBadge } from "@/components/ui/badges";
 import { EmptyState } from "@/components/ui/empty-state";
 import { createTender, closeTender, addSimulatedBids } from "@/lib/tier-v-actions";
 import { DatePicker } from "@/components/ui/date-picker";
+import { Label } from "@/components/ui/label";
 
 type TenderBid = {
   id: string;
@@ -243,7 +244,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
             </div>
             <div className="flex-1 space-y-4 overflow-y-auto p-5">
               <div className="space-y-1.5">
-                <label htmlFor="tender-title" className="text-sm font-medium text-foreground">Título</label>
+                <Label htmlFor="tender-title">Título</Label>
                 <Input
                   id="tender-title"
                   value={form.title}
@@ -253,7 +254,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label htmlFor="tender-origin" className="text-sm font-medium text-foreground">Origen</label>
+                  <Label htmlFor="tender-origin">Origen</Label>
                   <Input
                     id="tender-origin"
                     value={form.origin}
@@ -262,7 +263,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label htmlFor="tender-destination" className="text-sm font-medium text-foreground">Destino</label>
+                  <Label htmlFor="tender-destination">Destino</Label>
                   <Input
                     id="tender-destination"
                     value={form.destination}
@@ -272,7 +273,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Modo</label>
+                <Label>Modo</Label>
                 <Select value={form.mode} onValueChange={(v) => setForm({ ...form, mode: v })}>
                   <SelectTrigger aria-label="Modo">
                     <SelectValue />
@@ -287,9 +288,9 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="tender-cargo-description" className="text-sm font-medium text-foreground">
+                <Label htmlFor="tender-cargo-description">
                   Descripción de carga <span className="text-muted-foreground font-normal">(opcional)</span>
-                </label>
+                </Label>
                 <Input
                   id="tender-cargo-description"
                   value={form.cargoDescription}
@@ -299,21 +300,21 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label htmlFor="tender-weight" className="text-sm font-medium text-foreground">Peso kg</label>
+                  <Label htmlFor="tender-weight">Peso kg</Label>
                   <Input id="tender-weight" type="number" value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} />
                 </div>
                 <div className="space-y-1.5">
-                  <label htmlFor="tender-volume" className="text-sm font-medium text-foreground">Volumen m³</label>
+                  <Label htmlFor="tender-volume">Volumen m³</Label>
                   <Input id="tender-volume" type="number" value={form.volume} onChange={(e) => setForm({ ...form, volume: e.target.value })} />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label htmlFor="tender-target-date" className="text-sm font-medium text-foreground">Fecha de embarque</label>
+                  <Label htmlFor="tender-target-date">Fecha de embarque</Label>
                   <DatePicker id="tender-target-date" value={form.targetDate} onChange={(v) => setForm({ ...form, targetDate: v })} />
                 </div>
                 <div className="space-y-1.5">
-                  <label htmlFor="tender-response-deadline" className="text-sm font-medium text-foreground">Límite respuesta</label>
+                  <Label htmlFor="tender-response-deadline">Límite respuesta</Label>
                   <DatePicker id="tender-response-deadline" value={form.responseDeadline} onChange={(v) => setForm({ ...form, responseDeadline: v })} />
                 </div>
               </div>

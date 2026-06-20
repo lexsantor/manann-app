@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { MASTER_COUNTRIES } from "@/lib/master-countries";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface Branch {
@@ -81,7 +82,7 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
           <h3 className="text-sm font-medium text-foreground">Nueva sucursal</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label htmlFor="codigo" className="text-xs text-muted-foreground">Código</label>
+              <Label htmlFor="codigo">Código</Label>
               <Input
                 id="codigo"
                 className="font-mono uppercase"
@@ -91,7 +92,7 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="nombre" className="text-xs text-muted-foreground">Nombre</label>
+              <Label htmlFor="nombre">Nombre</Label>
               <Input
                 id="nombre"
                 placeholder="Barcelona"
@@ -100,7 +101,7 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="ciudad" className="text-xs text-muted-foreground">Ciudad</label>
+              <Label htmlFor="ciudad">Ciudad</Label>
               <Input
                 id="ciudad"
                 placeholder="Barcelona"
@@ -109,7 +110,7 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">País</label>
+              <Label>País</Label>
               <Select
                 value={form.countryCode}
                 onValueChange={(v) => setForm({ ...form, countryCode: v })}
@@ -125,7 +126,7 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
               </Select>
             </div>
             <div className="col-span-2 space-y-1">
-              <label htmlFor="direccion" className="text-xs text-muted-foreground">Dirección</label>
+              <Label htmlFor="direccion">Dirección</Label>
               <Input
                 id="direccion"
                 placeholder="Carrer de l'Exemple 123, 08001"
@@ -139,7 +140,7 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
                 onChange={(checked) => setForm({ ...form, isHQ: checked })}
                 aria-label="Sede principal (HQ)"
               />
-              <label htmlFor="isHQ" className="text-sm text-muted-foreground">Sede principal (HQ)</label>
+              <Label htmlFor="isHQ">Sede principal (HQ)</Label>
             </div>
           </div>
           <div className="flex gap-2 sm:justify-end">

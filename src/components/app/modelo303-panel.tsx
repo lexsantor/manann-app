@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 const currentYear = new Date().getFullYear();
 const currentQuarter = Math.ceil((new Date().getMonth() + 1) / 3) as 1 | 2 | 3 | 4;
@@ -53,7 +54,7 @@ export function Modelo303Panel() {
       {/* Selector */}
       <div className="flex flex-wrap items-end gap-3 rounded-md border border-border bg-card p-4">
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Año</label>
+          <Label>Año</Label>
           <Select value={String(year)} onValueChange={(v) => setYear(Number(v))}>
             <SelectTrigger className="w-auto" aria-label="Año">
               <SelectValue />
@@ -66,7 +67,7 @@ export function Modelo303Panel() {
           </Select>
         </div>
         <div className="space-y-1">
-          <label className="text-xs text-muted-foreground">Trimestre</label>
+          <Label>Trimestre</Label>
           <Select
             value={String(quarter)}
             onValueChange={(v) => setQuarter(Number(v) as 1 | 2 | 3 | 4)}

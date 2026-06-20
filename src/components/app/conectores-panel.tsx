@@ -5,6 +5,7 @@ import { Plug, Check, X } from "lucide-react";
 import { useFocusTrap } from "@/lib/use-focus-trap";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { connectConnector, disconnectConnector } from "@/lib/connector-actions";
 
 type Item = {
@@ -118,7 +119,7 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
             </div>
             <p className="mt-1 text-sm text-muted-foreground">Introduce tus credenciales de {configItem.name}.</p>
             <div className="mt-4 space-y-1.5">
-              <label htmlFor="conectores-api-key" className="text-sm font-medium text-foreground">API key / token</label>
+              <Label htmlFor="conectores-api-key">API key / token</Label>
               <Input id="conectores-api-key" value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder="••••••••••" />
             </div>
             <div className="mt-3 rounded-md border border-warning/20 bg-warning/5 px-3 py-2">

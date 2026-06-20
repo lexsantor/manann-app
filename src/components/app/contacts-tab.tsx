@@ -9,6 +9,7 @@ import { createContact, updateContact, deleteContact, importContactsAction } fro
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import type { ContactWithGP } from "@/lib/erp";
@@ -81,11 +82,11 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
         <form onSubmit={handleSubmit} className="space-y-4 px-6 py-5">
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2">
-              <label htmlFor="name" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre *</label>
+              <Label htmlFor="name" className="mb-1 block">Nombre *</Label>
               <Input id="name" name="name" required defaultValue={c?.name} />
             </div>
             <div>
-              <label className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Rol *</label>
+              <Label className="mb-1 block">Rol *</Label>
               <Select value={role} onValueChange={setRole}>
                 <SelectTrigger aria-label="Rol *" className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -95,31 +96,31 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
               <input type="hidden" name="role" value={role} />
             </div>
             <div>
-              <label htmlFor="taxId" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">NIF / EORI</label>
+              <Label htmlFor="taxId" className="mb-1 block">NIF / EORI</Label>
               <Input id="taxId" name="taxId" defaultValue={c?.taxId ?? ""} placeholder="B12345678" />
             </div>
             <div>
-              <label htmlFor="email" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Email</label>
+              <Label htmlFor="email" className="mb-1 block">Email</Label>
               <Input id="email" name="email" type="email" defaultValue={c?.email ?? ""} />
             </div>
             <div>
-              <label htmlFor="phone" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Teléfono</label>
+              <Label htmlFor="phone" className="mb-1 block">Teléfono</Label>
               <Input id="phone" name="phone" defaultValue={c?.phone ?? ""} />
             </div>
             <div>
-              <label htmlFor="city" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Ciudad</label>
+              <Label htmlFor="city" className="mb-1 block">Ciudad</Label>
               <Input id="city" name="city" defaultValue={c?.city ?? ""} />
             </div>
             <div>
-              <label htmlFor="country" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">País (ISO)</label>
+              <Label htmlFor="country" className="mb-1 block">País (ISO)</Label>
               <Input id="country" name="country" defaultValue={c?.country ?? ""} placeholder="ES" />
             </div>
             <div>
-              <label htmlFor="creditLimit" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Límite crédito (€)</label>
+              <Label htmlFor="creditLimit" className="mb-1 block">Límite crédito (€)</Label>
               <Input id="creditLimit" name="creditLimit" defaultValue={c?.creditLimit ?? ""} placeholder="50000" />
             </div>
             <div className="col-span-2">
-              <label htmlFor="contactos-notes" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Notas</label>
+              <Label htmlFor="contactos-notes" className="mb-1 block">Notas</Label>
               <Textarea id="contactos-notes" name="notes" rows={2} defaultValue={c?.notes ?? ""} className="resize-none" />
             </div>
           </div>

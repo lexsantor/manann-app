@@ -5,6 +5,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { createChargeConcept, deleteChargeConcept } from "@/lib/maestros-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { SearchField } from "@/components/ui/search-field";
 import {
@@ -145,7 +146,7 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
           <h3 className="text-sm font-medium text-foreground">Nuevo concepto</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label htmlFor="codigo" className="text-xs text-muted-foreground">Código</label>
+              <Label htmlFor="codigo">Código</Label>
               <Input
                 id="codigo"
                 className="font-mono uppercase"
@@ -155,7 +156,7 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="nombre" className="text-xs text-muted-foreground">Nombre</label>
+              <Label htmlFor="nombre">Nombre</Label>
               <Input
                 id="nombre"
                 placeholder="Bill of Lading"
@@ -164,7 +165,7 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Categoría</label>
+              <Label>Categoría</Label>
               <Select
                 value={form.category}
                 onValueChange={(v) => setForm({ ...form, category: v })}
@@ -180,7 +181,7 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
               </Select>
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Dirección por defecto</label>
+              <Label>Dirección por defecto</Label>
               <Select
                 value={form.defaultDirection}
                 onValueChange={(v) => setForm({ ...form, defaultDirection: v })}

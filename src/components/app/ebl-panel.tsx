@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { FileKey2, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { StatusBadge } from "@/components/ui/badges";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -103,7 +104,7 @@ export function EblPanel({
               </div>
               <div className="space-y-4 p-5">
                 <div className="space-y-1.5">
-                  <label htmlFor="ebl-tenedor-inicial" className="text-sm font-medium text-foreground">Tenedor inicial</label>
+                  <Label htmlFor="ebl-tenedor-inicial">Tenedor inicial</Label>
                   <Input
                     id="ebl-tenedor-inicial"
                     value={holderName}
@@ -214,7 +215,7 @@ export function EblPanel({
             </div>
             <div className="space-y-4 p-5">
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Acción</label>
+                <Label>Acción</Label>
                 <Select value={action} onValueChange={setAction}>
                   <SelectTrigger aria-label="Acción">
                     <SelectValue />
@@ -226,9 +227,9 @@ export function EblPanel({
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="ebl-to-party" className="text-sm font-medium text-foreground">
+                <Label htmlFor="ebl-to-party">
                   {action === "Surrender" ? "Naviero receptor" : "Nuevo tenedor"}
-                </label>
+                </Label>
                 <Input
                   id="ebl-to-party"
                   value={toParty}

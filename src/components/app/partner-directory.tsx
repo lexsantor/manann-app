@@ -10,6 +10,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SearchField } from "@/components/ui/search-field";
+import { Label } from "@/components/ui/label";
 
 const TYPE_LABEL: Record<string, string> = {
   agent: "Agente",
@@ -173,7 +174,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
           <div className="border-b border-border px-5 py-4 bg-surface-2/20 space-y-3">
             <div className="grid gap-3 sm:grid-cols-2">
               <div>
-                <label htmlFor="nombre" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre *</label>
+                <Label htmlFor="nombre">Nombre *</Label>
                 <Input
                   id="nombre"
                   value={form.name}
@@ -182,7 +183,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 />
               </div>
               <div>
-                <label className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Tipo *</label>
+                <Label>Tipo *</Label>
                 <Select
                   value={form.type}
                   onValueChange={(v) => setForm((f) => ({ ...f, type: v as typeof form.type }))}
@@ -198,7 +199,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 </Select>
               </div>
               <div>
-                <label htmlFor="region" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Región</label>
+                <Label htmlFor="region">Región</Label>
                 <Input
                   id="region"
                   value={form.region}
@@ -208,7 +209,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 />
               </div>
               <div>
-                <label htmlFor="servicios-separados-por-coma" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Servicios (separados por coma)</label>
+                <Label htmlFor="servicios-separados-por-coma">Servicios (separados por coma)</Label>
                 <Input
                   id="servicios-separados-por-coma"
                   value={form.services}
@@ -218,7 +219,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 />
               </div>
               <div>
-                <label htmlFor="email-contacto" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Email contacto</label>
+                <Label htmlFor="email-contacto">Email contacto</Label>
                 <Input
                   id="email-contacto"
                   type="email"
@@ -228,7 +229,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 />
               </div>
               <div>
-                <label htmlFor="nif-vat" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">NIF / VAT</label>
+                <Label htmlFor="nif-vat">NIF / VAT</Label>
                 <Input
                   id="nif-vat"
                   value={form.taxId}

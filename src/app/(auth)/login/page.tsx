@@ -9,6 +9,7 @@ import { signIn } from "@/lib/auth-client";
 import { enterDemo } from "@/lib/demo-login";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Icon } from "@/components/icon";
 
 type Status = "idle" | "loading" | "sent" | "error";
@@ -110,9 +111,9 @@ export default function LoginPage() {
                 </p>
 
                 <form onSubmit={handleSubmit} className="mt-7 space-y-3">
-                  <label htmlFor="email" className="sr-only">
+                  <Label htmlFor="email" className="sr-only">
                     Correo electrónico
-                  </label>
+                  </Label>
                   <Input
                     id="email"
                     type="email"

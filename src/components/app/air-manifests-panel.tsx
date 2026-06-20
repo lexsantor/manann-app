@@ -12,6 +12,7 @@ import { MASTER_AIRPORTS } from "@/lib/master-airports";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ConfirmButton } from "@/components/ui/confirm-button";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectTrigger,
@@ -171,7 +172,7 @@ export function AirManifestsPanel({
           <h3 className="text-sm font-medium text-foreground">Nuevo manifiesto aéreo</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label htmlFor="mawb-number" className="text-xs text-muted-foreground">MAWB</label>
+              <Label htmlFor="mawb-number">MAWB</Label>
               <Input
                 id="mawb-number"
                 className="font-mono uppercase"
@@ -181,7 +182,7 @@ export function AirManifestsPanel({
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="carrier" className="text-xs text-muted-foreground">Carrier</label>
+              <Label htmlFor="carrier">Carrier</Label>
               <Input
                 id="carrier"
                 placeholder="Iberia Cargo"
@@ -190,7 +191,7 @@ export function AirManifestsPanel({
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Origen</label>
+              <Label>Origen</Label>
               <Select
                 value={form.originIata}
                 onValueChange={(v) => setForm({ ...form, originIata: v })}
@@ -204,7 +205,7 @@ export function AirManifestsPanel({
               </Select>
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Destino</label>
+              <Label>Destino</Label>
               <Select
                 value={form.destIata}
                 onValueChange={(v) => setForm({ ...form, destIata: v })}

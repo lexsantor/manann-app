@@ -17,6 +17,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
+import { Label } from "@/components/ui/label";
 
 const UNIT_LABELS: Record<string, string> = {
   contenedor: "contenedor", bl: "BL", kg: "kg",
@@ -152,17 +153,17 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
           {/* Cliente */}
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2">
-              <label htmlFor="cliente" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Cliente *</label>
+              <Label htmlFor="cliente" className="mb-1.5 block">Cliente *</Label>
               <Input id="cliente" type="text" value={clientName} onChange={(e) => setClientName(e.target.value)}
                 placeholder="Nombre del cliente" />
             </div>
             <div>
-              <label htmlFor="email-del-cliente" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Email del cliente</label>
+              <Label htmlFor="email-del-cliente" className="mb-1.5 block">Email del cliente</Label>
               <Input id="email-del-cliente" type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)}
                 placeholder="cliente@empresa.com" />
             </div>
             <div>
-              <label htmlFor="valida-hasta" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Válida hasta</label>
+              <Label htmlFor="valida-hasta" className="mb-1.5 block">Válida hasta</Label>
               <DatePicker id="valida-hasta" value={validUntil} onChange={(v) => setValidUntil(v)} />
             </div>
           </div>
@@ -170,7 +171,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
           {/* Líneas */}
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <label className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Líneas *</label>
+              <Label>Líneas *</Label>
               <div className="flex items-center gap-2">
                 {rates.length > 0 && (
                   <button onClick={() => setShowRates((v) => !v)}
@@ -248,7 +249,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
           {/* IVA + Moneda + Totales */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">IVA</label>
+              <Label className="mb-1.5 block">IVA</Label>
               <Select value={taxRate} onValueChange={(v) => setTaxRate(v as typeof taxRate)}>
                 <SelectTrigger className="w-full" aria-label="IVA"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -260,7 +261,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
               </Select>
             </div>
             <div>
-              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Moneda</label>
+              <Label className="mb-1.5 block">Moneda</Label>
               <Select value={currency} onValueChange={setCurrency}>
                 <SelectTrigger className="w-full" aria-label="Moneda"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -287,7 +288,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
 
           {/* Notas */}
           <div>
-            <label htmlFor="cotizacion-notas" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">Notas</label>
+            <Label htmlFor="cotizacion-notas" className="mb-1.5 block">Notas</Label>
             <Textarea id="cotizacion-notas" value={notes} onChange={(e) => setNotes(e.target.value)} rows={3}
               placeholder="Condiciones, exclusiones, notas para el cliente..."
               className="w-full resize-none rounded-md border border-border bg-surface-2/30 px-3 py-2 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors" />

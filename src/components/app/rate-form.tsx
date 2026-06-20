@@ -27,6 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 const SERVICE_LABELS: Record<string, string> = {
   flete: "Flete",
@@ -121,9 +122,9 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
 
           {/* Concepto */}
           <div>
-            <label htmlFor="concepto" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+            <Label htmlFor="concepto" className="mb-1.5 block">
               Concepto
-            </label>
+            </Label>
             <Input
               id="concepto"
               type="text"
@@ -135,9 +136,9 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
 
           {/* Tipo de servicio */}
           <div>
-            <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+            <Label className="mb-1.5 block">
               Tipo de servicio
-            </label>
+            </Label>
             <Select value={form.serviceType} onValueChange={(v) => set("serviceType", v as RateInput["serviceType"])}>
               <SelectTrigger aria-label="Tipo de servicio" className="w-full">
                 <SelectValue />
@@ -153,9 +154,9 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           {/* Unidad + Precio + Moneda */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+              <Label className="mb-1.5 block">
                 Unidad
-              </label>
+              </Label>
               <Select value={form.unit} onValueChange={(v) => set("unit", v as RateInput["unit"])}>
                 <SelectTrigger aria-label="Unidad" className="w-full">
                   <SelectValue />
@@ -168,9 +169,9 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
               </Select>
             </div>
             <div>
-              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+              <Label className="mb-1.5 block">
                 Moneda
-              </label>
+              </Label>
               <Select value={form.currency} onValueChange={(v) => set("currency", v)}>
                 <SelectTrigger aria-label="Moneda" className="w-full">
                   <SelectValue />
@@ -183,9 +184,9 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           </div>
 
           <div>
-            <label htmlFor="precio-base" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+            <Label htmlFor="precio-base" className="mb-1.5 block">
               Precio base
-            </label>
+            </Label>
             <div className="relative">
               <Input
                 id="precio-base"
@@ -206,24 +207,24 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           {/* Vigencia */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+              <Label className="mb-1.5 block">
                 Válida desde
-              </label>
+              </Label>
               <DateInput value={form.validFrom ?? null} onChange={(v) => set("validFrom", v)} />
             </div>
             <div>
-              <label className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+              <Label className="mb-1.5 block">
                 Válida hasta
-              </label>
+              </Label>
               <DateInput value={form.validTo ?? null} onChange={(v) => set("validTo", v)} />
             </div>
           </div>
 
           {/* Notas */}
           <div>
-            <label htmlFor="tarifa-notas" className="mb-1.5 block font-mono text-sm uppercase tracking-wider text-muted-foreground">
+            <Label htmlFor="tarifa-notas" className="mb-1.5 block">
               Notas
-            </label>
+            </Label>
             <Textarea
               id="tarifa-notas"
               value={form.notes ?? ""}

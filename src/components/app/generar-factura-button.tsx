@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
+import { Label } from "@/components/ui/label";
 
 interface RevenueLine {
   concept: string;
@@ -158,7 +159,7 @@ export function GenerarFacturaButton({
                   <legend className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Cliente</legend>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2">
-                      <label htmlFor="nombre-razon-social" className="mb-1 block text-base text-muted-foreground">Nombre / Razón social</label>
+                      <Label htmlFor="nombre-razon-social" className="mb-1 block">Nombre / Razón social</Label>
                       <Input
                         id="nombre-razon-social"
                         type="text"
@@ -168,7 +169,7 @@ export function GenerarFacturaButton({
                       />
                     </div>
                     <div>
-                      <label htmlFor="nif-cif" className="mb-1 block text-base text-muted-foreground">NIF / CIF</label>
+                      <Label htmlFor="nif-cif" className="mb-1 block">NIF / CIF</Label>
                       <Input
                         id="nif-cif"
                         type="text"
@@ -178,7 +179,7 @@ export function GenerarFacturaButton({
                       />
                     </div>
                     <div>
-                      <label className="mb-1 block text-base text-muted-foreground">IVA (%)</label>
+                      <Label className="mb-1 block">IVA (%)</Label>
                       <Select value={taxRate} onValueChange={(v) => setTaxRate(v)}>
                         <SelectTrigger aria-label="IVA (%)" className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-base text-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-colors">
                           <SelectValue />
@@ -199,7 +200,7 @@ export function GenerarFacturaButton({
                   <legend className="font-mono text-sm uppercase tracking-wider text-muted-foreground">Fechas</legend>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="emision" className="mb-1 block text-base text-muted-foreground">Emisión</label>
+                      <Label htmlFor="emision" className="mb-1 block">Emisión</Label>
                       <DatePicker
                         id="emision"
                         value={issueDate}
@@ -207,7 +208,7 @@ export function GenerarFacturaButton({
                       />
                     </div>
                     <div>
-                      <label htmlFor="vencimiento" className="mb-1 block text-base text-muted-foreground">Vencimiento</label>
+                      <Label htmlFor="vencimiento" className="mb-1 block">Vencimiento</Label>
                       <DatePicker
                         id="vencimiento"
                         value={dueDate}

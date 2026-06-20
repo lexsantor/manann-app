@@ -5,6 +5,7 @@ import { Key, Plus, Trash2, Copy, Check, Loader2 } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { createApiKey, revokeApiKey } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
 
@@ -108,7 +109,7 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
 
       {showForm && (
         <div className="border-b border-border px-5 py-4 bg-surface-2/20">
-          <label htmlFor="nombre-de-la-key" className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Nombre de la key</label>
+          <Label htmlFor="nombre-de-la-key">Nombre de la key</Label>
           <div className="mt-1 flex gap-2">
             <Input
               id="nombre-de-la-key"

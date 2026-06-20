@@ -29,6 +29,7 @@ const NATIVE_TEXTAREA = /<textarea\b/;
 const NATIVE_CHECKBOX = /type=["']checkbox["']/;
 const NATIVE_RADIO = /type=["']radio["']/;
 const NATIVE_INPUT = /<input\b/;
+const NATIVE_LABEL = /<label\b/;
 const NATIVE_TABLE = /<table\b/;
 // Tamaño de fuente en px impar: text-[9px], text-[11px], text-[13px]… (invariante 7).
 // Solo casa el dígito final impar seguido de "px"; text-[10px] (par) no casa.
@@ -100,6 +101,9 @@ for (const file of walk(join(ROOT, "src"))) {
       // Input crudo (invariante 4): campo de formulario debe ser kit `Input`.
       // Exentos los inputs no-formulario documentados (file/hidden/search/inline/chat/wow).
       if (NATIVE_INPUT.test(line) && !INPUT_EXEMPT.test(rel)) at("input-crudo");
+      // Label crudo (invariante 4): etiqueta de formulario debe ser kit `Label`
+      // (centraliza el estilo). El kit (ui/label) queda exento por capa.
+      if (NATIVE_LABEL.test(line)) at("label-crudo");
     }
     // Fuente en px impar (invariante 7): aplica a todas las capas; en el kit se
     // reporta pero solo el color rompe su gate; en app cuenta como deuda (→ 0).

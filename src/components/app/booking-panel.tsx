@@ -6,6 +6,7 @@ import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { createBooking, updateBookingStatus, deleteBooking } from "@/lib/erp-actions";
 import { DatePicker } from "@/components/ui/date-picker";
 
@@ -177,40 +178,40 @@ function CreateBookingForm({
       <p className="font-mono text-sm font-medium text-foreground uppercase tracking-wide">Nuevo booking DCSA 2.0</p>
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label htmlFor="carrierCode" className="mb-1 block font-mono text-sm text-muted-foreground">Naviera (SCAC) *</label>
+          <Label htmlFor="carrierCode" className="mb-1 block">Naviera (SCAC) *</Label>
           <Input id="carrierCode" name="carrierCode" required placeholder="MSC" defaultValue={defaultCarrier ?? ""} />
         </div>
         <div>
-          <label htmlFor="vesselName" className="mb-1 block font-mono text-sm text-muted-foreground">Buque</label>
+          <Label htmlFor="vesselName" className="mb-1 block">Buque</Label>
           <Input id="vesselName" name="vesselName" placeholder="MSC IRINA" defaultValue={defaultVessel ?? ""} />
         </div>
         <div>
-          <label htmlFor="voyageNumber" className="mb-1 block font-mono text-sm text-muted-foreground">Viaje</label>
+          <Label htmlFor="voyageNumber" className="mb-1 block">Viaje</Label>
           <Input id="voyageNumber" name="voyageNumber" placeholder="043E" defaultValue={defaultVoyage ?? ""} />
         </div>
         <div>
-          <label htmlFor="cutoffDate" className="mb-1 block font-mono text-sm text-muted-foreground">Cutoff VGM/carga</label>
+          <Label htmlFor="cutoffDate" className="mb-1 block">Cutoff VGM/carga</Label>
           <DatePicker id="cutoffDate" name="cutoffDate" />
         </div>
         <div>
-          <label htmlFor="pol" className="mb-1 block font-mono text-sm text-muted-foreground">POL</label>
+          <Label htmlFor="pol" className="mb-1 block">POL</Label>
           <Input id="pol" name="pol" placeholder="ESBCN" defaultValue={defaultPol ?? ""} />
         </div>
         <div>
-          <label htmlFor="pod" className="mb-1 block font-mono text-sm text-muted-foreground">POD</label>
+          <Label htmlFor="pod" className="mb-1 block">POD</Label>
           <Input id="pod" name="pod" placeholder="NLRTM" defaultValue={defaultPod ?? ""} />
         </div>
         <div>
-          <label htmlFor="etd" className="mb-1 block font-mono text-sm text-muted-foreground">ETD</label>
+          <Label htmlFor="etd" className="mb-1 block">ETD</Label>
           <DatePicker id="etd" name="etd" />
         </div>
         <div>
-          <label htmlFor="eta" className="mb-1 block font-mono text-sm text-muted-foreground">ETA</label>
+          <Label htmlFor="eta" className="mb-1 block">ETA</Label>
           <DatePicker id="eta" name="eta" />
         </div>
       </div>
       <div>
-        <label htmlFor="notes" className="mb-1 block font-mono text-sm text-muted-foreground">Notas</label>
+        <Label htmlFor="notes" className="mb-1 block">Notas</Label>
         <Input id="notes" name="notes" placeholder="Instrucciones especiales…" />
       </div>
       <div className="flex items-center justify-end gap-2">

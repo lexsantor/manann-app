@@ -8,6 +8,7 @@ import { addCharge, deleteCharge, updateChargeAccrual, type AddChargeInput } fro
 import { GenerarFacturaButton } from "@/components/app/generar-factura-button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -125,7 +126,7 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
       </div>
 
       <div className="flex items-center gap-4 text-base">
-        <label className="flex items-center gap-1.5 cursor-pointer select-none text-muted-foreground">
+        <Label className="flex items-center gap-1.5 cursor-pointer select-none">
           <Checkbox
             aria-label="Pass-through (sin margen)"
             checked={passThrough}
@@ -135,16 +136,16 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
             }}
           />
           Pass-through (sin margen)
-        </label>
+        </Label>
         {direction === "revenue" && (
-          <label className="flex items-center gap-1.5 cursor-pointer select-none text-muted-foreground">
+          <Label className="flex items-center gap-1.5 cursor-pointer select-none">
             <Checkbox
               aria-label="Sin facturar al cliente"
               checked={atRisk}
               onChange={(checked) => setAtRisk(checked)}
             />
             Sin facturar al cliente
-          </label>
+          </Label>
         )}
         {sell > 0 && buy > 0 && !passThrough && (
           <span className="ml-auto font-mono text-base text-muted-foreground">

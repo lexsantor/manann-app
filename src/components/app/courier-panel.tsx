@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { updateCourierInfo } from "@/lib/erp-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
   Select,
@@ -75,7 +76,7 @@ function CourierEditForm({
       <p className="font-mono text-sm font-medium text-foreground uppercase tracking-wide">Datos courier</p>
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="mb-1 block font-mono text-sm text-muted-foreground">Proveedor</label>
+          <Label className="mb-1 block">Proveedor</Label>
           <Select name="provider" defaultValue={current.provider ?? ""}>
             <SelectTrigger aria-label="Proveedor" className="w-full">
               <SelectValue placeholder="Sin courier" />
@@ -88,11 +89,11 @@ function CourierEditForm({
           </Select>
         </div>
         <div>
-          <label htmlFor="trackingNumber" className="mb-1 block font-mono text-sm text-muted-foreground">Nº de seguimiento</label>
+          <Label htmlFor="trackingNumber" className="mb-1 block">Nº de seguimiento</Label>
           <Input id="trackingNumber" name="trackingNumber" placeholder="1Z999AA10123456784" defaultValue={current.tracking ?? ""} />
         </div>
         <div className="col-span-2">
-          <label htmlFor="estimatedDelivery" className="mb-1 block font-mono text-sm text-muted-foreground">Entrega estimada</label>
+          <Label htmlFor="estimatedDelivery" className="mb-1 block">Entrega estimada</Label>
           <DatePicker id="estimatedDelivery" name="estimatedDelivery" defaultValue={current.delivery ?? ""} />
         </div>
       </div>

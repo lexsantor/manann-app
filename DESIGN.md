@@ -98,6 +98,7 @@ en la capa de app rompe el build**. La deuda de app está **congelada en 0**.
 | `paleta-cruda` / `hex` | 6 (color = token) | rompe build | **rompe build** (estricto) |
 | `select/textarea/checkbox/radio-nativo` | 4 (controles) | rompe build | exento (el kit los envuelve) |
 | `input-crudo` (`<input>` de formulario) | 4 (controles) | rompe build | exento (el kit los envuelve) |
+| `label-crudo` (`<label>` de formulario) | 4 (controles) | rompe build | exento (`ui/label`) |
 | `tabla-cruda` (`<table>` hand-rolled) | 3 (tablas) | rompe build | exento (`ui/data-table`) |
 | `px-impar` (`text-[Npx]` impar) | 7 (px pares) | rompe build | reportado |
 | `ancho-anidado` (`max-w-*` en page) | 1 (ancho 1200) | rompe build | — |

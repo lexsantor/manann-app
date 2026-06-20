@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { StatusBadge } from "@/components/ui/badges";
 import { ConfirmButton } from "@/components/ui/confirm-button";
+import { Label } from "@/components/ui/label";
 import { createIncident, updateIncidentStatus, deleteIncident } from "@/lib/calidad-actions";
 
 type Incident = {
@@ -180,7 +181,7 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
             </div>
             <div className="flex-1 space-y-4 overflow-y-auto p-5">
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Tipo</label>
+                <Label>Tipo</Label>
                 <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v })}>
                   <SelectTrigger aria-label="Tipo">
                     <SelectValue />
@@ -194,7 +195,7 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="incidencias-descripcion" className="text-sm font-medium text-foreground">Descripción</label>
+                <Label htmlFor="incidencias-descripcion">Descripción</Label>
                 <Input
                   id="incidencias-descripcion"
                   value={form.description}
@@ -203,9 +204,9 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
                 />
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="incidencias-responsable" className="text-sm font-medium text-foreground">
+                <Label htmlFor="incidencias-responsable">
                   Responsable <span className="font-normal text-muted-foreground">(opcional)</span>
-                </label>
+                </Label>
                 <Input
                   id="incidencias-responsable"
                   value={form.responsible}
@@ -214,9 +215,9 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
                 />
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="incidencias-coste-impacto" className="text-sm font-medium text-foreground">
+                <Label htmlFor="incidencias-coste-impacto">
                   Coste de impacto € <span className="font-normal text-muted-foreground">(opcional)</span>
-                </label>
+                </Label>
                 <Input
                   id="incidencias-coste-impacto"
                   type="number"

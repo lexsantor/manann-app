@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { StatusBadge } from "@/components/ui/badges";
 import { ConfirmButton } from "@/components/ui/confirm-button";
+import { Label } from "@/components/ui/label";
 import { createSlaDefinition, toggleSlaDefinition, deleteSlaDefinition } from "@/lib/calidad-actions";
 
 type SLA = {
@@ -183,7 +184,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
             </div>
             <div className="flex-1 space-y-4 overflow-y-auto p-5">
               <div className="space-y-1.5">
-                <label htmlFor="sla-name" className="text-sm font-medium text-foreground">Nombre</label>
+                <Label htmlFor="sla-name">Nombre</Label>
                 <Input
                   id="sla-name"
                   value={form.name}
@@ -192,7 +193,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Métrica</label>
+                <Label>Métrica</Label>
                 <Select value={form.metric} onValueChange={(v) => setForm({ ...form, metric: v })}>
                   <SelectTrigger aria-label="Métrica">
                     <SelectValue />
@@ -206,7 +207,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="sla-target-hours" className="text-sm font-medium text-foreground">Objetivo (horas)</label>
+                <Label htmlFor="sla-target-hours">Objetivo (horas)</Label>
                 <Input
                   id="sla-target-hours"
                   type="number"
@@ -216,9 +217,9 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">
+                <Label>
                   Modo <span className="font-normal text-muted-foreground">(vacío = todos)</span>
-                </label>
+                </Label>
                 <Select
                   value={form.mode || "_all"}
                   onValueChange={(v) => setForm({ ...form, mode: v === "_all" ? "" : v })}

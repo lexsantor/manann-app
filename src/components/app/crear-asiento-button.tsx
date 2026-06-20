@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { DatePicker } from "@/components/ui/date-picker";
 
 interface AccountRow {
@@ -145,7 +146,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
               {/* Header fields */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="referencia" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Referencia *</label>
+                  <Label htmlFor="referencia" className="mb-1 block">Referencia *</Label>
                   <Input
                     id="referencia"
                     required
@@ -155,11 +156,11 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
                   />
                 </div>
                 <div>
-                  <label htmlFor="fecha" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Fecha *</label>
+                  <Label htmlFor="fecha" className="mb-1 block">Fecha *</Label>
                   <DatePicker id="fecha" value={date} onChange={(v) => setDate(v)} />
                 </div>
                 <div className="col-span-2">
-                  <label htmlFor="descripcion" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Descripción *</label>
+                  <Label htmlFor="descripcion" className="mb-1 block">Descripción *</Label>
                   <Input
                     id="descripcion"
                     required

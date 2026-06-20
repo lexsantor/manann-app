@@ -5,6 +5,7 @@ import { Save, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { upsertOrgProfile } from "@/lib/tier-v-actions";
 
 type OrgProfile = {
@@ -40,7 +41,7 @@ function TagInput({
 
   return (
     <div className="space-y-2">
-      <label className="text-sm font-medium text-foreground">{label}</label>
+      <Label>{label}</Label>
       <div className="flex gap-2">
         <Input
           value={input}
@@ -113,7 +114,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
     <div className="space-y-6">
       <div className="rounded-xl border border-border bg-card p-5 space-y-5">
         <div className="space-y-2">
-          <label htmlFor="org-bio" className="text-sm font-medium text-foreground">Descripción</label>
+          <Label htmlFor="org-bio">Descripción</Label>
           <Textarea
             id="org-bio"
             rows={3}
@@ -126,7 +127,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
 
         <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="org-city" className="text-sm font-medium text-foreground">Ciudad / sede</label>
+          <Label htmlFor="org-city">Ciudad / sede</Label>
           <Input
             id="org-city"
             value={form.city}
@@ -136,7 +137,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="org-monthly-capacity" className="text-sm font-medium text-foreground">Capacidad mensual estimada (TEU)</label>
+          <Label htmlFor="org-monthly-capacity">Capacidad mensual estimada (TEU)</Label>
           <Input
             id="org-monthly-capacity"
             type="number"

@@ -6,6 +6,7 @@ import { Icon } from "@/components/icon";
 import { submitDeclaration } from "@/lib/erp-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { StatusBadge } from "@/components/ui/badges";
 
 interface ComplianceDeclaration {
@@ -124,9 +125,9 @@ function DeclarationBlock({
               <div className="grid gap-2 sm:grid-cols-2">
                 {Object.entries(prefilled).map(([k, v]) => (
                   <div key={k}>
-                    <label htmlFor={k} className="mb-0.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <Label htmlFor={k} className="mb-0.5 block">
                       {k.replace(/_/g, " ")}
-                    </label>
+                    </Label>
                     <Input
                       id={k}
                       name={k}

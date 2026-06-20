@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { formatMoney } from "@/lib/erp-format";
 import type { OpportunityRow, RateItem } from "@/lib/erp";
@@ -294,13 +295,13 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
           {/* Título */}
           <div className="space-y-1.5">
-            <label htmlFor="pipeline-title" className="text-xs font-medium">Título *</label>
+            <Label htmlFor="pipeline-title">Título *</Label>
             <Input id="pipeline-title" value={form.title} onChange={field("title")} placeholder="Nombre de la oportunidad" />
           </div>
 
           {/* Etapa */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium">Etapa</label>
+            <Label>Etapa</Label>
             <Select value={form.stage} onValueChange={(v) => setForm((f) => ({ ...f, stage: v as OppStage }))}>
               <SelectTrigger aria-label="Etapa" className="w-full"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -311,7 +312,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
 
           {/* Contacto */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium">Contacto</label>
+            <Label>Contacto</Label>
             <Select value={form.contactId || "__none__"} onValueChange={(v) => setForm((f) => ({ ...f, contactId: v === "__none__" ? "" : v }))}>
               <SelectTrigger aria-label="Contacto" className="w-full"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -323,7 +324,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
 
           {/* Modo */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium">Modo de transporte</label>
+            <Label>Modo de transporte</Label>
             <Select value={form.mode || "__none__"} onValueChange={(v) => setForm((f) => ({ ...f, mode: v === "__none__" ? "" : v }))}>
               <SelectTrigger aria-label="Modo de transporte" className="w-full"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -336,25 +337,25 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
           {/* Ruta */}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label htmlFor="pipeline-pol" className="text-xs font-medium">POL</label>
+              <Label htmlFor="pipeline-pol">POL</Label>
               <Input id="pipeline-pol" value={form.pol} onChange={field("pol")} placeholder="ESBCN" />
             </div>
             <div className="space-y-1.5">
-              <label htmlFor="pipeline-pod" className="text-xs font-medium">POD</label>
+              <Label htmlFor="pipeline-pod">POD</Label>
               <Input id="pipeline-pod" value={form.pod} onChange={field("pod")} placeholder="NLRTM" />
             </div>
           </div>
 
           {/* Tipo de carga */}
           <div className="space-y-1.5">
-            <label htmlFor="pipeline-cargo-type" className="text-xs font-medium">Tipo de carga</label>
+            <Label htmlFor="pipeline-cargo-type">Tipo de carga</Label>
             <Input id="pipeline-cargo-type" value={form.cargoType} onChange={field("cargoType")} placeholder="FCL 20', electrónica…" />
           </div>
 
           {/* Valor */}
           <div className="grid grid-cols-3 gap-3">
             <div className="col-span-2 space-y-1.5">
-              <label htmlFor="pipeline-estimated-value" className="text-xs font-medium">Valor estimado</label>
+              <Label htmlFor="pipeline-estimated-value">Valor estimado</Label>
               <Input
                 id="pipeline-estimated-value"
                 type="number"
@@ -366,7 +367,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-xs font-medium">Moneda</label>
+              <Label>Moneda</Label>
               <Select value={form.currency} onValueChange={(v) => setForm((f) => ({ ...f, currency: v }))}>
                 <SelectTrigger aria-label="Moneda" className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -407,7 +408,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
 
           {/* Notas */}
           <div className="space-y-1.5">
-            <label htmlFor="pipeline-notes" className="text-xs font-medium">Notas</label>
+            <Label htmlFor="pipeline-notes">Notas</Label>
             <Textarea
               id="pipeline-notes"
               value={form.notes}

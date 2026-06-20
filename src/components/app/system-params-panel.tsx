@@ -5,6 +5,7 @@ import { Plus, Trash2, Check, X } from "lucide-react";
 import { upsertSystemParam, deleteSystemParam } from "@/lib/maestros-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const SUGGESTED_KEYS = [
   { key: "empresa.nombre", label: "Nombre fiscal de la empresa" },
@@ -82,7 +83,7 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
           <h3 className="text-sm font-medium text-foreground">Nuevo parámetro</h3>
           <div className="grid grid-cols-1 gap-3">
             <div className="space-y-1">
-              <label htmlFor="clave" className="text-xs text-muted-foreground">Clave</label>
+              <Label htmlFor="clave">Clave</Label>
               <Input
                 id="clave"
                 list="suggested-keys"
@@ -100,7 +101,7 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
               </datalist>
             </div>
             <div className="space-y-1">
-              <label htmlFor="etiqueta-opcional" className="text-xs text-muted-foreground">Etiqueta (opcional)</label>
+              <Label htmlFor="etiqueta-opcional">Etiqueta (opcional)</Label>
               <Input
                 id="etiqueta-opcional"
                 placeholder="Nombre descriptivo"
@@ -109,7 +110,7 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="valor" className="text-xs text-muted-foreground">Valor</label>
+              <Label htmlFor="valor">Valor</Label>
               <Input
                 id="valor"
                 placeholder="Valor del parámetro"

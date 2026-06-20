@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { StatusBadge } from "@/components/ui/badges";
 import { ConfirmButton } from "@/components/ui/confirm-button";
+import { Label } from "@/components/ui/label";
 import { createNonConformity, updateNonConformityStatus, deleteNonConformity } from "@/lib/calidad-actions";
 
 type NC = {
@@ -162,7 +163,7 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
             </div>
             <div className="flex-1 space-y-4 overflow-y-auto p-5">
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Categoría</label>
+                <Label>Categoría</Label>
                 <Select
                   value={form.category}
                   onValueChange={(v) => setForm({ ...form, category: v })}
@@ -179,7 +180,7 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="nc-descripcion" className="text-sm font-medium text-foreground">Descripción</label>
+                <Label htmlFor="nc-descripcion">Descripción</Label>
                 <Input
                   id="nc-descripcion"
                   value={form.description}
@@ -188,9 +189,9 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
                 />
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="nc-causa-raiz" className="text-sm font-medium text-foreground">
+                <Label htmlFor="nc-causa-raiz">
                   Causa raíz <span className="font-normal text-muted-foreground">(opcional)</span>
-                </label>
+                </Label>
                 <Input
                   id="nc-causa-raiz"
                   value={form.rootCause}
@@ -199,9 +200,9 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
                 />
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="nc-accion-correctiva" className="text-sm font-medium text-foreground">
+                <Label htmlFor="nc-accion-correctiva">
                   Acción correctiva <span className="font-normal text-muted-foreground">(opcional)</span>
-                </label>
+                </Label>
                 <Input
                   id="nc-accion-correctiva"
                   value={form.correctiveAction}

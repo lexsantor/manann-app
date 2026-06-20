@@ -5,6 +5,7 @@ import { Plus, Check, X } from "lucide-react";
 import { upsertDocumentSeries } from "@/lib/maestros-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import {
   Select,
@@ -171,7 +172,7 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
           <h3 className="text-sm font-medium text-foreground">Nueva serie</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Tipo de documento</label>
+              <Label>Tipo de documento</Label>
               <Select
                 value={form.docType}
                 onValueChange={(v) => setForm({ ...form, docType: v })}
@@ -185,7 +186,7 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
               </Select>
             </div>
             <div className="space-y-1">
-              <label htmlFor="prefijo" className="text-xs text-muted-foreground">Prefijo</label>
+              <Label htmlFor="prefijo">Prefijo</Label>
               <Input
                 id="prefijo"
                 className="font-mono uppercase"
@@ -195,7 +196,7 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="siguiente-numero" className="text-xs text-muted-foreground">Siguiente número</label>
+              <Label htmlFor="siguiente-numero">Siguiente número</Label>
               <Input
                 id="siguiente-numero"
                 type="number"
@@ -206,7 +207,7 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="digitos" className="text-xs text-muted-foreground">Dígitos (relleno)</label>
+              <Label htmlFor="digitos">Dígitos (relleno)</Label>
               <Input
                 id="digitos"
                 type="number"

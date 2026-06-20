@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { DatePicker } from "@/components/ui/date-picker";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 interface TransportOrder {
@@ -191,7 +192,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
           <h3 className="text-sm font-medium text-foreground">Nueva orden de transporte</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label htmlFor="referencia" className="text-xs text-muted-foreground">Referencia</label>
+              <Label htmlFor="referencia">Referencia</Label>
               <Input
                 id="referencia"
                 className="font-mono uppercase"
@@ -201,7 +202,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="transportista" className="text-xs text-muted-foreground">Transportista</label>
+              <Label htmlFor="transportista">Transportista</Label>
               <Input
                 id="transportista"
                 placeholder="Nombre o empresa"
@@ -210,7 +211,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="origen" className="text-xs text-muted-foreground">Origen</label>
+              <Label htmlFor="origen">Origen</Label>
               <Input
                 id="origen"
                 placeholder="Madrid"
@@ -219,7 +220,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="destino" className="text-xs text-muted-foreground">Destino</label>
+              <Label htmlFor="destino">Destino</Label>
               <Input
                 id="destino"
                 placeholder="Barcelona"
@@ -228,7 +229,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="conductor" className="text-xs text-muted-foreground">Conductor</label>
+              <Label htmlFor="conductor">Conductor</Label>
               <Input
                 id="conductor"
                 placeholder="Nombre"
@@ -237,7 +238,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="matricula" className="text-xs text-muted-foreground">Matrícula</label>
+              <Label htmlFor="matricula">Matrícula</Label>
               <Input
                 id="matricula"
                 className="font-mono uppercase"
@@ -247,7 +248,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="fecha-recogida" className="text-xs text-muted-foreground">Fecha recogida</label>
+              <Label htmlFor="fecha-recogida">Fecha recogida</Label>
               <DatePicker
                 id="fecha-recogida"
                 value={form.pickupDate}
@@ -255,7 +256,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="fecha-entrega" className="text-xs text-muted-foreground">Fecha entrega</label>
+              <Label htmlFor="fecha-entrega">Fecha entrega</Label>
               <DatePicker
                 id="fecha-entrega"
                 value={form.deliveryDate}
@@ -263,7 +264,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
               />
             </div>
             <div className="col-span-2 space-y-1">
-              <label htmlFor="notas" className="text-xs text-muted-foreground">Notas</label>
+              <Label htmlFor="notas">Notas</Label>
               <Input
                 id="notas"
                 placeholder="Instrucciones especiales…"

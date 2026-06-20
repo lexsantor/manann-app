@@ -11,6 +11,7 @@ import { DataTable, type Column } from "@/components/ui/data-table";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { createExpense, deleteExpense } from "@/lib/expense-actions";
 import { DatePicker } from "@/components/ui/date-picker";
+import { Label } from "@/components/ui/label";
 
 type Expense = {
   id: string;
@@ -152,16 +153,16 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
             <div className="flex-1 space-y-4 overflow-y-auto p-5">
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <label htmlFor="gastos-fecha" className="text-sm font-medium text-foreground">Fecha</label>
+                  <Label htmlFor="gastos-fecha">Fecha</Label>
                   <DatePicker id="gastos-fecha" value={form.date} onChange={(v) => setForm({ ...form, date: v })} />
                 </div>
                 <div className="space-y-1.5">
-                  <label htmlFor="gastos-importe" className="text-sm font-medium text-foreground">Importe (€)</label>
+                  <Label htmlFor="gastos-importe">Importe (€)</Label>
                   <Input id="gastos-importe" type="number" step="0.01" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} placeholder="0.00" />
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-foreground">Categoría</label>
+                <Label>Categoría</Label>
                 <Select value={form.category} onValueChange={(v) => setForm({ ...form, category: v })}>
                   <SelectTrigger aria-label="Categoría"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -170,11 +171,11 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
                 </Select>
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="gastos-proveedor" className="text-sm font-medium text-foreground">Proveedor <span className="font-normal text-muted-foreground">(opcional)</span></label>
+                <Label htmlFor="gastos-proveedor">Proveedor <span className="font-normal text-muted-foreground">(opcional)</span></Label>
                 <Input id="gastos-proveedor" value={form.supplier} onChange={(e) => setForm({ ...form, supplier: e.target.value })} placeholder="ej. Repsol" />
               </div>
               <div className="space-y-1.5">
-                <label htmlFor="gastos-concepto" className="text-sm font-medium text-foreground">Concepto <span className="font-normal text-muted-foreground">(opcional)</span></label>
+                <Label htmlFor="gastos-concepto">Concepto <span className="font-normal text-muted-foreground">(opcional)</span></Label>
                 <Input id="gastos-concepto" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Descripción breve" />
               </div>
             </div>

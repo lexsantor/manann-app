@@ -5,6 +5,7 @@ import { Plus, Trash2, PlaneTakeoff } from "lucide-react";
 import { createFlight, deleteFlight } from "@/lib/tier-s-actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { MASTER_AIRPORTS } from "@/lib/master-airports";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { ConfirmButton } from "@/components/ui/confirm-button";
@@ -172,7 +173,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
           <h3 className="text-sm font-medium text-foreground">Nuevo vuelo</h3>
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-1">
-              <label htmlFor="numero-de-vuelo" className="text-xs text-muted-foreground">Número de vuelo</label>
+              <Label htmlFor="numero-de-vuelo">Número de vuelo</Label>
               <Input
                 id="numero-de-vuelo"
                 className="font-mono uppercase"
@@ -182,7 +183,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               />
             </div>
             <div className="col-span-2 space-y-1">
-              <label className="text-xs text-muted-foreground">Aerolínea</label>
+              <Label>Aerolínea</Label>
               <Select value={form.airline} onValueChange={(v) => setForm({ ...form, airline: v })}>
                 <SelectTrigger className="w-full" aria-label="Aerolínea">
                   <SelectValue />
@@ -193,7 +194,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               </Select>
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Origen (IATA)</label>
+              <Label>Origen (IATA)</Label>
               <Select value={form.originIata} onValueChange={(v) => setForm({ ...form, originIata: v })}>
                 <SelectTrigger className="w-full" aria-label="Origen (IATA)">
                   <SelectValue />
@@ -206,7 +207,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               </Select>
             </div>
             <div className="space-y-1">
-              <label className="text-xs text-muted-foreground">Destino (IATA)</label>
+              <Label>Destino (IATA)</Label>
               <Select value={form.destIata} onValueChange={(v) => setForm({ ...form, destIata: v })}>
                 <SelectTrigger className="w-full" aria-label="Destino (IATA)">
                   <SelectValue />
@@ -219,7 +220,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               </Select>
             </div>
             <div className="space-y-1">
-              <label htmlFor="tipo-aeronave" className="text-xs text-muted-foreground">Tipo aeronave</label>
+              <Label htmlFor="tipo-aeronave">Tipo aeronave</Label>
               <Input
                 id="tipo-aeronave"
                 className="font-mono"
@@ -229,7 +230,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="salida" className="text-xs text-muted-foreground">Salida</label>
+              <Label htmlFor="salida">Salida</Label>
               <DatePicker
                 id="salida"
                 value={form.departureDate}
@@ -237,7 +238,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="llegada" className="text-xs text-muted-foreground">Llegada</label>
+              <Label htmlFor="llegada">Llegada</Label>
               <DatePicker
                 id="llegada"
                 value={form.arrivalDate}
@@ -245,7 +246,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="capacidad-kg" className="text-xs text-muted-foreground">Capacidad (kg)</label>
+              <Label htmlFor="capacidad-kg">Capacidad (kg)</Label>
               <Input
                 id="capacidad-kg"
                 type="number"
@@ -256,7 +257,7 @@ export function FlightsPanel({ flights: initial }: { flights: Flight[] }) {
               />
             </div>
             <div className="space-y-1">
-              <label htmlFor="disponible-kg" className="text-xs text-muted-foreground">Disponible (kg)</label>
+              <Label htmlFor="disponible-kg">Disponible (kg)</Label>
               <Input
                 id="disponible-kg"
                 type="number"
