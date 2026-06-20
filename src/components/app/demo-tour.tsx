@@ -10,19 +10,23 @@ import { cn } from "@/lib/utils";
 const STEPS = [
   {
     title: "Arrastra un Bill of Lading",
-    body: "En la sección Documentos (más abajo), sube el PDF del BL. La IA extrae naviera, puertos, partes y mercancía en segundos, sin teclear nada.",
+    body: "Donde la competencia (Visual Trans, CargoWise) te obliga a teclear 40 campos a mano, en Manann sueltas el PDF en la sección Documentos y la IA extrae naviera, puertos, partes y mercancía en segundos.",
   },
   {
     title: "Revisa la propuesta",
-    body: "Cada campo extraído muestra su nivel de confianza. Los campos con baja confianza aparecen resaltados para que los verifiques primero.",
+    body: "La IA no decide por ti: cada campo muestra su nivel de confianza y los dudosos se resaltan. La máquina propone, tú confirmas — el humano siempre al mando.",
   },
   {
     title: "Confirma con un clic",
-    body: "Pulsa «Confirmar». Los datos pasan al expediente. Si necesitas corregir algo antes, puedes hacerlo campo a campo desde el panel.",
+    body: "Pulsa «Confirmar» y los datos pasan al expediente. ¿Algo no cuadra? Corrígelo campo a campo antes de incorporar. Cero re-tecleo.",
+  },
+  {
+    title: "Cruza BL y factura",
+    body: "Sube la factura comercial y Manann no solo la lee: cruza ambos documentos y señala lo que no cuadra (cantidades, pesos, incoterm). La competencia hace OCR; Manann razona entre documentos.",
   },
   {
     title: "El expediente queda operativo",
-    body: "Tracking, partes, contenedores y cargos listos. Lo que antes tomaba 20 minutos de data-entry, Manann lo hace en 30 segundos.",
+    body: "Tracking, partes, contenedores y cargos listos. Lo que tu equipo tarda ~20 minutos en teclear, Manann lo deja hecho en 30 segundos — sin manual y sin legacy.",
   },
 ];
 

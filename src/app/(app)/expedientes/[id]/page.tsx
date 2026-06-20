@@ -301,14 +301,27 @@ export default async function ExpedienteDetailPage({
 
         <div className="border-t border-dashed border-border/70" />
         <StatusTimeline status={s.status} />
-        {s.reference === "EXP-2026-0054" && (
-          <div className="mt-4 flex flex-col gap-3 rounded-md border border-warning/40 bg-warning/5 px-4 py-2.5 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-muted-foreground">
-              <span className="font-medium text-warning">Modo demo</span> · expediente showcase del flujo IA
-            </p>
-            <ResetDemoButton />
-          </div>
-        )}
+        {s.reference === "EXP-2026-0054" && (() => {
+          const armed = s.documents.find((d) => d.type === "bl")?.status === "extracted";
+          return (
+            <div className="mt-4 flex flex-col gap-3 rounded-md border border-warning/40 bg-warning/5 px-4 py-2.5 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                <span className="font-medium text-warning">Modo demo</span>
+                <span className="text-border">·</span>
+                {armed ? (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-success/10 px-2 py-0.5 text-sm font-medium text-success">
+                    <span className="size-1.5 rounded-full bg-success" /> Demo lista
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-warning/15 px-2 py-0.5 text-sm font-medium text-warning">
+                    <span className="size-1.5 rounded-full bg-warning" /> Consumida — reinicia antes de presentar
+                  </span>
+                )}
+              </div>
+              <ResetDemoButton />
+            </div>
+          );
+        })()}
       </div>
 
       {/* Resumen ejecutivo IA (3.2) */}

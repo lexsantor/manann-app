@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { FileStack, Ship, Landmark, CheckCircle2, ArrowRight, AlertTriangle, ShieldAlert } from "lucide-react";
+import { FileStack, Ship, Landmark, CheckCircle2, ArrowRight, AlertTriangle, ShieldAlert, Sparkles } from "lucide-react";
 
 import { getOrgContext, listShipments, computeStats, computeOperationalStats } from "@/lib/erp";
 import { computeLeakageKpi, computeGpByClient } from "@/lib/exceptions";
+import { computeTimeSaved } from "@/lib/autopilot";
 import { KpiCard } from "@/components/app/kpi-card";
 import { ShipmentBoardingPass } from "@/components/app/shipment-boarding-pass";
 import { ShipmentBarChart, StatusDonutChart } from "@/components/app/dashboard-charts";
@@ -41,6 +42,7 @@ export default async function DashboardPage() {
   const active = confirmed.filter((s) => !TERMINAL.has(s.status));
 
   const leakage = computeLeakageKpi(shipments);
+  const timeSaved = computeTimeSaved(shipments);
   const gpByClient = computeGpByClient(shipments);
 
   // Weekly buckets for bar chart (last 8 weeks)
@@ -98,6 +100,18 @@ export default async function DashboardPage() {
         <KpiCard label="En tránsito" value={stats.enTransito} icon={Ship} accent />
         <KpiCard label="En aduana" value={stats.enAduana} icon={Landmark} />
         <KpiCard label="Entregados" value={stats.entregados} icon={CheckCircle2} />
+      </section>
+
+      {/* ROI de la IA — caso de negocio del momento wow, visible en el panel principal */}
+      <section className="flex flex-col gap-2 rounded-xl border border-accent/30 bg-accent-soft px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2.5">
+          <Icon icon={Sparkles} size={18} className="shrink-0 text-accent" />
+          <p className="text-sm text-foreground">
+            <span className="font-semibold">≈ {timeSaved.total} h</span> de tecleo manual evitadas por la IA
+            <span className="text-muted-foreground"> · extracción de documentos, conciliación y acciones automáticas</span>
+          </p>
+        </div>
+        <span className="shrink-0 font-mono text-xs text-muted-foreground/70">estimación según tu actividad</span>
       </section>
 
       {confirmed.length > 0 && (
