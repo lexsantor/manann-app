@@ -44,7 +44,7 @@ const STEPS = [
     icon: Upload,
     title: "Recibes el documento",
     lead: "BL del armador, Booking Confirmation, AWB. Lo arrastras al expediente.",
-    body: "Sin plantillas, sin formularios previos, sin clasificar el tipo de archivo. Cuando el documento entra en Manann —al crear el expediente o arrastrarlo a uno abierto— el sistema empieza a trabajar. El mismo gesto que adjuntar un correo.",
+    body: "Sin plantillas, sin formularios previos, sin clasificar el tipo de archivo. Cuando el documento entra en Manann (al crear el expediente o arrastrarlo a uno abierto) el sistema empieza a trabajar. El mismo gesto que adjuntar un correo.",
   },
   {
     icon: ScanText,
@@ -56,7 +56,7 @@ const STEPS = [
     icon: CheckCircle2,
     title: "Tú confirmas",
     lead: "Revisas lo propuesto, corriges lo dudoso, y el expediente queda creado.",
-    body: "Nada se da por hecho sin tu visto bueno. La IA prepara el 90 % del trabajo y tú decides. Al confirmar, los datos se vuelcan al expediente —cabecera, partes, contenedor, mercancía— y queda listo para seguir su travesía.",
+    body: "Nada se da por hecho sin tu visto bueno. La IA prepara el 90 % del trabajo y tú decides. Al confirmar, los datos se vuelcan al expediente (cabecera, partes, contenedor, mercancía) y queda listo para seguir su travesía.",
   },
 ];
 
@@ -148,7 +148,7 @@ const MODULOS: { icon: LucideIcon; title: string; body: string; sim?: string }[]
   {
     icon: MessageSquare,
     title: "Copiloto IA (⌘J)",
-    body: "Pregunta en lenguaje natural sobre tus expedientes —«¿qué llega esta semana a Valencia?»— y la IA responde con el contexto real de tu operativa. Propone; tú decides.",
+    body: "Pregunta en lenguaje natural sobre tus expedientes («¿qué llega esta semana a Valencia?») y la IA responde con el contexto real de tu operativa. Propone; tú decides.",
   },
   {
     icon: Sunrise,
@@ -164,7 +164,7 @@ const MODULOS: { icon: LucideIcon; title: string; body: string; sim?: string }[]
     icon: BarChart3,
     title: "Analítica avanzada",
     body: "Margen por cliente, naviera y ruta; puntualidad y volumen por modo. Cuadros de mando en vivo para decidir con datos, no con intuición.",
-    sim: "Simulación — Power BI Embedded en producción",
+    sim: "Simulación · Power BI Embedded en producción",
   },
   {
     icon: TrendingUp,

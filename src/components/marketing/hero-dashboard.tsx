@@ -288,7 +288,7 @@ export function HeroDashboard() {
             ✓
           </div>
           <div>
-            <div className="text-[12px] font-semibold leading-snug">DUA admitida — canal verde</div>
+            <div className="text-[12px] font-semibold leading-snug">DUA admitida · canal verde</div>
             <div className="mt-0.5 font-mono text-[9.5px] text-muted-foreground/40">Aduana Valencia · hace 4 min</div>
           </div>
         </div>

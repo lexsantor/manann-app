@@ -17,7 +17,7 @@ const PILLARS = [
   {
     icon: Compass,
     title: "El mar",
-    body: "La operativa del transitario: vasta, cambiante, peligrosa si no la conoces. No es la enemiga — es el terreno.",
+    body: "La operativa del transitario: vasta, cambiante, peligrosa si no la conoces. No es la enemiga. Es el terreno.",
   },
   {
     icon: Eye,
@@ -46,8 +46,8 @@ export default function NosotrosPage() {
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
               Manann nace de una idea sencilla: que la persona que coordina cargas
               internacionales recupere el mando sobre un trabajo que hoy la
-              desborda. La travesía mecánica del expediente —el papeleo, los pasos
-              repetibles, los avisos— la lleva el sistema. Las decisiones, tú.
+              desborda. La parte mecánica del expediente (el papeleo, los pasos
+              repetibles, los avisos) la lleva el sistema. Las decisiones, tú.
             </p>
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
               El software del sector se quedó anclado en otra época. Pantallas que

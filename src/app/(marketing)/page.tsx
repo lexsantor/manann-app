@@ -82,7 +82,7 @@ const FEATURES = [
   {
     icon: ScanText,
     title: "Extracción documental",
-    body: "Un BL rellena el expediente entero. Naviera, buque, puertos, contenedor, partes y mercancía — con nivel de confianza por cada campo.",
+    body: "Un BL rellena el expediente entero. Naviera, buque, puertos, contenedor, partes y mercancía, con el nivel de confianza de cada campo.",
     wide: true,
     extra: [
       { label: "Naviera", val: "0.98" },
@@ -132,7 +132,7 @@ const RESULTS = [
   { value: "40+", label: "campos por expediente", sub: "que la competencia te hace teclear" },
   { value: "1", label: "documento de entrada", sub: "BL, AWB o CMR en PDF" },
   { value: "0", label: "reintroducción de datos", sub: "lo que la IA lee no se vuelve a teclear" },
-  { value: "100%", label: "de los cambios, trazados", sub: "humano, IA o sistema — siempre registrado" },
+  { value: "100%", label: "de los cambios, trazados", sub: "humano, IA o sistema, siempre registrado" },
 ];
 
 const ENTERPRISE = [
@@ -296,7 +296,7 @@ export default function HomePage() {
               Cada módulo, conectado desde el día uno.
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-              Expedientes, aduanas, clientes, finanzas y reportes en un solo sistema — no diez herramientas sueltas pegadas entre sí.
+              Expedientes, aduanas, clientes, finanzas y reportes en un solo sistema. No diez herramientas sueltas pegadas entre sí.
             </p>
           </FadeUp>
           <div className="mt-14">
@@ -490,7 +490,7 @@ export default function HomePage() {
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
               Hoy: tracking en vivo con ShipsGo e IA documental con Gemini. El resto de conectores
-              están en la hoja de ruta — esto es hacia dónde va.
+              están en la hoja de ruta. Esto es hacia dónde va.
             </p>
           </FadeUp>
 

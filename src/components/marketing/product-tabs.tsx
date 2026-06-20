@@ -41,7 +41,7 @@ function PanelEmbarques() {
             {[
               { name: "Recogida en origen", meta: "Shanghái · 28 may, 09:40", done: true },
               { name: "Zarpe confirmado", meta: "MSC Aurora V. · 31 may, 22:15", done: true },
-              { name: "En tránsito — Estrecho de Malaca", meta: "72% del trayecto · velocidad 18,2 kn", now: true },
+              { name: "En tránsito · Estrecho de Malaca", meta: "72% del trayecto · velocidad 18,2 kn", now: true },
               { name: "Llegada a puerto", meta: "Valencia · ETA 18 jun, 06:00" },
               { name: "Despacho y entrega", meta: "Programado · 19 jun" },
             ].map((item, i) => (
@@ -179,7 +179,7 @@ function PanelCRM() {
         ))}
       </div>
       <SectionNote>
-        Cada cotización ganada se convierte en expediente con un clic — cliente, tarifa y ruta ya cargados.
+        Cada cotización ganada se convierte en expediente con un clic: cliente, tarifa y ruta ya cargados.
       </SectionNote>
     </PanelFrame>
   );

@@ -56,7 +56,7 @@ const LIVE = [
   {
     icon: Sparkles,
     title: "Resumen ejecutivo",
-    body: "La IA lee el estado actual — puertos, ETA, partes, incidencias — y redacta un briefing en lenguaje de jefe de tráfico. Sin abrir cada panel.",
+    body: "La IA lee el estado actual (puertos, ETA, partes, incidencias) y redacta un briefing en lenguaje de jefe de tráfico. Sin abrir cada panel.",
   },
   {
     icon: CalendarDays,
@@ -127,7 +127,7 @@ export default function ElExpedientePage() {
             <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
               El expediente es el objeto central del transitario: reúne el envío,
               sus partes, el contenedor, la mercancía, el tracking y los costes. En
-              Manann no lo rellenas campo a campo — lo lee la IA del documento y tú
+              Manann no lo rellenas campo a campo. Lo lee la IA del documento y tú
               confirmas.
             </p>
           </FadeUp>

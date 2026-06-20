@@ -106,7 +106,7 @@ export default function PreciosPage() {
             Sin academias.
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-            La IA de Manann no es un add-on ni un copiloto periférico. Está en el núcleo —
+            La IA de Manann no es un add-on ni un copiloto periférico. Está en el núcleo:
             el expediente nace del documento, no al revés.
           </p>
         </div>
@@ -221,7 +221,7 @@ export default function PreciosPage() {
           </p>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             Manann está en <strong className="text-foreground">acceso anticipado</strong>.
-            El producto funciona — extracción IA, expedientes, finanzas, aduanas, calidad y red de agentes están operativos.
+            El producto funciona: extracción IA, expedientes, finanzas, aduanas, calidad y red de agentes están operativos.
             Estamos seleccionando las primeras agencias con las que crecer antes del lanzamiento comercial.
             Si coordinas tráfico internacional y quieres ver el ERP sobre tus expedientes reales,{" "}
             <Link href="/contacto" className="text-primary hover:underline">
