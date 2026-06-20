@@ -463,12 +463,12 @@ export default function HomePage() {
 
                 {/* Action */}
                 <div className="border-t border-border px-4 py-3">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
                     <span className="font-mono text-[10px] text-muted-foreground/40">
                       5 de 6 campos extraídos · 1 requiere revisión
                     </span>
                     <span
-                      className="rounded-md px-3 py-1.5 font-mono text-[10px] font-semibold text-background"
+                      className="block w-full rounded-md px-3 py-1.5 text-center font-mono text-[10px] font-semibold text-background sm:inline sm:w-auto"
                       style={{ background: "linear-gradient(120deg, hsl(172 51% 42%), hsl(185 55% 62%))" }}
                     >
                       Confirmar extracción
@@ -517,7 +517,7 @@ export default function HomePage() {
 
           {/* API card */}
           <FadeUp delay={0.35}>
-            <div className="mt-4 flex items-center justify-between rounded-xl border border-primary/20 bg-primary/5 px-6 py-5">
+            <div className="mt-4 flex flex-col items-start gap-3 rounded-xl border border-primary/20 bg-primary/5 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-primary/60">API REST</p>
                 <p className="mt-1 font-display text-base font-medium text-foreground">

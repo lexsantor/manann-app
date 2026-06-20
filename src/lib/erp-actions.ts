@@ -9,6 +9,7 @@ import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 
 import { db } from "@/db";
+import { WOW_SHOWCASE_REF, resetShowcaseShipment } from "@/lib/showcase";
 import { document, shipment, party, container, cargoLine, notification, trackingSubscription, charge, invoice, invoiceLine, rate, quotation, quotationLine, comment, member, contact, opportunity, booking, accountingAccount, journalEntry, journalEntryLine, complianceDeclaration, partner, sanctionsScreening, apiKey, webhook } from "@/db/schema";
 import { logChanges } from "@/lib/audit";
 import { generateSummary } from "@/lib/ai/summarize";
@@ -2485,7 +2486,6 @@ export async function bulkImportRates(rows: RateInput[]): Promise<{ imported: nu
 // Deja EXP-2026-0054 como borrador limpio con la "Propuesta de la IA" reabierta,
 // para repetir la demo del flujo IA sin SQL manual. Acotado a ese expediente y
 // verificado por organización. Conserva ruta/ETD/ETA y el PDF+extracción.
-const WOW_SHOWCASE_REF = "EXP-2026-0054";
 
 export async function resetWowShowcase(): Promise<void> {
   const ctx = await getOrgContext();
@@ -2501,31 +2501,7 @@ export async function resetWowShowcase(): Promise<void> {
     );
   if (!s) throw new Error("Showcase de demo no encontrado");
 
-  // Borra lo que volcó la última demo.
-  await db.delete(party).where(eq(party.shipmentId, s.id));
-  await db.delete(container).where(eq(container.shipmentId, s.id));
-  await db.delete(cargoLine).where(eq(cargoLine.shipmentId, s.id));
-
-  // Devuelve el expediente a borrador limpio (conserva ruta/ETD/ETA del seed).
-  await db
-    .update(shipment)
-    .set({
-      status: "borrador",
-      carrier: null,
-      vessel: null,
-      voyage: null,
-      blNumber: null,
-      incoterm: null,
-      freightTerms: null,
-    })
-    .where(eq(shipment.id, s.id));
-
-  // Reabre la propuesta de la IA SOLO del BL (la factura comercial del showcase
-  // se conserva intacta para la comparativa BL↔factura).
-  await db
-    .update(document)
-    .set({ status: "extracted" })
-    .where(and(eq(document.shipmentId, s.id), eq(document.type, "bl")));
+  await resetShowcaseShipment(s.id);
 
   revalidatePath(`/expedientes/${s.id}`);
 }

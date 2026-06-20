@@ -158,7 +158,7 @@ function PanelCRM() {
   return (
     <PanelFrame>
       <h4 className="font-display text-[16px] font-semibold mb-4">Pipeline comercial · junio 2026</h4>
-      <div className="grid grid-cols-3 gap-3.5">
+      <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
         {cols.map((col) => (
           <div key={col.title}>
             <div className="mb-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-muted-foreground/40 px-0.5">

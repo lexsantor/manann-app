@@ -98,7 +98,7 @@ export function HeroDashboard() {
         {/* Body grid */}
         <div style={{ display: "grid", gridTemplateColumns: "192px 1fr", minHeight: 500 }}>
           {/* Sidebar */}
-          <div className="flex flex-col border-r border-border/35 overflow-y-auto px-2 py-3">
+          <div className="hidden flex-col border-r border-border/35 overflow-y-auto px-2 py-3 sm:flex">
             {/* Logo */}
             <div className="mb-2 flex items-center gap-2 px-2 py-1">
               <span
@@ -259,7 +259,7 @@ export function HeroDashboard() {
       </div>
 
       {/* Float card A — right */}
-      <div className="animate-float-a absolute -right-8 top-[80px] z-10 w-[214px] rounded-xl border border-border/65 bg-background/85 p-3.5 backdrop-blur-xl shadow-[var(--shadow-float)]">
+      <div className="animate-float-a absolute -right-8 top-[80px] z-10 hidden w-[214px] rounded-xl border border-border/65 bg-background/85 p-3.5 backdrop-blur-xl shadow-[var(--shadow-float)] sm:block">
         <div className="flex items-center justify-between">
           <span className="font-mono text-[9.5px] text-primary">MNN-84213</span>
           <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[8.5px] font-semibold text-primary/75">En tránsito</span>
@@ -282,7 +282,7 @@ export function HeroDashboard() {
       </div>
 
       {/* Float card B — left */}
-      <div className="animate-float-b absolute -left-8 bottom-[88px] z-10 w-[214px] rounded-xl border border-border/65 bg-background/85 p-3.5 backdrop-blur-xl shadow-[var(--shadow-float)]">
+      <div className="animate-float-b absolute -left-8 bottom-[88px] z-10 hidden w-[214px] rounded-xl border border-border/65 bg-background/85 p-3.5 backdrop-blur-xl shadow-[var(--shadow-float)] sm:block">
         <div className="flex items-center gap-2.5">
           <div className="flex size-8 shrink-0 items-center justify-center rounded-full border border-emerald-500/25 bg-emerald-500/10 text-[12px] text-emerald-400">
             ✓
