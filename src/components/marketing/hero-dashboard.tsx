@@ -167,9 +167,9 @@ export function HeroDashboard() {
                 <div className="font-display text-base font-semibold tracking-tight">Expedientes activos</div>
                 <div className="mt-0.5 font-mono text-[10px] text-muted-foreground/40">Actualizado hace 2 min</div>
               </div>
-              <div className="flex items-center gap-2.5">
+              <div className="flex shrink-0 items-center gap-2.5">
                 <span
-                  className="rounded-[7px] px-3 py-1.5 font-mono text-[10px] font-semibold text-background"
+                  className="shrink-0 whitespace-nowrap rounded-[7px] px-3 py-1.5 font-mono text-[10px] font-semibold text-background"
                   style={{ background: "linear-gradient(120deg, hsl(172 51% 42%), hsl(185 55% 62%))" }}
                 >
                   + Nuevo expediente
@@ -181,7 +181,7 @@ export function HeroDashboard() {
             </div>
 
             {/* KPIs */}
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {KPIS.map((kpi) => (
                 <div key={kpi.label} className="rounded-lg border border-border/35 bg-background/20 p-2.5">
                   <div className="font-mono text-[8.5px] uppercase tracking-[0.06em] text-muted-foreground/40">{kpi.label}</div>

@@ -48,6 +48,13 @@ export default function NosotrosPage() {
               desborda. La travesía mecánica del expediente —el papeleo, los pasos
               repetibles, los avisos— la lleva el sistema. Las decisiones, tú.
             </p>
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              Manann es un proyecto personal de{" "}
+              <span className="text-foreground">Lex Sánchez</span>: el empeño de
+              empujar a un sector que mueve el mundo a modernizarse, tras años
+              atascado en interfaces obsoletas y experiencias de usuario que nadie
+              debería sufrir.
+            </p>
           </FadeUp>
         </section>
       </div>

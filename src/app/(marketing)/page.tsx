@@ -207,7 +207,7 @@ export default function HomePage() {
               </span>
               <h2 className="mt-6 font-display text-5xl font-medium leading-[1.03] tracking-tight sm:text-[3.25rem] lg:text-6xl">
                 La logística mueve el mundo.{" "}
-                <span className="text-foreground/30">
+                <span className="text-foreground/80">
                   Su software lleva 25 años parado.
                 </span>
               </h2>

@@ -51,17 +51,17 @@ export function Hero() {
             style={{ "--i": 3 } as React.CSSProperties}
           >
             <Link
-              href="/#demo"
-              className={cn(buttonVariants({ variant: "primary", size: "hero" }))}
-            >
-              Ver la demo <Icon icon={ArrowRight} size={18} />
-            </Link>
-            <Link
               href="/login"
               prefetch={false}
-              className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
+              className={cn(buttonVariants({ variant: "primary", size: "hero" }))}
             >
-              Entrar al ERP
+              Entrar a la demo <Icon icon={ArrowRight} size={18} />
+            </Link>
+            <Link
+              href="/#demo"
+              className={cn(buttonVariants({ variant: "secondary", size: "hero" }))}
+            >
+              Ver vista previa
             </Link>
           </div>
           <p

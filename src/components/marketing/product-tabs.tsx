@@ -339,8 +339,8 @@ function PanelRed() {
             <span className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-primary/60">Título electrónico</span>
             <div className="mt-2 font-display text-[22px] font-semibold text-primary">Endorsed</div>
             <div className="mt-1 font-mono text-[10px] text-muted-foreground/45">SHA-256 · 3 transferencias</div>
-            <div className="mt-3 inline-flex rounded-full border border-border/40 bg-background/40 px-2.5 py-0.5 font-mono text-[10px] font-medium text-muted-foreground/55">
-              Simulación — ESSDOCS/Bolero/WAVE en producción
+            <div className="mt-3 font-mono text-[10px] font-medium leading-relaxed text-muted-foreground/70">
+              Simulación · ESSDOCS / Bolero / WAVE en producción
             </div>
           </div>
           <SectionNote>

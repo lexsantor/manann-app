@@ -33,7 +33,7 @@
   --secondary: 196 20% 36%;          /* slate #4A6670 */
   --secondary-foreground: 144 12% 92%;
   --muted: 198 36% 11%;
-  --muted-foreground: 162 8% 57%;    /* ink-muted #8A9B96 */
+  --muted-foreground: 162 9% 64%;    /* ink-muted — subido (era 57%) para legibilidad en dark */
   --accent: 34 69% 61%;              /* lighthouse-amber #E0A458 */
   --accent-foreground: 165 60% 4%;
   --destructive: 12 65% 61%;         /* danger — AA: texto sobre soft/dark */
@@ -48,7 +48,7 @@
   /* Manann extras (not in shadcn defaults) */
   --surface-2: 197 36% 14%;          /* #16282F */
   --surface-3: 197 34% 16%;          /* #1B2F37 */
-  --ink-subtle: 155 7% 53%;          /* #7E8F88 */
+  --ink-subtle: 155 7% 60%;          /* subido (era 53%) para legibilidad en dark */
   --hairline-strong: 196 29% 23%;    /* #2A434C */
   --mesh-1: 172 51% 42% / 0.16;      /* gradient fog */
   --mesh-2: 196 20% 36% / 0.18;
