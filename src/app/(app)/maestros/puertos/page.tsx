@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Anchor, ChevronLeft } from "lucide-react";
+import { Anchor } from "lucide-react";
 import Link from "next/link";
 import { getOrgContext } from "@/lib/erp";
 import { MASTER_PORTS } from "@/lib/master-ports";

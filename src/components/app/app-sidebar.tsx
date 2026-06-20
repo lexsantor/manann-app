@@ -31,7 +31,6 @@ import {
   Globe,
   DollarSign,
   Hash,
-  Database,
   Train,
   Layers,
   FileStack,

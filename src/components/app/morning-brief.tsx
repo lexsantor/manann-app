@@ -151,7 +151,6 @@ export function MorningBrief({
   userName,
   actions,
   atRiskTotal,
-  atRiskCount,
   timeSaved,
   shipmentCount,
 }: MorningBriefProps) {

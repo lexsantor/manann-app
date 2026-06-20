@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual } from "crypto";
 import { and, eq, gte, lte, inArray, like } from "drizzle-orm";
 import { db } from "@/db";
-import { shipment, organization, member, user, notification } from "@/db/schema";
+import { shipment, member, user, notification } from "@/db/schema";
 import { sendEtaAlertEmail } from "@/lib/email";
 
 export const runtime = "nodejs";

@@ -17,7 +17,7 @@ export function LogoutButton() {
     try {
       await signOut();
       router.replace("/login");
-    } catch (error) {
+    } catch {
       // Si el cierre de sesión falla, no dejamos el botón colgado: se reactiva
       // para reintentar. No volcamos el objeto de error para no exponer detalles.
       console.error("El cierre de sesión falló");

@@ -67,32 +67,12 @@ import {
   DOC_TYPE,
   portLabel,
   formatDate,
-  formatMoney,
   formatWeight,
   estimateCo2,
   formatCo2,
 } from "@/lib/erp-format";
 import { portImageUrl } from "@/lib/port-images";
 import { cn } from "@/lib/utils";
-
-const CARRIER_COLORS: Record<string, string> = {
-  MSC:          "bg-muted text-muted-foreground",
-  MAERSK:       "bg-muted text-muted-foreground",
-  "CMA CGM":    "bg-muted text-muted-foreground",
-  "HAPAG-LLOYD":"bg-muted text-muted-foreground",
-  COSCO:        "bg-muted text-muted-foreground",
-  EVERGREEN:    "bg-muted text-muted-foreground",
-  YANG_MING:    "bg-muted text-muted-foreground",
-};
-
-function CarrierBadge({ carrier }: { carrier: string }) {
-  const cls = CARRIER_COLORS[carrier.toUpperCase()] ?? "bg-muted text-muted-foreground";
-  return (
-    <span className={cn("rounded px-1.5 py-0.5 font-mono text-sm font-semibold uppercase tracking-wide", cls)}>
-      {carrier}
-    </span>
-  );
-}
 
 
 const UUID_RE =

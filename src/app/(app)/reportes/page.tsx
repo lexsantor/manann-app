@@ -16,7 +16,7 @@ import { PrintButton } from "@/components/app/print-button";
 import { Icon } from "@/components/icon";
 import { portLabel } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
-import { GPAreaChart, ModeBarChart, ClientGPBarChart } from "@/components/app/report-charts";
+import { GPAreaChart, ModeBarChart } from "@/components/app/report-charts";
 import { SimBadge } from "@/components/ui/sim-badge";
 import { PageHeader } from "@/components/ui/page-header";
 
@@ -54,10 +54,6 @@ const TIER_COLOR = {
   A: "bg-primary/10 text-primary",
   B: "bg-info/10 text-info",
   C: "bg-muted/60 text-muted-foreground",
-};
-
-const MODE_LABEL: Record<string, string> = {
-  maritimo: "Marítimo", aereo: "Aéreo", terrestre: "Terrestre", ferroviario: "Ferroviario",
 };
 
 export default async function ReportesPage({
@@ -203,7 +199,7 @@ export default async function ReportesPage({
                 ))}
               </div>
               <div className="divide-y divide-border/60">
-                {clientsWithTier.map((c, i) => (
+                {clientsWithTier.map((c) => (
                   <div key={c.name} className="grid grid-cols-[1fr_auto] items-center gap-3 px-5 py-3 sm:grid-cols-[1fr_60px_90px_70px_40px]">
                     <span className="truncate text-sm font-medium text-foreground">{c.name}</span>
                     <span className="hidden text-center font-mono text-sm text-muted-foreground sm:block">{Number(c.shipments)}</span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Clock } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
@@ -21,7 +21,7 @@ function calcRemaining(eta: Date): { days: number; hours: number; overdue: boole
 }
 
 export function EtaCountdown({ eta, status }: EtaCountdownProps) {
-  const etaDate = new Date(eta);
+  const etaDate = useMemo(() => new Date(eta), [eta]);
   const [remaining, setRemaining] = useState(() => calcRemaining(etaDate));
 
   useEffect(() => {

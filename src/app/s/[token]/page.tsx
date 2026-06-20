@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
   MapPin,
-  Ship,
   Package,
   CheckCircle2,
   Clock,

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
-import { X, Send, Sparkles, Loader2, ExternalLink, AlertTriangle, TrendingUp, User } from "lucide-react";
+import { X, Send, Sparkles, Loader2, ExternalLink, AlertTriangle, User } from "lucide-react";
 import { getCopilotoContext } from "@/lib/erp-actions";
 import { formatMoney } from "@/lib/erp-format";
 import { Icon } from "@/components/icon";

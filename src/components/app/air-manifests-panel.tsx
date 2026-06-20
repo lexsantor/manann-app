@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Plus, ChevronDown, Trash2, Check, X } from "lucide-react";
+import { Plus, ChevronDown, Check, X } from "lucide-react";
 import {
   createAirManifest,
   updateManifestStatus,
