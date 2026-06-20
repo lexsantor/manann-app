@@ -89,7 +89,7 @@ export function HeroDashboard() {
             ))}
           </div>
           <div className="flex flex-1 justify-center">
-            <span className="truncate rounded-md border border-border/25 bg-background/50 px-4 py-1 font-mono text-[10.5px] text-muted-foreground/45 tracking-tight">
+            <span className="truncate rounded-md border border-border/25 bg-background/50 px-4 py-1 font-mono text-[10px] text-muted-foreground/45 tracking-tight">
               app.manann.com/expedientes
             </span>
           </div>
@@ -115,7 +115,7 @@ export function HeroDashboard() {
             {SIDEBAR_GROUPS.map((group, gi) => (
               <div key={gi} className={cn(gi > 0 ? "mt-3" : "mt-1")}>
                 {group.section && (
-                  <p className="mb-0.5 px-2.5 font-mono text-[8.5px] uppercase tracking-[0.18em] text-muted-foreground/30">
+                  <p className="mb-0.5 px-2.5 font-mono text-[8px] uppercase tracking-[0.18em] text-muted-foreground/30">
                     {group.section}
                   </p>
                 )}
@@ -153,7 +153,7 @@ export function HeroDashboard() {
                   {label}
                 </div>
               ))}
-              <span className="mt-1.5 block font-mono text-[9.5px] text-muted-foreground/25 px-2.5">
+              <span className="mt-1.5 block font-mono text-[10px] text-muted-foreground/25 px-2.5">
                 OP · Valencia HQ
               </span>
             </div>
@@ -184,7 +184,7 @@ export function HeroDashboard() {
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {KPIS.map((kpi) => (
                 <div key={kpi.label} className="rounded-lg border border-border/35 bg-background/20 p-2.5">
-                  <div className="font-mono text-[8.5px] uppercase tracking-[0.06em] text-muted-foreground/40">{kpi.label}</div>
+                  <div className="font-mono text-[8px] uppercase tracking-[0.06em] text-muted-foreground/40">{kpi.label}</div>
                   <div className="mt-1 font-display text-[18px] font-semibold leading-none tracking-tight">{kpi.value}</div>
                   <div className="mt-1 text-[10px] font-semibold text-primary/60">{kpi.delta}</div>
                 </div>
@@ -197,7 +197,7 @@ export function HeroDashboard() {
               <div className="w-[240px] shrink-0 rounded-lg border border-border/35 bg-background/20 p-3">
                 <div className="mb-2.5 flex items-baseline justify-between">
                   <span className="text-[12px] font-semibold">Volumen semanal</span>
-                  <span className="font-mono text-[8.5px] text-muted-foreground/35">TEU</span>
+                  <span className="font-mono text-[8px] text-muted-foreground/35">TEU</span>
                 </div>
                 <div className="flex h-[80px] items-end gap-1.5">
                   {BARS.map((h, i) => (
@@ -217,7 +217,7 @@ export function HeroDashboard() {
                 </div>
                 <div className="mt-1.5 flex gap-1.5">
                   {BAR_LABELS.map((l) => (
-                    <div key={l} className="flex-1 text-center font-mono text-[7.5px] text-muted-foreground/30">{l}</div>
+                    <div key={l} className="flex-1 text-center font-mono text-[8px] text-muted-foreground/30">{l}</div>
                   ))}
                 </div>
               </div>
@@ -225,7 +225,7 @@ export function HeroDashboard() {
               {/* Table */}
               <div className="flex-1 overflow-hidden rounded-lg border border-border/35 bg-background/20">
                 <div
-                  className="grid items-center gap-2 px-3 py-1.5 font-mono text-[8.5px] uppercase tracking-[0.08em] text-muted-foreground/30"
+                  className="grid items-center gap-2 px-3 py-1.5 font-mono text-[8px] uppercase tracking-[0.08em] text-muted-foreground/30"
                   style={{ gridTemplateColumns: "1fr 1.5fr 0.7fr 1fr 0.55fr" }}
                 >
                   <span>Referencia</span>
@@ -240,12 +240,12 @@ export function HeroDashboard() {
                     className="grid items-center gap-2 border-t border-border/20 px-3 py-1.5"
                     style={{ gridTemplateColumns: "1fr 1.5fr 0.7fr 1fr 0.55fr" }}
                   >
-                    <span className="font-mono text-[9.5px] text-primary/75">{row.ref}</span>
+                    <span className="font-mono text-[10px] text-primary/75">{row.ref}</span>
                     <span className="truncate text-[10px] text-muted-foreground/55">{row.route}</span>
                     <span className="w-fit rounded-full border border-border/20 bg-background/25 px-1.5 py-0.5 font-mono text-[8px] text-muted-foreground/40">
                       {row.mode}
                     </span>
-                    <span className={cn("inline-flex w-fit items-center gap-1 rounded-full px-1.5 py-0.5 font-mono text-[8.5px] font-semibold", STATUS[row.color])}>
+                    <span className={cn("inline-flex w-fit items-center gap-1 rounded-full px-1.5 py-0.5 font-mono text-[8px] font-semibold", STATUS[row.color])}>
                       <span className="size-[3px] rounded-full bg-current" />
                       {row.status}
                     </span>
@@ -261,10 +261,10 @@ export function HeroDashboard() {
       {/* Float card A — right */}
       <div className="animate-float-a absolute -right-8 top-[80px] z-10 hidden w-[214px] rounded-xl border border-border/65 bg-background/85 p-3.5 backdrop-blur-xl shadow-[var(--shadow-float)] sm:block">
         <div className="flex items-center justify-between">
-          <span className="font-mono text-[9.5px] text-primary">MNN-84213</span>
-          <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[8.5px] font-semibold text-primary/75">En tránsito</span>
+          <span className="font-mono text-[10px] text-primary">MNN-84213</span>
+          <span className="rounded-full bg-primary/10 px-2 py-0.5 font-mono text-[8px] font-semibold text-primary/75">En tránsito</span>
         </div>
-        <div className="mt-1.5 text-[12.5px] font-semibold">Estrecho de Malaca</div>
+        <div className="mt-1.5 text-[12px] font-semibold">Estrecho de Malaca</div>
         <div className="mt-0.5 text-[10px] text-muted-foreground/55">MSC Aurora V. · 14.860 TEU</div>
         <div className="mt-2.5 h-[3px] overflow-hidden rounded-full bg-border/20">
           <div
@@ -289,7 +289,7 @@ export function HeroDashboard() {
           </div>
           <div>
             <div className="text-[12px] font-semibold leading-snug">DUA admitida · canal verde</div>
-            <div className="mt-0.5 font-mono text-[9.5px] text-muted-foreground/40">Aduana Valencia · hace 4 min</div>
+            <div className="mt-0.5 font-mono text-[10px] text-muted-foreground/40">Aduana Valencia · hace 4 min</div>
           </div>
         </div>
       </div>

@@ -28,7 +28,7 @@ function PanelFrame({ children }: { children: React.ReactNode }) {
 }
 
 function SectionNote({ children }: { children: React.ReactNode }) {
-  return <p className="mt-4 text-[13.5px] text-muted-foreground/60">{children}</p>;
+  return <p className="mt-4 text-[14px] text-muted-foreground/60">{children}</p>;
 }
 
 function PanelEmbarques() {
@@ -58,7 +58,7 @@ function PanelEmbarques() {
                 />
                 <div>
                   <div className="text-[14px] font-semibold">{item.name}</div>
-                  <div className="mt-0.5 font-mono text-[10.5px] text-muted-foreground/50">{item.meta}</div>
+                  <div className="mt-0.5 font-mono text-[10px] text-muted-foreground/50">{item.meta}</div>
                 </div>
               </div>
             ))}
@@ -68,7 +68,7 @@ function PanelEmbarques() {
           className="flex min-h-[220px] items-center justify-center rounded-lg border border-dashed border-border/40"
           style={{ background: "repeating-linear-gradient(45deg, hsl(var(--foreground) / 0.015) 0 14px, transparent 14px 28px)" }}
         >
-          <span className="rounded-md border border-border/30 bg-background/50 px-3 py-1.5 font-mono text-[11.5px] text-muted-foreground/40">
+          <span className="rounded-md border border-border/30 bg-background/50 px-3 py-1.5 font-mono text-[12px] text-muted-foreground/40">
             mapa de tracking en vivo
           </span>
         </div>
@@ -96,12 +96,12 @@ function PanelAduanas() {
           <div className="flex flex-col gap-2">
             {docs.map((d, i) => (
               <div key={i} className="flex items-center justify-between gap-3 rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
-                <span className="text-[13.5px] font-medium">
+                <span className="text-[14px] font-medium">
                   {d.name}
                   {d.ref && <span className="ml-2 font-mono text-[10px] text-muted-foreground/40">{d.ref}</span>}
                 </span>
                 <span className={cn(
-                  "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[9.5px] font-semibold",
+                  "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[10px] font-semibold",
                   d.ok ? "bg-emerald-500/10 text-emerald-400" :
                   d.transit ? "bg-primary/10 text-primary" :
                   "bg-yellow-500/10 text-yellow-400"
@@ -116,9 +116,9 @@ function PanelAduanas() {
         <div>
           <h4 className="font-display text-[16px] font-semibold mb-4">Despacho</h4>
           <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-6 text-center">
-            <span className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-emerald-400/60">Canal asignado</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-400/60">Canal asignado</span>
             <div className="mt-2 font-display text-[28px] font-semibold text-emerald-400">Verde</div>
-            <div className="mt-1 font-mono text-[10.5px] text-muted-foreground/45">
+            <div className="mt-1 font-mono text-[10px] text-muted-foreground/45">
               Levante autorizado · Róterdam · hace 12 min
             </div>
           </div>
@@ -171,8 +171,8 @@ function PanelCRM() {
                 className="mb-2.5 rounded-lg border border-border/30 bg-background/25 p-3 transition-all duration-300 hover:border-primary/30 hover:-translate-y-0.5"
               >
                 <div className="text-[12px] font-semibold">{deal.name}</div>
-                <div className="mt-0.5 text-[11.5px] text-muted-foreground/55">{deal.meta}</div>
-                <div className="mt-2 font-mono text-[10.5px] text-primary/70">{deal.val}</div>
+                <div className="mt-0.5 text-[12px] text-muted-foreground/55">{deal.meta}</div>
+                <div className="mt-2 font-mono text-[10px] text-primary/70">{deal.val}</div>
               </div>
             ))}
           </div>
@@ -208,8 +208,8 @@ function PanelFinanzas() {
               <span>Factura</span><span>Cliente</span><span>Importe</span><span>Estado</span>
             </div>
             {invoices.map((inv) => (
-              <div key={inv.ref} className="grid items-center gap-2 border-t border-border/20 px-3 py-2.5 text-[12.5px]" style={{ gridTemplateColumns: "1fr 1.3fr 0.9fr 0.9fr" }}>
-                <span className="font-mono text-[10.5px] text-primary/70">{inv.ref}</span>
+              <div key={inv.ref} className="grid items-center gap-2 border-t border-border/20 px-3 py-2.5 text-[12px]" style={{ gridTemplateColumns: "1fr 1.3fr 0.9fr 0.9fr" }}>
+                <span className="font-mono text-[10px] text-primary/70">{inv.ref}</span>
                 <span className="text-muted-foreground/65">{inv.client}</span>
                 <span className="font-mono text-[10px]">{inv.amount}</span>
                 <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold",
@@ -228,7 +228,7 @@ function PanelFinanzas() {
           <h4 className="font-display text-[16px] font-semibold mb-3">Margen por expediente</h4>
           <div className="flex flex-col gap-3">
             {margins.map((m) => (
-              <div key={m.ref} className="grid items-center gap-3 text-[12.5px] text-muted-foreground/55" style={{ gridTemplateColumns: "90px 1fr 48px" }}>
+              <div key={m.ref} className="grid items-center gap-3 text-[12px] text-muted-foreground/55" style={{ gridTemplateColumns: "90px 1fr 48px" }}>
                 <span className="font-mono text-[10px]">{m.ref}</span>
                 <div className="h-2 overflow-hidden rounded-full bg-border/20">
                   <div
@@ -268,7 +268,7 @@ function PanelCalidad() {
             {slas.map((s) => (
               <div key={s.name} className="flex items-center justify-between gap-3 rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
                 <div>
-                  <div className="text-[13.5px] font-medium">{s.name}</div>
+                  <div className="text-[14px] font-medium">{s.name}</div>
                   <div className="mt-0.5 font-mono text-[10px] text-muted-foreground/40">{s.target}</div>
                 </div>
                 <span className={cn(
@@ -287,12 +287,12 @@ function PanelCalidad() {
           <div className="flex flex-col gap-2">
             {incidents.map((it, i) => (
               <div key={i} className="flex items-center justify-between gap-3 rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
-                <span className="text-[13.5px] font-medium">
+                <span className="text-[14px] font-medium">
                   {it.type}
                   <span className="ml-2 font-mono text-[10px] text-muted-foreground/40">{it.meta}</span>
                 </span>
                 <span className={cn(
-                  "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[9.5px] font-semibold",
+                  "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[10px] font-semibold",
                   it.ok ? "bg-emerald-500/10 text-emerald-400" : "bg-primary/10 text-primary"
                 )}>
                   <span className="size-[3.5px] rounded-full bg-current" />
@@ -325,10 +325,10 @@ function PanelRed() {
             {agents.map((a) => (
               <div key={a.name} className="rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[13.5px] font-semibold">{a.name}</span>
+                  <span className="text-[14px] font-semibold">{a.name}</span>
                   <span className="font-mono text-[10px] text-muted-foreground/40">{a.country}</span>
                 </div>
-                <div className="mt-0.5 text-[11.5px] text-muted-foreground/55">{a.meta}</div>
+                <div className="mt-0.5 text-[12px] text-muted-foreground/55">{a.meta}</div>
               </div>
             ))}
           </div>
@@ -336,7 +336,7 @@ function PanelRed() {
         <div>
           <h4 className="font-display text-[16px] font-semibold mb-4">e-BL electrónico</h4>
           <div className="rounded-lg border border-primary/20 bg-primary/5 p-6 text-center">
-            <span className="font-mono text-[9.5px] uppercase tracking-[0.18em] text-primary/60">Título electrónico</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary/60">Título electrónico</span>
             <div className="mt-2 font-display text-[22px] font-semibold text-primary">Endorsed</div>
             <div className="mt-1 font-mono text-[10px] text-muted-foreground/45">SHA-256 · 3 transferencias</div>
             <div className="mt-3 font-mono text-[10px] font-medium leading-relaxed text-muted-foreground/70">
@@ -428,7 +428,7 @@ export function ProductTabs() {
             type="button"
             onClick={() => setActive(tab.id)}
             className={cn(
-              "rounded-full border px-5 py-2 text-[14.5px] font-semibold transition-all duration-250",
+              "rounded-full border px-5 py-2 text-[14px] font-semibold transition-all duration-250",
               active === tab.id
                 ? "border-primary/35 bg-primary/8 text-foreground"
                 : "border-transparent text-muted-foreground hover:bg-card hover:text-foreground"
