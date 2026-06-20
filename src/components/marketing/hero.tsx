@@ -41,10 +41,8 @@ export function Hero() {
             className="mx-auto mt-7 max-w-xl font-sans text-lg leading-relaxed text-muted-foreground hero-enter"
             style={{ "--i": 2 } as React.CSSProperties}
           >
-            Manann lee el Bill of Lading, extrae cada campo con su confianza y
-            prepara el expediente. Tú confirmas.{" "}
-            <span className="text-foreground/70">El ERP que el sector merecía,</span>{" "}
-            por fin existe.
+            Arrastra un Bill of Lading. La IA lee cada campo, prepara el expediente
+            y tú confirmas en minutos, no en horas.
           </p>
           <div
             className="mt-8 flex flex-wrap items-center justify-center gap-3 hero-enter"
@@ -55,13 +53,13 @@ export function Hero() {
               prefetch={false}
               className={cn(buttonVariants({ variant: "primary", size: "hero" }))}
             >
-              Entrar a la demo <Icon icon={ArrowRight} size={18} />
+              Ver la demo en vivo <Icon icon={ArrowRight} size={18} />
             </Link>
             <Link
-              href="/#demo"
+              href="/como-funciona"
               className={cn(buttonVariants({ variant: "secondary", size: "hero" }))}
             >
-              Ver vista previa
+              Cómo funciona
             </Link>
           </div>
           <p
