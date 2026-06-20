@@ -5,6 +5,7 @@ import {
   Sparkles,
   Check,
   X,
+  ArrowRight,
   CalendarDays,
   Satellite,
   ClipboardList,
@@ -271,8 +272,22 @@ export default function HomePage() {
             </p>
           </FadeUp>
 
-          <FadeUp delay={0.1}>
-            <div className="mt-12 overflow-hidden rounded-xl border border-border bg-card">
+          <FadeUp delay={0.08}>
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 rounded-xl border border-primary/20 bg-primary/5 px-6 py-10 text-center sm:flex-row sm:gap-10">
+              <div>
+                <div className="font-display text-5xl font-semibold leading-none text-muted-foreground/40 line-through sm:text-6xl">40+</div>
+                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/55">campos a mano por expediente</p>
+              </div>
+              <ArrowRight className="size-6 shrink-0 text-muted-foreground/40 max-sm:rotate-90" />
+              <div>
+                <div className="font-display text-5xl font-semibold leading-none text-gradient-primary sm:text-6xl">0</div>
+                <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-primary/70">que tecleas con Manann</p>
+              </div>
+            </div>
+          </FadeUp>
+
+          <FadeUp delay={0.12}>
+            <div className="mt-6 overflow-hidden rounded-xl border border-border bg-card">
               <div className="hidden grid-cols-2 border-b border-border sm:grid">
                 <div className="px-6 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/60">
                   El ERP de siempre
