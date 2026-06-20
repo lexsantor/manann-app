@@ -2,7 +2,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // design-lint — guardarraíl del sistema de diseño (ver DESIGN.md)
 // Detecta deriva: paleta Tailwind cruda / hex, <select> y checkbox nativos,
-// y max-w-* anidado en páginas. El KIT (src/components/ui/) es ESTRICTO: si
+// <table> hand-rolled (invariante 3 → usar DataTable), tamaños de fuente en px
+// impar (invariante 7), y max-w-* anidado en páginas. El KIT (src/components/ui/) es ESTRICTO: si
 // introduce paleta cruda, falla (exit 1). La capa de app se reporta como deuda
 // (objetivo → 0). Con --strict, cualquier violación de app también falla.
 // Uso: node scripts/design-lint.mjs [--strict]
@@ -27,6 +28,10 @@ const NATIVE_SELECT = /<select\b/;
 const NATIVE_TEXTAREA = /<textarea\b/;
 const NATIVE_CHECKBOX = /type=["']checkbox["']/;
 const NATIVE_RADIO = /type=["']radio["']/;
+const NATIVE_TABLE = /<table\b/;
+// Tamaño de fuente en px impar: text-[9px], text-[11px], text-[13px]… (invariante 7).
+// Solo casa el dígito final impar seguido de "px"; text-[10px] (par) no casa.
+const ODD_PX = /text-\[\d*[13579]px\]/;
 const NESTED_MAXW = /mx-auto\s+max-w-[2-5]xl|max-w-[2-5]xl\s+[^"']*\bspace-y-/;
 
 // Páginas-documento imprimibles: max-w más estrecho es intencional.
@@ -34,6 +39,14 @@ const DOC_EXEMPT = /[\\/]documentos[\\/](awb|cmr)|facturas[\\/]\[id\]|cotizacion
 // Ficheros con color intencional NO tokenizable (excepciones documentadas en DESIGN.md):
 // documentos imprimibles (superficie "papel"), mapas/geo (leaflet, marcadores).
 const COLOR_EXEMPT = /[\\/]documentos[\\/](awb|cmr)|facturas[\\/]\[id\]|cotizaciones[\\/]\[id\]|world-map|route-map|[\\/]mapa[\\/]page|[\\/]lib[\\/]email/;
+// Tablas <table> legítimas que NO migran a DataTable (excepciones documentadas en
+// DESIGN.md §5). El kit (ui/data-table) queda exento por capa. Motivos:
+//  · totales con <tfoot> que DataTable no soporta: finanzas, modelo303, balance, carrier-scorecard
+//  · tabla editable embebida en acordeón (móvil = cards): air-manifests
+//  · previsualización de import CSV (datos transitorios): csv-import, rate-csv-import
+//  · panel KPI server-render con celdas bespoke ya canónicas (header+zebra): dashboard
+//  · vistas-documento imprimibles ("papel") y plantillas de email (HTML inline): awb/cmr, lib/email
+const TABLE_EXEMPT = /balance-sumas-saldos|modelo303-panel|finanzas-panel|carrier-scorecard|air-manifests-panel|rate-csv-import|csv-import|[\\/]dashboard[\\/]page|[\\/]documentos[\\/](awb|cmr)|[\\/]lib[\\/]email/;
 
 function walk(dir, acc = []) {
   for (const name of readdirSync(dir)) {
@@ -70,7 +83,13 @@ for (const file of walk(join(ROOT, "src"))) {
       if (NATIVE_TEXTAREA.test(line)) at("textarea-nativo");
       if (NATIVE_CHECKBOX.test(line)) at("checkbox-nativo");
       if (NATIVE_RADIO.test(line)) at("radio-nativo");
+      // Tabla hand-rolled (invariante 3): debe ser <DataTable>. El kit la envuelve;
+      // las tablas especiales documentadas (totales/acordeón/preview/doc) están exentas.
+      if (NATIVE_TABLE.test(line) && !TABLE_EXEMPT.test(rel)) at("tabla-cruda");
     }
+    // Fuente en px impar (invariante 7): aplica a todas las capas; en el kit se
+    // reporta pero solo el color rompe su gate; en app cuenta como deuda (→ 0).
+    if (ODD_PX.test(line)) at("px-impar");
     if (rel.includes("app/(app)") && rel.endsWith("page.tsx") && NESTED_MAXW.test(line) && !DOC_EXEMPT.test(rel)) at("ancho-anidado");
   });
 }

@@ -15,11 +15,11 @@ claro, denso, rápido, grado Linear/Notion. Tema dual (`data-theme` dark default
 |---|---|---|---|
 | 1 | **Ancho** | El contenido vive en `max-w-[1200px]` que da el **layout** (`(app)/layout.tsx`). Las páginas **NO** añaden `mx-auto max-w-*` propio. Excepción única: vistas-documento imprimibles (factura/cotización/AWB/CMR). | layout + lint |
 | 2 | **Padding de página** | Lo da el layout (`px-5 py-8 sm:px-8`). Las páginas **NO** re-añaden `p-5/p-6/p-8` al contenedor raíz. | layout + lint |
-| 3 | **Tablas** | TODA tabla se renderiza con `<DataTable>` del kit. Trae zebra canónico (header tono A + filas alternas B/C), cabeceras mono-mayúsculas, hover, alineación. Prohibido `<table>` hand-rolled o grids-tabla. | DataTable + lint |
+| 3 | **Tablas** | TODA tabla se renderiza con `<DataTable>` del kit. Trae zebra canónico (header tono A + filas alternas B/C), cabeceras mono-mayúsculas, hover, alineación, y **celda de columna-título en `text-foreground`** (resto `text-muted-foreground`). Prohibido `<table>` hand-rolled o grids-tabla. Excepciones documentadas en §5. | DataTable + lint |
 | 4 | **Controles de formulario** | `Select`, `Checkbox`, `Input` del kit/shadcn (tokenizados dark/light). **Prohibido** `<select>` nativo, `<input type="checkbox">` nativo. | lint |
 | 5 | **Acciones destructivas** | Borrar/anular/vaciar SIEMPRE vía `<ConfirmButton>` (AlertDialog). Nunca `onClick` destructivo directo. | revisión |
 | 6 | **Color = token semántico** | Solo tokens (`bg-primary`, `text-success`, `text-warning`…). **Prohibida** la paleta cruda de Tailwind (`bg-blue-500`, `text-emerald-400`, `*-NNN`) y los hex fuera de `globals.css`. | lint (kit = estricto) |
-| 7 | **Tamaños de fuente** | Solo px **pares** (8, 10, 12, 14…). Nunca 9/11/13/15px. | revisión |
+| 7 | **Tamaños de fuente** | Solo px **pares** (8, 10, 12, 14…). Nunca 9/11/13/15px. | lint |
 | 8 | **Iconos** | Lucide, `strokeWidth={1.5}`, `shrink-0`, tamaños tokenizados (h-4/h-5). | revisión |
 | 9 | **Jerarquía de botones (SOLO dos)** | Usar SIEMPRE `<Button variant>` del kit. Solo existen dos CTAs visibles: `primary` (sólido sea-green, **UNA por vista**, acción principal) y `secondary` = `outline` (stroke + texto en primary, acción de apoyo — mismo estilo, `secondary` es el nombre canónico). Aparte: `destructive` (outline rojo, acciones peligrosas) y `ghost` (texto sin borde, solo para descartar/cancelar, no es un CTA). Prohibido el botón sólido slate y prohibido inventar estilos a mano. | Button + revisión |
 | 10 | **Touch targets (Apple HIG)** | CTAs e inputs ≥**44px** de alto en móvil. Lo dan las alturas responsive de `Button` (`md`/`lg`) e `Input`. Buscadores y CTA primarios a **full-width** en móvil. | Button/Input + revisión |
@@ -87,9 +87,48 @@ pills de estado (StatusBadge) y toggle de tema. Badges de modo/tipo = `rounded-m
 
 ## 5. Cómo se mantiene (gobernanza)
 
-- `npm run lint:design` reporta deuda por categoría y **falla** si el kit
-  (`src/components/ui/`) introduce paleta cruda. Objetivo: llevar la deuda de
-  app a 0 y entonces activar el modo `--strict` en CI.
-- Antes de merge: pasar `lint:design`, `tsc --noEmit`, `next build`.
-- Al añadir una pantalla: PageHeader + DataTable + tokens + ConfirmButton. Si
-  necesitas un patrón nuevo, primero hazlo primitivo en `ui/`, luego úsalo.
+El gate vive en `scripts/design-lint.mjs` y corre en `build` (`npm run build` =
+`node scripts/design-lint.mjs && next build`), por lo que **reintroducir deriva
+en la capa de app rompe el build**. La deuda de app está **congelada en 0**.
+
+### Checks automatizados (qué invariante impone cada uno)
+
+| Categoría | Invariante | Capa app | Capa kit |
+|---|---|---|---|
+| `paleta-cruda` / `hex` | 6 (color = token) | rompe build | **rompe build** (estricto) |
+| `select/textarea/checkbox/radio-nativo` | 4 (controles) | rompe build | exento (el kit los envuelve) |
+| `tabla-cruda` (`<table>` hand-rolled) | 3 (tablas) | rompe build | exento (`ui/data-table`) |
+| `px-impar` (`text-[Npx]` impar) | 7 (px pares) | rompe build | reportado |
+| `ancho-anidado` (`max-w-*` en page) | 1 (ancho 1200) | rompe build | — |
+
+> Marketing (`(marketing)`, `components/marketing/`) es **informativo**: registra
+> deuda pero no rompe el build (la landing tiene color de marca propio).
+
+### Excepciones documentadas (invariante 3 — tablas que NO migran a DataTable)
+
+`DataTable` no cubre todos los casos; estas `<table>` están exentas en el lint
+(`TABLE_EXEMPT`) **con motivo**, no por descuido:
+
+- **Totales con `<tfoot>`** (DataTable no soporta fila de totales): `finanzas-panel`,
+  `modelo303-panel`, `balance-sumas-saldos`, `carrier-scorecard`.
+- **Tabla editable en acordeón** (móvil = cards): `air-manifests-panel`.
+- **Previsualización de import CSV** (datos transitorios): `csv-import`, `rate-csv-import`.
+- **Panel KPI server-render con celdas bespoke** ya canónicas (header+zebra+hover):
+  `dashboard/page` (tabla "Top clientes por GP"). Elegible a migrar si se generaliza.
+- **Vistas-documento imprimibles y email** (HTML "papel"/inline): `documentos/awb`,
+  `documentos/cmr`, `lib/email`.
+
+Cualquier `<table>` en **otro** sitio rompe el build → usa `<DataTable>`.
+
+### Checklist de PR (antes de pedir review)
+
+- [ ] `npm run build` verde (incluye `design-lint` + `tsc` + `next build`).
+- [ ] Pantalla nueva = `PageHeader` + `DataTable` + tokens + `ConfirmButton` en destructivos.
+- [ ] Tablas: columna-título en `text-foreground`; resto `text-muted-foreground` (lo da DataTable).
+- [ ] Color solo por token semántico (ámbar = SOLO IA/estado; primary = SOLO marca).
+- [ ] Controles vía primitivos del kit (sin nativos); destructivos con confirmación.
+- [ ] Radios: `rounded-md` en controles; `rounded-full` solo en hero CTA / status pills / toggle de tema.
+- [ ] Fuentes en px pares; iconos Lucide `strokeWidth={1.5}` + `shrink-0`.
+- [ ] CTAs/inputs ≥44px en móvil; buscadores y CTA primarios full-width en móvil.
+- [ ] Si necesitas un patrón nuevo: primero hazlo primitivo en `ui/` y regístralo en §3.1, luego úsalo.
+- [ ] Lo simulado se etiqueta visualmente ("Simulación — integración real en producción").
