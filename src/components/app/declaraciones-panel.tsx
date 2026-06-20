@@ -5,6 +5,7 @@ import { FileCheck, ChevronDown, ChevronUp, Loader2, CheckCircle2 } from "lucide
 import { Icon } from "@/components/icon";
 import { submitDeclaration } from "@/lib/erp-actions";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { StatusBadge } from "@/components/ui/badges";
 
 interface ComplianceDeclaration {
@@ -126,11 +127,10 @@ function DeclarationBlock({
                     <label htmlFor={k} className="mb-0.5 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                       {k.replace(/_/g, " ")}
                     </label>
-                    <input
+                    <Input
                       id={k}
                       name={k}
                       defaultValue={v}
-                      className="w-full rounded-md border border-border bg-background px-2.5 py-1.5 text-xs text-foreground outline-none focus:border-primary/60 placeholder:text-muted-foreground"
                     />
                   </div>
                 ))}

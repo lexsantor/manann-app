@@ -97,6 +97,7 @@ en la capa de app rompe el build**. La deuda de app está **congelada en 0**.
 |---|---|---|---|
 | `paleta-cruda` / `hex` | 6 (color = token) | rompe build | **rompe build** (estricto) |
 | `select/textarea/checkbox/radio-nativo` | 4 (controles) | rompe build | exento (el kit los envuelve) |
+| `input-crudo` (`<input>` de formulario) | 4 (controles) | rompe build | exento (el kit los envuelve) |
 | `tabla-cruda` (`<table>` hand-rolled) | 3 (tablas) | rompe build | exento (`ui/data-table`) |
 | `px-impar` (`text-[Npx]` impar) | 7 (px pares) | rompe build | reportado |
 | `ancho-anidado` (`max-w-*` en page) | 1 (ancho 1200) | rompe build | — |
@@ -119,6 +120,16 @@ en la capa de app rompe el build**. La deuda de app está **congelada en 0**.
   `documentos/cmr`, `lib/email`.
 
 Cualquier `<table>` en **otro** sitio rompe el build → usa `<DataTable>`.
+
+### Excepciones documentadas (invariante 4 — `<input>` que NO es campo de formulario)
+
+El kit `Input` cubre los campos de formulario. Quedan exentos en el lint
+(`INPUT_EXEMPT`) los `<input>` que **no** son campos de formulario estándar:
+subida de ficheros (`type=file`), ocultos/combobox de autocompletar, buscadores
+(`type=search`), editores **inline compactos** en tabla (currencies/document-series/
+system-params/finanzas/crear-asiento·líneas/inline-field), composer de chat del
+copiloto, y el flujo wow (`ai-extraction-panel`). Cualquier `<input>` de formulario
+en **otro** sitio rompe el build → usa `<Input>`.
 
 ### Checklist de PR (antes de pedir review)
 

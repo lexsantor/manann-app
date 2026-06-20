@@ -28,6 +28,7 @@ const NATIVE_SELECT = /<select\b/;
 const NATIVE_TEXTAREA = /<textarea\b/;
 const NATIVE_CHECKBOX = /type=["']checkbox["']/;
 const NATIVE_RADIO = /type=["']radio["']/;
+const NATIVE_INPUT = /<input\b/;
 const NATIVE_TABLE = /<table\b/;
 // Tamaño de fuente en px impar: text-[9px], text-[11px], text-[13px]… (invariante 7).
 // Solo casa el dígito final impar seguido de "px"; text-[10px] (par) no casa.
@@ -47,6 +48,16 @@ const COLOR_EXEMPT = /[\\/]documentos[\\/](awb|cmr)|facturas[\\/]\[id\]|cotizaci
 //  · panel KPI server-render con celdas bespoke ya canónicas (header+zebra): dashboard
 //  · vistas-documento imprimibles ("papel") y plantillas de email (HTML inline): awb/cmr, lib/email
 const TABLE_EXEMPT = /balance-sumas-saldos|modelo303-panel|finanzas-panel|carrier-scorecard|air-manifests-panel|rate-csv-import|csv-import|[\\/]dashboard[\\/]page|[\\/]documentos[\\/](awb|cmr)|[\\/]lib[\\/]email/;
+// <input> crudo: el kit `Input` cubre los campos de formulario (44px, tokenizado).
+// Exentos por motivo (no son campos de formulario estándar):
+//  · subida de ficheros (type=file): document-upload, csv-import, rate-csv-import, bank-reconciliation
+//  · oculto / autocompletar-combobox: add-party-form, contacts-tab, hs-code-search
+//  · buscador (type=search): search-input
+//  · editor inline compacto en tabla (patrón deliberado): currencies, document-series,
+//    system-params, finanzas, crear-asiento (líneas de asiento), inline-field
+//  · composer de chat del copiloto: copiloto-panel
+//  · flujo wow (no tocar): ai-extraction-panel
+const INPUT_EXEMPT = /document-upload|csv-import|bank-reconciliation-panel|add-party-form|contacts-tab|hs-code-search|search-input|currencies-panel|document-series-panel|system-params-panel|finanzas-panel|crear-asiento-button|inline-field|copiloto-panel|ai-extraction-panel/;
 
 function walk(dir, acc = []) {
   for (const name of readdirSync(dir)) {
@@ -86,6 +97,9 @@ for (const file of walk(join(ROOT, "src"))) {
       // Tabla hand-rolled (invariante 3): debe ser <DataTable>. El kit la envuelve;
       // las tablas especiales documentadas (totales/acordeón/preview/doc) están exentas.
       if (NATIVE_TABLE.test(line) && !TABLE_EXEMPT.test(rel)) at("tabla-cruda");
+      // Input crudo (invariante 4): campo de formulario debe ser kit `Input`.
+      // Exentos los inputs no-formulario documentados (file/hidden/search/inline/chat/wow).
+      if (NATIVE_INPUT.test(line) && !INPUT_EXEMPT.test(rel)) at("input-crudo");
     }
     // Fuente en px impar (invariante 7): aplica a todas las capas; en el kit se
     // reporta pero solo el color rompe su gate; en app cuenta como deuda (→ 0).

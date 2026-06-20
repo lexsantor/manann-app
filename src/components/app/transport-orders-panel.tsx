@@ -6,6 +6,7 @@ import { createTransportOrder, updateTransportOrderStatus, deleteTransportOrder 
 import { Button } from "@/components/ui/button";
 import { DataTable, CellStacked, type Column } from "@/components/ui/data-table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { DatePicker } from "@/components/ui/date-picker";
 import { cn } from "@/lib/utils";
@@ -191,9 +192,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <label htmlFor="referencia" className="text-xs text-muted-foreground">Referencia</label>
-              <input
+              <Input
                 id="referencia"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono uppercase"
                 placeholder="OT-2024-001"
                 value={form.reference}
                 onChange={(e) => setForm({ ...form, reference: e.target.value.toUpperCase() })}
@@ -201,9 +202,8 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
             </div>
             <div className="space-y-1">
               <label htmlFor="transportista" className="text-xs text-muted-foreground">Transportista</label>
-              <input
+              <Input
                 id="transportista"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Nombre o empresa"
                 value={form.carrier}
                 onChange={(e) => setForm({ ...form, carrier: e.target.value })}
@@ -211,9 +211,8 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
             </div>
             <div className="space-y-1">
               <label htmlFor="origen" className="text-xs text-muted-foreground">Origen</label>
-              <input
+              <Input
                 id="origen"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Madrid"
                 value={form.origin}
                 onChange={(e) => setForm({ ...form, origin: e.target.value })}
@@ -221,9 +220,8 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
             </div>
             <div className="space-y-1">
               <label htmlFor="destino" className="text-xs text-muted-foreground">Destino</label>
-              <input
+              <Input
                 id="destino"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Barcelona"
                 value={form.destination}
                 onChange={(e) => setForm({ ...form, destination: e.target.value })}
@@ -231,9 +229,8 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
             </div>
             <div className="space-y-1">
               <label htmlFor="conductor" className="text-xs text-muted-foreground">Conductor</label>
-              <input
+              <Input
                 id="conductor"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Nombre"
                 value={form.driverName}
                 onChange={(e) => setForm({ ...form, driverName: e.target.value })}
@@ -241,9 +238,9 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
             </div>
             <div className="space-y-1">
               <label htmlFor="matricula" className="text-xs text-muted-foreground">Matrícula</label>
-              <input
+              <Input
                 id="matricula"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 font-mono text-sm uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono uppercase"
                 placeholder="1234 ABC"
                 value={form.licensePlate}
                 onChange={(e) => setForm({ ...form, licensePlate: e.target.value.toUpperCase() })}
@@ -267,9 +264,8 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
             </div>
             <div className="col-span-2 space-y-1">
               <label htmlFor="notas" className="text-xs text-muted-foreground">Notas</label>
-              <input
+              <Input
                 id="notas"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Instrucciones especiales…"
                 value={form.notes}
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}

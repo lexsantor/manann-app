@@ -8,6 +8,7 @@ import { createJournalEntry } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
 
 interface AccountRow {
@@ -145,13 +146,12 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label htmlFor="referencia" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Referencia *</label>
-                  <input
+                  <Input
                     id="referencia"
                     required
                     value={reference}
                     onChange={(e) => setReference(e.target.value)}
                     placeholder="AST-2026-001"
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60 placeholder:text-muted-foreground"
                   />
                 </div>
                 <div>
@@ -160,13 +160,12 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
                 </div>
                 <div className="col-span-2">
                   <label htmlFor="descripcion" className="mb-1 block font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Descripción *</label>
-                  <input
+                  <Input
                     id="descripcion"
                     required
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Descripción del asiento"
-                    className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-primary/60 placeholder:text-muted-foreground"
                   />
                 </div>
               </div>

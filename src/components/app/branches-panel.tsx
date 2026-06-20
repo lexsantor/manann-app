@@ -6,6 +6,7 @@ import { createBranch, deleteBranch } from "@/lib/maestros-actions";
 import { Button } from "@/components/ui/button";
 import { MASTER_COUNTRIES } from "@/lib/master-countries";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface Branch {
@@ -81,9 +82,9 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
               <label htmlFor="codigo" className="text-xs text-muted-foreground">Código</label>
-              <input
+              <Input
                 id="codigo"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="font-mono uppercase"
                 placeholder="BCN"
                 value={form.code}
                 onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })}
@@ -91,9 +92,8 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
             </div>
             <div className="space-y-1">
               <label htmlFor="nombre" className="text-xs text-muted-foreground">Nombre</label>
-              <input
+              <Input
                 id="nombre"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Barcelona"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -101,9 +101,8 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
             </div>
             <div className="space-y-1">
               <label htmlFor="ciudad" className="text-xs text-muted-foreground">Ciudad</label>
-              <input
+              <Input
                 id="ciudad"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Barcelona"
                 value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })}
@@ -127,9 +126,8 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
             </div>
             <div className="col-span-2 space-y-1">
               <label htmlFor="direccion" className="text-xs text-muted-foreground">Dirección</label>
-              <input
+              <Input
                 id="direccion"
-                className="w-full rounded-md border border-border bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 placeholder="Carrer de l'Exemple 123, 08001"
                 value={form.address}
                 onChange={(e) => setForm({ ...form, address: e.target.value })}

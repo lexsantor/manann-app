@@ -8,6 +8,7 @@ import Image from "next/image";
 import { signIn } from "@/lib/auth-client";
 import { enterDemo } from "@/lib/demo-login";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Icon } from "@/components/icon";
 
 type Status = "idle" | "loading" | "sent" | "error";
@@ -112,7 +113,7 @@ export default function LoginPage() {
                   <label htmlFor="email" className="sr-only">
                     Correo electrónico
                   </label>
-                  <input
+                  <Input
                     id="email"
                     type="email"
                     required
@@ -122,7 +123,6 @@ export default function LoginPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="tu@empresa.com"
                     disabled={status === "loading"}
-                    className="h-11 w-full rounded-md border border-border bg-background px-3.5 text-sm text-foreground placeholder:text-muted-foreground/70 transition-colors focus-visible:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50"
                   />
 
                   {status === "error" && (
