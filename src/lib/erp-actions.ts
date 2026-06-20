@@ -1322,12 +1322,36 @@ const compareResultSchema = z.object({
 
 export type CompareResult = z.infer<typeof compareResultSchema>;
 
+// Resultado precacheado para el showcase de demo (EXP-2026-0054): evita una llamada
+// a la IA en vivo ante stakeholders (CLAUDE.md). Honesto — refleja literalmente lo
+// que dicen los PDFs subidos: la factura declara 22 pallets y 25.300 kg; el BL,
+// 20 bultos y 24.600 kg.
+const SHOWCASE_COMPARE: CompareResult = {
+  shipper: { blValue: "Ceramica Saloni S.A.", invoiceValue: "Ceramica Saloni S.A.", match: true },
+  consignee: { blValue: "Rotterdam Tile Imports B.V.", invoiceValue: "Rotterdam Tile Imports B.V.", match: true },
+  description: { blValue: "Porcelain floor tiles, glazed", invoiceValue: "Porcelain floor tiles, glazed", match: true },
+  hsCode: { blValue: "6907.21", invoiceValue: "6907.21", match: true },
+  grossWeight: { blValue: "24.600 kg", invoiceValue: "25.300 kg", match: false },
+  quantity: { blValue: "20 bultos", invoiceValue: "22 pallets", match: false },
+  country: { blValue: "ES", invoiceValue: "España (ES)", match: true },
+  incoterm: { blValue: "CIF", invoiceValue: "CIF Rotterdam", match: true },
+  discrepancySummary:
+    "Se detectan 2 discrepancias entre el BL y la factura comercial: la cantidad (BL: 20 bultos / factura: 22 pallets) y el peso bruto (BL: 24.600 kg / factura: 25.300 kg). Conviene aclararlas con el exportador antes del despacho de aduanas.",
+};
+
 export async function compareDocuments(shipmentId: string): Promise<CompareResult> {
   const ctx = await getOrgContext();
   if (!ctx?.org) throw new Error("No autorizado");
   if (!UUID_RE.test(shipmentId)) throw new Error("Inválido");
   const owned = await shipmentBelongsToOrg(ctx.org.id, shipmentId);
   if (!owned) throw new Error("No autorizado");
+
+  // Showcase de demo: devuelve el resultado precacheado al instante, sin IA en vivo.
+  const [showcaseRow] = await db
+    .select({ reference: shipment.reference })
+    .from(shipment)
+    .where(eq(shipment.id, shipmentId));
+  if (showcaseRow?.reference === WOW_SHOWCASE_REF) return SHOWCASE_COMPARE;
 
   const docs = await db
     .select({ id: document.id, type: document.type, blobUrl: document.blobUrl })
@@ -2496,8 +2520,12 @@ export async function resetWowShowcase(): Promise<void> {
     })
     .where(eq(shipment.id, s.id));
 
-  // Reabre la propuesta de la IA (el documento vuelve a 'extracted').
-  await db.update(document).set({ status: "extracted" }).where(eq(document.shipmentId, s.id));
+  // Reabre la propuesta de la IA SOLO del BL (la factura comercial del showcase
+  // se conserva intacta para la comparativa BL↔factura).
+  await db
+    .update(document)
+    .set({ status: "extracted" })
+    .where(and(eq(document.shipmentId, s.id), eq(document.type, "bl")));
 
   revalidatePath(`/expedientes/${s.id}`);
 }
