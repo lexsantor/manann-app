@@ -54,7 +54,7 @@ export function TopNav() {
             href="/#demo"
             className={cn(
               buttonVariants({ variant: "primary", size: "sm" }),
-              "rounded-full px-4 max-sm:hidden",
+              "px-4 max-sm:hidden",
             )}
           >
             Ver la demo

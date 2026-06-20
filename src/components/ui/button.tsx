@@ -10,7 +10,8 @@ import { cn } from "@/lib/utils";
  *  - `outline`   = alias de `secondary` (mismo estilo). No introducir un 3er CTA.
  *  - `destructive` = outline rojo, acciones peligrosas (no compite con guardar).
  *  - `ghost`     = texto sin borde, para descartar/cancelar (no es un CTA).
- * Radios: in-app (sm/md/lg) → rounded-md (10px); `hero` → rounded-full (pill).
+ * Radios: TODOS los CTAs → rounded-md (10px). rounded-full queda solo para pills
+ *   de estado (StatusBadge), eyebrows y el toggle de tema — nunca para CTAs.
  * Touch (Apple HIG): CTAs e inputs ≥44px en móvil (alturas responsive).
  */
 export const buttonVariants = cva(
@@ -29,7 +30,7 @@ export const buttonVariants = cva(
         sm: "h-11 rounded-md px-3 text-sm sm:h-9",
         md: "h-11 rounded-md px-[18px] text-sm",
         lg: "h-11 rounded-md px-5 text-sm",
-        hero: "h-12 rounded-full px-[26px] text-sm",
+        hero: "h-12 rounded-md px-[26px] text-sm",
       },
     },
     defaultVariants: { variant: "primary", size: "md" },

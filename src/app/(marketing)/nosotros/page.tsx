@@ -40,13 +40,22 @@ export default function NosotrosPage() {
           <FadeUp>
             <p className="eyebrow">El porqué</p>
             <h1 className="mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Donde otros ven caos, tú ves una ruta.
+              Donde otros ven caos,{" "}
+              <span className="text-gradient-primary">tú ves una ruta.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
               Manann nace de una idea sencilla: que la persona que coordina cargas
               internacionales recupere el mando sobre un trabajo que hoy la
               desborda. La travesía mecánica del expediente —el papeleo, los pasos
               repetibles, los avisos— la lleva el sistema. Las decisiones, tú.
+            </p>
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              El software del sector se quedó anclado en otra época. Pantallas que
+              parecen de hace veinte años, datos repartidos entre Excel, el correo y
+              media docena de herramientas que no se hablan entre sí, y procesos que
+              dependen de lo que recuerda quien lleva tiempo en la empresa. Mientras
+              el comercio mundial se acelera, quien lo coordina sigue tecleando lo
+              mismo a mano, expediente tras expediente.
             </p>
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
               Manann es un proyecto personal de{" "}

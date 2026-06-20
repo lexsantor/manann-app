@@ -202,12 +202,10 @@ export default function HomePage() {
         <div className="relative mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <div className="grid gap-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20 lg:items-start">
             <FadeUp>
-              <span className="inline-flex items-center rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-                Por qué existe Manann
-              </span>
+              <span className="eyebrow">Por qué existe Manann</span>
               <h2 className="mt-6 font-display text-5xl font-medium leading-[1.03] tracking-tight sm:text-[3.25rem] lg:text-6xl">
                 La logística mueve el mundo.{" "}
-                <span className="text-foreground/80">
+                <span className="text-gradient-primary">
                   Su software lleva 25 años parado.
                 </span>
               </h2>
@@ -254,7 +252,8 @@ export default function HomePage() {
           <FadeUp>
             <span className="eyebrow">La solución</span>
             <h2 className="mt-4 max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
-              Un expediente. Todo el ciclo.
+              Un expediente.{" "}
+              <span className="text-gradient-primary">Todo el ciclo.</span>
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
               Desde la cotización hasta la factura, cada paso vive en el mismo expediente. Sin copiar datos entre sistemas.
@@ -548,7 +547,7 @@ export default function HomePage() {
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {RESULTS.map((r, i) => (
               <FadeUp key={r.label} delay={i * 0.08}>
-                <div className="card-glow rounded-xl border border-border bg-card p-6">
+                <div className="card-glow h-full rounded-xl border border-border bg-card p-6">
                   <div className="font-display text-4xl font-semibold tracking-tight text-gradient-primary">
                     {r.value}
                   </div>
@@ -565,7 +564,7 @@ export default function HomePage() {
           <FadeUp delay={0.35}>
             <blockquote className="mt-12 rounded-xl border border-border bg-surface-2 px-8 py-8">
               <p className="font-display text-xl font-medium leading-relaxed tracking-tight text-foreground sm:text-2xl">
-                &ldquo;Crear un expediente desde un BL debería costar minutos, no horas — y sin un solo error de transcripción.&rdquo;
+                &ldquo;Crear un expediente desde un BL debería costar minutos, no horas. Y sin un solo error de transcripción.&rdquo;
               </p>
               <footer className="mt-5 font-mono text-[10px] text-muted-foreground/50">
                 La tesis de producto de Manann
