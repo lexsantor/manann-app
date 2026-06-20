@@ -124,9 +124,9 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
             </div>
           </div>
           <div className="flex justify-end gap-2 pt-1">
-            <button type="button" onClick={onClose} className="rounded-md border border-border px-4 py-2 text-sm text-muted-foreground hover:text-foreground">
+            <Button type="button" variant="ghost" onClick={onClose}>
               Cancelar
-            </button>
+            </Button>
             <Button type="submit" disabled={pending}>
               {pending ? "Guardando…" : mode?.type === "edit" ? "Guardar" : "Crear"}
             </Button>
@@ -194,14 +194,14 @@ export function ContactsTab({ contacts }: ContactsTabProps) {
         </div>
         <div className="flex w-full items-center gap-2 sm:w-auto [&>button]:flex-1 [&>button]:justify-center sm:[&>button]:flex-none sm:[&>button]:justify-start">
           {contacts.length === 0 && (
-            <button
+            <Button
+              variant="secondary"
               onClick={handleImport}
               disabled={importPending}
-              className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground disabled:opacity-60"
             >
               <Icon icon={Download} size={13} />
               {importPending ? "Importando…" : "Importar desde expedientes"}
-            </button>
+            </Button>
           )}
           {importResult && (
             <span className="text-sm text-muted-foreground">

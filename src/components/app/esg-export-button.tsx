@@ -2,6 +2,7 @@
 
 import { Download } from "lucide-react";
 import { Icon } from "@/components/icon";
+import { Button } from "@/components/ui/button";
 type EsgExportData = {
   rows: { reference: string; pol: string; pod: string; mode: string; co2Kg: number; distanceKm: number }[];
 };
@@ -36,12 +37,9 @@ export function EsgExportButton({ data, period }: { data: EsgExportData; period:
   }
 
   return (
-    <button
-      onClick={handleExport}
-      className="flex items-center gap-1.5 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-    >
+    <Button variant="secondary" onClick={handleExport}>
       <Icon icon={Download} size={13} />
       CSV ESG
-    </button>
+    </Button>
   );
 }

@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { getBalanceSumasSaldos } from "@/lib/contabilidad-actions";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectTrigger,
@@ -83,13 +84,9 @@ export function BalanceSumasSaldos() {
             </SelectContent>
           </Select>
         </div>
-        <button
-          onClick={handleLoad}
-          disabled={pending}
-          className="rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
-        >
+        <Button onClick={handleLoad} disabled={pending}>
           {pending ? "Calculando…" : "Generar balance"}
-        </button>
+        </Button>
       </div>
 
       {loaded && (
