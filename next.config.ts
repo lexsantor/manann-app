@@ -12,6 +12,7 @@ const csp = [
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://*.vercel-storage.com",
   `connect-src 'self' https://vercel.com https://*.vercel-storage.com https://cdn.jsdelivr.net${isProd ? "" : " ws: http://localhost:*"}`,
+  "frame-src 'self' https://*.vercel-storage.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "object-src 'none'",
