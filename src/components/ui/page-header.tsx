@@ -39,11 +39,7 @@ export function PageHeader({
 
       <div className="relative flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
-          {eyebrow ? (
-            <p className="font-mono text-xs font-medium uppercase tracking-wider text-primary/80">
-              {eyebrow}
-            </p>
-          ) : null}
+          {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
           {/* Icono centrado verticalmente con la línea del título */}
           <div className="mt-1.5 flex items-center gap-3">
             {icon ? (
