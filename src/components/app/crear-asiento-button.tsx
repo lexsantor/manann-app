@@ -133,6 +133,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
+            aria-label="Crear asiento contable"
             tabIndex={-1}
             className="w-full max-w-2xl rounded-xl border border-border bg-card shadow-2xl outline-none">
             <div className="flex items-center justify-between border-b border-border px-6 py-4">
@@ -225,7 +226,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
                         type="button"
                         onClick={() => removeLine(i)}
                         disabled={lines.length <= 2}
-                        className="rounded p-1 text-muted-foreground hover:text-accent disabled:opacity-30"
+                        className="rounded p-1 text-muted-foreground hover:text-destructive disabled:opacity-30"
                       >
                         <Icon icon={Trash2} size={12} />
                       </button>
@@ -237,7 +238,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
                   <button type="button" onClick={addLine} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
                     <Icon icon={Plus} size={11} /> Añadir línea
                   </button>
-                  <div className={cn("flex gap-4 font-mono text-xs", balanced ? "text-success" : "text-accent")}>
+                  <div className={cn("flex gap-4 font-mono text-xs", balanced ? "text-success" : "text-destructive")}>
                     <span>Debe: {totalDebit.toFixed(2)}</span>
                     <span>Haber: {totalCredit.toFixed(2)}</span>
                     <span>{balanced ? "✓ Cuadrado" : "✗ No cuadrado"}</span>
@@ -245,7 +246,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
                 </div>
               </div>
 
-              {error && <p className="text-xs text-accent">{error}</p>}
+              {error && <p role="alert" className="text-xs text-destructive">{error}</p>}
 
               <div className="flex justify-end gap-2 pt-1">
                 <Button type="button" variant="ghost" onClick={handleClose}>

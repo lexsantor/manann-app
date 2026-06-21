@@ -76,7 +76,7 @@ export default async function FacturaDetailPage({ params }: PageProps) {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <span
-                  className="block size-5 rotate-45 rounded-[4px] shrink-0"
+                  className="block size-5 rotate-45 rounded-sm shrink-0"
                   style={{ background: "linear-gradient(135deg, hsl(172 51% 42%), hsl(185 55% 62%))" }}
                 />
                 <span className="font-display text-lg font-semibold tracking-tight">{ctx.org.name}</span>

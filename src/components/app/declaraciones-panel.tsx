@@ -136,7 +136,7 @@ function DeclarationBlock({
                   </div>
                 ))}
               </div>
-              {error && <p className="text-xs text-accent">{error}</p>}
+              {error && <p role="alert" className="text-xs text-destructive">{error}</p>}
               <div className="flex items-center justify-between pt-1">
                 <p className="font-mono text-xs text-muted-foreground">Simulación — integración real en producción</p>
                 <Button type="submit" variant="secondary" disabled={pending} className="gap-1.5">

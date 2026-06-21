@@ -137,6 +137,7 @@ export function GenerarFacturaButton({
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
+            aria-label="Generar factura"
             tabIndex={-1}
             className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl outline-none sm:w-[520px]">
             {/* Header */}

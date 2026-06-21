@@ -93,6 +93,7 @@ export function HsCodeSuggest({ cargoLineId }: HsCodeSuggestProps) {
           <button
             type="button"
             onClick={() => { setState("idle"); setSuggestion(null); }}
+            aria-label="Descartar sugerencia"
             className="rounded p-1 text-muted-foreground transition-colors hover:text-foreground"
           >
             <Icon icon={X} size={12} />

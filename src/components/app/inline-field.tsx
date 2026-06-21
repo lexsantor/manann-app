@@ -66,10 +66,10 @@ export function InlineField({ shipmentId, field, value, mono, className }: Inlin
           <Icon icon={Loader2} size={12} className="shrink-0 animate-spin text-muted-foreground" />
         ) : (
           <>
-            <button type="button" onMouseDown={(e) => { e.preventDefault(); save(); }} className="shrink-0 text-success hover:opacity-80">
+            <button type="button" aria-label="Guardar" onMouseDown={(e) => { e.preventDefault(); save(); }} className="shrink-0 text-success hover:opacity-80">
               <Icon icon={Check} size={12} />
             </button>
-            <button type="button" onMouseDown={(e) => { e.preventDefault(); cancel(); }} className="shrink-0 text-muted-foreground hover:text-foreground">
+            <button type="button" aria-label="Cancelar" onMouseDown={(e) => { e.preventDefault(); cancel(); }} className="shrink-0 text-muted-foreground hover:text-foreground">
               <Icon icon={X} size={12} />
             </button>
           </>

@@ -71,7 +71,7 @@ export default async function CotizacionDetailPage({ params }: PageProps) {
           <div className="flex items-start justify-between gap-6 pb-8 border-b border-border/60 print:pb-6">
             <div>
               <div className="flex items-center gap-2 mb-3">
-                <span className="block size-5 rotate-45 rounded-[4px] shrink-0"
+                <span className="block size-5 rotate-45 rounded-sm shrink-0"
                   style={{ background: "linear-gradient(135deg, hsl(172 51% 42%), hsl(185 55% 62%))" }} />
                 <span className="font-display text-lg font-semibold tracking-tight">{ctx.org.name}</span>
               </div>

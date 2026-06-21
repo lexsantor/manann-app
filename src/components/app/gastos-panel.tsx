@@ -142,6 +142,7 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
             ref={dialogRef}
             role="dialog"
             aria-modal="true"
+            aria-label="Gastos del expediente"
             tabIndex={-1}
             className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl outline-none sm:w-[420px]">
             <div className="flex items-center justify-between border-b border-border px-5 py-4">

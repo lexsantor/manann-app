@@ -137,6 +137,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
+        aria-label="Generar cotización"
         tabIndex={-1}
         className="fixed right-0 top-0 z-50 flex h-full w-full max-w-[540px] flex-col border-l border-border bg-background shadow-xl outline-none">
         {/* Header */}
