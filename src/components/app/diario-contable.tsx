@@ -110,7 +110,7 @@ function EntryRow({ entry }: { entry: JournalEntry }) {
 
 export function DiarioContable({ entries, accounts }: DiarioContableProps) {
   return (
-    <section className="rounded-xl border border-border bg-card">
+    <section className="min-w-0 rounded-xl border border-border bg-card">
       <div className="flex flex-col gap-3 border-b border-border px-5 py-3.5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <Icon icon={ScrollText} size={14} className="text-muted-foreground" />

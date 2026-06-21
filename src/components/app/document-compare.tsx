@@ -56,7 +56,7 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
 
   return (
     <div className="mt-4 border-t border-border/60 pt-4">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <Icon icon={GitCompare} size={14} className="text-muted-foreground" />
           <span className="font-mono text-base text-muted-foreground">
@@ -73,7 +73,7 @@ export function DocumentCompare({ shipmentId, hasBl, hasFactura }: DocumentCompa
             </span>
           )}
         </div>
-        <Button variant="secondary" size="sm" onClick={handleCompare} disabled={pending}>
+        <Button variant="secondary" size="sm" onClick={handleCompare} disabled={pending} className="w-full sm:w-auto">
           {pending ? <Loader2 className="size-3.5 animate-spin" /> : <GitCompare className="size-3.5" />}
           {result ? "Volver a comparar" : "Comparar documentos"}
         </Button>
