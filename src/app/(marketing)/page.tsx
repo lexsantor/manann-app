@@ -132,10 +132,10 @@ const INTEGRATIONS = [
 ];
 
 const RESULTS = [
-  { value: "40+", label: "campos por expediente", sub: "que la competencia te hace teclear" },
-  { value: "1", label: "documento de entrada", sub: "BL, AWB o CMR en PDF" },
-  { value: "0", label: "reintroducción de datos", sub: "lo que la IA lee no se vuelve a teclear" },
-  { value: "100%", label: "de los cambios, trazados", sub: "humano, IA o sistema, siempre registrado" },
+  { target: 40, suffix: "+", label: "campos por expediente", sub: "que la competencia te hace teclear" },
+  { target: 1, suffix: "", label: "documento de entrada", sub: "BL, AWB o CMR en PDF" },
+  { target: 0, suffix: "", label: "reintroducción de datos", sub: "lo que la IA lee no se vuelve a teclear" },
+  { target: 100, suffix: "%", label: "de los cambios, trazados", sub: "humano, IA o sistema, siempre registrado" },
 ];
 
 const VERSUS = [
@@ -633,8 +633,8 @@ export default function HomePage() {
             {RESULTS.map((r, i) => (
               <FadeUp key={r.label} delay={i * 0.08}>
                 <div className="card-glow h-full rounded-xl border border-border bg-card p-6">
-                  <div className="font-display text-4xl font-semibold tracking-tight text-gradient-primary">
-                    {r.value}
+                  <div className="font-display text-4xl font-semibold tracking-tight">
+                    <CountUp target={r.target} suffix={r.suffix} className="text-gradient-primary" />
                   </div>
                   <p className="mt-3 font-display text-base font-medium tracking-tight text-foreground">
                     {r.label}
