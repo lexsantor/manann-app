@@ -67,7 +67,7 @@ export function Toaster() {
 
   return createPortal(
     <div
-      className="pointer-events-none fixed bottom-4 right-4 z-[1200] flex w-[min(92vw,360px)] flex-col gap-2"
+      className="pointer-events-none fixed bottom-4 right-4 z-[var(--z-toast)] flex w-[min(92vw,360px)] flex-col gap-2"
       role="region"
       aria-label="Notificaciones"
     >

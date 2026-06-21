@@ -243,7 +243,7 @@ function HelpModal({ onClose, pathname }: { onClose: () => void; pathname: strin
   const hasTour = tourForPath(pathname) !== null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[var(--z-overlay)] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-2xl">
         <div className="flex items-start justify-between">

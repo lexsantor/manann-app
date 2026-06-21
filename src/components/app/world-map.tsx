@@ -38,12 +38,12 @@ export interface MapRoute {
 }
 
 const STATUS_COLOR: Record<string, string> = {
-  en_transito: "#137a63",   // primary
-  en_aduana: "#f59e0b",     // accent
-  confirmado: "#6366f1",
-  borrador: "#6b7280",
-  entregado: "#22c55e",
-  cerrado: "#6b7280",
+  en_transito: "hsl(var(--primary))",      // marca
+  en_aduana: "hsl(var(--accent))",         // IA/estado
+  confirmado: "hsl(var(--info))",
+  borrador: "hsl(var(--muted-foreground))",
+  entregado: "hsl(var(--success))",
+  cerrado: "hsl(var(--muted-foreground))",
 };
 
 export function WorldMap({ routes }: { routes: MapRoute[] }) {
@@ -59,7 +59,7 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
   }
 
   return (
-    <div className="relative w-full overflow-hidden rounded-xl border border-border bg-[#0d1117]">
+    <div className="relative w-full overflow-hidden rounded-xl border border-border bg-card">
       <ComposableMap
         projectionConfig={{ scale: 147, center: [15, 20] }}
         style={{ width: "100%", height: "auto" }}
@@ -71,12 +71,12 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
               <Geography
                 key={(geo as { rsmKey: string }).rsmKey}
                 geography={geo}
-                fill="#1e2430"
-                stroke="#2d3748"
+                fill="hsl(var(--card))"
+                stroke="hsl(var(--border))"
                 strokeWidth={0.5}
                 style={{
                   default: { outline: "none" },
-                  hover: { outline: "none", fill: "#252d3d" },
+                  hover: { outline: "none", fill: "hsl(var(--card))" },
                   pressed: { outline: "none" },
                 }}
               />
@@ -89,7 +89,7 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
           const from = portCoords(r.pol!);
           const to = portCoords(r.pod!);
           if (!from || !to) return null;
-          const color = STATUS_COLOR[r.status] ?? "#6b7280";
+          const color = STATUS_COLOR[r.status] ?? "hsl(var(--muted-foreground))";
           return (
             <Line
               key={r.id}
@@ -113,7 +113,7 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
             <Marker key={locode} coordinates={coords}>
               <circle
                 r={count > 1 ? 5 : 3.5}
-                fill="#137a63"
+                fill="hsl(var(--primary))"
                 fillOpacity={0.9}
                 stroke="#fff"
                 strokeWidth={0.8}
@@ -124,7 +124,7 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
                 style={{
                   fontFamily: "system-ui, sans-serif",
                   fontSize: "7px",
-                  fill: "#9ca3af",
+                  fill: "hsl(var(--muted-foreground))",
                   pointerEvents: "none",
                 }}
               >
