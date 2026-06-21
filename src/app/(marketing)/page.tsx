@@ -259,7 +259,7 @@ export default function HomePage() {
       </section>
 
       {/* ── El cambio (versus) ────────────────────────────────── */}
-      <section className="border-t border-border">
+      <section className="section-mesh border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
             <span className="eyebrow">El cambio</span>
@@ -648,7 +648,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Enterprise ────────────────────────────────────────── */}
-      <section className="border-t border-border bg-surface-2">
+      <section className="section-mesh border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
             <span className="eyebrow">Producción seria</span>
