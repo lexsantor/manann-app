@@ -540,7 +540,7 @@ export default function HomePage() {
                       5 de 6 campos extraídos · 1 requiere revisión
                     </span>
                     <span
-                      className="block w-full rounded-md px-3 py-1.5 text-center font-mono text-[10px] font-semibold text-background sm:inline sm:w-auto"
+                      className="flex h-11 w-full items-center justify-center rounded-md px-4 text-sm font-medium text-background sm:w-auto"
                       style={{ background: "linear-gradient(120deg, hsl(172 51% 42%), hsl(185 55% 62%))" }}
                     >
                       Confirmar extracción
