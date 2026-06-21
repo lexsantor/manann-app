@@ -114,6 +114,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
             className="flex-1"
           />
           <Button
+            variant="secondary"
             onClick={handleScreen}
             disabled={screenPending || !screeningName.trim()}
             size="sm"

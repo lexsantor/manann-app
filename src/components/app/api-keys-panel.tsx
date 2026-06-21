@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useEffect, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { Key, Plus, Trash2, Copy, Check, Loader2 } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,8 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
   const [copied, setCopied] = useState(false);
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+  useEffect(() => setKeys(initial), [initial]);
 
   function handleCreate() {
     if (!newName.trim()) return;
@@ -46,7 +49,7 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
         setRevealed(raw);
         setNewName("");
         setShowForm(false);
-        window.location.reload();
+        router.refresh();
       } catch (e) {
         setError(e instanceof Error ? e.message : "Error al crear");
       }

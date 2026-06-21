@@ -181,8 +181,8 @@ export default async function DashboardPage() {
               Excepciones
             </Link>
           </div>
-          <div className="overflow-hidden rounded-xl border border-border bg-card">
-            <table className="w-full text-base">
+          <div className="overflow-x-auto rounded-xl border border-border bg-card">
+            <table className="w-full min-w-[560px] text-base">
               <thead>
                 <tr className="border-b border-border bg-muted/70">
                   <th className="px-4 py-3 text-left font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Cliente</th>

@@ -165,8 +165,8 @@ export default function PreciosPage() {
 
       {/* Feature table */}
       <FadeUp delay={0.3}>
-        <div className="mt-16 overflow-hidden rounded-xl border border-border">
-          <table className="w-full">
+        <div className="mt-16 overflow-x-auto rounded-xl border border-border">
+          <table className="w-full min-w-[640px]">
             <thead>
               <tr className="border-b border-border bg-card">
                 <th className="px-5 py-4 text-left font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
