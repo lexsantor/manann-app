@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect, useTransition, useRef } from "react";
 import Link from "next/link";
 import { MoveRight, AlertTriangle, Trash2, Ship, Plane, Truck, ImageOff, Loader2, Copy, type LucideIcon } from "lucide-react";
 import { deleteDraftShipment, duplicateShipment } from "@/lib/erp-actions";
@@ -11,6 +11,7 @@ import { portImageUrl } from "@/lib/port-images";
 import { StatusPill } from "@/components/app/status-pill";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 // ─── Marca de naviera ────────────────────────────────────────────────────────
 
@@ -111,6 +112,8 @@ function computeGP(charges: ShipmentListItem["charges"]): { gp: number | null; h
 
 export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
   const [showConfirm, setShowConfirm] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, showConfirm, () => setShowConfirm(false));
   const [hideImages, setHideImages] = useState(false);
   const [pending, startTransition] = useTransition();
   const [dupPending, startDupTransition] = useTransition();
@@ -201,6 +204,11 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
         >
           <div className="absolute inset-0 bg-background/70" />
           <div
+            ref={dialogRef}
+            role="alertdialog"
+            aria-modal="true"
+            aria-label="Confirmar eliminación"
+            tabIndex={-1}
             className="relative z-10 w-full max-w-sm rounded-xl border border-border bg-card p-6 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >

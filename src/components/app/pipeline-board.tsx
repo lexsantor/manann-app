@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   Plus, X, ChevronRight, ChevronLeft, Trash2,
@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { formatMoney } from "@/lib/erp-format";
 import type { OpportunityRow, RateItem } from "@/lib/erp";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 import {
   createOpportunity,
   updateOpportunity,
@@ -77,6 +78,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
 
   const isOpen = panel !== "closed";
   const isEdit = panel !== "closed" && panel !== "new";
+  const dialogRef = useRef<HTMLDivElement>(null);
   const editOpp = isEdit ? (panel as OpportunityRow) : null;
 
   // Rate benchmark — avg of active flete rates
@@ -115,6 +117,8 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
     setPanel("closed");
     setConfirmDelete(false);
   }
+
+  useFocusTrap(dialogRef, isOpen, closePanel);
 
   function field(key: keyof typeof form) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -276,6 +280,11 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
 
       {/* Side panel */}
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Editar oportunidad"
+        tabIndex={-1}
         className={cn(
           "fixed top-0 right-0 z-50 h-full w-full max-w-md bg-background border-l shadow-2xl flex flex-col transition-transform duration-200",
           isOpen ? "translate-x-0" : "translate-x-full",

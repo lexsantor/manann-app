@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import Link from "next/link";
 import { Plus, Pencil, Trash2, Download, MapPin } from "lucide-react";
 import { Icon } from "@/components/icon";
@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import type { ContactWithGP } from "@/lib/erp";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 const ROLE_LABEL: Record<string, string> = {
   shipper: "Exportador", consignee: "Importador", notify: "Notificado",
@@ -57,6 +58,8 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
   const [pending, start] = useTransition();
   const c = mode?.type === "edit" ? mode.contact : null;
   const [role, setRole] = useState<string>(c?.role ?? "consignee");
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, true, onClose);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -73,7 +76,14 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-      <div className="w-full max-w-lg rounded-xl border border-border bg-card shadow-2xl">
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Formulario de contacto"
+        tabIndex={-1}
+        className="w-full max-w-lg rounded-xl border border-border bg-card shadow-2xl"
+      >
         <div className="border-b border-border px-6 py-4">
           <p className="font-display text-base font-medium text-foreground">
             {mode?.type === "edit" ? "Editar contacto" : "Nuevo contacto"}

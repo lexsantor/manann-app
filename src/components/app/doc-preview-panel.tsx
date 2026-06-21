@@ -1,11 +1,13 @@
 "use client";
 
+import { useRef } from "react";
 import { X, ExternalLink, FileCheck2, FileSearch, FileClock, FileX2, FileText } from "lucide-react";
 import Link from "next/link";
 
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import type { DocumentItem } from "@/lib/erp";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 const DOC_TYPE_LABEL: Record<string, string> = {
   bl: "Bill of Lading",
@@ -38,6 +40,8 @@ interface DocPreviewPanelProps {
 
 export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
   const open = doc !== null;
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, open, onClose);
 
   return (
     <>
@@ -53,9 +57,11 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
 
       {/* Panel */}
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-label={doc?.filename ?? "Vista previa"}
+        tabIndex={-1}
         className={cn(
           "fixed inset-y-0 right-0 z-50 flex w-full max-w-2xl flex-col border-l border-border bg-card shadow-2xl transition-transform duration-300 ease-out",
           open ? "translate-x-0" : "translate-x-full",

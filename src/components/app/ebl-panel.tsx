@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import { FileKey2, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/ui/badges";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { issueEbl, transferEbl } from "@/lib/tier-v-actions";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 type EBlTransfer = {
   id: string;
@@ -44,6 +45,10 @@ export function EblPanel({
   const [ebl] = useState<EBl | undefined>(initialEbl);
   const [issueOpen, setIssueOpen] = useState(false);
   const [transferOpen, setTransferOpen] = useState(false);
+  const issueDialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(issueDialogRef, issueOpen, () => setIssueOpen(false));
+  const transferDialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(transferDialogRef, transferOpen, () => setTransferOpen(false));
   const [holderName, setHolderName] = useState("");
   const [toParty, setToParty] = useState("");
   const [action, setAction] = useState("Endorsed");
@@ -92,7 +97,14 @@ export function EblPanel({
               className="absolute inset-0 bg-background/60 backdrop-blur-sm"
               onClick={() => !isPending && setIssueOpen(false)}
             />
-            <div className="relative z-10 flex h-auto w-full max-w-sm flex-col overflow-hidden rounded-tl-xl border-l border-t border-border bg-card shadow-2xl sm:rounded-none sm:h-auto">
+            <div
+              ref={issueDialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Emitir e-BL"
+              tabIndex={-1}
+              className="relative z-10 flex h-auto w-full max-w-sm flex-col overflow-hidden rounded-tl-xl border-l border-t border-border bg-card shadow-2xl sm:rounded-none sm:h-auto"
+            >
               <div className="flex items-center justify-between border-b border-border px-5 py-4">
                 <h2 className="font-display text-base font-medium">Emitir e-BL</h2>
                 <button
@@ -203,7 +215,14 @@ export function EblPanel({
             className="absolute inset-0 bg-background/60 backdrop-blur-sm"
             onClick={() => !isPending && setTransferOpen(false)}
           />
-          <div className="relative z-10 flex h-auto w-full max-w-sm flex-col overflow-hidden border-l border-t border-border bg-card shadow-2xl sm:rounded-none">
+          <div
+            ref={transferDialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Transferir e-BL"
+            tabIndex={-1}
+            className="relative z-10 flex h-auto w-full max-w-sm flex-col overflow-hidden border-l border-t border-border bg-card shadow-2xl sm:rounded-none"
+          >
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
               <h2 className="font-display text-base font-medium">Transferir e-BL</h2>
               <button

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import { Plus, Trash2, CheckCircle2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import { StatusBadge } from "@/components/ui/badges";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { Label } from "@/components/ui/label";
 import { createNonConformity, updateNonConformityStatus, deleteNonConformity } from "@/lib/calidad-actions";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 type NC = {
   id: string;
@@ -31,6 +32,8 @@ const CAT_LABELS: Record<string, string> = {
 export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
   const [items, setItems] = useState(initialItems);
   const [open, setOpen] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, open, () => setOpen(false));
   const [isPending, startTransition] = useTransition();
 
   const [form, setForm] = useState({
@@ -149,7 +152,14 @@ export function NonConformityPanel({ initialItems }: { initialItems: NC[] }) {
             className="absolute inset-0 bg-background/60 backdrop-blur-sm"
             onClick={() => !isPending && setOpen(false)}
           />
-          <div className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl sm:w-[440px]">
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="No conformidad"
+            tabIndex={-1}
+            className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl sm:w-[440px]"
+          >
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
               <h2 className="font-display text-base font-medium tracking-tight">
                 Registrar no conformidad

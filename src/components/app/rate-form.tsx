@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useTransition, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { X, Loader2, Plus } from "lucide-react";
 import { createRate, updateRate, type RateInput } from "@/lib/erp-actions";
@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 const SERVICE_LABELS: Record<string, string> = {
   flete: "Flete",
@@ -59,6 +60,8 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState("");
   const router = useRouter();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, true, onClose);
 
   const [form, setForm] = useState<RateInput>({
     concept: existing?.concept ?? "",
@@ -103,7 +106,14 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
       />
 
       {/* Panel */}
-      <div className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-border bg-background shadow-xl">
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Editor de tarifa"
+        tabIndex={-1}
+        className="fixed right-0 top-0 z-50 flex h-full w-full max-w-md flex-col border-l border-border bg-background shadow-xl"
+      >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <h2 className="font-display text-base font-semibold text-foreground">

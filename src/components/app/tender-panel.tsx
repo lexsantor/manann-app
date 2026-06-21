@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useRef } from "react";
 import { FileSearch, Plus, X, ChevronDown, ChevronUp, Zap, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { createTender, closeTender, addSimulatedBids } from "@/lib/tier-v-actions";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Label } from "@/components/ui/label";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 type TenderBid = {
   id: string;
@@ -37,6 +38,8 @@ type Tender = {
 export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
   const [items, setItems] = useState(initialItems);
   const [open, setOpen] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(dialogRef, open, () => setOpen(false));
   const [expanded, setExpanded] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
@@ -232,7 +235,14 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
             className="absolute inset-0 bg-background/60 backdrop-blur-sm"
             onClick={() => !isPending && setOpen(false)}
           />
-          <div className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl sm:w-[500px]">
+          <div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Crear tender"
+            tabIndex={-1}
+            className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl sm:w-[500px]"
+          >
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
               <h2 className="font-display text-base font-medium tracking-tight">Nuevo tender / RFQ</h2>
               <button
