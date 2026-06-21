@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createApiKey, revokeApiKey } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 
 interface ApiKeyRow {
   id: string;
@@ -123,7 +124,7 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
               {pending ? <Loader2 className="size-4 animate-spin" /> : "Crear"}
             </Button>
           </div>
-          {error && <p className="mt-1 text-xs text-accent">{error}</p>}
+          {error && <p role="alert" className="mt-1 text-xs text-destructive">{error}</p>}
         </div>
       )}
 
@@ -142,13 +143,17 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
                   {k.prefix}… · Último uso: {formatDate(k.lastUsedAt)} · Creada: {formatDate(k.createdAt)}
                 </p>
               </div>
-              <button
-                onClick={() => handleRevoke(k.id)}
+              <ConfirmButton
+                onConfirm={() => handleRevoke(k.id)}
                 disabled={pending}
-                className="shrink-0 rounded-md p-1.5 text-muted-foreground/60 hover:text-accent hover:bg-accent/10 transition-colors"
+                aria-label="Revocar API key"
+                title="Revocar API key"
+                description="La clave dejará de funcionar de inmediato y romperá las integraciones que la usen. Esta acción no se puede deshacer."
+                confirmLabel="Revocar"
+                className="shrink-0 rounded-md p-1.5 text-muted-foreground/60 transition-colors hover:text-destructive hover:bg-destructive/10"
               >
                 <Trash2 className="size-4" />
-              </button>
+              </ConfirmButton>
             </li>
           ))}
         </ul>

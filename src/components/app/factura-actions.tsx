@@ -4,8 +4,9 @@ import { useTransition, useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle, Send, Printer, XCircle, Loader2, Mail, X } from "lucide-react";
 import { updateInvoiceStatus, sendFacturaEmail } from "@/lib/erp-actions";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 import { cn } from "@/lib/utils";
 
 interface FacturaActionsProps {
@@ -147,19 +148,35 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
         </div>
       )}
 
-      {transitions.map((t) => (
-        <Button
-          key={t.next}
-          variant={t.variant === "primary" ? "primary" : t.variant === "danger" ? "destructive" : "outline"}
-          size="sm"
-          onClick={() => handleStatus(t.next)}
-          disabled={pending}
-          className="w-full sm:w-auto"
-        >
-          {pending ? <Loader2 className="size-4 animate-spin" /> : <t.icon className="size-4" />}
-          {t.label}
-        </Button>
-      ))}
+      {transitions.map((t) =>
+        t.next === "anulada" ? (
+          <ConfirmButton
+            key={t.next}
+            onConfirm={() => handleStatus(t.next)}
+            disabled={pending}
+            aria-label="Anular factura"
+            title="Anular factura"
+            description="La factura quedará anulada. Esta acción no se puede deshacer y tiene efectos fiscales."
+            confirmLabel="Anular"
+            className={cn(buttonVariants({ variant: "destructive", size: "sm" }), "w-full sm:w-auto")}
+          >
+            {pending ? <Loader2 className="size-4 animate-spin" /> : <t.icon className="size-4" />}
+            {t.label}
+          </ConfirmButton>
+        ) : (
+          <Button
+            key={t.next}
+            variant={t.variant === "primary" ? "primary" : t.variant === "danger" ? "destructive" : "outline"}
+            size="sm"
+            onClick={() => handleStatus(t.next)}
+            disabled={pending}
+            className="w-full sm:w-auto"
+          >
+            {pending ? <Loader2 className="size-4 animate-spin" /> : <t.icon className="size-4" />}
+            {t.label}
+          </Button>
+        )
+      )}
     </div>
   );
 }

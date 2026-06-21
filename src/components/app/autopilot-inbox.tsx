@@ -74,12 +74,19 @@ function ActionCard({
 }) {
   const [pending, startTransition] = useTransition();
   const [done, setDone] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const meta = KIND_META[action.kind];
 
   function handleApprove() {
+    setError(null);
     startTransition(async () => {
-      if (action.kind === "invoice_at_risk" && action.metadata.chargeId) {
-        await resolveAtRiskCharge(action.metadata.chargeId);
+      try {
+        if (action.kind === "invoice_at_risk" && action.metadata.chargeId) {
+          await resolveAtRiskCharge(action.metadata.chargeId);
+        }
+      } catch {
+        setError("No se pudo completar la acción. Inténtalo de nuevo.");
+        return;
       }
       setDone(true);
       setTimeout(() => onApprove(action.id), 600);
@@ -156,6 +163,7 @@ function ActionCard({
               </Link>
             </div>
 
+            {error && <p role="alert" className="font-mono text-base text-destructive">{error}</p>}
             <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
               <button
                 onClick={() => onDismiss(action.id)}
@@ -188,6 +196,7 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
   const [actions, setActions] = useState(initial);
   const [executed, setExecuted] = useState(0);
   const [recovered, setRecovered] = useState(0);
+  const [bulkPending, setBulkPending] = useState(false);
 
   function handleApprove(id: string) {
     const action = actions.find((a) => a.id === id);
@@ -203,16 +212,23 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
   }
 
   function handleApproveAll() {
+    if (bulkPending) return;
+    setBulkPending(true);
     const approveInOrder = async () => {
       for (const action of actions) {
-        if (action.kind === "invoice_at_risk" && action.metadata.chargeId) {
-          await resolveAtRiskCharge(action.metadata.chargeId);
+        try {
+          if (action.kind === "invoice_at_risk" && action.metadata.chargeId) {
+            await resolveAtRiskCharge(action.metadata.chargeId);
+          }
+        } catch {
+          continue;
         }
         const rec = action.kind === "invoice_at_risk" ? action.impact : 0;
         setExecuted((n) => n + 1);
         setRecovered((n) => n + rec);
       }
       setActions([]);
+      setBulkPending(false);
     };
     approveInOrder();
   }
@@ -265,6 +281,7 @@ export function AutopilotInbox({ actions: initial }: { actions: AutopilotAction[
           variant="secondary"
           size="sm"
           onClick={handleApproveAll}
+          disabled={bulkPending}
           className="w-full sm:w-auto"
         >
           <Icon icon={CheckCircle2} size={12} />

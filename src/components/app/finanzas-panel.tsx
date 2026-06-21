@@ -8,6 +8,7 @@ import { addCharge, deleteCharge, updateChargeAccrual, type AddChargeInput } fro
 import { GenerarFacturaButton } from "@/components/app/generar-factura-button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ConfirmButton } from "@/components/ui/confirm-button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -249,14 +250,16 @@ function ChargeRow({ charge: c, shipmentId, showBuyCol, rateAvg }: ChargeRowProp
         </td>
       )}
       <td className="py-2 pl-2 pr-3 w-8">
-        <button
-          onClick={handleDelete}
+        <ConfirmButton
+          onConfirm={handleDelete}
           disabled={pending}
+          aria-label="Eliminar cargo"
+          title="Eliminar cargo"
+          description="Se eliminará este cargo del expediente. Esta acción no se puede deshacer."
           className="invisible size-5 items-center justify-center rounded text-muted-foreground/60 transition-colors hover:text-destructive group-hover:visible"
-          aria-label="Eliminar"
         >
           {pending ? <Loader2 className="size-3 animate-spin" /> : <Trash2 className="size-3" />}
-        </button>
+        </ConfirmButton>
       </td>
     </tr>
   );
@@ -567,13 +570,15 @@ function CostRow({ charge: c, shipmentId }: { charge: Charge; shipmentId: string
 function DeleteCostButton({ chargeId, shipmentId }: { chargeId: string; shipmentId: string }) {
   const [pending, startTransition] = useTransition();
   return (
-    <button
-      onClick={() => startTransition(() => deleteCharge(chargeId, shipmentId))}
+    <ConfirmButton
+      onConfirm={() => startTransition(() => deleteCharge(chargeId, shipmentId))}
       disabled={pending}
+      aria-label="Eliminar cargo"
+      title="Eliminar cargo"
+      description="Se eliminará este cargo. Esta acción no se puede deshacer."
       className="invisible size-6 items-center justify-center rounded text-muted-foreground/65 transition-colors hover:text-destructive group-hover:visible"
-      aria-label="Eliminar"
     >
       {pending ? <Loader2 className="size-3 animate-spin" /> : <Trash2 className="size-3" />}
-    </button>
+    </ConfirmButton>
   );
 }
