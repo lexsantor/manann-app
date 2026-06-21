@@ -280,7 +280,7 @@ export default function ElExpedientePage() {
               <Link
                 href="/como-funciona"
                 prefetch={false}
-                className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
+                className={cn(buttonVariants({ variant: "secondary", size: "hero" }))}
               >
                 Cómo funciona
               </Link>

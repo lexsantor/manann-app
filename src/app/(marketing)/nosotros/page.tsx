@@ -231,7 +231,7 @@ export default function NosotrosPage() {
               <Link
                 href="/contacto"
                 prefetch={false}
-                className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
+                className={cn(buttonVariants({ variant: "secondary", size: "hero" }))}
               >
                 Hablar con nosotros
               </Link>

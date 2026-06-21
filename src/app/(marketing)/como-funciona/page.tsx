@@ -334,7 +334,7 @@ export default function ComoFuncionaPage() {
                     {m.body}
                   </p>
                   {m.sim && (
-                    <span className="mt-3 inline-flex rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium text-muted-foreground">
+                    <span className="mt-3 inline-flex whitespace-nowrap rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium text-muted-foreground">
                       {m.sim}
                     </span>
                   )}
@@ -367,7 +367,7 @@ export default function ComoFuncionaPage() {
               <Link
                 href="/el-expediente"
                 prefetch={false}
-                className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
+                className={cn(buttonVariants({ variant: "secondary", size: "hero" }))}
               >
                 Qué es un expediente
               </Link>

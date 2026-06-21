@@ -659,8 +659,8 @@ export default function HomePage() {
 
           <div className="mt-14 grid gap-4 sm:grid-cols-2">
             {ENTERPRISE.map((e, i) => (
-              <FadeUp key={e.title} delay={i * 0.08}>
-                <div className="card-glow flex gap-5 rounded-xl border border-border bg-card p-6">
+              <FadeUp key={e.title} delay={i * 0.08} className="h-full">
+                <div className="card-glow flex h-full gap-5 rounded-xl border border-border bg-card p-6">
                   <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-primary">
                     <Icon icon={e.icon} size={18} />
                   </div>
