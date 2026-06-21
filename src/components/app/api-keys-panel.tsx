@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { createApiKey, revokeApiKey } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
 import { ConfirmButton } from "@/components/ui/confirm-button";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface ApiKeyRow {
   id: string;
@@ -131,10 +132,12 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
       )}
 
       {keys.length === 0 && !revealed ? (
-        <div className="px-5 py-10 text-center">
-          <Icon icon={Key} size={24} className="text-muted-foreground/55 mx-auto mb-2" />
-          <p className="text-sm text-muted-foreground/60">Sin API keys — crea una para integrar Manann con tus sistemas</p>
-        </div>
+        <EmptyState
+          icon={<Key strokeWidth={1.5} />}
+          title="Sin API keys"
+          hint="Crea una para integrar Manann con tus sistemas."
+          className="px-5 py-10"
+        />
       ) : (
         <ul className="divide-y divide-border/40">
           {keys.map((k) => (
