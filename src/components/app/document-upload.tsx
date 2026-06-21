@@ -59,6 +59,7 @@ export function DocumentUpload({ shipmentId }: { shipmentId: string }) {
         role="button"
         tabIndex={0}
         aria-label="Subir documento PDF"
+        aria-describedby={state === "error" ? "document-upload-error" : undefined}
         onClick={() => inputRef.current?.click()}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
@@ -112,8 +113,8 @@ export function DocumentUpload({ shipmentId }: { shipmentId: string }) {
       </div>
 
       {state === "error" && (
-        <p className="mt-2 flex items-center gap-1.5 text-base text-destructive" role="alert">
-          <Icon icon={AlertCircle} size={13} /> {error}
+        <p id="document-upload-error" className="mt-2 flex items-center gap-1.5 text-base text-destructive" role="alert">
+          <Icon icon={AlertCircle} size={13} aria-hidden="true" /> {error}
         </p>
       )}
 
@@ -121,6 +122,7 @@ export function DocumentUpload({ shipmentId }: { shipmentId: string }) {
         ref={inputRef}
         type="file"
         accept="application/pdf"
+        aria-label="Seleccionar documento PDF"
         className="hidden"
         onChange={(e) => {
           const f = e.target.files?.[0];

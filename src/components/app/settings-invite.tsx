@@ -39,6 +39,9 @@ export function InviteForm() {
             setError(null);
           }}
           className="h-8 max-w-xs text-base"
+          aria-label="Correo del miembro a invitar"
+          aria-invalid={!!error}
+          aria-describedby={error ? "invite-error" : undefined}
           onKeyDown={(e) => e.key === "Enter" && send()}
         />
         <Button size="sm" className="h-8 gap-1.5" onClick={send} disabled={isPending || !email.trim()}>
@@ -46,7 +49,7 @@ export function InviteForm() {
           Enviar invitación
         </Button>
       </div>
-      {error && <p className="text-base text-destructive">{error}</p>}
+      {error && <p id="invite-error" role="alert" className="text-base text-destructive">{error}</p>}
       {sent && (
         <p className="text-base text-primary">
           Invitación enviada. El enlace expira en 7 días.

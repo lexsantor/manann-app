@@ -118,13 +118,15 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
               onChange={(e) => setNewName(e.target.value)}
               placeholder="p.ej. Producción · WMS interno"
               className="flex-1"
+              aria-invalid={!!error}
+              aria-describedby={error ? "api-key-error" : undefined}
               onKeyDown={(e) => e.key === "Enter" && handleCreate()}
             />
             <Button onClick={handleCreate} disabled={pending || !newName.trim()}>
               {pending ? <Loader2 className="size-4 animate-spin" /> : "Crear"}
             </Button>
           </div>
-          {error && <p role="alert" className="mt-1 text-xs text-destructive">{error}</p>}
+          {error && <p id="api-key-error" role="alert" className="mt-1 text-xs text-destructive">{error}</p>}
         </div>
       )}
 

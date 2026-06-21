@@ -106,6 +106,7 @@ export function AddPartyForm({ shipmentId, contacts }: AddPartyFormProps) {
               onFocus={() => setShowSugg(true)}
               onBlur={() => setTimeout(() => setShowSugg(false), 150)}
               placeholder="Nombre del contacto…"
+              aria-label="Nombre del contacto"
               className="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
               required
               autoComplete="off"
@@ -150,10 +151,12 @@ export function AddPartyForm({ shipmentId, contacts }: AddPartyFormProps) {
           <Input
             name="taxId"
             placeholder="NIF/EORI (opcional)"
+            aria-label="NIF/EORI (opcional)"
           />
           <Input
             name="country"
             placeholder="País (ES, DE…)"
+            aria-label="País"
           />
         </div>
 

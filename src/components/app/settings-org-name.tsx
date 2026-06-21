@@ -44,6 +44,9 @@ export function OrgNameForm({ currentName, isOwner }: Props) {
             onChange={(e) => setValue(e.target.value)}
             className="h-8 max-w-xs text-base"
             autoFocus
+            aria-label="Nombre de la organización"
+            aria-invalid={!!error}
+            aria-describedby={error ? "org-name-error" : undefined}
             onKeyDown={(e) => {
               if (e.key === "Enter") save();
               if (e.key === "Escape") cancel();
@@ -66,7 +69,7 @@ export function OrgNameForm({ currentName, isOwner }: Props) {
           )}
         </div>
       )}
-      {error && <p className="text-base text-destructive">{error}</p>}
+      {error && <p id="org-name-error" role="alert" className="text-base text-destructive">{error}</p>}
     </div>
   );
 }

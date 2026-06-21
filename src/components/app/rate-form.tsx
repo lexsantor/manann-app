@@ -141,6 +141,8 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
               value={form.concept}
               onChange={(e) => set("concept", e.target.value)}
               placeholder='Ej: Flete FCL 20" Valencia–Shanghai'
+              aria-invalid={!!error}
+              aria-describedby={error ? "rate-form-error" : undefined}
             />
           </div>
 
@@ -206,6 +208,8 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
                 value={form.basePrice}
                 onChange={(e) => set("basePrice", e.target.value)}
                 placeholder="0.00"
+                aria-invalid={!!error}
+                aria-describedby={error ? "rate-form-error" : undefined}
                 className="pr-14 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 font-mono text-base text-muted-foreground">
@@ -246,7 +250,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           </div>
 
           {error && (
-            <p className="text-base text-destructive">{error}</p>
+            <p id="rate-form-error" role="alert" className="text-base text-destructive">{error}</p>
           )}
         </div>
 

@@ -119,6 +119,9 @@ export function CommentsPanel({ shipmentId, comments }: CommentsPanelProps) {
           }}
           rows={2}
           placeholder="Escribe un comentario… @menciona a alguien (⌘↵ para enviar)"
+          aria-label="Escribe un comentario"
+          aria-invalid={!!error}
+          aria-describedby={error ? "comment-error" : undefined}
           className={cn(
             "w-full resize-none rounded-lg border bg-surface-2/30 px-3 py-2.5 pr-10 text-base text-foreground outline-none focus:ring-1 focus:ring-primary transition-colors",
             error ? "border-destructive" : "border-border",
@@ -133,7 +136,7 @@ export function CommentsPanel({ shipmentId, comments }: CommentsPanelProps) {
           {pending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}
         </button>
       </div>
-      {error && <p className="mt-1 text-base text-destructive">{error}</p>}
+      {error && <p id="comment-error" role="alert" className="mt-1 text-base text-destructive">{error}</p>}
     </section>
   );
 }

@@ -94,6 +94,9 @@ export function CotizacionActions({
             onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
             onKeyDown={(e) => e.key === "Enter" && handleEmailSend()}
             placeholder="cliente@empresa.com"
+            aria-label="Correo del cliente"
+            aria-invalid={!!emailError}
+            aria-describedby={emailError ? "cotizacion-email-error" : undefined}
             className={cn(
               "w-56",
               emailError && "border-destructive focus-visible:ring-destructive",
@@ -106,7 +109,7 @@ export function CotizacionActions({
             className="flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:text-foreground transition-colors">
             <X className="size-4" />
           </button>
-          {emailError && <span className="text-base text-destructive">{emailError}</span>}
+          {emailError && <span id="cotizacion-email-error" role="alert" className="text-base text-destructive">{emailError}</span>}
         </div>
       )}
 
