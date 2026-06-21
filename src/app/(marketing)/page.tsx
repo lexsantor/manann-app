@@ -259,7 +259,7 @@ export default function HomePage() {
       </section>
 
       {/* ── El cambio (versus) ────────────────────────────────── */}
-      <section className="section-mesh border-t border-border">
+      <section className="section-mesh border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
             <span className="eyebrow">El cambio</span>
@@ -320,7 +320,7 @@ export default function HomePage() {
       </section>
 
       {/* ── La solución ───────────────────────────────────────── */}
-      <section className="border-t border-border bg-surface-2">
+      <section className="border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
             <span className="eyebrow">La solución</span>
@@ -361,7 +361,7 @@ export default function HomePage() {
       </section>
 
       {/* ── El producto ───────────────────────────────────────── */}
-      <section id="producto" className="scroll-mt-20 border-t border-border">
+      <section id="producto" className="scroll-mt-20 border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
             <span className="eyebrow">El producto</span>
@@ -379,7 +379,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Funcionalidades ───────────────────────────────────── */}
-      <section className="border-t border-border bg-surface-2">
+      <section className="border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
             <span className="eyebrow">De la entrada a la entrega</span>
@@ -476,7 +476,7 @@ export default function HomePage() {
       </section>
 
       {/* ── IA documental ─────────────────────────────────────── */}
-      <section className="border-t border-border">
+      <section className="border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <div className="grid gap-16 lg:grid-cols-2 lg:gap-20 lg:items-center">
             {/* Left */}
@@ -566,7 +566,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Integraciones ─────────────────────────────────────── */}
-      <section className="border-t border-border bg-surface-2">
+      <section className="border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
             <span className="eyebrow">Integraciones · hoja de ruta</span>
@@ -620,7 +620,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Resultados ────────────────────────────────────────── */}
-      <section className="border-t border-border">
+      <section className="border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
             <span className="eyebrow">Qué cambia</span>
@@ -660,7 +660,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Enterprise ────────────────────────────────────────── */}
-      <section className="section-mesh border-t border-border bg-surface-2">
+      <section className="section-mesh border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
             <span className="eyebrow">Producción seria</span>
@@ -688,7 +688,7 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA final ─────────────────────────────────────────── */}
-      <section className="border-t border-border">
+      <section className="border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-24 text-center sm:px-6 sm:py-32">
           <FadeUp>
             <h2 className="mx-auto max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">

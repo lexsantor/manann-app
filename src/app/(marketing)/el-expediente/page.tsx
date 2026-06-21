@@ -263,7 +263,7 @@ export default function ElExpedientePage() {
       </div>
 
       {/* CTA — transparent (C) */}
-      <div className="border-t border-border">
+      <div className="border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-20 text-center sm:px-6">
           <FadeUp>
             <h2 className="mx-auto max-w-2xl font-display text-3xl font-medium tracking-tight text-foreground">

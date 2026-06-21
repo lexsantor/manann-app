@@ -16,7 +16,7 @@ const LEGAL = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-card">
+    <footer className="border-t border-border bg-surface-3">
       <div className="mx-auto flex max-w-[1080px] flex-col gap-10 px-5 py-16 sm:px-6">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-sm space-y-3">

@@ -32,6 +32,7 @@ import { Icon } from "@/components/icon";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { FadeUp, StaggerGrid, StaggerItem } from "@/components/marketing/motion";
+import { HeroAura } from "@/components/marketing/hero-aura";
 
 export const metadata: Metadata = {
   title: "Cómo funciona — Manann",
@@ -187,8 +188,9 @@ export default function ComoFuncionaPage() {
   return (
     <>
       {/* Hero — transparent (A) */}
-      <div className="mx-auto max-w-[1080px] px-5 sm:px-6">
-        <section className="pb-12 pt-16 sm:pt-24">
+      <div className="relative overflow-hidden mx-auto max-w-[1080px] px-5 sm:px-6">
+        <HeroAura />
+        <section className="relative z-10 pb-16 pt-20 sm:pt-28">
           <FadeUp>
             <p className="eyebrow">Cómo funciona</p>
             <h1 className="mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -346,7 +348,7 @@ export default function ComoFuncionaPage() {
       </div>
 
       {/* CTA — surface-2 (B) */}
-      <div className="border-t border-border bg-surface-2">
+      <div className="border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-20 text-center sm:px-6">
           <FadeUp>
             <h2 className="mx-auto max-w-2xl font-display text-3xl font-medium tracking-tight text-foreground">
