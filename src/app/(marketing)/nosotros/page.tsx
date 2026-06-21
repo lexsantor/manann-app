@@ -68,6 +68,50 @@ export default function NosotrosPage() {
         </section>
       </div>
 
+      {/* El panorama (investigación) */}
+      <div className="border-t border-border">
+        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
+          <FadeUp>
+            <p className="eyebrow">El panorama</p>
+            <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl">
+              Treinta años de internet.{" "}
+              <span className="text-gradient-primary">El sector sigue tecleando.</span>
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
+              El comercio mundial mueve billones, pero el software que lo coordina se diseñó antes del smartphone. La mayoría de transitarios sigue tecleando a mano lo que una máquina podría leer: cuadran documentos en hojas de cálculo, persiguen datos entre correos y reescriben el mismo Bill of Lading tres veces. No es por falta de tecnología. Es inercia, legacy y herramientas pensadas para otra época.
+            </p>
+          </FadeUp>
+
+          <FadeUp delay={0.1}>
+            <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
+              {[
+                { stat: "≈40%", claim: "del comercio en contenedor todavía depende del Bill of Lading en papel.", src: "McKinsey, 2022" },
+                { stat: "50 hojas · 30 actores", claim: "es lo que puede exigir documentar un solo envío.", src: "McKinsey, 2022" },
+                { stat: "1 de cada 3", claim: "transitarios no tiene sus sistemas (tráfico, aduanas, almacén) integrados.", src: "Accenture, 2023" },
+                { stat: "1994", claim: "el año en que nació el software que aún domina el sector. El líder en español, en 1999.", src: "WiseTech · El Economista" },
+              ].map((f) => (
+                <div key={f.stat} className="bg-card px-6 py-7">
+                  <p className="font-display text-3xl font-semibold text-gradient-primary sm:text-4xl">{f.stat}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-foreground">{f.claim}</p>
+                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/55">{f.src}</p>
+                </div>
+              ))}
+            </div>
+          </FadeUp>
+
+          <FadeUp delay={0.15}>
+            <div className="mt-10 max-w-2xl space-y-4 text-base leading-relaxed text-muted-foreground">
+              <p>
+                Cada una de esas cifras es una hora perdida, un error que llega a aduanas, un cliente que llama porque no sabe dónde está su carga. La respuesta del sector ha sido parchear: un copiloto por aquí, un OCR por allá, una IA añadida al borde de un sistema que sigue siendo el de siempre.
+              </p>
+              <p>
+                Ahí está el malentendido. El problema no es la falta de IA, es el cimiento. <span className="text-foreground">Manann nace al revés: el documento entra, el expediente se construye solo y la persona confirma.</span> La IA no es un módulo que se enciende; es la forma en que el sistema piensa, de principio a fin.
+              </p>
+            </div>
+          </FadeUp>
+        </div>
+      </div>
+
       {/* El mito — surface-2 (B) */}
       <div className="border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-16 sm:px-6">
@@ -174,45 +218,6 @@ export default function NosotrosPage() {
         </div>
       </div>
 
-      {/* El panorama (investigación) — surface */}
-      <div className="border-t border-border bg-surface-2">
-        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
-          <FadeUp>
-            <p className="eyebrow">El panorama</p>
-            <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl">
-              Treinta años de internet.{" "}
-              <span className="text-gradient-primary">El sector sigue tecleando.</span>
-            </h2>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-              No es una opinión. Es lo que dicen los datos sobre el software con el que se mueve la carga del mundo.
-            </p>
-          </FadeUp>
-
-          <FadeUp delay={0.1}>
-            <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
-              {[
-                { stat: "≈40%", claim: "del comercio en contenedor todavía depende del Bill of Lading en papel.", src: "McKinsey, 2022" },
-                { stat: "50 hojas · 30 actores", claim: "es lo que puede exigir documentar un solo envío.", src: "McKinsey, 2022" },
-                { stat: "1 de cada 3", claim: "transitarios no tiene sus sistemas (tráfico, aduanas, almacén) integrados.", src: "Accenture, 2023" },
-                { stat: "1994", claim: "el año en que nació el software que aún domina el sector. El líder en español, en 1999.", src: "WiseTech · El Economista" },
-              ].map((f) => (
-                <div key={f.stat} className="bg-card px-6 py-7">
-                  <p className="font-display text-3xl font-semibold text-gradient-primary sm:text-4xl">{f.stat}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-foreground">{f.claim}</p>
-                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/55">{f.src}</p>
-                </div>
-              ))}
-            </div>
-          </FadeUp>
-
-          <FadeUp delay={0.15}>
-            <p className="mt-10 max-w-2xl text-base leading-relaxed text-muted-foreground">
-              No es falta de IA. Casi todos ya la han añadido al borde. El problema es el cimiento: plataformas de hace treinta años y documentos que se teclean a mano.{" "}
-              <span className="text-foreground">Manann nace al revés. Arrastras el documento y el expediente se construye solo.</span>
-            </p>
-          </FadeUp>
-        </div>
-      </div>
 
       {/* CTA — transparent (C) */}
       <div className="border-t border-border">
