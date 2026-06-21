@@ -106,14 +106,14 @@ export function CurrenciesPanel({ currencies, referenceRates, savedRates }: Prop
           <button
             onClick={() => saveRate(c.code)}
             disabled={pending}
-            className="text-primary hover:text-primary/70 transition-colors"
+            className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-primary hover:text-primary/70 transition-colors"
           >
             <Check className="h-3.5 w-3.5" strokeWidth={2} />
           </button>
         ) : (
           <button
             onClick={() => startEdit(c.code)}
-            className="text-muted-foreground hover:text-foreground transition-colors opacity-0 group-hover:opacity-100"
+            className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground hover:text-foreground transition-colors opacity-0 group-hover:opacity-100"
           >
             <Edit2 className="h-3 w-3" strokeWidth={1.5} />
           </button>

@@ -295,7 +295,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
           <h2 className="font-semibold text-sm">
             {isEdit ? "Editar oportunidad" : "Nueva oportunidad"}
           </h2>
-          <button onClick={closePanel} className="text-muted-foreground hover:text-foreground">
+          <button onClick={closePanel} className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground hover:text-foreground">
             <X className="size-4" />
           </button>
         </div>

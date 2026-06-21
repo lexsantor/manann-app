@@ -127,7 +127,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
       cell: (i) => (
         <div className="flex shrink-0 items-center justify-end gap-1">
           <button
-            className="rounded p-1 text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
+            className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded p-1 text-muted-foreground transition-colors hover:text-foreground disabled:opacity-40"
             onClick={() => handleToggle(i.id, i.active)}
             disabled={isPending}
             title={i.active ? "Desactivar" : "Activar"}
@@ -187,7 +187,7 @@ export function SlaPanel({ initialItems }: { initialItems: SLA[] }) {
               <h2 className="font-display text-base font-medium tracking-tight">Definir SLA</h2>
               <button
                 onClick={() => !isPending && setOpen(false)}
-                className="rounded-md p-1 text-muted-foreground hover:text-foreground"
+                className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-md p-1 text-muted-foreground hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </button>

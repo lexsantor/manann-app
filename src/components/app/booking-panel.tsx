@@ -106,7 +106,7 @@ function BookingCard({ b, shipmentId }: { b: Booking; shipmentId: string }) {
           onClick={() =>
             startTransition(() => deleteBooking(b.id, shipmentId))
           }
-          className="shrink-0 rounded p-1 text-muted-foreground/60 hover:text-destructive hover:bg-destructive/10 transition-colors"
+          className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 shrink-0 rounded p-1 text-muted-foreground/60 hover:text-destructive hover:bg-destructive/10 transition-colors"
         >
           <Icon icon={Trash2} size={13} />
         </button>

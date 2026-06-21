@@ -158,8 +158,8 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
                     onKeyDown={(e) => e.key === "Enter" && saveEdit(p)}
                     autoFocus
                   />
-                  <button onClick={() => saveEdit(p)} className="text-primary hover:text-primary/70"><Check className="h-3.5 w-3.5" strokeWidth={2} /></button>
-                  <button onClick={() => setEditingId(null)} className="text-muted-foreground hover:text-foreground"><X className="h-3.5 w-3.5" strokeWidth={2} /></button>
+                  <button onClick={() => saveEdit(p)} className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-primary hover:text-primary/70"><Check className="h-3.5 w-3.5" strokeWidth={2} /></button>
+                  <button onClick={() => setEditingId(null)} className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground hover:text-foreground"><X className="h-3.5 w-3.5" strokeWidth={2} /></button>
                 </>
               ) : (
                 <>
@@ -172,7 +172,7 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
                   <button
                     onClick={() => handleDelete(p.id)}
                     disabled={pending}
-                    className="text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
+                    className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
                   >
                     <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
                   </button>

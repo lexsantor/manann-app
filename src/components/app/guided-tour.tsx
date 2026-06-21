@@ -59,7 +59,7 @@ export function GuidedTour() {
           <button
             type="button"
             onClick={() => setStep(null)}
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground transition-colors hover:text-foreground"
             aria-label="Cerrar guía"
           >
             <Icon icon={X} size={14} />

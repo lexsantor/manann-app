@@ -86,7 +86,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
         type="button"
         onClick={() => emit("manann:toggle-sidebar")}
         aria-label="Abrir menú"
-        className="flex size-9 shrink-0 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground lg:hidden"
+        className="flex size-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 shrink-0 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground lg:hidden"
       >
         <Menu className="h-5 w-5" strokeWidth={1.5} />
       </button>
@@ -191,7 +191,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
           type="button"
           onClick={() => setMenu(menu === "avatar" ? null : "avatar")}
           aria-label="Perfil"
-          className="flex size-9 items-center justify-center rounded-full bg-primary/15 font-mono text-xs font-semibold text-primary transition-colors hover:bg-primary/25"
+          className="flex size-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-full bg-primary/15 font-mono text-xs font-semibold text-primary transition-colors hover:bg-primary/25"
         >
           {initials}
         </button>
@@ -251,7 +251,7 @@ function HelpModal({ onClose, pathname }: { onClose: () => void; pathname: strin
             <h2 className="font-display text-lg font-semibold tracking-tight text-foreground">{screen.title}</h2>
             <p className="mt-1 text-sm text-muted-foreground">{screen.queHace}</p>
           </div>
-          <button onClick={onClose} aria-label="Cerrar" className="rounded-md p-1 text-muted-foreground hover:text-foreground">
+          <button onClick={onClose} aria-label="Cerrar" className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-md p-1 text-muted-foreground hover:text-foreground">
             <X className="h-4 w-4" />
           </button>
         </div>

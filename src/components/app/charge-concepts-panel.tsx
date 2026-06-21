@@ -117,7 +117,7 @@ export function ChargeConceptsPanel({ concepts: initial }: { concepts: Concept[]
           onClick={() => handleDelete(c.id)}
           disabled={pending}
           aria-label="Eliminar concepto"
-          className="text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
+          className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground hover:text-destructive transition-colors opacity-0 group-hover:opacity-100"
         >
           <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
         </button>

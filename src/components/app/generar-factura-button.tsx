@@ -145,7 +145,7 @@ export function GenerarFacturaButton({
               <h2 className="font-display text-base font-medium tracking-tight">Nueva factura</h2>
               <button
                 onClick={() => !pending && setOpen(false)}
-                className="rounded-md p-1 text-muted-foreground hover:text-foreground"
+                className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-md p-1 text-muted-foreground hover:text-foreground"
                 aria-label="Cerrar"
               >
                 <X className="size-4" />
@@ -266,7 +266,7 @@ export function GenerarFacturaButton({
                         type="button"
                         onClick={() => removeLine(i)}
                         disabled={lines.length === 1}
-                        className="flex size-6 items-center justify-center rounded text-muted-foreground/60 hover:text-destructive disabled:pointer-events-none"
+                        className="flex size-6 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded text-muted-foreground/60 hover:text-destructive disabled:pointer-events-none"
                         aria-label="Eliminar línea"
                       >
                         <Trash2 className="size-3" />

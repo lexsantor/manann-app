@@ -229,7 +229,7 @@ export function ShipmentListClient({ shipments, members, view }: ShipmentListCli
                 onClick={() => toggle(s.id, !selected.has(s.id))}
                 aria-label={selected.has(s.id) ? "Deseleccionar" : "Seleccionar"}
                 className={[
-                  "absolute left-2 top-2 z-20 flex h-7 w-7 items-center justify-center rounded-md transition-opacity",
+                  "absolute left-2 top-2 z-20 flex h-7 w-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md transition-opacity",
                   selected.has(s.id)
                     ? "bg-primary text-white opacity-100"
                     : "bg-black/40 text-white/70 opacity-0 group-hover/card:opacity-100",

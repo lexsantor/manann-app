@@ -147,7 +147,7 @@ export function GastosPanel({ initialExpenses }: { initialExpenses: Expense[] })
             className="relative z-10 flex h-full w-full flex-col overflow-hidden border-l border-border bg-card shadow-2xl outline-none sm:w-[420px]">
             <div className="flex items-center justify-between border-b border-border px-5 py-4">
               <h2 className="font-display text-base font-medium tracking-tight">Nuevo gasto</h2>
-              <button onClick={() => !isPending && setOpen(false)} className="rounded-md p-1 text-muted-foreground hover:text-foreground">
+              <button onClick={() => !isPending && setOpen(false)} aria-label="Cerrar" className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-md p-1 text-muted-foreground hover:text-foreground">
                 <X className="h-4 w-4" />
               </button>
             </div>

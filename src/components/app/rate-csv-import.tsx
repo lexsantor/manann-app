@@ -100,7 +100,7 @@ export function RateCsvImport() {
               <span className="text-sm text-foreground">{filename}</span>
               <span className="rounded-full bg-muted/60 px-2 py-0.5 font-mono text-xs text-muted-foreground">{preview.length} filas</span>
             </div>
-            <button onClick={reset} className="rounded p-1 text-muted-foreground/60 hover:text-foreground transition-colors">
+            <button onClick={reset} className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded p-1 text-muted-foreground/60 hover:text-foreground transition-colors">
               <X className="size-4" />
             </button>
           </div>

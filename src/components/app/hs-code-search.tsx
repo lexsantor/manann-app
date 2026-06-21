@@ -85,7 +85,7 @@ export function HsCodeSearch({ cargoLineId, currentCode }: HsCodeSearchProps) {
           type="button"
           onClick={() => { setOpen(false); setQuery(""); setResults([]); }}
           aria-label="Cerrar búsqueda"
-          className="shrink-0 text-muted-foreground hover:text-foreground"
+          className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 shrink-0 text-muted-foreground hover:text-foreground"
         >
           <Icon icon={X} size={11} />
         </button>

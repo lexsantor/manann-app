@@ -121,7 +121,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           </h2>
           <button
             onClick={onClose}
-            className="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:text-foreground transition-colors"
+            className="flex size-8 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md text-muted-foreground hover:text-foreground transition-colors"
           >
             <X className="size-4" />
           </button>

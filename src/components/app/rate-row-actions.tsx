@@ -41,7 +41,7 @@ export function RateRowActions({ rateId, active }: RateRowActionsProps) {
         title={active ? "Desactivar" : "Activar"}
         aria-label={active ? "Desactivar" : "Activar"}
         className={cn(
-          "flex size-7 items-center justify-center rounded text-muted-foreground/60 transition-colors disabled:opacity-50",
+          "flex size-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded text-muted-foreground/60 transition-colors disabled:opacity-50",
           active ? "hover:text-warning" : "hover:text-success",
         )}
       >
@@ -58,7 +58,7 @@ export function RateRowActions({ rateId, active }: RateRowActionsProps) {
         disabled={pending}
         title="Eliminar"
         aria-label="Eliminar"
-        className="flex size-7 items-center justify-center rounded text-muted-foreground/60 hover:text-destructive transition-colors disabled:opacity-50"
+        className="flex size-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded text-muted-foreground/60 hover:text-destructive transition-colors disabled:opacity-50"
       >
         {deletePending ? <Loader2 className="size-3.5 animate-spin" /> : <Trash2 className="size-3.5" />}
       </button>

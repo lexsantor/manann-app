@@ -87,7 +87,7 @@ export function NotificationsBell() {
         aria-expanded={open}
         aria-label="Notificaciones"
         className={cn(
-          "relative flex size-9 items-center justify-center rounded-md border border-border bg-card transition-colors",
+          "relative flex size-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md border border-border bg-card transition-colors",
           open ? "text-foreground" : "text-muted-foreground hover:text-foreground",
         )}
       >

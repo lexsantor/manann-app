@@ -191,7 +191,7 @@ export function BankReconciliationPanel({
                 onClick={() => handleUnmatch(l.id)}
                 disabled={pending}
                 aria-label="Deshacer conciliación"
-                className="text-muted-foreground hover:text-warning transition-colors"
+                className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground hover:text-warning transition-colors"
                 title="Deshacer conciliación"
               >
                 <X className="h-3.5 w-3.5" />
@@ -202,7 +202,7 @@ export function BankReconciliationPanel({
                 disabled={pending}
                 aria-label={isMatching ? "Cancelar conciliación" : "Conciliar línea"}
                 className={cn(
-                  "rounded px-2 py-0.5 text-xs font-medium transition-colors",
+                  "inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded px-2 py-0.5 text-xs font-medium transition-colors",
                   isMatching ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground",
                 )}
               >
@@ -213,7 +213,7 @@ export function BankReconciliationPanel({
               onClick={() => handleDelete(l.id)}
               disabled={pending}
               aria-label="Eliminar línea"
-              className="text-muted-foreground hover:text-destructive transition-colors"
+              className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground hover:text-destructive transition-colors"
             >
               <Trash2 className="h-3.5 w-3.5" strokeWidth={1.5} />
             </button>

@@ -143,8 +143,8 @@ export function DocumentSeriesPanel({ series: initial }: { series: Series[] }) {
         const isEditing = editingId === s.id;
         return isEditing ? (
           <div className="flex items-center justify-end gap-1">
-            <button onClick={() => saveEdit(s)} className="text-primary hover:text-primary/70"><Check className="h-3.5 w-3.5" strokeWidth={2} /></button>
-            <button onClick={() => setEditingId(null)} className="text-muted-foreground hover:text-foreground"><X className="h-3.5 w-3.5" strokeWidth={2} /></button>
+            <button onClick={() => saveEdit(s)} aria-label="Guardar" className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-primary hover:text-primary/70"><Check className="h-3.5 w-3.5" strokeWidth={2} /></button>
+            <button onClick={() => setEditingId(null)} aria-label="Cancelar" className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground hover:text-foreground"><X className="h-3.5 w-3.5" strokeWidth={2} /></button>
           </div>
         ) : (
           <button

@@ -177,7 +177,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
         title="Duplicar expediente"
         aria-label="Duplicar expediente"
         className={cn(
-          "absolute top-2 z-10 flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/80 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:bg-surface-2/80 hover:text-foreground disabled:opacity-50",
+          "absolute top-2 z-10 flex h-7 w-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md border border-border bg-background/80 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:bg-surface-2/80 hover:text-foreground disabled:opacity-50",
           s.status === "borrador" ? "right-10" : "right-2",
         )}
       >
@@ -190,7 +190,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
           onClick={handleDeleteClick}
           title="Eliminar expediente en borrador"
           aria-label="Eliminar expediente en borrador"
-          className="absolute right-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-md border border-border bg-background/80 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
+          className="absolute right-2 top-2 z-10 flex h-7 w-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md border border-border bg-background/80 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:border-destructive/30 hover:bg-destructive/10 hover:text-destructive"
         >
           <Icon icon={Trash2} size={13} />
         </button>
@@ -272,7 +272,7 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
             onClick={toggleImages}
             title={hideImages ? "Mostrar imágenes de puerto" : "Prescindir de la imagen"}
             aria-label={hideImages ? "Mostrar imágenes de puerto" : "Ocultar imagen de puerto"}
-            className="absolute left-2 top-2 z-10 flex h-7 w-7 items-center justify-center rounded-md bg-black/40 text-white/60 opacity-0 transition-opacity group-hover:opacity-100 hover:text-white"
+            className="absolute left-2 top-2 z-10 flex h-7 w-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md bg-black/40 text-white/60 opacity-0 transition-opacity group-hover:opacity-100 hover:text-white"
           >
             <Icon icon={ImageOff} size={13} />
           </button>

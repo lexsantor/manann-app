@@ -134,7 +134,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                 <div className="flex shrink-0 items-center gap-1">
                   {t.status === "abierto" && t.bids.length === 0 && (
                     <button
-                      className="flex items-center gap-1 rounded px-2 py-1 text-xs font-medium text-warning bg-warning/10 hover:bg-warning/20 disabled:opacity-40"
+                      className="flex min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center gap-1 rounded px-2 py-1 text-xs font-medium text-warning bg-warning/10 hover:bg-warning/20 disabled:opacity-40"
                       onClick={() => handleSimulateBids(t.id)}
                       disabled={isPending}
                       title="Simular respuestas de la red"
@@ -145,7 +145,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                   )}
                   {t.status === "abierto" && (
                     <button
-                      className="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-40"
+                      className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-40"
                       onClick={() => handleClose(t.id)}
                       disabled={isPending}
                       title="Cerrar tender"
@@ -154,7 +154,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
                     </button>
                   )}
                   <button
-                    className="rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-40"
+                    className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded p-1 text-muted-foreground hover:text-foreground disabled:opacity-40"
                     onClick={() => setExpanded(expanded === t.id ? null : t.id)}
                   >
                     {expanded === t.id ? (
@@ -247,7 +247,7 @@ export function TenderPanel({ initialItems }: { initialItems: Tender[] }) {
               <h2 className="font-display text-base font-medium tracking-tight">Nuevo tender / RFQ</h2>
               <button
                 onClick={() => !isPending && setOpen(false)}
-                className="rounded-md p-1 text-muted-foreground hover:text-foreground"
+                className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-md p-1 text-muted-foreground hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </button>

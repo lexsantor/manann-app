@@ -82,7 +82,7 @@ export function OnboardingWizard() {
         <button
           onClick={handleSkip}
           disabled={pending}
-          className="absolute right-4 top-4 flex size-7 items-center justify-center rounded-md text-muted-foreground hover:text-foreground transition-colors"
+          className="absolute right-4 top-4 flex size-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md text-muted-foreground hover:text-foreground transition-colors"
           aria-label="Omitir introducción"
         >
           <X className="size-4" />

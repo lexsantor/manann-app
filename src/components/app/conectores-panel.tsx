@@ -113,7 +113,7 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
               <h2 className="font-display text-lg font-semibold tracking-tight text-foreground">
                 Conectar {configItem.name}
               </h2>
-              <button onClick={() => !isPending && setConfigKey(null)} className="rounded-md p-1 text-muted-foreground hover:text-foreground">
+              <button onClick={() => !isPending && setConfigKey(null)} className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-md p-1 text-muted-foreground hover:text-foreground">
                 <X className="h-4 w-4" />
               </button>
             </div>

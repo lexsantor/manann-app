@@ -339,7 +339,7 @@ export function CopilotoPanel() {
           <button
             onClick={() => setOpen(false)}
             aria-label="Cerrar copiloto"
-            className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+            className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
           >
             <Icon icon={X} size={16} />
           </button>

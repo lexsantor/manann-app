@@ -506,7 +506,7 @@ function CostRow({ charge: c, shipmentId }: { charge: Charge; shipmentId: string
             onClick={() => setEditingAccrual((v) => !v)}
             title="Registrar factura real (accrual)"
             className={cn(
-              "invisible size-5 items-center justify-center rounded text-muted-foreground/60 transition-colors group-hover:visible",
+              "invisible inline-flex size-5 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded text-muted-foreground/60 transition-colors group-hover:visible",
               (c.accrualAmount != null || editingAccrual) && "visible",
               variance != null && Math.abs(variance) > 0.01 ? "text-accent" : "hover:text-foreground",
             )}
@@ -548,7 +548,7 @@ function CostRow({ charge: c, shipmentId }: { charge: Charge; shipmentId: string
                 {pending && <Loader2 className="size-2.5 animate-spin" />}
                 Guardar
               </Button>
-              <button onClick={() => setEditingAccrual(false)} className="text-muted-foreground hover:text-foreground">✕</button>
+              <button onClick={() => setEditingAccrual(false)} aria-label="Cancelar" className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground hover:text-foreground">✕</button>
             </div>
           ) : (
             <div className="flex items-center justify-between gap-2">

@@ -143,7 +143,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <h2 className="font-display text-base font-semibold text-foreground">Nueva cotización</h2>
-          <button onClick={onClose} className="flex size-8 items-center justify-center rounded-md text-muted-foreground hover:text-foreground transition-colors">
+          <button onClick={onClose} className="flex size-8 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md text-muted-foreground hover:text-foreground transition-colors">
             <X className="size-4" />
           </button>
         </div>
@@ -239,7 +239,7 @@ function CotizacionForm({ rates, onClose }: { rates: RateItem[]; onClose: () => 
                     min="0" step="0.01"
                     className="px-2 text-right [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
                   <button onClick={() => removeLine(i)} disabled={lines.length === 1}
-                    className="flex size-7 items-center justify-center rounded text-muted-foreground/55 hover:text-destructive transition-colors disabled:pointer-events-none">
+                    className="flex size-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded text-muted-foreground/55 hover:text-destructive transition-colors disabled:pointer-events-none">
                     <Trash2 className="size-3.5" />
                   </button>
                 </div>

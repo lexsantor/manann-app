@@ -109,7 +109,7 @@ export function EblPanel({
                 <h2 className="font-display text-base font-medium">Emitir e-BL</h2>
                 <button
                   onClick={() => !isPending && setIssueOpen(false)}
-                  className="rounded-md p-1 text-muted-foreground hover:text-foreground"
+                  className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-md p-1 text-muted-foreground hover:text-foreground"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -227,7 +227,7 @@ export function EblPanel({
               <h2 className="font-display text-base font-medium">Transferir e-BL</h2>
               <button
                 onClick={() => !isPending && setTransferOpen(false)}
-                className="rounded-md p-1 text-muted-foreground hover:text-foreground"
+                className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-md p-1 text-muted-foreground hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </button>

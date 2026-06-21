@@ -301,7 +301,7 @@ export function ContactsTab({ contacts }: ContactsTabProps) {
                 <div className="flex items-center justify-end gap-1">
                   <button
                     onClick={() => setForm({ type: "edit", contact: c })}
-                    className="rounded p-1.5 text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+                    className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded p-1.5 text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
                     title="Editar"
                   >
                     <Icon icon={Pencil} size={13} />
@@ -309,7 +309,7 @@ export function ContactsTab({ contacts }: ContactsTabProps) {
                   <button
                     onClick={() => handleDelete(c.id)}
                     disabled={deletePending}
-                    className="rounded p-1.5 text-muted-foreground transition-colors hover:bg-accent/10 hover:text-accent disabled:opacity-40"
+                    className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded p-1.5 text-muted-foreground transition-colors hover:bg-accent/10 hover:text-accent disabled:opacity-40"
                     title="Eliminar"
                   >
                     <Icon icon={Trash2} size={13} />

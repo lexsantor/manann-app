@@ -307,7 +307,7 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
                 <button
                   onClick={() => handleDelete(p.id)}
                   disabled={pending}
-                  className="shrink-0 rounded-md p-1.5 text-muted-foreground/60 hover:text-accent hover:bg-accent/10 transition-colors"
+                  className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 shrink-0 rounded-md p-1.5 text-muted-foreground/60 hover:text-accent hover:bg-accent/10 transition-colors"
                 >
                   <Trash2 className="size-4" />
                 </button>

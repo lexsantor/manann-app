@@ -120,7 +120,7 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
         <div className="flex shrink-0 items-center justify-end gap-1">
           {i.status !== "cerrado" && (
             <button
-              className="rounded p-1 text-success transition-colors hover:bg-success/10 disabled:opacity-40"
+              className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded p-1 text-success transition-colors hover:bg-success/10 disabled:opacity-40"
               onClick={() => handleResolve(i.id)}
               disabled={isPending}
               title="Marcar como cerrada"
@@ -184,7 +184,7 @@ export function IncidentsPanel({ initialItems }: { initialItems: Incident[] }) {
               </h2>
               <button
                 onClick={() => !isPending && setOpen(false)}
-                className="rounded-md p-1 text-muted-foreground hover:text-foreground"
+                className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-md p-1 text-muted-foreground hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </button>

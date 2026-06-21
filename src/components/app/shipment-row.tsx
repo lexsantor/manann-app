@@ -127,7 +127,7 @@ export function ShipmentRowSelectable({ s, selected = false, onSelect }: Shipmen
           onClick={handleDuplicate}
           disabled={pending}
           title="Duplicar expediente"
-          className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:bg-surface-2/60 hover:text-foreground disabled:opacity-50"
+          className="flex h-7 w-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 hover:bg-surface-2/60 hover:text-foreground disabled:opacity-50"
         >
           {pending ? (
             <Loader2 size={13} className="animate-spin" />

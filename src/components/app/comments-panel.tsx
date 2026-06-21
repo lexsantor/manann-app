@@ -130,7 +130,7 @@ export function CommentsPanel({ shipmentId, comments }: CommentsPanelProps) {
         <button
           onClick={handleSubmit}
           disabled={pending || !text.trim()}
-          className="absolute bottom-2 right-2 flex size-7 items-center justify-center rounded-md text-muted-foreground hover:text-primary transition-colors disabled:opacity-30"
+          className="absolute bottom-2 right-2 flex size-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md text-muted-foreground hover:text-primary transition-colors disabled:opacity-30"
           aria-label="Enviar comentario"
         >
           {pending ? <Loader2 className="size-4 animate-spin" /> : <Send className="size-4" />}

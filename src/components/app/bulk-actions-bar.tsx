@@ -145,7 +145,7 @@ export function BulkActionsBar({ selected, members, onExport, onClear }: BulkAct
           type="button"
           onClick={onClear}
           aria-label="Deseleccionar todo"
-          className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
+          className="flex size-7 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-surface-2/60 hover:text-foreground"
         >
           <Icon icon={X} size={14} />
         </button>

@@ -119,7 +119,7 @@ export function DocPreviewPanel({ doc, onClose }: DocPreviewPanelProps) {
                   type="button"
                   onClick={onClose}
                   aria-label="Cerrar vista previa"
-                  className="flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground"
+                  className="flex size-8 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <Icon icon={X} size={14} />
                 </button>

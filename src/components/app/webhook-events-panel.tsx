@@ -95,7 +95,7 @@ export function WebhookEventsPanel({ initialItems }: { initialItems: WebhookEven
           <div className="flex shrink-0 gap-1">
             {item.status === "fallido" && (
               <button
-                className="rounded p-1 text-muted-foreground hover:text-primary disabled:opacity-40"
+                className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded p-1 text-muted-foreground hover:text-primary disabled:opacity-40"
                 onClick={() => handleRetry(item.id)}
                 disabled={isPending}
                 title="Reintentar"
@@ -104,7 +104,7 @@ export function WebhookEventsPanel({ initialItems }: { initialItems: WebhookEven
               </button>
             )}
             <button
-              className="rounded p-1 text-muted-foreground hover:text-destructive disabled:opacity-40"
+              className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded p-1 text-muted-foreground hover:text-destructive disabled:opacity-40"
               onClick={() => handleDelete(item.id)}
               disabled={isPending}
             >

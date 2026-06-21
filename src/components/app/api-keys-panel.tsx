@@ -96,7 +96,7 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
               onClick={handleCopy}
               aria-label={copied ? "Copiado" : "Copiar API key"}
               className={cn(
-                "shrink-0 rounded-md p-2 transition-colors",
+                "inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 shrink-0 rounded-md p-2 transition-colors",
                 copied ? "text-success bg-success/10" : "text-muted-foreground hover:text-foreground hover:bg-muted/40",
               )}
             >
