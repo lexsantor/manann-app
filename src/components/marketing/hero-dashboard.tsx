@@ -55,11 +55,11 @@ const BARS = [38, 52, 44, 66, 58, 74, 62, 88];
 const BAR_LABELS = ["S18", "S19", "S20", "S21", "S22", "S23", "S24", "S25"];
 
 const ROWS = [
-  { ref: "MNN-84213", route: "Shanghái → Valencia", mode: "FCL", status: "En tránsito", color: "primary", eta: "18 jun" },
-  { ref: "MNN-84207", route: "Ningbo → Róterdam", mode: "FCL", status: "En aduana", color: "warn", eta: "14 jun" },
-  { ref: "MNN-84198", route: "Bogotá → Madrid", mode: "Aéreo", status: "Entregado", color: "ok", eta: "12 jun" },
-  { ref: "MNN-84190", route: "Veracruz → Barcelona", mode: "LCL", status: "Documentación", color: "neutral", eta: "21 jun" },
-  { ref: "MNN-84185", route: "Busan → Hamburgo", mode: "FCL", status: "En tránsito", color: "primary", eta: "24 jun" },
+  { ref: "MNN-84213", route: "Shanghái → Valencia", short: "SHA → VLC", mode: "FCL", status: "En tránsito", color: "primary", eta: "18 jun" },
+  { ref: "MNN-84207", route: "Ningbo → Róterdam", short: "NGB → RTM", mode: "FCL", status: "En aduana", color: "warn", eta: "14 jun" },
+  { ref: "MNN-84198", route: "Bogotá → Madrid", short: "BOG → MAD", mode: "Aéreo", status: "Entregado", color: "ok", eta: "12 jun" },
+  { ref: "MNN-84190", route: "Veracruz → Barcelona", short: "VER → BCN", mode: "LCL", status: "Documentación", color: "neutral", eta: "21 jun" },
+  { ref: "MNN-84185", route: "Busan → Hamburgo", short: "PUS → HAM", mode: "FCL", status: "En tránsito", color: "primary", eta: "24 jun" },
 ];
 
 const STATUS: Record<string, string> = {
@@ -169,7 +169,7 @@ export function HeroDashboard() {
               </div>
               <div className="flex w-full shrink-0 items-center gap-2.5 sm:w-auto">
                 <span
-                  className="flex h-11 w-full items-center justify-center whitespace-nowrap rounded-[7px] px-3 font-mono text-[10px] font-semibold text-background sm:h-auto sm:w-auto sm:py-1.5"
+                  className="flex h-11 w-full items-center justify-center whitespace-nowrap rounded-md px-4 text-sm font-medium text-background"
                   style={{ background: "linear-gradient(120deg, hsl(172 51% 42%), hsl(185 55% 62%))" }}
                 >
                   + Nuevo expediente
@@ -181,7 +181,7 @@ export function HeroDashboard() {
             </div>
 
             {/* KPIs */}
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-4">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {KPIS.map((kpi) => (
                 <div key={kpi.label} className="rounded-lg border border-border/35 bg-background/20 p-2.5">
                   <div className="font-mono text-[8px] uppercase tracking-[0.06em] text-muted-foreground/40">{kpi.label}</div>
@@ -241,7 +241,7 @@ export function HeroDashboard() {
                     style={{ gridTemplateColumns: "1fr 1.5fr 0.7fr 1fr 0.55fr" }}
                   >
                     <span className="font-mono text-[10px] text-primary/75">{row.ref}</span>
-                    <span className="truncate text-[10px] text-muted-foreground/55">{row.route}</span>
+                    <span className="truncate text-[10px] text-muted-foreground/55"><span className="sm:hidden">{row.short}</span><span className="hidden sm:inline">{row.route}</span></span>
                     <span className="w-fit rounded-full border border-border/20 bg-background/25 px-1.5 py-0.5 font-mono text-[8px] text-muted-foreground/40">
                       {row.mode}
                     </span>

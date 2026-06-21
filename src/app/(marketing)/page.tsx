@@ -599,7 +599,7 @@ export default function HomePage() {
                   Endpoints REST y webhooks ya en marcha. Documentación OpenAPI y SDKs para Node y Python, en la hoja de ruta.
                 </p>
               </div>
-              <span className="flex h-11 w-full shrink-0 items-center justify-center rounded-md border border-primary/20 bg-background px-4 text-xs font-medium text-primary sm:h-auto sm:w-auto sm:py-2">
+              <span className="flex h-11 w-full shrink-0 items-center justify-center rounded-md border border-primary/20 bg-background px-4 text-sm font-medium text-primary sm:w-auto">
                 En desarrollo
               </span>
             </div>

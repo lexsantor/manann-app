@@ -415,13 +415,15 @@ h1, h2, h3, .font-display {
   inset: 0;
   z-index: 40;
   pointer-events: none;
-  opacity: 0.04;
+  opacity: 0.07;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* Atmósfera de sección — mesh radial sutil sobre el fondo de la sección */
 .section-mesh {
-  background-image: radial-gradient(680px 420px at 82% -8%, hsl(var(--mesh-1)), transparent 62%);
+  background-image:
+    radial-gradient(760px 480px at 84% -10%, hsl(var(--mesh-1)), transparent 58%),
+    radial-gradient(560px 420px at 8% 112%, hsl(var(--mesh-2)), transparent 56%);
 }
 
 .card-glow {
