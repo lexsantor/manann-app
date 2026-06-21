@@ -6,6 +6,7 @@ import { Icon } from "@/components/icon";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { FadeUp } from "@/components/marketing/motion";
+import { HeroAura } from "@/components/marketing/hero-aura";
 
 export const metadata: Metadata = {
   title: "Precios — Manann",
@@ -96,10 +97,11 @@ function FeatureValue({ value }: { value: boolean | string }) {
 
 export default function PreciosPage() {
   return (
-    <div className="mx-auto max-w-[1080px] px-5 py-16 sm:px-6 sm:py-24">
-
-      <FadeUp>
-        <div className="mx-auto max-w-2xl text-center">
+    <>
+      <div className="relative overflow-hidden border-b border-border">
+        <HeroAura variant={4} />
+        <FadeUp>
+          <div className="relative z-10 mx-auto max-w-2xl px-5 py-20 text-center sm:px-6 sm:py-28">
           <p className="eyebrow">Precios</p>
           <h1 className="mt-5 font-display text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl">
             Sin licencias de módulo.<br className="hidden sm:block" />
@@ -110,8 +112,10 @@ export default function PreciosPage() {
             el expediente nace del documento, no al revés.
           </p>
         </div>
-      </FadeUp>
+        </FadeUp>
+      </div>
 
+      <div className="mx-auto max-w-[1080px] px-5 pb-16 sm:px-6 sm:pb-24">
       {/* Plan cards */}
       <div className="mt-14 grid gap-4 lg:grid-cols-3">
         {PLANS.map((plan, i) => (
@@ -230,5 +234,6 @@ export default function PreciosPage() {
       </FadeUp>
 
     </div>
+    </>
   );
 }

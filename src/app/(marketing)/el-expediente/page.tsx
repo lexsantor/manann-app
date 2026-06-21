@@ -22,6 +22,7 @@ import { ExpedienteCardDemo } from "@/components/marketing/expediente-card-demo"
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { FadeUp, StaggerGrid, StaggerItem } from "@/components/marketing/motion";
+import { HeroAura } from "@/components/marketing/hero-aura";
 
 export const metadata: Metadata = {
   title: "El expediente — Manann",
@@ -117,8 +118,10 @@ export default function ElExpedientePage() {
   return (
     <>
       {/* Hero — transparent (A) */}
-      <div className="mx-auto max-w-[1080px] px-5 sm:px-6">
-        <section className="grid items-center gap-12 pb-12 pt-16 lg:grid-cols-[1fr_1fr] lg:gap-16 sm:pt-24">
+      <div className="relative overflow-hidden">
+        <HeroAura variant={2} />
+        <div className="relative z-10 mx-auto max-w-[1080px] px-5 sm:px-6">
+          <section className="grid items-center gap-12 pb-16 pt-20 lg:grid-cols-[1fr_1fr] lg:gap-16 sm:pt-28">
           <FadeUp>
             <p className="eyebrow">El expediente</p>
             <h1 className="mt-5 font-display text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl">
@@ -134,7 +137,8 @@ export default function ElExpedientePage() {
           <FadeUp delay={0.1}>
             <ExpedienteCardDemo />
           </FadeUp>
-        </section>
+          </section>
+        </div>
       </div>
 
       {/* Convenciones — surface-2 (B) */}

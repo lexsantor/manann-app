@@ -5,21 +5,12 @@ import { Icon } from "@/components/icon";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { HeroDashboard } from "./hero-dashboard";
+import { HeroAura } from "./hero-aura";
 
 export function Hero() {
   return (
     <div className="relative overflow-hidden">
-      {/* Ambient mesh — local reinforcement over body gradient */}
-      <div className="pointer-events-none absolute inset-0 select-none" aria-hidden>
-        <div
-          className="ambient-orb absolute -left-[15%] -top-[30%] h-[70vh] w-[70vh] rounded-full blur-[130px]"
-          style={{ background: "hsl(172 51% 42% / 0.13)" }}
-        />
-        <div
-          className="absolute -right-[8%] top-[15%] h-[45vh] w-[45vh] rounded-full blur-[100px] opacity-70"
-          style={{ background: "hsl(34 69% 61% / 0.07)" }}
-        />
-      </div>
+      <HeroAura variant={0} />
 
       <section className="relative mx-auto max-w-[1080px] px-5 pb-12 pt-20 sm:px-6 sm:pt-28 lg:pt-32">
         {/* Headline — centered */}

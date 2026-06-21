@@ -188,9 +188,10 @@ export default function ComoFuncionaPage() {
   return (
     <>
       {/* Hero — transparent (A) */}
-      <div className="relative overflow-hidden mx-auto max-w-[1080px] px-5 sm:px-6">
-        <HeroAura />
-        <section className="relative z-10 pb-16 pt-20 sm:pt-28">
+      <div className="relative overflow-hidden">
+        <HeroAura variant={1} />
+        <div className="relative z-10 mx-auto max-w-[1080px] px-5 sm:px-6">
+          <section className="pb-16 pt-20 sm:pt-28">
           <FadeUp>
             <p className="eyebrow">Cómo funciona</p>
             <h1 className="mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -201,7 +202,8 @@ export default function ComoFuncionaPage() {
               cada dato del documento, Manann lo lee y lo propone. Tú solo confirmas.
             </p>
           </FadeUp>
-        </section>
+          </section>
+        </div>
       </div>
 
       {/* Los tres pasos — surface-2 (B) */}

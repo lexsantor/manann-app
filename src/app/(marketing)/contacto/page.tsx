@@ -4,6 +4,7 @@ import { MessageSquare, Clock, Shield } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { ContactForm } from "@/components/marketing/contact-form";
 import { FadeUp } from "@/components/marketing/motion";
+import { HeroAura } from "@/components/marketing/hero-aura";
 
 export const metadata: Metadata = {
   title: "Contacto — Manann",
@@ -31,8 +32,10 @@ const SIGNALS = [
 
 export default function ContactoPage() {
   return (
-    <div className="mx-auto max-w-[1080px] px-5 sm:px-6">
-      <section className="py-16 sm:py-24">
+    <div className="relative overflow-hidden">
+      <HeroAura variant={2} />
+      <div className="relative z-10 mx-auto max-w-[1080px] px-5 sm:px-6">
+        <section className="py-16 sm:py-24">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
 
           <FadeUp>
@@ -74,7 +77,8 @@ export default function ContactoPage() {
           </FadeUp>
 
         </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }

@@ -3,11 +3,21 @@
 import { motion, useReducedMotion } from "motion/react";
 
 /**
- * Aura de hero de marca, reutilizable en todas las páginas de marketing.
- * Líneas de ruta curvas animadas (metáfora de tráfico/transitario) en sea-green
- * + glows suaves. Theme-aware (currentColor = --primary), detrás del contenido,
- * decorativa (aria-hidden, pointer-events-none) y respeta prefers-reduced-motion.
+ * Aura de hero de marca, reutilizable y full-bleed (debe ir en un contenedor
+ * `relative overflow-hidden` a ancho completo). Líneas de ruta curvas animadas
+ * (metáfora de tráfico) en sea-green + glows. Theme-aware (currentColor =
+ * --primary), decorativa (aria-hidden, pointer-events-none), respeta
+ * prefers-reduced-motion. El prop `variant` cambia de dónde entran las curvas y
+ * la posición de los glows, para que cada hero sea distinto pero cohesivo.
  */
+const VARIANTS = [
+  { gA: "-top-[20%] left-1/2 -translate-x-1/2", gB: "-right-[8%] top-[8%]", t: "" },
+  { gA: "-top-[15%] -left-[12%]", gB: "bottom-[2%] right-[10%]", t: "-scale-x-100" },
+  { gA: "-top-[22%] right-[6%]", gB: "-bottom-[6%] -left-[10%]", t: "rotate-180" },
+  { gA: "-top-[10%] left-1/4", gB: "top-[16%] right-1/4", t: "-scale-y-100" },
+  { gA: "-top-[18%] left-[8%]", gB: "-bottom-[8%] right-1/3", t: "-scale-x-100 rotate-180" },
+];
+
 function RouteLines({ position, animate }: { position: number; animate: boolean }) {
   const paths = Array.from({ length: 16 }, (_, i) => {
     const o = i * 6 * position;
@@ -31,11 +41,11 @@ function RouteLines({ position, animate }: { position: number; animate: boolean 
           d={p.d}
           stroke="currentColor"
           strokeWidth={p.width}
-          strokeOpacity={0.05 + p.id * 0.012}
+          strokeOpacity={0.06 + p.id * 0.013}
           initial={animate ? { pathLength: 0.3, opacity: 0.5 } : false}
           animate={
             animate
-              ? { pathLength: 1, opacity: [0.2, 0.55, 0.2], pathOffset: [0, 1, 0] }
+              ? { pathLength: 1, opacity: [0.25, 0.6, 0.25], pathOffset: [0, 1, 0] }
               : undefined
           }
           transition={{
@@ -49,17 +59,18 @@ function RouteLines({ position, animate }: { position: number; animate: boolean 
   );
 }
 
-export function HeroAura() {
+export function HeroAura({ variant = 0 }: { variant?: number }) {
   const reduce = useReducedMotion();
   const animate = !reduce;
+  const v = VARIANTS[variant % VARIANTS.length];
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      {/* Glows ambientales */}
-      <div className="absolute -top-[20%] left-1/2 h-[60vh] w-[70vh] -translate-x-1/2 rounded-full bg-primary/[0.08] blur-[130px]" />
-      <div className="absolute -right-[10%] top-[10%] h-[40vh] w-[40vh] rounded-full bg-accent/[0.05] blur-[110px]" />
-      {/* Líneas de ruta */}
-      <div className="absolute inset-0 opacity-[0.65]">
+      {/* Glows ambientales (posición según variant) */}
+      <div className={`absolute h-[62vh] w-[72vh] rounded-full bg-primary/[0.09] blur-[130px] ${v.gA}`} />
+      <div className={`absolute h-[42vh] w-[42vh] rounded-full bg-accent/[0.055] blur-[110px] ${v.gB}`} />
+      {/* Líneas de ruta (orientación según variant) */}
+      <div className={`absolute inset-0 opacity-[0.72] ${v.t}`}>
         <RouteLines position={1} animate={animate} />
         <RouteLines position={-1} animate={animate} />
       </div>
