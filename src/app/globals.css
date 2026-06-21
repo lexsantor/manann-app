@@ -170,9 +170,9 @@
   --color-priority-high: hsl(var(--priority-high));
   --color-priority-urgent: hsl(var(--priority-urgent));
 
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Inter Tight', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Fira Code', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-display: var(--font-display-next), 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-sans-next), 'Inter Tight', system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-mono-next), 'Fira Code', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --radius-sm: calc(var(--radius) - 4px);   /* 6px  fields */
   --radius-md: var(--radius);                /* 10px buttons/inputs */
