@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Building2, Globe, Mail, Trash2, Plus, Loader2, ShieldAlert, ShieldCheck } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { createPartner, deletePartner, runSanctionsScreening } from "@/lib/erp-actions";
+import { EmptyState } from "@/components/ui/empty-state";
 import type { PartnerRow } from "@/lib/erp";
 import { cn } from "@/lib/utils";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
@@ -259,10 +260,11 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
         )}
 
         {partners.length === 0 ? (
-          <div className="px-5 py-12 text-center">
-            <Icon icon={Building2} size={28} className="text-muted-foreground/55 mx-auto mb-2" />
-            <p className="text-sm text-muted-foreground/60">Sin partners registrados</p>
-          </div>
+          <EmptyState
+            icon={<Building2 strokeWidth={1.5} />}
+            title="Sin partners registrados"
+            hint="Da de alta navieras, agentes y corresponsales para usarlos en tus expedientes."
+          />
         ) : (
           <ul className="divide-y divide-border/50">
             {partners.map((p) => (

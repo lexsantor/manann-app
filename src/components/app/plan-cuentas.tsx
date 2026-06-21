@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { BookOpen, Download } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { initPGCAccounts } from "@/lib/erp-actions";
+import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
 
 const TYPE_LABEL: Record<string, string> = {
@@ -69,11 +70,12 @@ export function PlanCuentas({ accounts }: PlanCuentasProps) {
       </div>
 
       {accounts.length === 0 ? (
-        <div className="px-5 py-10 text-center">
-          <p className="text-sm text-muted-foreground">
-            Sin cuentas. Inicia el plan PGC estándar.
-          </p>
-        </div>
+        <EmptyState
+          className="m-5"
+          icon={<BookOpen strokeWidth={1.5} />}
+          title="Sin cuentas"
+          hint="Inicia el plan PGC estándar para empezar a contabilizar."
+        />
       ) : (
         <div className="divide-y divide-border/50 overflow-y-auto" style={{ maxHeight: "520px" }}>
           {accounts.map((a) => (

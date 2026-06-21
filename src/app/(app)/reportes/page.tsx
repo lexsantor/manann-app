@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { TrendingUp, Users, Ship, MapPin, Leaf, BarChart3 } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 import {
   getOrgContext,
   getMonthlyGP,
@@ -222,9 +223,12 @@ export default async function ReportesPage({
             <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Por modo</p>
           </div>
           {byMode.length === 0 ? (
-            <div className="px-5 py-8 text-center">
-              <p className="text-sm text-muted-foreground">Sin datos</p>
-            </div>
+            <EmptyState
+              className="m-4 border-0 bg-transparent py-8"
+              icon={<Ship strokeWidth={1.5} />}
+              title="Sin datos en el período"
+              hint="Cuando registres envíos verás aquí su reparto por modo de transporte."
+            />
           ) : (
             <div className="px-5 py-5">
               <ModeBarChart data={byMode.map((m) => ({ mode: m.mode, total: Number(m.total) }))} />

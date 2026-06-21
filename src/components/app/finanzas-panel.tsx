@@ -12,6 +12,7 @@ import { ConfirmButton } from "@/components/ui/confirm-button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
 import type { ShipmentDetail } from "@/lib/erp";
 
@@ -423,7 +424,11 @@ export function FinanzasPanel({ shipmentId, charges, clientName = "", rateAverag
             </table>
           </div>
         ) : !addingRevenue ? (
-          <p className="text-base text-muted-foreground">Sin líneas de ingreso. Añade lo que facturas al cliente y el margen del expediente se calcula solo.</p>
+          <EmptyState
+            icon={<Receipt strokeWidth={1.5} />}
+            title="Sin líneas de ingreso"
+            hint="Añade lo que facturas al cliente y el margen del expediente se calcula solo."
+          />
         ) : null}
 
         {addingRevenue && (

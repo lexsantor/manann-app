@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles, Settings, User, ChevronDown, ChevronUp } from "lucide-react";
+import { Sparkles, Settings, User, ChevronDown, ChevronUp, Activity } from "lucide-react";
 import { Icon } from "@/components/icon";
+import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
 
 interface FieldChangeEntry {
@@ -140,9 +141,11 @@ export function ActivityPanel({ changes }: ActivityPanelProps) {
 
   if (changes.length === 0) {
     return (
-      <p className="py-6 text-center text-base text-muted-foreground">
-        Sin actividad registrada
-      </p>
+      <EmptyState
+        icon={<Activity strokeWidth={1.5} />}
+        title="Sin actividad registrada"
+        hint="Los cambios sobre este expediente quedarán registrados aquí."
+      />
     );
   }
 

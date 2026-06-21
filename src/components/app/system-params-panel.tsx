@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Plus, Trash2, Check, X } from "lucide-react";
+import { Plus, Trash2, Check, X, SlidersHorizontal } from "lucide-react";
 import { upsertSystemParam, deleteSystemParam } from "@/lib/maestros-actions";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -133,10 +134,14 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
         </div>
       )}
 
+      {params.length === 0 ? (
+        <EmptyState
+          icon={<SlidersHorizontal strokeWidth={1.5} />}
+          title="Sin parámetros aún"
+          hint="Añade parámetros del sistema para configurar el comportamiento del ERP."
+        />
+      ) : (
       <div className="divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
-        {params.length === 0 && (
-          <div className="py-8 text-center text-sm text-muted-foreground">Sin parámetros aún</div>
-        )}
         {params.map((p) => (
           <div key={p.id} className="group flex items-center gap-3 px-4 py-3 hover:bg-muted/20 transition-colors">
             <div className="flex-1 min-w-0">
@@ -177,6 +182,7 @@ export function SystemParamsPanel({ params: initial }: { params: Param[] }) {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }

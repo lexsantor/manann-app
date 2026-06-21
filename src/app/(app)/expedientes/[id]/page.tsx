@@ -52,6 +52,7 @@ import { ShipsGoPanel } from "@/components/app/shipsgo-panel";
 import { syncTrackingEvents } from "@/lib/erp-actions";
 import { FinanzasPanel } from "@/components/app/finanzas-panel";
 import { HelpHint } from "@/components/ui/help-hint";
+import { EmptyState } from "@/components/ui/empty-state";
 import { DuaPanel } from "@/components/app/dua-panel";
 import { DeclaracionesPanel } from "@/components/app/declaraciones-panel";
 import { EblPanel } from "@/components/app/ebl-panel";
@@ -499,9 +500,11 @@ function Parties({
   return (
     <Panel title="Partes" icon={Users}>
       {parties.length === 0 ? (
-        <p className="text-base text-muted-foreground">
-          Sin partes registradas — se rellenan al extraer el BL o añade manualmente.
-        </p>
+        <EmptyState
+          icon={<Users strokeWidth={1.5} />}
+          title="Sin partes registradas"
+          hint="Se rellenan al extraer el BL o las añades manualmente."
+        />
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
           {sorted.map((p, idx) => (
@@ -565,11 +568,15 @@ function Containers({
           ))}
         </div>
       ) : (
-        <p className="text-base text-muted-foreground">
-          {mode === "aereo"
-            ? "Carga aérea — sin contenedor."
-            : "Sin contenedores. Se rellenan al confirmar el BL (la IA los propone) o los añades a mano."}
-        </p>
+        <EmptyState
+          icon={<ContainerIcon strokeWidth={1.5} />}
+          title={mode === "aereo" ? "Carga aérea — sin contenedor" : "Sin contenedores"}
+          hint={
+            mode === "aereo"
+              ? "Los envíos aéreos no usan contenedor; la mercancía se detalla abajo."
+              : "Se rellenan al confirmar el BL (la IA los propone) o los añades a mano."
+          }
+        />
       )}
 
       {cargo.length > 0 && (

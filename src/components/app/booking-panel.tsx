@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createBooking, updateBookingStatus, deleteBooking } from "@/lib/erp-actions";
 import { DatePicker } from "@/components/ui/date-picker";
+import { EmptyState } from "@/components/ui/empty-state";
 
 type BookingStatus = "pendiente" | "recibido" | "confirmado" | "rechazado";
 
@@ -261,9 +262,11 @@ export function BookingPanel({
       </div>
 
       {bookings.length === 0 && !showForm && (
-        <p className="text-base text-muted-foreground">
-          Sin bookings — crea uno para confirmar el espacio con la naviera según DCSA 2.0.
-        </p>
+        <EmptyState
+          icon={<BookOpen strokeWidth={1.5} />}
+          title="Sin bookings"
+          hint="Crea uno para confirmar el espacio con la naviera según DCSA 2.0."
+        />
       )}
 
       {bookings.length > 0 && (

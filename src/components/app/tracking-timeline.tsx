@@ -1,3 +1,5 @@
+import { MapPin } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 import { TRACKING_TYPE, portLabel, formatDateTime } from "@/lib/erp-format";
 import { cn } from "@/lib/utils";
 import type { ShipmentDetail } from "@/lib/erp";
@@ -28,9 +30,11 @@ export function TrackingTimeline({
 }) {
   if (!events.length) {
     return (
-      <p className="text-base text-muted-foreground">
-        Sin eventos de tracking todavía.
-      </p>
+      <EmptyState
+        icon={<MapPin strokeWidth={1.5} />}
+        title="Sin eventos de tracking"
+        hint="Los hitos de seguimiento del envío aparecerán aquí en cuanto la naviera los reporte."
+      />
     );
   }
 

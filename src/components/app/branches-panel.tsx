@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Plus, Trash2, Star } from "lucide-react";
+import { Plus, Trash2, Star, Building2 } from "lucide-react";
 import { createBranch, deleteBranch } from "@/lib/maestros-actions";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Button } from "@/components/ui/button";
 import { MASTER_COUNTRIES } from "@/lib/master-countries";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
@@ -152,9 +153,11 @@ export function BranchesPanel({ branches: initial }: { branches: Branch[] }) {
 
       <div className="grid gap-2">
         {branches.length === 0 && (
-          <div className="rounded-md border border-border py-8 text-center text-sm text-muted-foreground">
-            Sin sucursales configuradas
-          </div>
+          <EmptyState
+            icon={<Building2 strokeWidth={1.5} />}
+            title="Sin sucursales configuradas"
+            hint="Añade las sedes de tu organización para asignarlas a expedientes y usuarios."
+          />
         )}
         {branches.map((b) => (
           <div

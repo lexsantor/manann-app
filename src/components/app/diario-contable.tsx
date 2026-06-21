@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ScrollText, ChevronDown, ChevronUp } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { CrearAsientoButton } from "@/components/app/crear-asiento-button";
+import { EmptyState } from "@/components/ui/empty-state";
 import { HelpHint } from "@/components/ui/help-hint";
 import { StatusBadge } from "@/components/ui/badges";
 import { cn } from "@/lib/utils";
@@ -126,11 +127,12 @@ export function DiarioContable({ entries, accounts }: DiarioContableProps) {
       </div>
 
       {entries.length === 0 ? (
-        <div className="px-5 py-14 text-center">
-          <p className="text-sm text-muted-foreground">
-            Sin asientos. Los asientos se generan automáticamente al emitir facturas.
-          </p>
-        </div>
+        <EmptyState
+          className="m-5"
+          icon={<ScrollText strokeWidth={1.5} />}
+          title="Sin asientos"
+          hint="Los asientos se generan automáticamente al emitir facturas."
+        />
       ) : (
         <div className="overflow-x-auto">
           <div className="min-w-[560px]">
