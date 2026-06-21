@@ -57,7 +57,7 @@ export default async function ContabilidadPage() {
       </div>
 
       {/* Two-column layout: diario + plan cuentas */}
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
         <DiarioContable entries={entries} accounts={accounts} />
         <PlanCuentas accounts={accounts} />
       </div>
