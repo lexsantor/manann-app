@@ -96,7 +96,7 @@ export function HeroDashboard() {
         </div>
 
         {/* Body grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "192px 1fr", minHeight: 500 }}>
+        <div className="grid grid-cols-1 min-h-[500px] sm:grid-cols-[192px_1fr]">
           {/* Sidebar */}
           <div className="hidden flex-col border-r border-border/35 overflow-y-auto px-2 py-3 sm:flex">
             {/* Logo */}
