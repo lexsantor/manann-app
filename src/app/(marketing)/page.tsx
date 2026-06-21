@@ -392,7 +392,7 @@ export default function HomePage() {
           </FadeUp>
 
           <FadeUp delay={0.05}>
-            <div className="mt-10 flex flex-wrap items-center gap-y-3 rounded-xl border border-border bg-background/40 px-5 py-4">
+            <div className="mt-10 flex items-center overflow-x-auto rounded-xl border border-border bg-background/40 px-5 py-4">
               {["Cotización", "Expediente", "Tracking", "Aduana", "Entrega", "Factura"].map((s, i, arr) => (
                 <div key={s} className="flex shrink-0 items-center">
                   <span className="size-1.5 rounded-full bg-primary" />

@@ -226,7 +226,7 @@ export function HeroDashboard() {
               <div className="flex-1 overflow-hidden rounded-lg border border-border/35 bg-background/20">
                 <div
                   className="grid items-center gap-2 px-3 py-1.5 font-mono text-[8px] uppercase tracking-[0.08em] text-muted-foreground/30"
-                  style={{ gridTemplateColumns: "1fr 1.5fr 0.7fr 1fr 0.55fr" }}
+                  style={{ gridTemplateColumns: "0.85fr 1fr 0.55fr 1.5fr 0.5fr" }}
                 >
                   <span>Referencia</span>
                   <span>Ruta</span>
@@ -238,14 +238,14 @@ export function HeroDashboard() {
                   <div
                     key={row.ref}
                     className="grid items-center gap-2 border-t border-border/20 px-3 py-1.5"
-                    style={{ gridTemplateColumns: "1fr 1.5fr 0.7fr 1fr 0.55fr" }}
+                    style={{ gridTemplateColumns: "0.85fr 1fr 0.55fr 1.5fr 0.5fr" }}
                   >
                     <span className="font-mono text-[10px] text-primary/75">{row.ref}</span>
                     <span className="truncate text-[10px] text-muted-foreground/55"><span className="sm:hidden">{row.short}</span><span className="hidden sm:inline">{row.route}</span></span>
                     <span className="w-fit rounded-full border border-border/20 bg-background/25 px-1.5 py-0.5 font-mono text-[8px] text-muted-foreground/40">
                       {row.mode}
                     </span>
-                    <span className={cn("inline-flex w-fit items-center gap-1 rounded-full px-1.5 py-0.5 font-mono text-[8px] font-semibold", STATUS[row.color])}>
+                    <span className={cn("inline-flex w-fit items-center gap-1 whitespace-nowrap rounded-full px-1.5 py-0.5 font-mono text-[8px] font-semibold", STATUS[row.color])}>
                       <span className="size-[3px] rounded-full bg-current" />
                       {row.status}
                     </span>
