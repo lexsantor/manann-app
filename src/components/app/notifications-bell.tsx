@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { Bell, Check, Package } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { getNotifications, markNotificationsRead } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 
 interface Notif {
@@ -26,16 +27,25 @@ export function NotificationsBell() {
 
   useEffect(() => {
     startTransition(async () => {
-      const data = await getNotifications();
-      setNotifs(data);
+      try {
+        const data = await getNotifications();
+        setNotifs(data);
+      } catch {
+        setNotifs([]);
+        toast.error("No se pudieron cargar las notificaciones. Inténtalo de nuevo.");
+      }
     });
   }, []);
 
   useEffect(() => {
     if (!open || unread === 0) return;
     startTransition(async () => {
-      await markNotificationsRead();
-      setNotifs((prev) => prev.map((n) => ({ ...n, read: true })));
+      try {
+        await markNotificationsRead();
+        setNotifs((prev) => prev.map((n) => ({ ...n, read: true })));
+      } catch {
+        toast.error("No se pudieron marcar las notificaciones como leídas. Inténtalo de nuevo.");
+      }
     });
   }, [open, unread]);
 

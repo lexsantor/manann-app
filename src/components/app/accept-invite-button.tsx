@@ -3,6 +3,7 @@ import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { acceptInvitation } from "@/lib/settings-actions";
+import { toast } from "@/components/ui/toast";
 
 interface Props {
   token: string;
@@ -14,12 +15,16 @@ export function AcceptInviteButton({ token }: Props) {
 
   function accept() {
     startTransition(async () => {
-      const res = await acceptInvitation(token);
-      if (res.error) {
-        alert(res.error);
-      } else {
-        router.push("/dashboard");
-        router.refresh();
+      try {
+        const res = await acceptInvitation(token);
+        if (res.error) {
+          toast.error(res.error);
+        } else {
+          router.push("/dashboard");
+          router.refresh();
+        }
+      } catch {
+        toast.error("No se pudo aceptar la invitación. Inténtalo de nuevo.");
       }
     });
   }

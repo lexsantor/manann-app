@@ -5,6 +5,7 @@ import { X, UserCircle, CheckCircle2, Download, ChevronDown, Check } from "lucid
 import { Icon } from "@/components/icon";
 import { STATUS } from "@/lib/erp-format";
 import { bulkUpdateShipmentStatus, bulkAssignShipments } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import type { OrgMember } from "@/components/app/assignee-select";
 
 interface BulkActionsBarProps {
@@ -22,14 +23,22 @@ export function BulkActionsBar({ selected, members, onExport, onClear }: BulkAct
   function handleStatus(status: string) {
     setStatusOpen(false);
     startTransition(async () => {
-      await bulkUpdateShipmentStatus(selected, status);
+      try {
+        await bulkUpdateShipmentStatus(selected, status);
+      } catch {
+        toast.error("No se pudo aplicar la acción en lote. Inténtalo de nuevo.");
+      }
     });
   }
 
   function handleAssign(memberId: string | null) {
     setAssignOpen(false);
     startTransition(async () => {
-      await bulkAssignShipments(selected, memberId);
+      try {
+        await bulkAssignShipments(selected, memberId);
+      } catch {
+        toast.error("No se pudo aplicar la acción en lote. Inténtalo de nuevo.");
+      }
     });
   }
 

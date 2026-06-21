@@ -4,6 +4,7 @@ import { useState, useTransition, useRef, useEffect } from "react";
 import { UserCircle, Check, ChevronDown } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { assignShipment } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 
 export interface OrgMember {
@@ -37,10 +38,16 @@ export function AssigneeSelect({ shipmentId, assignedTo, members }: AssigneeSele
   }, [open]);
 
   function pick(memberId: string | null) {
+    const previousId = currentId;
     setCurrentId(memberId);
     setOpen(false);
     startTransition(async () => {
-      await assignShipment(shipmentId, memberId);
+      try {
+        await assignShipment(shipmentId, memberId);
+      } catch {
+        setCurrentId(previousId);
+        toast.error("No se pudo asignar el expediente. Inténtalo de nuevo.");
+      }
     });
   }
 

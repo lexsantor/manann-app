@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { removeMember, updateMemberRole } from "@/lib/settings-actions";
+import { toast } from "@/components/ui/toast";
 
 interface Member {
   memberId: string;
@@ -35,12 +36,24 @@ export function MembersTable({ members, currentMemberId, isOwner }: Props) {
   const [isPending, startTransition] = useTransition();
 
   function handleRoleChange(memberId: string, role: "owner" | "member") {
-    startTransition(async () => { await updateMemberRole(memberId, role); });
+    startTransition(async () => {
+      try {
+        await updateMemberRole(memberId, role);
+      } catch {
+        toast.error("No se pudo cambiar el rol del miembro. Inténtalo de nuevo.");
+      }
+    });
   }
 
   function handleRemove(memberId: string) {
     if (!confirm("¿Eliminar este miembro de la organización?")) return;
-    startTransition(async () => { await removeMember(memberId); });
+    startTransition(async () => {
+      try {
+        await removeMember(memberId);
+      } catch {
+        toast.error("No se pudo eliminar al miembro. Inténtalo de nuevo.");
+      }
+    });
   }
 
   // COLUMNS dentro del componente: las celdas (rol/acciones) leen estado

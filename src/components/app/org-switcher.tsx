@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { switchOrg } from "@/lib/org-actions";
+import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 
 interface Org {
@@ -47,7 +48,11 @@ export function OrgSwitcher({ orgs, activeOrgId, activeOrgName }: Props) {
             key={org.orgId}
             onClick={() =>
               startTransition(async () => {
-                await switchOrg(org.orgId);
+                try {
+                  await switchOrg(org.orgId);
+                } catch {
+                  toast.error("No se pudo cambiar de organización. Inténtalo de nuevo.");
+                }
               })
             }
             className="gap-2"
