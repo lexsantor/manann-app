@@ -289,8 +289,14 @@ h1, h2, h3, .font-display {
 }
 
 /* Hero stagger — entrada más lenta y suave para el hero de marketing. */
+/* Entrada del hero: SOLO transform (sin fade de opacidad) para no retrasar el LCP
+   del titular. El elemento se pinta a opacity:1 de inmediato y solo desliza. */
+@keyframes hero-rise {
+  from { transform: translateY(8px); }
+  to   { transform: translateY(0); }
+}
 .hero-enter {
-  animation: ai-rise 600ms var(--ease-out) backwards;
+  animation: hero-rise 600ms var(--ease-out) backwards;
   animation-delay: calc(var(--i, 0) * 80ms);
 }
 
