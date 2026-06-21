@@ -64,12 +64,25 @@ function PanelEmbarques() {
             ))}
           </div>
         </div>
-        <div
-          className="flex min-h-[220px] items-center justify-center rounded-lg border border-dashed border-border/40"
-          style={{ background: "repeating-linear-gradient(45deg, hsl(var(--foreground) / 0.015) 0 14px, transparent 14px 28px)" }}
-        >
-          <span className="rounded-md border border-border/30 bg-background/50 px-3 py-1.5 font-mono text-[12px] text-muted-foreground/40">
-            mapa de tracking en vivo
+        <div className="relative min-h-[220px] overflow-hidden rounded-lg border border-border/40 bg-background/40">
+          <div
+            className="absolute inset-0 opacity-40"
+            style={{ backgroundImage: "radial-gradient(hsl(var(--foreground) / 0.05) 1px, transparent 1px)", backgroundSize: "16px 16px" }}
+          />
+          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 240 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <path d="M 28 150 C 90 60, 150 180, 212 56" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5" strokeDasharray="4 5" opacity="0.45" />
+            <path d="M 28 150 C 64 100, 104 116, 140 116" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.5" opacity="0.9" />
+            <circle cx="28" cy="150" r="3" fill="hsl(var(--muted-foreground))" />
+            <circle cx="212" cy="56" r="3" fill="hsl(var(--muted-foreground))" />
+            <circle cx="140" cy="116" r="7" fill="hsl(var(--primary) / 0.18)" />
+            <circle cx="140" cy="116" r="3" fill="hsl(var(--primary))" />
+          </svg>
+          <div className="absolute bottom-3 left-3 flex items-center gap-1.5">
+            <span className="size-1.5 rounded-full bg-primary" />
+            <span className="font-mono text-[10px] text-muted-foreground/60">En tránsito · Estrecho de Malaca</span>
+          </div>
+          <span className="absolute right-3 top-3 rounded-full border border-border/40 bg-background/60 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.12em] text-muted-foreground/50">
+            Simulación
           </span>
         </div>
       </div>
@@ -208,11 +221,11 @@ function PanelFinanzas() {
               <span>Factura</span><span>Cliente</span><span>Importe</span><span>Estado</span>
             </div>
             {invoices.map((inv) => (
-              <div key={inv.ref} className="grid items-center gap-2 border-t border-border/20 px-3 py-2.5 text-[12px]" style={{ gridTemplateColumns: "1fr 1.3fr 0.9fr 0.9fr" }}>
+              <div key={inv.ref} className="grid items-center gap-2 border-t border-border/20 px-3 py-2.5 text-[12px]" style={{ gridTemplateColumns: "1fr 1.3fr 0.9fr 1.1fr" }}>
                 <span className="font-mono text-[10px] text-primary/70">{inv.ref}</span>
                 <span className="text-muted-foreground/65">{inv.client}</span>
                 <span className="font-mono text-[10px]">{inv.amount}</span>
-                <span className={cn("inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold",
+                <span className={cn("inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold",
                   inv.paid ? "bg-emerald-500/10 text-emerald-400" :
                   inv.transit ? "bg-primary/10 text-primary" :
                   "bg-red-500/10 text-red-400"
@@ -363,7 +376,7 @@ function PanelReportes() {
   return (
     <PanelFrame>
       <h4 className="font-display text-[16px] font-semibold mb-4">Resumen ejecutivo · Q2 2026</h4>
-      <div className="grid grid-cols-3 gap-3 mb-3.5">
+      <div className="grid grid-cols-1 gap-3 mb-3.5 sm:grid-cols-3">
         {kpis.map((k) => (
           <div key={k.label} className="rounded-lg border border-border/30 bg-background/20 p-3.5">
             <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted-foreground/40">{k.label}</div>

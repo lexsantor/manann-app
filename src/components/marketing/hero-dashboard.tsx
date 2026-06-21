@@ -162,26 +162,26 @@ export function HeroDashboard() {
           {/* Main */}
           <div className="flex flex-col gap-3 p-4">
             {/* Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="font-display text-base font-semibold tracking-tight">Expedientes activos</div>
                 <div className="mt-0.5 font-mono text-[10px] text-muted-foreground/40">Actualizado hace 2 min</div>
               </div>
-              <div className="flex shrink-0 items-center gap-2.5">
+              <div className="flex w-full shrink-0 items-center gap-2.5 sm:w-auto">
                 <span
-                  className="shrink-0 whitespace-nowrap rounded-[7px] px-3 py-1.5 font-mono text-[10px] font-semibold text-background"
+                  className="flex h-11 w-full items-center justify-center whitespace-nowrap rounded-[7px] px-3 font-mono text-[10px] font-semibold text-background sm:h-auto sm:w-auto sm:py-1.5"
                   style={{ background: "linear-gradient(120deg, hsl(172 51% 42%), hsl(185 55% 62%))" }}
                 >
                   + Nuevo expediente
                 </span>
-                <span className="flex size-7 items-center justify-center rounded-full border border-border bg-card font-mono text-[10px] font-semibold text-muted-foreground/60">
+                <span className="hidden size-7 items-center justify-center rounded-full border border-border bg-card font-mono text-[10px] font-semibold text-muted-foreground/60 sm:flex">
                   LM
                 </span>
               </div>
             </div>
 
             {/* KPIs */}
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-4">
               {KPIS.map((kpi) => (
                 <div key={kpi.label} className="rounded-lg border border-border/35 bg-background/20 p-2.5">
                   <div className="font-mono text-[8px] uppercase tracking-[0.06em] text-muted-foreground/40">{kpi.label}</div>
@@ -192,9 +192,9 @@ export function HeroDashboard() {
             </div>
 
             {/* Split: chart + table */}
-            <div className="flex flex-1 gap-2.5" style={{ minHeight: 0 }}>
+            <div className="flex flex-1 flex-col gap-2.5 sm:flex-row" style={{ minHeight: 0 }}>
               {/* Bar chart */}
-              <div className="w-[240px] shrink-0 rounded-lg border border-border/35 bg-background/20 p-3">
+              <div className="w-full shrink-0 rounded-lg border border-border/35 bg-background/20 p-3 sm:w-[240px]">
                 <div className="mb-2.5 flex items-baseline justify-between">
                   <span className="text-[12px] font-semibold">Volumen semanal</span>
                   <span className="font-mono text-[8px] text-muted-foreground/35">TEU</span>

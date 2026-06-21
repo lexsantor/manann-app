@@ -96,7 +96,7 @@ export function ExpedienteCardDemo() {
             <span className="text-accent">7 campos</span> extraídos · revisa y
             confirma
           </p>
-          <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-primary px-3.5 py-2 font-sans text-sm font-medium text-primary-foreground">
+          <span className="inline-flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-md bg-primary px-3.5 font-sans text-sm font-medium text-primary-foreground">
             <Icon icon={Check} size={16} /> Confirmar
           </span>
         </div>
