@@ -174,6 +174,46 @@ export default function NosotrosPage() {
         </div>
       </div>
 
+      {/* El panorama (investigación) — surface */}
+      <div className="border-t border-border bg-surface-2">
+        <div className="mx-auto max-w-[1080px] px-5 py-20 sm:px-6 sm:py-28">
+          <FadeUp>
+            <p className="eyebrow">El panorama</p>
+            <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium tracking-tight text-foreground sm:text-4xl">
+              Treinta años de internet.{" "}
+              <span className="text-gradient-primary">El sector sigue tecleando.</span>
+            </h2>
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
+              No es una opinión. Es lo que dicen los datos sobre el software con el que se mueve la carga del mundo.
+            </p>
+          </FadeUp>
+
+          <FadeUp delay={0.1}>
+            <div className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">
+              {[
+                { stat: "≈40%", claim: "del comercio en contenedor todavía depende del Bill of Lading en papel.", src: "McKinsey, 2022" },
+                { stat: "50 hojas · 30 actores", claim: "es lo que puede exigir documentar un solo envío.", src: "McKinsey, 2022" },
+                { stat: "1 de cada 3", claim: "transitarios no tiene sus sistemas (tráfico, aduanas, almacén) integrados.", src: "Accenture, 2023" },
+                { stat: "1994", claim: "el año en que nació el software que aún domina el sector. El líder en español, en 1999.", src: "WiseTech · El Economista" },
+              ].map((f) => (
+                <div key={f.stat} className="bg-card px-6 py-7">
+                  <p className="font-display text-3xl font-semibold text-gradient-primary sm:text-4xl">{f.stat}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-foreground">{f.claim}</p>
+                  <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/55">{f.src}</p>
+                </div>
+              ))}
+            </div>
+          </FadeUp>
+
+          <FadeUp delay={0.15}>
+            <p className="mt-10 max-w-2xl text-base leading-relaxed text-muted-foreground">
+              No es falta de IA. Casi todos ya la han añadido al borde. El problema es el cimiento: plataformas de hace treinta años y documentos que se teclean a mano.{" "}
+              <span className="text-foreground">Manann nace al revés. Arrastras el documento y el expediente se construye solo.</span>
+            </p>
+          </FadeUp>
+        </div>
+      </div>
+
       {/* CTA — transparent (C) */}
       <div className="border-t border-border">
         <div className="mx-auto max-w-[1080px] px-5 py-20 text-center sm:px-6">
