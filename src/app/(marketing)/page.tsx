@@ -25,7 +25,7 @@ import { Hero } from "@/components/marketing/hero";
 import { Icon } from "@/components/icon";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { FadeUp, StaggerGrid, StaggerItem, CountUp } from "@/components/marketing/motion";
+import { FadeUp, StaggerGrid, StaggerItem } from "@/components/marketing/motion";
 import { CountUp } from "@/components/marketing/count-up";
 import { ProductTabs } from "@/components/marketing/product-tabs";
 
@@ -634,7 +634,7 @@ export default function HomePage() {
               <FadeUp key={r.label} delay={i * 0.08}>
                 <div className="card-glow h-full rounded-xl border border-border bg-card p-6">
                   <div className="font-display text-4xl font-semibold tracking-tight text-gradient-primary">
-                    <CountUp value={r.value} />
+                    {r.value}
                   </div>
                   <p className="mt-3 font-display text-base font-medium tracking-tight text-foreground">
                     {r.label}

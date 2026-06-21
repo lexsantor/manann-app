@@ -1,30 +1,7 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
-
-/** Cuenta un número al entrar en viewport (efecto count-up). Acepta strings tipo "40+", "100%". */
-export function CountUp({ value, duration = 1200 }: { value: string; duration?: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const m = value.match(/^(\D*)(\d[\d.,]*)(.*)$/s);
-  const target = m ? parseFloat(m[2].replace(/[.,]/g, "")) : 0;
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    if (!inView || !m) return;
-    let raf = 0;
-    const start = performance.now();
-    const tick = (t: number) => {
-      const p = Math.min((t - start) / duration, 1);
-      setN(Math.round((1 - Math.pow(1 - p, 3)) * target));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [inView, m, target, duration]);
-  if (!m) return <span ref={ref}>{value}</span>;
-  return <span ref={ref}>{m[1]}{n}{m[3]}</span>;
-}
+import { motion } from "motion/react";
+import type { ReactNode } from "react";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
