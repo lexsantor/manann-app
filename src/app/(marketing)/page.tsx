@@ -391,6 +391,18 @@ export default function HomePage() {
             </p>
           </FadeUp>
 
+          <FadeUp delay={0.05}>
+            <div className="mt-10 flex flex-wrap items-center gap-y-3 rounded-xl border border-border bg-background/40 px-5 py-4">
+              {["Cotización", "Expediente", "Tracking", "Aduana", "Entrega", "Factura"].map((s, i, arr) => (
+                <div key={s} className="flex shrink-0 items-center">
+                  <span className="size-1.5 rounded-full bg-primary" />
+                  <span className="ml-2 text-xs font-medium text-foreground">{s}</span>
+                  {i < arr.length - 1 && <span className="mx-3 h-px w-5 bg-border sm:w-8" />}
+                </div>
+              ))}
+            </div>
+          </FadeUp>
+
           <StaggerGrid className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {/* Wide card */}
             <StaggerItem className="sm:col-span-2 lg:col-span-2">
