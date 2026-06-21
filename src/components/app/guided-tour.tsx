@@ -51,7 +51,7 @@ export function GuidedTour() {
   return (
     <>
       <div className="fixed inset-0 z-[var(--z-tour)] bg-background/50 backdrop-blur-[2px]" onClick={() => setStep(null)} />
-      <div className="fixed bottom-6 right-6 z-[var(--z-tour-top)] w-[calc(100vw-3rem)] max-w-sm rounded-xl border border-border bg-card shadow-xl">
+      <div role="region" aria-live="polite" aria-label="Guía guiada" className="fixed bottom-6 right-6 z-[var(--z-tour-top)] w-[calc(100vw-3rem)] max-w-sm rounded-xl border border-border bg-card shadow-xl">
         <div className="flex items-center justify-between px-5 pt-4">
           <span className="font-mono text-base text-muted-foreground">
             {step + 1} / {steps.length}
