@@ -59,7 +59,7 @@ export default function NosotrosPage() {
             </p>
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
               Manann es un proyecto personal de{" "}
-              <span className="text-foreground">Lex Sánchez</span>: el empeño de
+              <a href="https://www.linkedin.com/in/lexsantor" target="_blank" rel="noopener noreferrer" className="text-foreground underline decoration-primary/40 underline-offset-2 transition-colors hover:text-primary">Lex Sánchez</a>: el empeño de
               empujar a un sector que mueve el mundo a modernizarse, tras años
               atascado en interfaces obsoletas y experiencias de usuario que nadie
               debería sufrir.

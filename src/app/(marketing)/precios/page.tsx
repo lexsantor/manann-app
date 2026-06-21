@@ -151,10 +151,8 @@ export default function PreciosPage() {
                 href={plan.ctaHref}
                 prefetch={false}
                 className={cn(
-                  "mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-colors",
-                  plan.featured
-                    ? buttonVariants({ variant: "primary", size: "sm" })
-                    : "border border-border bg-background text-foreground hover:bg-surface-2",
+                  buttonVariants({ variant: plan.featured ? "primary" : "outline", size: "md" }),
+                  "mt-6 w-full",
                 )}
               >
                 {plan.cta}

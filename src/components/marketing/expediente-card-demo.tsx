@@ -91,12 +91,12 @@ export function ExpedienteCardDemo() {
           ))}
         </div>
 
-        <div className="mt-5 flex items-center justify-between gap-3 border-t border-border pt-4">
+        <div className="mt-5 flex flex-col items-stretch gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="font-sans text-sm text-muted-foreground">
             <span className="text-accent">7 campos</span> extraídos · revisa y
             confirma
           </p>
-          <span className="inline-flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-md bg-primary px-3.5 font-sans text-sm font-medium text-primary-foreground">
+          <span className="inline-flex h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-md bg-primary px-3.5 font-sans text-sm font-medium text-primary-foreground sm:w-auto">
             <Icon icon={Check} size={16} /> Confirmar
           </span>
         </div>
