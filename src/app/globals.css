@@ -41,6 +41,9 @@
   --success: 148 44% 55%;            /* #5BBF8A */
   --info: 205 70% 58%;               /* estado activo/en-tránsito */
   --warning: 34 69% 61%;             /* estado de atención (ámbar marca) */
+  --success-foreground: 165 60% 4%;  /* texto sobre success sólido */
+  --warning-foreground: 165 60% 4%;
+  --info-foreground: 165 60% 4%;
   --border: 196 30% 17%;             /* hairline #1E3138 */
   --input: 196 30% 17%;
   --ring: 172 51% 42%;               /* focus = primary */
@@ -60,6 +63,26 @@
   --priority-med: 191 48% 55%;
   --priority-high: 28 81% 63%;
   --priority-urgent: 9 78% 66%;
+
+  /* Charts — paleta categórica (dark) */
+  --chart-1: 172 51% 50%;            /* sea-green */
+  --chart-2: 34 69% 61%;             /* amber */
+  --chart-3: 205 70% 58%;            /* azul info */
+  --chart-4: 196 30% 55%;            /* slate */
+  --chart-5: 265 45% 66%;            /* violeta */
+  --chart-6: 9 78% 66%;              /* coral */
+  --chart-7: 188 55% 52%;            /* cian */
+  --chart-8: 45 74% 62%;             /* oro */
+
+  /* Sidebar (dark) */
+  --sidebar: 198 37% 7%;
+  --sidebar-foreground: 144 12% 92%;
+  --sidebar-primary: 172 51% 42%;
+  --sidebar-primary-foreground: 165 60% 4%;
+  --sidebar-accent: 197 36% 14%;
+  --sidebar-accent-foreground: 144 12% 92%;
+  --sidebar-border: 196 30% 17%;
+  --sidebar-ring: 172 51% 42%;
 
   --radius: 0.625rem;                /* 10px — the in-app radius */
 
@@ -99,6 +122,9 @@
   --success: 151 46% 32%;            /* AA: texto verde sobre bg-success/10 y card */
   --info: 205 72% 40%;               /* estado activo/en-tránsito (light) */
   --warning: 34 80% 33%;             /* estado de atención (ámbar marca, light) — AA */
+  --success-foreground: 0 0% 100%;   /* texto sobre success sólido */
+  --warning-foreground: 0 0% 100%;
+  --info-foreground: 0 0% 100%;
   --border: 135 11% 85%;             /* #D6DED8 */
   --input: 135 11% 85%;
   --ring: 172 59% 30%;
@@ -117,6 +143,26 @@
   --priority-med: 189 74% 32%;
   --priority-high: 27 91% 35%;
   --priority-urgent: 6 62% 45%;
+
+  /* Charts — paleta categórica (light) */
+  --chart-1: 172 59% 34%;            /* sea-green */
+  --chart-2: 34 80% 40%;             /* amber */
+  --chart-3: 205 72% 42%;            /* azul info */
+  --chart-4: 196 30% 40%;            /* slate */
+  --chart-5: 265 40% 50%;            /* violeta */
+  --chart-6: 9 62% 50%;              /* coral */
+  --chart-7: 188 55% 34%;            /* cian */
+  --chart-8: 45 74% 40%;             /* oro */
+
+  /* Sidebar (light) */
+  --sidebar: 105 12% 94%;
+  --sidebar-foreground: 195 36% 9%;
+  --sidebar-primary: 172 59% 30%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 100 18% 97%;
+  --sidebar-accent-foreground: 195 36% 9%;
+  --sidebar-border: 135 11% 85%;
+  --sidebar-ring: 172 59% 30%;
 
   /* light-mode shadows — softer than dark */
   --shadow-card-hero: 0 40px 120px -20px hsl(195 36% 9% / 0.10);
@@ -169,9 +215,29 @@
   --color-priority-med: hsl(var(--priority-med));
   --color-priority-high: hsl(var(--priority-high));
   --color-priority-urgent: hsl(var(--priority-urgent));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-info-foreground: hsl(var(--info-foreground));
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+  --color-chart-6: hsl(var(--chart-6));
+  --color-chart-7: hsl(var(--chart-7));
+  --color-chart-8: hsl(var(--chart-8));
+  --color-sidebar: hsl(var(--sidebar));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
 
   --font-display: var(--font-display-next), 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-sans: var(--font-sans-next), 'Inter Tight', system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-display);
   --font-mono: var(--font-mono-next), 'Fira Code', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --radius-sm: calc(var(--radius) - 4px);   /* 6px  fields */
