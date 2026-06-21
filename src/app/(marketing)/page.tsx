@@ -680,10 +680,11 @@ export default function HomePage() {
         <div className="mx-auto max-w-[1080px] px-5 py-24 text-center sm:px-6 sm:py-32">
           <FadeUp>
             <h2 className="mx-auto max-w-2xl font-display text-4xl font-medium tracking-tight sm:text-5xl">
-              La logística del futuro ya está operando.
+              El ERP que el sector merecía.{" "}
+              <span className="text-gradient-primary">Por fin existe.</span>
             </h2>
-            <p className="mx-auto mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
-              Arrastra un Bill of Lading. El expediente se rellena solo. Confirmas en cuatro minutos.
+            <p className="mx-auto mt-5 max-w-lg text-lg leading-relaxed text-muted-foreground">
+              Veinticinco años tecleando lo que una máquina puede leer. Manann le da la vuelta: arrastras el documento, la IA prepara el expediente y tú confirmas.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
@@ -695,13 +696,13 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/como-funciona"
-                className={cn(buttonVariants({ variant: "secondary", size: "lg" }))}
+                className={cn(buttonVariants({ variant: "secondary", size: "hero" }))}
               >
                 Cómo funciona
               </Link>
             </div>
-            <p className="mt-6 font-mono text-xs text-muted-foreground/40">
-              Sin tarjeta · Sin instalación · Demo lista en segundos
+            <p className="mt-6 font-mono text-xs text-muted-foreground/45">
+              La máquina prepara. Tú confirmas. El mando es tuyo.
             </p>
           </FadeUp>
         </div>
