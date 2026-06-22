@@ -8,6 +8,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/toast";
 
 interface FacturaActionsProps {
   invoiceId: string;
@@ -37,6 +38,13 @@ const TRANSITIONS: Record<string, { label: string; next: string; icon: React.Ele
 
 const EMAIL_STATUSES = ["emitida", "enviada", "pagada", "vencida"];
 
+const STATUS_TOAST: Record<string, string> = {
+  emitida: "Factura emitida",
+  enviada: "Factura marcada como enviada",
+  pagada: "Factura marcada como pagada",
+  anulada: "Factura anulada",
+};
+
 export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
   const [pending, startTransition] = useTransition();
   const [emailPending, startEmailTransition] = useTransition();
@@ -54,8 +62,13 @@ export function FacturaActions({ invoiceId, status }: FacturaActionsProps) {
 
   function handleStatus(next: string) {
     startTransition(async () => {
-      await updateInvoiceStatus(invoiceId, next as never);
-      router.refresh();
+      try {
+        await updateInvoiceStatus(invoiceId, next as never);
+        router.refresh();
+        toast.success(STATUS_TOAST[next] ?? "Factura actualizada");
+      } catch {
+        toast.error("No se pudo actualizar la factura. Inténtalo de nuevo.");
+      }
     });
   }
 

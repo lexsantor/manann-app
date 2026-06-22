@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Trash2, Loader2, ToggleLeft, ToggleRight } from "lucide-react";
 import { toggleRateActive, deleteRate } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/toast";
 
 interface RateRowActionsProps {
   rateId: string;
@@ -18,16 +19,26 @@ export function RateRowActions({ rateId, active }: RateRowActionsProps) {
 
   function handleToggle() {
     startToggle(async () => {
-      await toggleRateActive(rateId, !active);
-      router.refresh();
+      try {
+        await toggleRateActive(rateId, !active);
+        router.refresh();
+        toast.success(active ? "Tarifa desactivada" : "Tarifa activada");
+      } catch {
+        toast.error("No se pudo cambiar la tarifa. Inténtalo de nuevo.");
+      }
     });
   }
 
   function handleDelete() {
     if (!confirm("¿Eliminar esta tarifa? Esta acción no se puede deshacer.")) return;
     startDelete(async () => {
-      await deleteRate(rateId);
-      router.refresh();
+      try {
+        await deleteRate(rateId);
+        router.refresh();
+        toast.success("Tarifa eliminada");
+      } catch {
+        toast.error("No se pudo eliminar la tarifa. Inténtalo de nuevo.");
+      }
     });
   }
 

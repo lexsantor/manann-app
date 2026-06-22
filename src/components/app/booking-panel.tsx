@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createBooking, updateBookingStatus, deleteBooking } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { DatePicker } from "@/components/ui/date-picker";
 import { EmptyState } from "@/components/ui/empty-state";
 
@@ -104,7 +105,14 @@ function BookingCard({ b, shipmentId }: { b: Booking; shipmentId: string }) {
         <button
           disabled={pending}
           onClick={() =>
-            startTransition(() => deleteBooking(b.id, shipmentId))
+            startTransition(async () => {
+              try {
+                await deleteBooking(b.id, shipmentId);
+                toast.success("Booking eliminado");
+              } catch {
+                toast.error("No se pudo eliminar el booking. Inténtalo de nuevo.");
+              }
+            })
           }
           className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 shrink-0 rounded p-1 text-muted-foreground/60 hover:text-destructive hover:bg-destructive/10 transition-colors"
         >
@@ -119,7 +127,16 @@ function BookingCard({ b, shipmentId }: { b: Booking; shipmentId: string }) {
             <button
               key={s}
               disabled={pending}
-              onClick={() => startTransition(() => updateBookingStatus(b.id, s))}
+              onClick={() =>
+                startTransition(async () => {
+                  try {
+                    await updateBookingStatus(b.id, s);
+                    toast.success("Estado del booking actualizado");
+                  } catch {
+                    toast.error("No se pudo actualizar el booking. Inténtalo de nuevo.");
+                  }
+                })
+              }
               className={cn(
                 "rounded-sm px-2 py-0.5 font-mono text-sm font-medium transition-opacity",
                 STATUS_CONFIG[s].cls,
@@ -158,19 +175,24 @@ function CreateBookingForm({
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     startTransition(async () => {
-      await createBooking({
-        shipmentId,
-        carrierCode: (fd.get("carrierCode") as string) || "",
-        vesselName: (fd.get("vesselName") as string) || undefined,
-        voyageNumber: (fd.get("voyageNumber") as string) || undefined,
-        pol: (fd.get("pol") as string) || undefined,
-        pod: (fd.get("pod") as string) || undefined,
-        etd: (fd.get("etd") as string) || undefined,
-        eta: (fd.get("eta") as string) || undefined,
-        cutoffDate: (fd.get("cutoffDate") as string) || undefined,
-        notes: (fd.get("notes") as string) || undefined,
-      });
-      onDone();
+      try {
+        await createBooking({
+          shipmentId,
+          carrierCode: (fd.get("carrierCode") as string) || "",
+          vesselName: (fd.get("vesselName") as string) || undefined,
+          voyageNumber: (fd.get("voyageNumber") as string) || undefined,
+          pol: (fd.get("pol") as string) || undefined,
+          pod: (fd.get("pod") as string) || undefined,
+          etd: (fd.get("etd") as string) || undefined,
+          eta: (fd.get("eta") as string) || undefined,
+          cutoffDate: (fd.get("cutoffDate") as string) || undefined,
+          notes: (fd.get("notes") as string) || undefined,
+        });
+        toast.success("Booking creado");
+        onDone();
+      } catch {
+        toast.error("No se pudo crear el booking. Inténtalo de nuevo.");
+      }
     });
   }
 

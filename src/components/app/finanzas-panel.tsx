@@ -5,6 +5,7 @@ import { TrendingUp, TrendingDown, Plus, Trash2, Loader2, Receipt, AlertTriangle
 import { Icon } from "@/components/icon";
 import { formatMoney } from "@/lib/erp-format";
 import { addCharge, deleteCharge, updateChargeAccrual, type AddChargeInput } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { GenerarFacturaButton } from "@/components/app/generar-factura-button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -68,6 +69,7 @@ function AddLineForm({ shipmentId, direction, onDone }: AddLineFormProps) {
     startTransition(async () => {
       try {
         await addCharge(shipmentId, input);
+        toast.success("Cargo añadido");
         onDone();
       } catch {
         setError("No se ha podido guardar. Inténtalo de nuevo.");
@@ -193,7 +195,12 @@ function ChargeRow({ charge: c, shipmentId, showBuyCol, rateAvg }: ChargeRowProp
 
   function handleDelete() {
     startTransition(async () => {
-      await deleteCharge(c.id, shipmentId);
+      try {
+        await deleteCharge(c.id, shipmentId);
+        toast.success("Cargo eliminado");
+      } catch {
+        toast.error("No se pudo eliminar el cargo. Inténtalo de nuevo.");
+      }
     });
   }
 
@@ -491,8 +498,13 @@ function CostRow({ charge: c, shipmentId }: { charge: Charge; shipmentId: string
   function handleSaveAccrual() {
     if (!accrualInput || isNaN(Number(accrualInput))) return;
     startTransition(async () => {
-      await updateChargeAccrual(c.id, Number(accrualInput).toFixed(2));
-      setEditingAccrual(false);
+      try {
+        await updateChargeAccrual(c.id, Number(accrualInput).toFixed(2));
+        setEditingAccrual(false);
+        toast.success("Devengo actualizado");
+      } catch {
+        toast.error("No se pudo actualizar el devengo. Inténtalo de nuevo.");
+      }
     });
   }
 
@@ -576,7 +588,16 @@ function DeleteCostButton({ chargeId, shipmentId }: { chargeId: string; shipment
   const [pending, startTransition] = useTransition();
   return (
     <ConfirmButton
-      onConfirm={() => startTransition(() => deleteCharge(chargeId, shipmentId))}
+      onConfirm={() =>
+        startTransition(async () => {
+          try {
+            await deleteCharge(chargeId, shipmentId);
+            toast.success("Cargo eliminado");
+          } catch {
+            toast.error("No se pudo eliminar el cargo. Inténtalo de nuevo.");
+          }
+        })
+      }
       disabled={pending}
       aria-label="Eliminar cargo"
       title="Eliminar cargo"

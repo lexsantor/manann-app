@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { createTransportOrder, updateTransportOrderStatus, deleteTransportOrder } from "@/lib/tier-s-actions";
+import { toast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 import { DataTable, CellStacked, type Column } from "@/components/ui/data-table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -101,8 +102,13 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
 
   function handleStatusChange(id: string, status: string) {
     start(async () => {
-      await updateTransportOrderStatus(id, status);
-      setOrders((prev) => prev.map((o) => o.id === id ? { ...o, status } : o));
+      try {
+        await updateTransportOrderStatus(id, status);
+        setOrders((prev) => prev.map((o) => o.id === id ? { ...o, status } : o));
+        toast.success("Estado actualizado");
+      } catch {
+        toast.error("No se pudo actualizar el estado. Inténtalo de nuevo.");
+      }
     });
   }
 
@@ -149,7 +155,7 @@ export function TransportOrdersPanel({ orders: initial }: { orders: TransportOrd
           <SelectTrigger
             aria-label="Estado"
             className={cn(
-              "h-7 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[10px] font-medium focus:ring-1 focus:ring-primary/30 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
+              "h-7 min-h-11 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[10px] font-medium focus-visible:ring-2 focus-visible:ring-ring sm:min-h-0 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
               STATUS_COLORS[o.status] ?? "bg-muted text-muted-foreground",
             )}
           >

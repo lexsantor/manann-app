@@ -5,6 +5,7 @@ import { Pencil, Check, X, Loader2 } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { updateShipmentField } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/toast";
 
 interface InlineFieldProps {
   shipmentId: string;
@@ -35,8 +36,13 @@ export function InlineField({ shipmentId, field, value, mono, className }: Inlin
     const trimmed = draft.trim();
     if (trimmed === (value ?? "")) { setEditing(false); return; }
     startTransition(async () => {
-      await updateShipmentField(shipmentId, field, trimmed);
-      setEditing(false);
+      try {
+        await updateShipmentField(shipmentId, field, trimmed);
+        toast.success("Campo actualizado");
+        setEditing(false);
+      } catch {
+        toast.error("No se pudo actualizar el campo. Inténtalo de nuevo.");
+      }
     });
   }
 

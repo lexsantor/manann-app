@@ -5,6 +5,7 @@ import { Link2, Check, Loader2 } from "lucide-react";
 
 import { getOrCreateShareToken } from "@/lib/erp-actions";
 import { Icon } from "@/components/icon";
+import { toast } from "@/components/ui/toast";
 
 interface ShareButtonProps {
   shipmentId: string;
@@ -24,9 +25,11 @@ export function ShareButton({ shipmentId }: ShareButtonProps) {
       const url = `${window.location.origin}/s/${token}`;
       await navigator.clipboard.writeText(url);
       setStatus("copied");
+      toast.success("Enlace copiado");
       setTimeout(() => setStatus("idle"), 2500);
     } catch {
       setStatus("error");
+      toast.error("No se pudo generar el enlace. Inténtalo de nuevo.");
       setTimeout(() => setStatus("idle"), 2500);
     }
   }

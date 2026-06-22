@@ -12,6 +12,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { addPartyToShipment } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { Input } from "@/components/ui/input";
 
 interface Contact {
@@ -69,10 +70,15 @@ export function AddPartyForm({ shipmentId, contacts }: AddPartyFormProps) {
       country: fd.get("country") as string,
     };
     startTransition(async () => {
-      await addPartyToShipment(shipmentId, data);
-      setOpen(false);
-      setName("");
-      setRole("consignee");
+      try {
+        await addPartyToShipment(shipmentId, data);
+        toast.success("Parte añadida");
+        setOpen(false);
+        setName("");
+        setRole("consignee");
+      } catch {
+        toast.error("No se pudo añadir la parte. Inténtalo de nuevo.");
+      }
     });
   }
 

@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/toast";
 
 interface CotizacionActionsProps {
   quotationId: string;
@@ -40,15 +41,24 @@ export function CotizacionActions({
 
   function handleStatus(next: string) {
     startTransition(async () => {
-      await updateQuotationStatus(quotationId, next as never);
-      router.refresh();
+      try {
+        await updateQuotationStatus(quotationId, next as never);
+        router.refresh();
+        toast.success(next === "aceptada" ? "Cotización aceptada" : next === "rechazada" ? "Cotización rechazada" : "Cotización actualizada");
+      } catch {
+        toast.error("No se pudo actualizar la cotización. Inténtalo de nuevo.");
+      }
     });
   }
 
   function handleConvert() {
     startConvert(async () => {
-      const shipmentId = await convertQuotationToShipment(quotationId);
-      router.push(`/expedientes/${shipmentId}`);
+      try {
+        const shipmentId = await convertQuotationToShipment(quotationId);
+        router.push(`/expedientes/${shipmentId}`);
+      } catch {
+        toast.error("No se pudo convertir la cotización. Inténtalo de nuevo.");
+      }
     });
   }
 

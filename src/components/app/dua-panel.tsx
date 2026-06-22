@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { FileCheck2, ChevronDown, ChevronUp, Loader2, AlertTriangle } from "lucide-react";
 import { markShipmentEnAduana } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { Icon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -49,8 +50,13 @@ export function DuaPanel({
 
   function handleEnAduana() {
     startTransition(async () => {
-      await markShipmentEnAduana(shipmentId);
-      router.refresh();
+      try {
+        await markShipmentEnAduana(shipmentId);
+        toast.success("Expediente marcado en aduana");
+        router.refresh();
+      } catch {
+        toast.error("No se pudo marcar en aduana. Inténtalo de nuevo.");
+      }
     });
   }
 

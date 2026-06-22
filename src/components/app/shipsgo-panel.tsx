@@ -6,6 +6,7 @@ import { Icon } from "@/components/icon";
 import { subscribeContainerTracking } from "@/lib/erp-actions";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/toast";
 
 interface TrackingSub {
   id: string;
@@ -36,14 +37,19 @@ export function ShipsGoPanel({ shipmentId, subscriptions, hasRealEvents, shipsgo
     if (!containerNumber || !shippingLine) return;
     setError(null);
     startTransition(async () => {
-      const result = await subscribeContainerTracking(shipmentId, containerNumber, shippingLine);
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setShowForm(false);
-        setContainerNumber("");
-        setShippingLine("");
-        setConfirmed(false);
+      try {
+        const result = await subscribeContainerTracking(shipmentId, containerNumber, shippingLine);
+        if (result.error) {
+          setError(result.error);
+        } else {
+          toast.success("Contenedor vinculado a ShipsGo");
+          setShowForm(false);
+          setContainerNumber("");
+          setShippingLine("");
+          setConfirmed(false);
+        }
+      } catch {
+        toast.error("No se pudo vincular el contenedor. Inténtalo de nuevo.");
       }
     });
   }

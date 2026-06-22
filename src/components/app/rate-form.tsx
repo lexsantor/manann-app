@@ -4,6 +4,7 @@ import { useTransition, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { X, Loader2, Plus } from "lucide-react";
 import { createRate, updateRate, type RateInput } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { type RateItem } from "@/lib/erp";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -90,6 +91,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
           await createRate(form);
         }
         router.refresh();
+        toast.success("Tarifa guardada");
         onClose();
       } catch {
         setError("No se pudo guardar la tarifa");

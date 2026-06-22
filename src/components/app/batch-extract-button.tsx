@@ -5,6 +5,7 @@ import { Sparkles, Loader2 } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { extractDocumentsBatch } from "@/lib/erp-actions";
 import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/toast";
 
 interface Props {
   documentIds: string[];
@@ -21,7 +22,11 @@ export function BatchExtractButton({ documentIds }: Props) {
       disabled={pending}
       onClick={() =>
         start(async () => {
-          await extractDocumentsBatch(documentIds);
+          try {
+            await extractDocumentsBatch(documentIds);
+          } catch {
+            toast.error("No se pudieron extraer los documentos. Inténtalo de nuevo.");
+          }
         })
       }
       className={cn(

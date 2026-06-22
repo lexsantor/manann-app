@@ -11,6 +11,7 @@ import { MODE, portLabel, formatDate, formatMoney } from "@/lib/erp-format";
 import { duplicateShipment } from "@/lib/erp-actions";
 import type { ShipmentListItem } from "@/lib/erp";
 import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/toast";
 
 // GP desde cargos (igual que en boarding-pass)
 function computeGP(charges: ShipmentListItem["charges"]): number | null {
@@ -42,7 +43,12 @@ export function ShipmentRowSelectable({ s, selected = false, onSelect }: Shipmen
     e.preventDefault();
     e.stopPropagation();
     startTransition(async () => {
-      await duplicateShipment(s.id);
+      try {
+        await duplicateShipment(s.id);
+        toast.success("Expediente duplicado");
+      } catch {
+        toast.error("No se pudo duplicar el expediente. Inténtalo de nuevo.");
+      }
     });
   }
 

@@ -5,6 +5,7 @@ import { Upload, FileText, CheckCircle2, AlertCircle, Loader2, X } from "lucide-
 import { Icon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import { bulkImportRates } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import type { RateInput } from "@/lib/erp-actions";
 
 const HEADERS = ["concept", "serviceType", "unit", "basePrice", "currency", "validFrom", "validTo", "notes"];
@@ -61,11 +62,15 @@ export function RateCsvImport() {
   function handleImport() {
     if (!preview) return;
     start(async () => {
-      const r = await bulkImportRates(preview);
-      setResult(r);
-      if (r.errors.length === 0) {
-        setPreview(null);
-        setFilename("");
+      try {
+        const r = await bulkImportRates(preview);
+        setResult(r);
+        if (r.errors.length === 0) {
+          setPreview(null);
+          setFilename("");
+        }
+      } catch {
+        toast.error("No se pudo importar las tarifas. Inténtalo de nuevo.");
       }
     });
   }

@@ -5,6 +5,7 @@ import { Package, Truck, ExternalLink } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import { updateCourierInfo } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -61,13 +62,18 @@ function CourierEditForm({
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     startTransition(async () => {
-      await updateCourierInfo(
-        shipmentId,
-        ((fd.get("provider") as string) || null) as "ups" | "dhl" | "fedex" | null,
-        (fd.get("trackingNumber") as string) || null,
-        (fd.get("estimatedDelivery") as string) || null,
-      );
-      onDone();
+      try {
+        await updateCourierInfo(
+          shipmentId,
+          ((fd.get("provider") as string) || null) as "ups" | "dhl" | "fedex" | null,
+          (fd.get("trackingNumber") as string) || null,
+          (fd.get("estimatedDelivery") as string) || null,
+        );
+        toast.success("Datos del courier guardados");
+        onDone();
+      } catch {
+        toast.error("No se pudo guardar los datos del courier. Inténtalo de nuevo.");
+      }
     });
   }
 

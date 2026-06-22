@@ -6,6 +6,7 @@ import { PenLine } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { Textarea } from "@/components/ui/textarea";
 import { saveNotes } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 
 interface NotesPanelProps {
   shipmentId: string;
@@ -21,8 +22,12 @@ export function NotesPanel({ shipmentId, initialNotes }: NotesPanelProps) {
     clearTimeout(timerRef.current);
     const value = e.target.value;
     timerRef.current = setTimeout(async () => {
-      await saveNotes(shipmentId, value);
-      setSaved(true);
+      try {
+        await saveNotes(shipmentId, value);
+        setSaved(true);
+      } catch {
+        toast.error("No se pudo guardar las notas. Inténtalo de nuevo.");
+      }
     }, 800);
   }
 
