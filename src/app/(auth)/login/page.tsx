@@ -120,6 +120,8 @@ export default function LoginPage() {
                     required
                     autoComplete="email"
                     autoFocus
+                    aria-invalid={status === "error"}
+                    aria-describedby={status === "error" ? "login-error" : undefined}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="tu@empresa.com"
@@ -127,7 +129,7 @@ export default function LoginPage() {
                   />
 
                   {status === "error" && (
-                    <p className="text-sm text-destructive" role="alert">
+                    <p id="login-error" className="text-sm text-destructive" role="alert">
                       {errorMsg}
                     </p>
                   )}
