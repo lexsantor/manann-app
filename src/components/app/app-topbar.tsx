@@ -292,6 +292,13 @@ function HelpModal({ onClose, pathname }: { onClose: () => void; pathname: strin
             </li>
           ))}
         </ul>
+        <Link
+          href="/ayuda"
+          onClick={onClose}
+          className="mt-6 flex w-full items-center justify-center gap-1.5 rounded-md border border-border px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-surface-2"
+        >
+          Ver el centro de ayuda
+        </Link>
       </div>
     </div>,
     document.body,
