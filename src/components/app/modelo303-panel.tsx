@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { getModelo303Data } from "@/lib/contabilidad-actions";
+import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,8 +45,12 @@ export function Modelo303Panel() {
 
   function handleCalc() {
     start(async () => {
-      const result = await getModelo303Data(year, quarter);
-      setData(result);
+      try {
+        const result = await getModelo303Data(year, quarter);
+        setData(result);
+      } catch {
+        toast.error("No se pudo calcular el Modelo 303. Inténtalo de nuevo.");
+      }
     });
   }
 

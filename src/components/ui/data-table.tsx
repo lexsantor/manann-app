@@ -15,6 +15,9 @@ export type Column<T> = {
   cell: (row: T) => React.ReactNode;
   className?: string;
   headerClassName?: string;
+  // Ancho fijo de columna (clase, p.ej. "w-24"). Si alguna columna lo define, la
+  // tabla pasa a table-fixed para que el ancho no cambie al filtrar/cambiar datos.
+  width?: string;
   // Rol en la vista de tarjetas (móvil). Por defecto: el título es la primera
   // columna con `header` string no vacío; el resto son pares etiqueta/valor.
   card?: "title" | "hidden";
@@ -58,7 +61,17 @@ export function DataTable<T>({
     <div className={cn("overflow-hidden rounded-xl border border-border bg-card", className)}>
       {/* Escritorio: tabla (con scroll-x de seguridad) */}
       <div className="hidden overflow-x-auto md:block">
-        <table className="w-full min-w-[680px] text-sm" aria-label={caption}>
+        <table
+          className={cn("w-full min-w-[680px] text-sm", columns.some((c) => c.width) && "table-fixed")}
+          aria-label={caption}
+        >
+          {columns.some((c) => c.width) && (
+            <colgroup>
+              {columns.map((c) => (
+                <col key={c.key} className={c.width} />
+              ))}
+            </colgroup>
+          )}
           <thead>
             <tr className="border-b border-border bg-muted/70">
               {columns.map((c) => (

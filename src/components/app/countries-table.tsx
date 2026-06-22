@@ -10,11 +10,13 @@ const REGIONS = ["Todas", "Europa", "Asia", "América", "África", "Oceanía"];
 const COLUMNS: Column<MasterCountry>[] = [
   {
     key: "code",
+    width: "w-24",
     header: "Alpha-2",
     cell: (c) => <span className="font-mono text-xs font-bold text-primary">{c.code}</span>,
   },
   {
     key: "code3",
+    width: "w-28",
     header: "Alpha-3",
     card: "hidden",
     cell: (c) => <span className="font-mono text-xs text-muted-foreground">{c.code3}</span>,
@@ -28,6 +30,7 @@ const COLUMNS: Column<MasterCountry>[] = [
   },
   {
     key: "region",
+    width: "w-32",
     header: "Región",
     card: "hidden",
     cell: (c) => <span className="text-xs text-muted-foreground">{c.region}</span>,

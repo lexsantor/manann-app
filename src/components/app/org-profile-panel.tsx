@@ -178,7 +178,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
         </div>
       </Card>
 
-      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-end">
         <Button onClick={handleSave} disabled={isPending} className="w-full gap-2 sm:w-auto">
           <Save className="h-4 w-4" />
           Guardar perfil

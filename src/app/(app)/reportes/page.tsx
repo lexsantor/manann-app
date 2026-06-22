@@ -137,9 +137,10 @@ export default async function ReportesPage({
                 key={p.key}
                 href={`/reportes?period=${p.key}`}
                 prefetch={false}
+                aria-current={period === p.key ? "page" : undefined}
                 className={cn(
                   "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                  period === p.key ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+                  period === p.key ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground",
                 )}
               >
                 {p.label}

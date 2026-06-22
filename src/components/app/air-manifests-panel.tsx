@@ -21,6 +21,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { toast } from "@/components/ui/toast";
 
 interface ManifestEntry {
   id: string;
@@ -109,8 +110,13 @@ export function AirManifestsPanel({
 
   function handleStatusChange(id: string, status: string) {
     start(async () => {
-      await updateManifestStatus(id, status);
-      setManifests((prev) => prev.map((m) => m.id === id ? { ...m, status } : m));
+      try {
+        await updateManifestStatus(id, status);
+        setManifests((prev) => prev.map((m) => m.id === id ? { ...m, status } : m));
+        toast.success("Estado actualizado");
+      } catch {
+        toast.error("No se pudo actualizar el estado. Inténtalo de nuevo.");
+      }
     });
   }
 
@@ -261,7 +267,7 @@ export function AirManifestsPanel({
                     <SelectTrigger
                       aria-label="Estado del manifiesto"
                       className={cn(
-                        "h-7 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[10px] font-medium focus:ring-1 focus:ring-primary/30 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
+                        "h-7 min-h-11 w-fit gap-1.5 rounded-full border-0 px-2.5 text-[10px] font-medium focus-visible:ring-2 focus-visible:ring-ring sm:min-h-0 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:opacity-70",
                         statusColor,
                       )}
                     >

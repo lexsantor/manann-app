@@ -69,16 +69,17 @@ export function AduanasPanel({ declarations }: { declarations: Declaration[] }) 
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap gap-2">
+      <div className="inline-flex flex-wrap items-center gap-1 rounded-md bg-muted/40 p-0.5">
         {types.map((t) => (
           <button
             key={t}
             onClick={() => setType(t)}
+            aria-current={type === t ? "true" : undefined}
             className={cn(
-              "rounded-full border px-3 py-1 text-sm transition-colors",
+              "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
               type === t
-                ? "border-primary/40 bg-primary/10 text-foreground"
-                : "border-border text-muted-foreground hover:text-foreground",
+                ? "bg-primary/10 text-primary"
+                : "text-muted-foreground hover:text-foreground",
             )}
           >
             {t === "all" ? "Todas" : TYPE_LABEL[t]}
@@ -99,7 +100,7 @@ export function AduanasPanel({ declarations }: { declarations: Declaration[] }) 
 
       <div className="rounded-md border border-warning/20 bg-warning/5 px-3 py-2">
         <p className="text-xs text-warning">
-          Simulación — integración AEAT (DUA · ENS · NCTS · AES) en producción
+          Simulación: integración AEAT (DUA · ENS · NCTS · AES) en producción
         </p>
       </div>
     </div>

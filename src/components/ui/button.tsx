@@ -27,7 +27,7 @@ export const buttonVariants = cva(
         ghost: "bg-transparent text-muted-foreground hover:text-foreground",
       },
       size: {
-        sm: "h-11 rounded-md px-3 text-sm sm:h-9",
+        sm: "h-11 rounded-md px-3 text-sm",
         md: "h-11 rounded-md px-[18px] text-sm",
         lg: "h-11 rounded-md px-5 text-sm",
         hero: "h-12 rounded-md px-[26px] text-sm",

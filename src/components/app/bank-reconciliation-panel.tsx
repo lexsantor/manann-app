@@ -232,9 +232,10 @@ export function BankReconciliationPanel({
             <button
               key={f}
               onClick={() => setFilter(f)}
+              aria-current={filter === f ? "true" : undefined}
               className={cn(
                 "rounded px-3 py-1 text-xs font-medium transition-colors",
-                filter === f ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+                filter === f ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground",
               )}
             >
               {f === "all" ? `Todas (${lines.length})` : f === "pending" ? `Pendiente (${pendingCount})` : `Conciliado (${reconciledCount})`}

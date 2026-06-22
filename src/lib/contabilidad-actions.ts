@@ -128,7 +128,8 @@ export async function getModelo303Data(year: number, quarter: 1 | 2 | 3 | 4) {
   const monthStart = (quarter - 1) * 3 + 1;
   const monthEnd = monthStart + 2;
   const dateFrom = `${year}-${String(monthStart).padStart(2, "0")}-01`;
-  const dateTo = `${year}-${String(monthEnd).padStart(2, "0")}-31`;
+  const lastDay = new Date(year, monthEnd, 0).getDate();
+  const dateTo = `${year}-${String(monthEnd).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
 
   // Cuotas repercutidas (ventas): invoice_line → invoice → shipment (scoped to org)
   const salesRows = await db
