@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createApiKey, revokeApiKey } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import { ConfirmButton } from "@/components/ui/confirm-button";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -58,8 +59,13 @@ export function ApiKeysPanel({ keys: initial }: ApiKeysPanelProps) {
 
   function handleRevoke(id: string) {
     start(async () => {
-      await revokeApiKey(id);
-      setKeys((prev) => prev.filter((k) => k.id !== id));
+      try {
+        await revokeApiKey(id);
+        setKeys((prev) => prev.filter((k) => k.id !== id));
+        toast.success("Clave API revocada");
+      } catch {
+        toast.error("No se pudo revocar la clave. Inténtalo de nuevo.");
+      }
     });
   }
 

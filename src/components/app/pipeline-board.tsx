@@ -21,6 +21,7 @@ import {
   deleteOpportunity,
   moveOpportunityStage,
 } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -129,22 +130,32 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
     const fd = new FormData();
     Object.entries(form).forEach(([k, v]) => fd.set(k, v));
     startTransition(async () => {
-      if (isEdit && editOpp) {
-        await updateOpportunity(editOpp.id, fd);
-      } else {
-        await createOpportunity(fd);
+      try {
+        if (isEdit && editOpp) {
+          await updateOpportunity(editOpp.id, fd);
+        } else {
+          await createOpportunity(fd);
+        }
+        closePanel();
+        router.refresh();
+        toast.success(isEdit ? "Oportunidad actualizada" : "Oportunidad creada");
+      } catch {
+        toast.error("No se pudo guardar la oportunidad. Inténtalo de nuevo.");
       }
-      closePanel();
-      router.refresh();
     });
   }
 
   function handleDelete() {
     if (!editOpp) return;
     startTransition(async () => {
-      await deleteOpportunity(editOpp.id);
-      closePanel();
-      router.refresh();
+      try {
+        await deleteOpportunity(editOpp.id);
+        closePanel();
+        router.refresh();
+        toast.success("Oportunidad eliminada");
+      } catch {
+        toast.error("No se pudo eliminar la oportunidad. Inténtalo de nuevo.");
+      }
     });
   }
 
@@ -153,8 +164,12 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
     const next = STAGE_KEYS[idx + dir];
     if (!next) return;
     startTransition(async () => {
-      await moveOpportunityStage(opp.id, next);
-      router.refresh();
+      try {
+        await moveOpportunityStage(opp.id, next);
+        router.refresh();
+      } catch {
+        toast.error("No se pudo mover la oportunidad. Inténtalo de nuevo.");
+      }
     });
   }
 

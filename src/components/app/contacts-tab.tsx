@@ -6,6 +6,7 @@ import { Plus, Pencil, Trash2, Download, MapPin } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
 import { createContact, updateContact, deleteContact, importContactsAction } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -65,12 +66,17 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     start(async () => {
-      if (mode?.type === "edit") {
-        await updateContact(mode.contact.id, fd);
-      } else {
-        await createContact(fd);
+      try {
+        if (mode?.type === "edit") {
+          await updateContact(mode.contact.id, fd);
+        } else {
+          await createContact(fd);
+        }
+        toast.success(mode?.type === "edit" ? "Contacto actualizado" : "Contacto creado");
+        onClose();
+      } catch {
+        toast.error("No se pudo guardar el contacto. Inténtalo de nuevo.");
       }
-      onClose();
     });
   }
 
@@ -164,13 +170,24 @@ export function ContactsTab({ contacts }: ContactsTabProps) {
 
   function handleDelete(id: string) {
     if (!confirm("¿Eliminar este contacto?")) return;
-    startDelete(async () => { await deleteContact(id); });
+    startDelete(async () => {
+      try {
+        await deleteContact(id);
+        toast.success("Contacto eliminado");
+      } catch {
+        toast.error("No se pudo eliminar el contacto. Inténtalo de nuevo.");
+      }
+    });
   }
 
   function handleImport() {
     startImport(async () => {
-      const res = await importContactsAction();
-      setImportResult(res);
+      try {
+        const res = await importContactsAction();
+        setImportResult(res);
+      } catch {
+        toast.error("No se pudieron importar los contactos. Inténtalo de nuevo.");
+      }
     });
   }
 

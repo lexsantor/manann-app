@@ -4,6 +4,7 @@ import { useState, useEffect, useTransition, useRef } from "react";
 import Link from "next/link";
 import { MoveRight, AlertTriangle, Trash2, Ship, Plane, Truck, ImageOff, Loader2, Copy, type LucideIcon } from "lucide-react";
 import { deleteDraftShipment, duplicateShipment } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 
 import { type ShipmentListItem } from "@/lib/erp";
 import { portLabel, formatDate, MODE, formatMoney } from "@/lib/erp-format";
@@ -122,7 +123,12 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
     e.preventDefault();
     e.stopPropagation();
     startDupTransition(async () => {
-      await duplicateShipment(s.id);
+      try {
+        await duplicateShipment(s.id);
+        toast.success("Expediente duplicado");
+      } catch {
+        toast.error("No se pudo duplicar el expediente. Inténtalo de nuevo.");
+      }
     });
   }
 
@@ -149,7 +155,12 @@ export function ShipmentBoardingPass({ s }: { s: ShipmentListItem }) {
 
   function confirmDelete() {
     startTransition(async () => {
-      await deleteDraftShipment(s.id);
+      try {
+        await deleteDraftShipment(s.id);
+        toast.success("Expediente eliminado");
+      } catch {
+        toast.error("No se pudo eliminar el expediente. Inténtalo de nuevo.");
+      }
     });
   }
 

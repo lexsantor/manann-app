@@ -6,6 +6,7 @@ import { AlertTriangle, TrendingDown, Scale, CheckCircle2, ExternalLink } from "
 import { type ChargeException } from "@/lib/exceptions";
 import { EmptyState } from "@/components/ui/empty-state";
 import { resolveAtRiskCharge } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { formatMoney } from "@/lib/erp-format";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
@@ -39,8 +40,13 @@ function ExceptionRow({ ex, onResolve }: { ex: ChargeException; onResolve: (id: 
   function handleResolve() {
     if (ex.kind !== "at_risk") return;
     startTransition(async () => {
-      await resolveAtRiskCharge(ex.chargeId);
-      onResolve(ex.chargeId);
+      try {
+        await resolveAtRiskCharge(ex.chargeId);
+        onResolve(ex.chargeId);
+        toast.success("Excepción resuelta");
+      } catch {
+        toast.error("No se pudo resolver la excepción. Inténtalo de nuevo.");
+      }
     });
   }
 

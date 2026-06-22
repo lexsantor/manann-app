@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Building2, Globe, Mail, Trash2, Plus, Loader2, ShieldAlert, ShieldCheck } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { createPartner, deletePartner, runSanctionsScreening } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { EmptyState } from "@/components/ui/empty-state";
 import type { PartnerRow } from "@/lib/erp";
 import { cn } from "@/lib/utils";
@@ -78,8 +79,13 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
 
   function handleDelete(id: string) {
     start(async () => {
-      await deletePartner(id);
-      setPartners((prev) => prev.filter((p) => p.id !== id));
+      try {
+        await deletePartner(id);
+        setPartners((prev) => prev.filter((p) => p.id !== id));
+        toast.success("Partner eliminado");
+      } catch {
+        toast.error("No se pudo eliminar el partner. Inténtalo de nuevo.");
+      }
     });
   }
 
@@ -87,8 +93,12 @@ export function PartnerDirectory({ partners: initial }: PartnerDirectoryProps) {
     if (!screeningName.trim()) return;
     setScreening(null);
     startScreen(async () => {
-      const r = await runSanctionsScreening(screeningName);
-      setScreening(r);
+      try {
+        const r = await runSanctionsScreening(screeningName);
+        setScreening(r);
+      } catch {
+        toast.error("No se pudo completar la verificación. Inténtalo de nuevo.");
+      }
     });
   }
 

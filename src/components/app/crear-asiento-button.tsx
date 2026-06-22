@@ -5,6 +5,7 @@ import { Plus, X, Trash2 } from "lucide-react";
 import { useFocusTrap } from "@/lib/use-focus-trap";
 import { Icon } from "@/components/icon";
 import { createJournalEntry } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -113,6 +114,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
             description: l.description || undefined,
           })),
         });
+        toast.success("Asiento creado");
         handleClose();
       } catch (err) {
         setError(err instanceof Error ? err.message : "Error al crear asiento");

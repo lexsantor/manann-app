@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { BookOpen, Download } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { initPGCAccounts } from "@/lib/erp-actions";
+import { toast } from "@/components/ui/toast";
 import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
 
@@ -41,8 +42,13 @@ export function PlanCuentas({ accounts }: PlanCuentasProps) {
 
   function handleInit() {
     start(async () => {
-      const res = await initPGCAccounts();
-      setResult(res);
+      try {
+        const res = await initPGCAccounts();
+        setResult(res);
+        toast.success("Plan contable inicializado");
+      } catch {
+        toast.error("No se pudo inicializar el plan contable. Inténtalo de nuevo.");
+      }
     });
   }
 
