@@ -61,7 +61,8 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
   return (
     <div className="relative mx-auto w-full max-w-[1200px] overflow-hidden rounded-xl border border-border bg-card">
       <ComposableMap
-        projectionConfig={{ scale: 147, center: [15, 20] }}
+        projection="geoMercator"
+        projectionConfig={{ scale: 115, center: [10, 34] }}
         width={800}
         height={420}
         style={{ width: "100%", height: "auto" }}
