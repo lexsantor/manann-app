@@ -22,6 +22,7 @@ import {
   moveOpportunityStage,
 } from "@/lib/erp-actions";
 import { toast } from "@/components/ui/toast";
+import { BarChart, Bar, XAxis, YAxis, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -46,6 +47,15 @@ const STAGES: { key: OppStage; label: string; accent: string }[] = [
 ];
 
 const STAGE_KEYS = STAGES.map((s) => s.key);
+
+// Color por etapa para el grafico de valor (semantico: avance prospecto→ganado).
+const STAGE_FILL: Record<OppStage, string> = {
+  prospecto: "hsl(var(--muted-foreground))",
+  propuesta: "hsl(var(--info))",
+  negociacion: "hsl(var(--warning))",
+  ganado: "hsl(var(--success))",
+  perdido: "hsl(var(--destructive))",
+};
 
 const MODE_ICONS: Record<string, React.ElementType> = {
   maritimo:    Ship,
@@ -190,6 +200,46 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
         )}
       </div>
 
+      {/* Valor por etapa (vista de un vistazo) */}
+      {opportunities.length > 0 && (
+        <div className="mb-5 rounded-xl border border-border bg-card p-4">
+          <p className="mb-3 label-mono text-muted-foreground">Valor por etapa</p>
+          <ResponsiveContainer width="100%" height={170}>
+            <BarChart
+              data={STAGES.map((s) => ({ name: s.label, value: stats[s.key]?.total ?? 0 }))}
+              layout="vertical"
+              margin={{ top: 0, right: 16, left: 0, bottom: 0 }}
+            >
+              <XAxis type="number" hide />
+              <YAxis
+                type="category"
+                dataKey="name"
+                width={100}
+                tickLine={false}
+                axisLine={false}
+                tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+              />
+              <Tooltip
+                cursor={{ fill: "hsl(var(--surface-2))" }}
+                contentStyle={{
+                  background: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "0.5rem",
+                  fontSize: 12,
+                  color: "hsl(var(--foreground))",
+                }}
+                formatter={(value) => formatMoney(String(Number(value).toFixed(2)), "EUR")}
+              />
+              <Bar dataKey="value" radius={[0, 3, 3, 0]} maxBarSize={22}>
+                {STAGES.map((s) => (
+                  <Cell key={s.key} fill={STAGE_FILL[s.key]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
       {/* Kanban */}
       <div className="flex flex-col gap-4 lg:grid lg:grid-flow-col lg:auto-cols-[280px] lg:items-start lg:gap-3 lg:overflow-x-auto lg:pb-2 xl:grid-flow-row xl:auto-cols-auto xl:grid-cols-5">
         {STAGES.map(({ key, label, accent }) => {
@@ -198,19 +248,19 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
           return (
             <div key={key} className="flex flex-col gap-2">
               {/* Column header */}
-              <div className={cn("rounded-md border-l-2 pl-2 py-1 mb-1", accent)}>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              <div className={cn("mb-1 flex items-center justify-between gap-2 border-b-2 pb-1.5", accent)}>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-foreground">
                     {label}
                   </span>
-                  <span className="text-xs font-medium bg-muted rounded-full px-1.5 py-0.5">
+                  <span className="text-[10px] font-medium tabular-nums text-muted-foreground">
                     {st?.count ?? 0}
                   </span>
                 </div>
                 {st && st.total > 0 && (
-                  <div className="text-xs text-muted-foreground mt-0.5">
+                  <span className="text-xs font-medium tabular-nums text-muted-foreground">
                     {formatMoney(String(st.total.toFixed(2)), "EUR")}
-                  </div>
+                  </span>
                 )}
               </div>
 
