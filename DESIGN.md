@@ -74,7 +74,7 @@ Si necesitas uno marcado ⊘, **créalo primero en `ui/` y documéntalo aquí**,
 | Badges (Status/Mode/Grade) | ✓ | `ui/badges` | chips de color a mano | StatusBadge centraliza color |
 | ConfirmButton (AlertDialog) | ✓ | `ui/confirm-button` | onClick destructivo directo | toda acción destructiva |
 | Card (+ Header/Content/Footer) | ✓ | `ui/card` | `<div>` superficie a mano | base `rounded-xl`+`border`+`bg-card`; no fuerza padding/sombra |
-| Sheet (slide-in) | ✓ | `ui/sheet` | slide-in reimplementado | formularios laterales |
+| Modal (center / side) | ✓ | `ui/modal` | overlays hand-rolled | scrim + `useFocusTrap` + role/aria; primitivo unico de overlay (z-50) |
 | Charts | ✓ | `app/report-charts`, `app/dashboard-charts` | recharts suelto | themed |
 | Tooltip | ⊘ | añadir al usarse | — | hoy `title=""`; crear si se generaliza |
 | Dialog (modal central) | ⊘ | añadir al usarse | modal a mano | ConfirmButton/Sheet cubren casi todo |

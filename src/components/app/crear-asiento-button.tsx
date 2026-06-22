@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Plus, X, Trash2 } from "lucide-react";
-import { useFocusTrap } from "@/lib/use-focus-trap";
+import { Modal } from "@/components/ui/modal";
 import { Icon } from "@/components/icon";
 import { createJournalEntry } from "@/lib/erp-actions";
 import { toast } from "@/components/ui/toast";
@@ -53,9 +53,6 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
   const [description, setDescription] = useState("");
   const [period, setPeriod] = useState(currentPeriod());
   const [lines, setLines] = useState<EntryLine[]>([{ ...EMPTY_LINE }, { ...EMPTY_LINE }]);
-  const dialogRef = useRef<HTMLDivElement>(null);
-
-  useFocusTrap(dialogRef, open, handleClose);
 
   const totalDebit = lines.reduce((s, l) => s + (parseFloat(l.debit) || 0), 0);
   const totalCredit = lines.reduce((s, l) => s + (parseFloat(l.credit) || 0), 0);
@@ -129,15 +126,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
         Nuevo asiento
       </Button>
 
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm p-4">
-          <div
-            ref={dialogRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Crear asiento contable"
-            tabIndex={-1}
-            className="w-full max-w-2xl rounded-xl border border-border bg-card shadow-2xl outline-none">
+      <Modal open={open} onClose={handleClose} label="Crear asiento contable" className="max-w-2xl">
             <div className="flex items-center justify-between border-b border-border px-6 py-4">
               <p className="font-display text-base font-medium text-foreground">Nuevo asiento contable</p>
               <button onClick={handleClose} aria-label="Cerrar" className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 text-muted-foreground hover:text-foreground">
@@ -259,9 +248,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
                 </Button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
+      </Modal>
     </>
   );
 }
