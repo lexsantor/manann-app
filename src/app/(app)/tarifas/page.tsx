@@ -8,6 +8,7 @@ import { DataTable, CellStacked, type Column } from "@/components/ui/data-table"
 import { RateFormTrigger, RateEditTrigger } from "@/components/app/rate-form";
 import { RateRowActions } from "@/components/app/rate-row-actions";
 import { RateCsvImport } from "@/components/app/rate-csv-import";
+import { TarifasChart } from "@/components/app/tarifas-chart";
 import { cn } from "@/lib/utils";
 
 const SERVICE_LABEL: Record<string, string> = {
@@ -121,6 +122,10 @@ export default async function TarifasPage() {
   const active = rates.filter((r) => r.active);
   const inactive = rates.filter((r) => !r.active);
 
+  const byService = Object.entries(SERVICE_LABEL)
+    .map(([type, name]) => ({ name, value: rates.filter((r) => r.serviceType === type).length }))
+    .filter((d) => d.value > 0);
+
   return (
     <div className="space-y-6">
       <PageHeader
@@ -148,6 +153,7 @@ export default async function TarifasPage() {
         />
       ) : (
         <>
+          {byService.length > 0 && <TarifasChart data={byService} />}
           <RatesTable rates={active} title="Activas" />
           {inactive.length > 0 && <RatesTable rates={inactive} title="Inactivas" muted />}
         </>

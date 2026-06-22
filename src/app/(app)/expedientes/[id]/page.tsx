@@ -51,6 +51,7 @@ import { AssigneeSelect } from "@/components/app/assignee-select";
 import { ShipsGoPanel } from "@/components/app/shipsgo-panel";
 import { syncTrackingEvents } from "@/lib/erp-actions";
 import { FinanzasPanel } from "@/components/app/finanzas-panel";
+import { MargenChart } from "@/components/app/margen-chart";
 import { HelpHint } from "@/components/ui/help-hint";
 import { EmptyState } from "@/components/ui/empty-state";
 import { DuaPanel } from "@/components/app/dua-panel";
@@ -356,6 +357,7 @@ export default async function ExpedienteDetailPage({
           />
           <Parties parties={s.parties} shipmentId={s.id} contacts={allContacts} />
           <Containers containers={s.containers} cargo={s.cargoLines} mode={s.mode} />
+          <MargenChart charges={s.charges} />
           <FinanzasPanel
             shipmentId={s.id}
             charges={s.charges}

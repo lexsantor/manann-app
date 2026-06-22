@@ -6,6 +6,7 @@ import { formatMoney, formatDate } from "@/lib/erp-format";
 import { PageHeader } from "@/components/ui/page-header";
 import { DataTable, CellStacked, type Column } from "@/components/ui/data-table";
 import { StatusBadge } from "@/components/ui/badges";
+import { StatusDonutChart } from "@/components/app/dashboard-charts";
 
 interface PageProps {
   searchParams: Promise<{ created?: string }>;
@@ -17,6 +18,22 @@ export default async function FacturasPage({ searchParams }: PageProps) {
 
   const invoices = await listInvoices(ctx.org.id);
   const { created } = await searchParams;
+
+  const STATUS_META: Record<string, { label: string; color: string }> = {
+    pagada: { label: "Pagada", color: "hsl(var(--success))" },
+    enviada: { label: "Enviada", color: "hsl(var(--info))" },
+    emitida: { label: "Emitida", color: "hsl(var(--info))" },
+    vencida: { label: "Vencida", color: "hsl(var(--warning))" },
+    borrador: { label: "Borrador", color: "hsl(var(--muted-foreground))" },
+    anulada: { label: "Anulada", color: "hsl(var(--destructive))" },
+  };
+  const statusCounts = invoices.reduce<Record<string, number>>((acc, inv) => {
+    acc[inv.status] = (acc[inv.status] ?? 0) + 1;
+    return acc;
+  }, {});
+  const statusData = ["pagada", "enviada", "emitida", "vencida", "borrador", "anulada"]
+    .filter((s) => statusCounts[s])
+    .map((s) => ({ name: STATUS_META[s].label, value: statusCounts[s], color: STATUS_META[s].color }));
 
   const columns: Column<InvoiceItem>[] = [
     {
@@ -107,6 +124,13 @@ export default async function FacturasPage({ searchParams }: PageProps) {
         <div className="flex items-center gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-primary">
           <FileText className="size-4 shrink-0" />
           Factura <span className="font-mono font-medium">{created}</span> creada como borrador.
+        </div>
+      )}
+
+      {statusData.length > 0 && (
+        <div className="rounded-xl border border-border bg-card p-4 sm:max-w-md">
+          <p className="mb-3 label-mono text-muted-foreground">Facturas por estado</p>
+          <StatusDonutChart data={statusData} />
         </div>
       )}
 
