@@ -86,7 +86,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
         type="button"
         onClick={() => emit("manann:toggle-sidebar")}
         aria-label="Abrir menú"
-        className="flex size-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 shrink-0 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground lg:hidden"
+        className="flex size-11 shrink-0 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground lg:hidden"
       >
         <Menu className="h-5 w-5" strokeWidth={1.5} />
       </button>
@@ -108,7 +108,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
       <button
         type="button"
         onClick={() => emit("manann:open-command")}
-        className="group flex h-9 min-w-0 flex-1 items-center gap-2 rounded-md border border-border bg-card px-3 text-sm text-muted-foreground transition-colors hover:border-primary/30 sm:max-w-xs"
+        className="group flex h-11 min-w-0 flex-1 items-center gap-2 rounded-md border border-border bg-card px-3 text-sm text-muted-foreground transition-colors hover:border-primary/30 sm:max-w-xs"
       >
         <Search className="h-4 w-4 shrink-0" strokeWidth={1.5} />
         <span className="truncate">Buscar o ejecutar una acción…</span>
@@ -125,7 +125,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
       <button
         type="button"
         onClick={() => emit("manann:open-copiloto")}
-        className="flex h-9 shrink-0 items-center gap-1.5 rounded-md border border-border bg-card px-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/30"
+        className="flex h-11 shrink-0 items-center gap-1.5 rounded-md border border-border bg-card px-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary/30"
         title="Asistente Manann IA (⌘J)"
       >
         <Sparkles className="h-4 w-4 text-accent" strokeWidth={1.5} />
@@ -164,7 +164,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
       {/* Ajustes */}
       <Link
         href="/settings"
-        className="hidden size-9 shrink-0 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground sm:flex"
+        className="hidden size-11 shrink-0 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground sm:flex"
         aria-label="Ajustes"
       >
         <Settings className="h-[18px] w-[18px]" strokeWidth={1.5} />
@@ -174,7 +174,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
       <button
         type="button"
         onClick={() => setHelp(true)}
-        className="hidden size-9 shrink-0 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground sm:flex"
+        className="hidden size-11 shrink-0 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:text-foreground sm:flex"
         aria-label="Ayuda"
       >
         <HelpCircle className="h-[18px] w-[18px]" strokeWidth={1.5} />
@@ -191,7 +191,7 @@ export function AppTopbar({ userName, userEmail }: AppTopbarProps) {
           type="button"
           onClick={() => setMenu(menu === "avatar" ? null : "avatar")}
           aria-label="Perfil"
-          className="flex size-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 items-center justify-center rounded-full bg-primary/15 font-mono text-xs font-semibold text-primary transition-colors hover:bg-primary/25"
+          className="flex size-11 items-center justify-center rounded-full bg-primary/15 font-mono text-xs font-semibold text-primary transition-colors hover:bg-primary/25"
         >
           {initials}
         </button>

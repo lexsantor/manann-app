@@ -32,7 +32,7 @@ export function ThemeToggle() {
           : "Cambiar tema"
       }
       title={mounted ? (isDark ? "Modo oscuro" : "Modo claro") : undefined}
-      className="inline-flex size-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-surface-2"
+      className="inline-flex size-11 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-surface-2"
     >
       {mounted ? (
         <Icon icon={isDark ? Moon : Sun} size={17} />
