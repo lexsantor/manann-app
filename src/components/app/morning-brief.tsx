@@ -201,9 +201,9 @@ export function MorningBrief({
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Plan del día */}
-        <div className="lg:col-span-2 space-y-3">
+        <div className="min-w-0 lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="font-display text-base font-medium tracking-tight text-foreground">Plan para hoy</h2>
             <Link href="/autopilot" className={cn(buttonVariants({ variant: "secondary", size: "sm" }), "gap-1")}>
@@ -226,7 +226,7 @@ export function MorningBrief({
         </div>
 
         {/* Sidebar: Time Saved + Agenda */}
-        <div className="space-y-4">
+        <div className="min-w-0 space-y-4">
           {/* Time Saved */}
           <div className="rounded-xl border border-border bg-card p-4">
             <p className="mb-3 font-mono text-sm uppercase tracking-wider text-muted-foreground">
