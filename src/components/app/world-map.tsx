@@ -59,11 +59,12 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
   }
 
   return (
-    <div className="relative w-full overflow-hidden rounded-xl border border-border bg-card">
+    <div className="relative mx-auto w-full max-w-[1200px] overflow-hidden rounded-xl border border-border bg-card">
       <ComposableMap
         projectionConfig={{ scale: 147, center: [15, 20] }}
-        style={{ width: "100%", height: "auto" }}
+        width={800}
         height={420}
+        style={{ width: "100%", height: "auto" }}
       >
         <Geographies geography={GEO_URL}>
           {({ geographies }: { geographies: unknown[] }) =>
@@ -71,12 +72,12 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
               <Geography
                 key={(geo as { rsmKey: string }).rsmKey}
                 geography={geo}
-                fill="hsl(var(--card))"
-                stroke="hsl(var(--border))"
+                fill="hsl(var(--surface-2))"
+                stroke="hsl(var(--hairline-strong))"
                 strokeWidth={0.5}
                 style={{
                   default: { outline: "none" },
-                  hover: { outline: "none", fill: "hsl(var(--card))" },
+                  hover: { outline: "none", fill: "hsl(var(--surface-3))" },
                   pressed: { outline: "none" },
                 }}
               />
