@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Plug, Check, X } from "lucide-react";
-import { useFocusTrap } from "@/lib/use-focus-trap";
+import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,9 +22,7 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
   const [configKey, setConfigKey] = useState<string | null>(null);
   const [apiKey, setApiKey] = useState("");
   const [isPending, startTransition] = useTransition();
-  const dialogRef = useRef<HTMLDivElement>(null);
 
-  useFocusTrap(dialogRef, configKey !== null, () => setConfigKey(null));
 
   const configItem = list.find((i) => i.key === configKey);
   const categories = [...new Set(list.map((i) => i.category))];
@@ -101,14 +99,7 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
       </div>
 
       {configItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" onClick={() => !isPending && setConfigKey(null)} />
-          <div
-            ref={dialogRef}
-            role="dialog"
-            aria-modal="true"
-            tabIndex={-1}
-            className="relative z-10 w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-2xl outline-none">
+        <Modal open onClose={() => !isPending && setConfigKey(null)} label={`Conectar ${configItem.name}`} className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-2xl">
             <div className="flex items-start justify-between">
               <h2 className="font-display text-lg font-semibold tracking-tight text-foreground">
                 Conectar {configItem.name}
@@ -124,14 +115,13 @@ export function ConectoresPanel({ items }: { items: Item[] }) {
             </div>
             <div className="mt-3 rounded-md border border-warning/20 bg-warning/5 px-3 py-2">
               <p className="text-xs text-warning">
-                Simulación — la conexión real con {configItem.name} se habilita en producción.
+                Simulación. La conexión real con {configItem.name} se habilita en producción.
               </p>
             </div>
             <Button className="mt-4 w-full" onClick={connect} disabled={isPending}>
               Conectar
             </Button>
-          </div>
-        </div>
+        </Modal>
       )}
     </div>
   );

@@ -79,7 +79,7 @@ function ContactForm({ mode, onClose }: ContactFormProps) {
   }
 
   return (
-    <Modal open onClose={onClose} label="Formulario de contacto">
+    <Modal open onClose={onClose} label="Formulario de contacto" className="w-full max-w-lg rounded-xl border border-border bg-card shadow-2xl">
         <div className="border-b border-border px-6 py-4">
           <p className="font-display text-base font-medium text-foreground">
             {mode?.type === "edit" ? "Editar contacto" : "Nuevo contacto"}
