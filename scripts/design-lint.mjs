@@ -156,6 +156,15 @@ if (appN > 0) {
   console.error(`\n✗ FALLO: ${appN} violación/es de diseño en la capa de app (deuda → debe ser 0). Usa tokens/primitivos (ver DESIGN.md).`);
   exit = 1;
 }
+// El color tambien se gatea en marketing (los emerald/yellow crudos se colaban);
+// los controles/tablas nativos siguen exentos alli (contact-form deliberadamente simple).
+const mktColor = findings.marketing.filter((f) => f.cat === "paleta-cruda" || f.cat === "hex" || f.cat === "negro-blanco");
+if (mktColor.length > 0) {
+  console.log("\nMARKETING con paleta cruda — top:");
+  mktColor.slice(0, 20).forEach((f) => console.log(`  ${f.rel}:${f.line}  [${f.cat}] ${f.text}`));
+  console.error(`\n✗ FALLO: la landing debe usar solo tokens de color (${mktColor.length} violación/es).`);
+  exit = 1;
+}
 void STRICT;
 if (exit === 0) console.log("\n✓ Kit limpio. Deuda de app registrada arriba (objetivo: 0).");
 process.exit(exit);

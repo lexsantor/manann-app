@@ -28,7 +28,7 @@ function PanelFrame({ children }: { children: React.ReactNode }) {
 }
 
 function SectionNote({ children }: { children: React.ReactNode }) {
-  return <p className="mt-4 text-[14px] text-muted-foreground/60">{children}</p>;
+  return <p className="mt-4 text-[14px] text-muted-foreground/70">{children}</p>;
 }
 
 function PanelEmbarques() {
@@ -50,7 +50,7 @@ function PanelEmbarques() {
                 <div
                   className={cn(
                     "mt-[3px] size-3.5 shrink-0 rounded-full border-2",
-                    item.done ? "border-emerald-400 bg-emerald-400/20" :
+                    item.done ? "border-success bg-success/20" :
                     item.now ? "border-primary bg-primary/20" :
                     "border-muted-foreground/30 bg-background"
                   )}
@@ -58,7 +58,7 @@ function PanelEmbarques() {
                 />
                 <div>
                   <div className="text-[14px] font-semibold">{item.name}</div>
-                  <div className="mt-0.5 font-mono text-[10px] text-muted-foreground/50">{item.meta}</div>
+                  <div className="mt-0.5 font-mono text-[10px] text-muted-foreground/70">{item.meta}</div>
                 </div>
               </div>
             ))}
@@ -79,9 +79,9 @@ function PanelEmbarques() {
           </svg>
           <div className="absolute bottom-3 left-3 flex items-center gap-1.5">
             <span className="size-1.5 rounded-full bg-primary" />
-            <span className="font-mono text-[10px] text-muted-foreground/60">En tránsito · Estrecho de Malaca</span>
+            <span className="font-mono text-[10px] text-muted-foreground/70">En tránsito · Estrecho de Malaca</span>
           </div>
-          <span className="absolute right-3 top-3 rounded-full border border-border/40 bg-background/60 px-2 py-0.5 font-mono text-[8px] uppercase tracking-[0.12em] text-muted-foreground/50">
+          <span className="absolute right-3 top-3 rounded-full border border-border/40 bg-background/60 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground/70">
             Simulación
           </span>
         </div>
@@ -111,13 +111,13 @@ function PanelAduanas() {
               <div key={i} className="flex items-center justify-between gap-3 rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
                 <span className="text-[14px] font-medium">
                   {d.name}
-                  {d.ref && <span className="ml-2 font-mono text-[10px] text-muted-foreground/40">{d.ref}</span>}
+                  {d.ref && <span className="ml-2 font-mono text-[10px] text-muted-foreground/70">{d.ref}</span>}
                 </span>
                 <span className={cn(
                   "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[10px] font-semibold",
-                  d.ok ? "bg-emerald-500/10 text-emerald-400" :
+                  d.ok ? "bg-success/10 text-success" :
                   d.transit ? "bg-primary/10 text-primary" :
-                  "bg-yellow-500/10 text-yellow-400"
+                  "bg-warning/10 text-warning"
                 )}>
                   <span className="size-[3.5px] rounded-full bg-current" />
                   {d.ok ? "Validado" : d.transit ? "Presentada" : "Pendiente"}
@@ -128,9 +128,9 @@ function PanelAduanas() {
         </div>
         <div>
           <h4 className="font-display text-[16px] font-semibold mb-4">Despacho</h4>
-          <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-6 text-center">
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-400/60">Canal asignado</span>
-            <div className="mt-2 font-display text-[28px] font-semibold text-emerald-400">Verde</div>
+          <div className="rounded-lg border border-success/20 bg-success/5 p-6 text-center">
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-success/70">Canal asignado</span>
+            <div className="mt-2 font-display text-[28px] font-semibold text-success">Verde</div>
             <div className="mt-1 font-mono text-[10px] text-muted-foreground/45">
               Levante autorizado · Róterdam · hace 12 min
             </div>
@@ -174,7 +174,7 @@ function PanelCRM() {
       <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-3">
         {cols.map((col) => (
           <div key={col.title}>
-            <div className="mb-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-muted-foreground/40 px-0.5">
+            <div className="mb-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-muted-foreground/70 px-0.5">
               <span>{col.title}</span>
               <span>{col.count}</span>
             </div>
@@ -226,9 +226,9 @@ function PanelFinanzas() {
                 <span className="text-muted-foreground/65">{inv.client}</span>
                 <span className="font-mono text-[10px]">{inv.amount}</span>
                 <span className={cn("inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 font-mono text-[10px] font-semibold",
-                  inv.paid ? "bg-emerald-500/10 text-emerald-400" :
+                  inv.paid ? "bg-success/10 text-success" :
                   inv.transit ? "bg-primary/10 text-primary" :
-                  "bg-red-500/10 text-red-400"
+                  "bg-destructive/10 text-destructive"
                 )}>
                   <span className="size-[3px] rounded-full bg-current" />
                   {inv.paid ? "Cobrada" : inv.transit ? "Emitida" : "Vencida 3d"}
@@ -282,11 +282,11 @@ function PanelCalidad() {
               <div key={s.name} className="flex items-center justify-between gap-3 rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
                 <div>
                   <div className="text-[14px] font-medium">{s.name}</div>
-                  <div className="mt-0.5 font-mono text-[10px] text-muted-foreground/40">{s.target}</div>
+                  <div className="mt-0.5 font-mono text-[10px] text-muted-foreground/70">{s.target}</div>
                 </div>
                 <span className={cn(
                   "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[10px] font-semibold",
-                  s.ok ? "bg-emerald-500/10 text-emerald-400" : "bg-yellow-500/10 text-yellow-400"
+                  s.ok ? "bg-success/10 text-success" : "bg-warning/10 text-warning"
                 )}>
                   <span className="size-[3.5px] rounded-full bg-current" />
                   {s.val}
@@ -302,11 +302,11 @@ function PanelCalidad() {
               <div key={i} className="flex items-center justify-between gap-3 rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
                 <span className="text-[14px] font-medium">
                   {it.type}
-                  <span className="ml-2 font-mono text-[10px] text-muted-foreground/40">{it.meta}</span>
+                  <span className="ml-2 font-mono text-[10px] text-muted-foreground/70">{it.meta}</span>
                 </span>
                 <span className={cn(
                   "inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[10px] font-semibold",
-                  it.ok ? "bg-emerald-500/10 text-emerald-400" : "bg-primary/10 text-primary"
+                  it.ok ? "bg-success/10 text-success" : "bg-primary/10 text-primary"
                 )}>
                   <span className="size-[3.5px] rounded-full bg-current" />
                   {it.state}
@@ -339,7 +339,7 @@ function PanelRed() {
               <div key={a.name} className="rounded-lg border border-border/30 bg-background/20 px-3.5 py-2.5">
                 <div className="flex items-center justify-between">
                   <span className="text-[14px] font-semibold">{a.name}</span>
-                  <span className="font-mono text-[10px] text-muted-foreground/40">{a.country}</span>
+                  <span className="font-mono text-[10px] text-muted-foreground/70">{a.country}</span>
                 </div>
                 <div className="mt-0.5 text-[12px] text-muted-foreground/55">{a.meta}</div>
               </div>
@@ -379,9 +379,9 @@ function PanelReportes() {
       <div className="grid grid-cols-1 gap-3 mb-3.5 sm:grid-cols-3">
         {kpis.map((k) => (
           <div key={k.label} className="rounded-lg border border-border/30 bg-background/20 p-3.5">
-            <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted-foreground/40">{k.label}</div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.08em] text-muted-foreground/70">{k.label}</div>
             <div className="mt-1.5 font-display text-[22px] font-semibold">{k.value}</div>
-            <div className="mt-0.5 text-[10px] font-semibold text-emerald-400">{k.delta}</div>
+            <div className="mt-0.5 text-[10px] font-semibold text-success">{k.delta}</div>
           </div>
         ))}
       </div>
@@ -407,7 +407,7 @@ function PanelReportes() {
         </div>
         <div className="mt-2 flex gap-2">
           {labels.map((l) => (
-            <div key={l} className="flex-1 text-center font-mono text-[8px] text-muted-foreground/30">{l}</div>
+            <div key={l} className="flex-1 text-center font-mono text-[10px] text-muted-foreground/70">{l}</div>
           ))}
         </div>
       </div>

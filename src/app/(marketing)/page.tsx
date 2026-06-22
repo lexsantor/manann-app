@@ -275,10 +275,10 @@ export default function HomePage() {
           <FadeUp delay={0.08}>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 rounded-xl border border-primary/20 bg-primary/5 px-6 py-10 text-center sm:flex-row sm:gap-10">
               <div>
-                <div className="font-display text-5xl font-semibold leading-none text-muted-foreground/40 line-through sm:text-6xl">40+</div>
+                <div className="font-display text-5xl font-semibold leading-none text-muted-foreground/70 line-through sm:text-6xl">40+</div>
                 <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground/55">campos a mano por expediente</p>
               </div>
-              <ArrowRight className="size-6 shrink-0 text-muted-foreground/40 max-sm:rotate-90" />
+              <ArrowRight className="size-6 shrink-0 text-muted-foreground/70 max-sm:rotate-90" />
               <div>
                 <div className="font-display text-5xl font-semibold leading-none text-gradient-primary sm:text-6xl">0</div>
                 <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.14em] text-primary/70">que tecleas con Manann</p>
@@ -289,7 +289,7 @@ export default function HomePage() {
           <FadeUp delay={0.12}>
             <div className="mt-6 overflow-hidden rounded-xl border border-border bg-card">
               <div className="hidden grid-cols-2 border-b border-border sm:grid">
-                <div className="px-6 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/60">
+                <div className="px-6 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground/70">
                   El ERP de siempre
                 </div>
                 <div className="border-l border-border px-6 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-primary">
@@ -304,7 +304,7 @@ export default function HomePage() {
                   </p>
                   <div className="mt-2.5 grid gap-3 sm:grid-cols-2 sm:gap-0">
                     <div className="flex items-start gap-2.5 sm:pr-6">
-                      <X size={15} className="mt-0.5 shrink-0 text-muted-foreground/40" />
+                      <X size={15} className="mt-0.5 shrink-0 text-muted-foreground/70" />
                       <p className="text-sm leading-relaxed text-muted-foreground/70">{r.old}</p>
                     </div>
                     <div className="flex items-start gap-2.5 sm:border-l sm:border-border/60 sm:pl-6">
@@ -361,7 +361,7 @@ export default function HomePage() {
       </section>
 
       {/* ── El producto ───────────────────────────────────────── */}
-      <section id="producto" className="scroll-mt-20 border-t border-border bg-surface-2">
+      <section id="demo" className="scroll-mt-20 border-t border-border bg-surface-2">
         <div className="mx-auto max-w-[1080px] px-5 py-24 sm:px-6 sm:py-32">
           <FadeUp>
             <span className="eyebrow">El producto</span>
@@ -421,7 +421,7 @@ export default function HomePage() {
                       className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background/60 px-2.5 py-1 font-mono text-xs"
                     >
                       <span className="text-muted-foreground">{f.label}</span>
-                      <span className={f.val === "Manual" ? "text-muted-foreground/40" : "text-primary"}>
+                      <span className={f.val === "Manual" ? "text-muted-foreground/70" : "text-primary"}>
                         {f.val}
                       </span>
                     </span>
@@ -524,7 +524,7 @@ export default function HomePage() {
                 <div className="divide-y divide-border/40">
                   {AI_FIELDS.map((field) => (
                     <div key={field.label} className="flex items-center justify-between px-4 py-2.5">
-                      <span className="font-mono text-[10px] text-muted-foreground/50 w-28">{field.label}</span>
+                      <span className="font-mono text-[10px] text-muted-foreground/70 w-28">{field.label}</span>
                       <span className={cn(
                         "flex-1 text-center font-mono text-[12px]",
                         field.conf === "manual" ? "text-muted-foreground/30" : "text-foreground"
@@ -537,7 +537,7 @@ export default function HomePage() {
                           ? "text-muted-foreground/25"
                           : parseFloat(field.conf) >= 0.95
                           ? "text-primary"
-                          : "text-yellow-400/70"
+                          : "text-warning"
                       )}>
                         {field.conf === "manual" ? "manual" : field.conf}
                       </span>
@@ -548,7 +548,7 @@ export default function HomePage() {
                 {/* Action */}
                 <div className="border-t border-border px-4 py-3">
                   <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-                    <span className="font-mono text-[10px] text-muted-foreground/40">
+                    <span className="font-mono text-[10px] text-muted-foreground/70">
                       5 de 6 campos extraídos · 1 requiere revisión
                     </span>
                     <span
@@ -639,7 +639,7 @@ export default function HomePage() {
                   <p className="mt-3 font-display text-base font-medium tracking-tight text-foreground">
                     {r.label}
                   </p>
-                  <p className="mt-1 text-sm text-muted-foreground/60">{r.sub}</p>
+                  <p className="mt-1 text-sm text-muted-foreground/70">{r.sub}</p>
                 </div>
               </FadeUp>
             ))}
@@ -651,7 +651,7 @@ export default function HomePage() {
               <p className="font-display text-xl font-medium leading-relaxed tracking-tight text-foreground sm:text-2xl">
                 &ldquo;Crear un expediente desde un BL debería costar minutos, no horas. Y sin un solo error de transcripción.&rdquo;
               </p>
-              <footer className="mt-5 font-mono text-[10px] text-muted-foreground/50">
+              <footer className="mt-5 font-mono text-[10px] text-muted-foreground/70">
                 La tesis de producto de Manann
               </footer>
             </blockquote>

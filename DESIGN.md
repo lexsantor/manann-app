@@ -107,6 +107,8 @@ en la capa de app rompe el build**. La deuda de app está **congelada en 0**.
 
 **`negro-blanco` — por qué y excepciones.** `RAW_COLOR` no caza `black`/`white` (no tienen escala `-NNN`), así que se colaban fuera de token y rompían el tema (un blanco fijo es invisible en light). Para scrims de modal usa `bg-background/60` (igual que `Sheet`); para texto sobre sólido, el `*-foreground` que corresponda. Exentos en el lint (`BW_EXEMPT` + `COLOR_EXEMPT`): overlays de texto **sobre foto** (login hero, `shipment-boarding-pass`, hover de tarjeta en `shipment-list-client`), el badge de marca **Power BI** en reportes, y los documentos imprimibles **AWB/CMR** (tinta sobre papel).
 
+**Color en marketing (gateado).** Tras limpiar los `emerald/yellow` crudos de los mockups, el color (`paleta-cruda`/`hex`/`negro-blanco`) **rompe el build también en la capa marketing**, no solo en app/kit. Los controles y tablas nativos siguen exentos en marketing (contact-form y precios son deliberadamente simples). Así el verde Tailwind genérico (tell de UI-IA) no reaparece en el escaparate.
+
 ### z-index (escalera de tokens)
 
 Tokens en `globals.css`: `--z-overlay: 100`, `--z-tour: 1100`, `--z-tour-top: 1101`, `--z-toast: 1200`. Convención para overlays nuevos (modales, sheets, popovers, tour, toasts): apóyate en esta escalera en lugar de inventar `z-[NN]` sueltos. Nota de deuda: varios overlays existentes aún usan `z-40/z-50/z-[90]` crudos; migración pendiente (no la fuerza el lint todavía por riesgo de reordenar el apilado).

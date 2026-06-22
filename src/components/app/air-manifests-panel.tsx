@@ -221,7 +221,7 @@ export function AirManifestsPanel({
           </div>
           <div className="flex gap-2 sm:justify-end">
             <Button variant="ghost" size="sm" onClick={() => setShowForm(false)} className="w-full sm:w-auto">Cancelar</Button>
-            <Button variant="primary" size="sm" onClick={handleCreate} disabled={pending || !form.mawbNumber || !form.carrier} className="w-full sm:w-auto">Crear</Button>
+            <Button variant="primary" size="sm" onClick={handleCreate} disabled={pending || !form.mawbNumber || !form.carrier} className="w-full sm:w-auto">Guardar</Button>
           </div>
         </div>
       )}
