@@ -101,7 +101,7 @@ export function RateForm({ rate: existing, onClose }: RateFormProps) {
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
+        className="fixed inset-0 z-40 bg-background/60 backdrop-blur-sm"
         onClick={onClose}
       />
 

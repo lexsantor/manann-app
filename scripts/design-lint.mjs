@@ -24,6 +24,11 @@ const RAW_COLOR = new RegExp(
 const HEX = /#[0-9a-fA-F]{3,8}\b/;
 // Hex de marca permitidos (no son color de UI tokenizable).
 const BRAND_HEX = /#F2C811/i; // amarillo oficial Power BI
+// Negro/blanco crudos: se cuelan de RAW_COLOR (no tienen escala -NNN). Prohibidos
+// salvo en overlays sobre foto (texto sobre imagen, theme-independiente) y el
+// badge de marca Power BI. Usa tokens de tema (bg-background, text-foreground…).
+const BLACK_WHITE = /\b(bg|text|border|ring|divide|outline|fill|stroke|from|via|to|placeholder|caret)-(black|white)\b/;
+const BW_EXEMPT = /[\\/]login[\\/]page|shipment-boarding-pass|shipment-list-client|[\\/]reportes[\\/]page/;
 const NATIVE_SELECT = /<select\b/;
 const NATIVE_TEXTAREA = /<textarea\b/;
 const NATIVE_CHECKBOX = /type=["']checkbox["']/;
@@ -88,6 +93,7 @@ for (const file of walk(join(ROOT, "src"))) {
     const colorExempt = COLOR_EXEMPT.test(rel);
     if (RAW_COLOR.test(line) && !colorExempt) at("paleta-cruda");
     if (HEX.test(line) && !rel.endsWith(".css") && !colorExempt && !BRAND_HEX.test(line)) at("hex");
+    if (BLACK_WHITE.test(line) && !colorExempt && !BW_EXEMPT.test(rel)) at("negro-blanco");
     // El kit (ui/) puede envolver tags nativos: es su función. Solo se controlan
     // los nativos en la capa de app/marketing (que debe usar los primitivos).
     if (layer !== "kit") {
@@ -132,7 +138,7 @@ const appN = printLayer("app (deuda → 0)", findings.app);
 printLayer("marketing (informativo)", findings.marketing);
 
 // El kit es la fuente de los tokens: gate estricto solo sobre color (invariante 6).
-const kitColor = findings.kit.filter((f) => f.cat === "paleta-cruda" || f.cat === "hex");
+const kitColor = findings.kit.filter((f) => f.cat === "paleta-cruda" || f.cat === "hex" || f.cat === "negro-blanco");
 if (kitColor.length > 0) {
   console.log("\nKIT con paleta cruda — top:");
   kitColor.slice(0, 20).forEach((f) => console.log(`  ${f.rel}:${f.line}  [${f.cat}] ${f.text}`));

@@ -96,7 +96,7 @@ function JourneyProgress({ status }: { status: string }) {
                   className={cn(
                     "flex size-7 items-center justify-center rounded-full border-2 transition-colors",
                     done
-                      ? "border-primary bg-primary text-white"
+                      ? "border-primary bg-primary text-primary-foreground"
                       : "border-border bg-card text-muted-foreground",
                   )}
                 >

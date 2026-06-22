@@ -96,10 +96,17 @@ en la capa de app rompe el build**. La deuda de app está **congelada en 0**.
 | Categoría | Invariante | Capa app | Capa kit |
 |---|---|---|---|
 | `paleta-cruda` / `hex` | 6 (color = token) | rompe build | **rompe build** (estricto) |
+| `negro-blanco` (`bg-black`/`text-white` crudos) | 6 (color = token) | rompe build | **rompe build** (estricto) |
 | `select/textarea/checkbox/radio-nativo` | 4 (controles) | rompe build | exento (el kit los envuelve) |
 | `input-crudo` (`<input>` de formulario) | 4 (controles) | rompe build | exento (el kit los envuelve) |
 | `label-crudo` (`<label>` de formulario) | 4 (controles) | rompe build | exento (`ui/label`) |
 | `tabla-cruda` (`<table>` hand-rolled) | 3 (tablas) | rompe build | exento (`ui/data-table`) |
+
+**`negro-blanco` — por qué y excepciones.** `RAW_COLOR` no caza `black`/`white` (no tienen escala `-NNN`), así que se colaban fuera de token y rompían el tema (un blanco fijo es invisible en light). Para scrims de modal usa `bg-background/60` (igual que `Sheet`); para texto sobre sólido, el `*-foreground` que corresponda. Exentos en el lint (`BW_EXEMPT` + `COLOR_EXEMPT`): overlays de texto **sobre foto** (login hero, `shipment-boarding-pass`, hover de tarjeta en `shipment-list-client`), el badge de marca **Power BI** en reportes, y los documentos imprimibles **AWB/CMR** (tinta sobre papel).
+
+### z-index (escalera de tokens)
+
+Tokens en `globals.css`: `--z-overlay: 100`, `--z-tour: 1100`, `--z-tour-top: 1101`, `--z-toast: 1200`. Convención para overlays nuevos (modales, sheets, popovers, tour, toasts): apóyate en esta escalera en lugar de inventar `z-[NN]` sueltos. Nota de deuda: varios overlays existentes aún usan `z-40/z-50/z-[90]` crudos; migración pendiente (no la fuerza el lint todavía por riesgo de reordenar el apilado).
 | `px-impar` (`text-[Npx]` impar) | 7 (px pares) | rompe build | reportado |
 | `ancho-anidado` (`max-w-*` en page) | 1 (ancho 1200) | rompe build | — |
 

@@ -167,7 +167,7 @@ export default async function ExpedienteDetailPage({
               <>
                 <div className={cn("absolute inset-0 bg-gradient-to-b", podImgGradient)} />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Icon icon={mode.icon} size={48} className="text-white/15" />
+                  <Icon icon={mode.icon} size={48} className="text-foreground/15" />
                 </div>
               </>
             )}

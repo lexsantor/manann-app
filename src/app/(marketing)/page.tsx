@@ -234,7 +234,7 @@ export default function HomePage() {
             <StaggerGrid className="flex flex-col gap-3">
               {PROBLEMS.map((p, i) => (
                 <StaggerItem key={p.title}>
-                  <div className="group p-px rounded-xl border border-white/8 bg-white/[0.02] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-white/[0.12] hover:-translate-y-px">
+                  <div className="group p-px rounded-xl border border-foreground/[0.08] bg-foreground/[0.02] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:border-foreground/[0.12] hover:-translate-y-px">
                     <div className="rounded-[calc(0.75rem-1px)] bg-surface-2 px-5 py-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
                       <div className="flex items-start gap-4">
                         <span className="mt-0.5 shrink-0 font-mono text-[10px] tabular-nums text-primary/50">

@@ -273,7 +273,7 @@ export function PipelineBoard({ opportunities, stats, contacts, rates }: Props) 
       {/* Side panel backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/40 transition-opacity"
+          className="fixed inset-0 z-40 bg-background/60 transition-opacity"
           onClick={closePanel}
         />
       )}
