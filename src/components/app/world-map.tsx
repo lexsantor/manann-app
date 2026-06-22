@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import { portCoords } from "@/lib/port-coords";
-import { portLabel } from "@/lib/erp-format";
 
 const ComposableMap = dynamic(
   () => import("react-simple-maps").then((m) => m.ComposableMap),
@@ -73,7 +72,7 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
               <Geography
                 key={(geo as { rsmKey: string }).rsmKey}
                 geography={geo}
-                fill="hsl(var(--surface-2))"
+                fill="hsl(var(--muted-foreground) / 0.14)"
                 stroke="hsl(var(--hairline-strong))"
                 strokeWidth={0.5}
                 style={{
@@ -130,7 +129,7 @@ export function WorldMap({ routes }: { routes: MapRoute[] }) {
                   pointerEvents: "none",
                 }}
               >
-                {portLabel(locode)}
+                {locode}
               </text>
               {count > 1 && (
                 <text
