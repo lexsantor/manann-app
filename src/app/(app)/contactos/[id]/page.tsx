@@ -86,7 +86,7 @@ export default async function ContactDetailPage({
           { label: "Margen GP", value: margin ? `${margin}%` : "—" },
         ].map(({ label, value }) => (
           <div key={label} className="bg-card px-5 py-4">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{label}</p>
+            <p className="label-mono text-muted-foreground">{label}</p>
             <p className="mt-1 font-display text-xl font-semibold text-foreground">{value}</p>
           </div>
         ))}
@@ -139,7 +139,7 @@ export default async function ContactDetailPage({
               <div className="flex items-center gap-3 px-4 py-3">
                 <Icon icon={CreditCard} size={14} className="shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">NIF / EORI</p>
+                  <p className="label-mono text-muted-foreground">NIF / EORI</p>
                   <p className="mt-0.5 truncate font-mono text-sm text-foreground">{c.taxId}</p>
                 </div>
               </div>
@@ -148,7 +148,7 @@ export default async function ContactDetailPage({
               <div className="flex items-center gap-3 px-4 py-3">
                 <Icon icon={Mail} size={14} className="shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Email</p>
+                  <p className="label-mono text-muted-foreground">Email</p>
                   <p className="mt-0.5 truncate text-sm text-foreground">{c.email}</p>
                 </div>
               </div>
@@ -157,7 +157,7 @@ export default async function ContactDetailPage({
               <div className="flex items-center gap-3 px-4 py-3">
                 <Icon icon={Phone} size={14} className="shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Teléfono</p>
+                  <p className="label-mono text-muted-foreground">Teléfono</p>
                   <p className="mt-0.5 text-sm text-foreground">{c.phone}</p>
                 </div>
               </div>
@@ -166,7 +166,7 @@ export default async function ContactDetailPage({
               <div className="flex items-center gap-3 px-4 py-3">
                 <Icon icon={MapPin} size={14} className="shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Ubicación</p>
+                  <p className="label-mono text-muted-foreground">Ubicación</p>
                   <p className="mt-0.5 text-sm text-foreground">{[c.city, c.country].filter(Boolean).join(", ")}</p>
                 </div>
               </div>
@@ -175,14 +175,14 @@ export default async function ContactDetailPage({
               <div className="flex items-center gap-3 px-4 py-3">
                 <Icon icon={TrendingUp} size={14} className="shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Límite crédito</p>
+                  <p className="label-mono text-muted-foreground">Límite crédito</p>
                   <p className="mt-0.5 text-sm text-foreground">{formatMoney(c.creditLimit)}</p>
                 </div>
               </div>
             )}
             {c.notes && (
               <div className="px-4 py-3">
-                <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Notas</p>
+                <p className="label-mono text-muted-foreground">Notas</p>
                 <p className="mt-0.5 whitespace-pre-wrap text-sm text-foreground">{c.notes}</p>
               </div>
             )}

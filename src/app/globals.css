@@ -304,6 +304,16 @@ h1, h2, h3, .font-display {
   color: hsl(var(--muted-foreground));
 }
 
+/* Etiqueta mono compacta (cabeceras de tabla, captions de campo). Solo
+   tipografia: el color (token) y el spacing se quedan en cada call-site.
+   letter-spacing 0.05em == tracking-wider; font-size 10px == text-[10px]. */
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 /* ============================================================
    LUCIDE ICON DEFAULTS
    Pair with a global <Icon> wrapper / IconContext in code:

@@ -159,7 +159,7 @@ export default async function ReportesPage({
           { label: "Margen GP",   value: `${marginPct}%` },
         ].map(({ label, value }) => (
           <div key={label} className="bg-card px-5 py-4">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{label}</p>
+            <p className="label-mono text-muted-foreground">{label}</p>
             <p className="mt-1 font-display text-xl font-semibold text-foreground">{value}</p>
           </div>
         ))}
@@ -196,7 +196,7 @@ export default async function ReportesPage({
             <>
               <div className="hidden grid-cols-[1fr_60px_90px_70px_40px] gap-3 border-b border-border/40 px-5 py-2 sm:grid">
                 {["Cliente", "Envíos", "Ingresos", "GP", "Tier"].map((h) => (
-                  <span key={h} className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{h}</span>
+                  <span key={h} className="label-mono text-muted-foreground">{h}</span>
                 ))}
               </div>
               <div className="divide-y divide-border/60">
@@ -283,7 +283,7 @@ export default async function ReportesPage({
           </div>
           <div className="hidden grid-cols-[1fr_80px_120px_80px] gap-4 border-b border-border/40 px-5 py-2 sm:grid">
             {["Naviera", "Envíos", "Días tránsito (media)", "Demorados"].map((h) => (
-              <span key={h} className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{h}</span>
+              <span key={h} className="label-mono text-muted-foreground">{h}</span>
             ))}
           </div>
           <div className="divide-y divide-border/60">
@@ -328,7 +328,7 @@ export default async function ReportesPage({
           <div className="grid gap-px bg-border sm:grid-cols-[200px_1fr]">
             {/* KPI total */}
             <div className="bg-card px-5 py-5 flex flex-col justify-center">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">CO₂ total estimado</p>
+              <p className="label-mono text-muted-foreground">CO₂ total estimado</p>
               <p className="mt-1 font-display text-2xl font-semibold text-foreground">
                 {esgTotalCo2 >= 1000
                   ? `${(esgTotalCo2 / 1000).toFixed(1)} t`

@@ -179,7 +179,7 @@ export default async function SharePage({
         <div className="overflow-hidden rounded-xl border border-border bg-card">
           <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4 px-6 py-5">
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+              <p className="label-mono text-muted-foreground">
                 Origen
               </p>
               <p className="mt-1 font-display text-2xl font-medium tracking-tight text-foreground">
@@ -189,7 +189,7 @@ export default async function SharePage({
             </div>
             <Icon icon={modeIcon} size={20} className="text-muted-foreground" />
             <div className="text-right">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+              <p className="label-mono text-muted-foreground">
                 Destino
               </p>
               <p className="mt-1 font-display text-2xl font-medium tracking-tight text-foreground">
@@ -207,7 +207,7 @@ export default async function SharePage({
               { label: "ETA", value: formatDate(s.eta) },
             ].map(({ label, value }) => (
               <div key={label} className="bg-card px-5 py-4">
-                <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                <p className="label-mono text-muted-foreground">
                   {label}
                 </p>
                 <p className="mt-1 text-sm font-medium text-foreground">{value}</p>
@@ -254,7 +254,7 @@ export default async function SharePage({
                 key={p!.id}
                 className="overflow-hidden rounded-xl border border-border bg-card px-5 py-4"
               >
-                <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                <p className="label-mono text-muted-foreground">
                   {p!.role === "consignee" ? "Consignatario" : p!.role === "shipper" ? "Embarcador" : p!.role}
                 </p>
                 <p className="mt-1 text-sm font-medium text-foreground">{p!.name}</p>
@@ -285,7 +285,7 @@ export default async function SharePage({
                     <p className="truncate text-sm font-medium text-foreground">
                       {doc.filename}
                     </p>
-                    <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <p className="label-mono text-muted-foreground">
                       {docTypeLabel(doc.type)}
                     </p>
                   </div>

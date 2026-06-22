@@ -280,7 +280,7 @@ function HelpModal({ onClose, pathname }: { onClose: () => void; pathname: strin
             Ver guía de esta pantalla
           </Button>
         )}
-        <p className="mt-6 mb-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">Atajos</p>
+        <p className="mt-6 mb-2 label-mono text-muted-foreground/60">Atajos</p>
         <ul className="space-y-3">
           {ATAJOS.map((tip) => (
             <li key={tip.t} className="flex items-start gap-3">

@@ -49,6 +49,8 @@ inventar colores decorativos (azul/violeta/naranja) — usar neutro o el token d
 - `Checkbox` — checkbox tokenizado (indeterminado incluido).
 - `ConfirmButton` — confirmación de destructivos (invariante 5).
 - `Select` (shadcn) — desplegables; también para pills de estado **editables**.
+- `Card` (+ `CardHeader`/`CardTitle`/`CardDescription`/`CardContent`/`CardFooter`) — superficie canónica (`rounded-xl` + `border-border` + `bg-card`). La **base no fuerza padding ni sombra** (se quedan en `className`), así adoptarla preserva el render. Para uso nuevo, prefiere los subcomponentes.
+- `.label-mono` (CSS, no componente) — etiqueta mono-mayúscula (`font-mono` 10px `tracking-wider` uppercase). Para captions y cabeceras mono; **color y peso se quedan en el call-site**. Distinta de `.eyebrow` (que es el pill de sección).
 - Charts: reutiliza `report-charts.tsx` / `dashboard-charts.tsx` (themed). No dupliques recharts.
 
 ### 3.1 Registro de componentes (curado a lo que el ERP usa)
@@ -71,6 +73,7 @@ Si necesitas uno marcado ⊘, **créalo primero en `ui/` y documéntalo aquí**,
 | KpiRow / KpiCard | ✓ | `ui/kpi-card` | tiles a mano | (hero animado del dashboard es aparte) |
 | Badges (Status/Mode/Grade) | ✓ | `ui/badges` | chips de color a mano | StatusBadge centraliza color |
 | ConfirmButton (AlertDialog) | ✓ | `ui/confirm-button` | onClick destructivo directo | toda acción destructiva |
+| Card (+ Header/Content/Footer) | ✓ | `ui/card` | `<div>` superficie a mano | base `rounded-xl`+`border`+`bg-card`; no fuerza padding/sombra |
 | Sheet (slide-in) | ✓ | `ui/sheet` | slide-in reimplementado | formularios laterales |
 | Charts | ✓ | `app/report-charts`, `app/dashboard-charts` | recharts suelto | themed |
 | Tooltip | ⊘ | añadir al usarse | — | hoy `title=""`; crear si se generaliza |

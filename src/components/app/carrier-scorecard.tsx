@@ -52,10 +52,10 @@ export function CarrierScorecard({ rows }: CarrierScorecardProps) {
         <table className="w-full min-w-[520px] text-sm">
           <thead>
             <tr className="border-b border-border/40">
-              <th className="px-5 py-2.5 text-left font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">Carrier</th>
-              <th className="px-4 py-2.5 text-left font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">Modo</th>
-              <th className="px-4 py-2.5 text-right font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">Expedientes</th>
-              <th className="px-4 py-2.5 text-right font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">Puntualidad</th>
+              <th className="px-5 py-2.5 text-left label-mono text-muted-foreground/60">Carrier</th>
+              <th className="px-4 py-2.5 text-left label-mono text-muted-foreground/60">Modo</th>
+              <th className="px-4 py-2.5 text-right label-mono text-muted-foreground/60">Expedientes</th>
+              <th className="px-4 py-2.5 text-right label-mono text-muted-foreground/60">Puntualidad</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border/30">

@@ -185,12 +185,12 @@ export default async function DashboardPage() {
             <table className="w-full min-w-[560px] text-base">
               <thead>
                 <tr className="border-b border-border bg-muted/70">
-                  <th className="px-4 py-3 text-left font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Cliente</th>
-                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Expedientes</th>
-                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Venta</th>
-                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">GP</th>
-                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Margen</th>
-                  <th className="px-4 py-3 text-center font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Tier</th>
+                  <th className="px-4 py-3 text-left label-mono font-medium text-muted-foreground">Cliente</th>
+                  <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">Expedientes</th>
+                  <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">Venta</th>
+                  <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">GP</th>
+                  <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">Margen</th>
+                  <th className="px-4 py-3 text-center label-mono font-medium text-muted-foreground">Tier</th>
                 </tr>
               </thead>
               <tbody>

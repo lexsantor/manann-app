@@ -96,11 +96,11 @@ export function BalanceSumasSaldos() {
           <table className="w-full min-w-[640px] text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/70">
-                <th className="px-4 py-3 text-left font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Cuenta</th>
-                <th className="px-4 py-3 text-left font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Nombre</th>
-                <th className="px-4 py-3 text-right font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Debe</th>
-                <th className="px-4 py-3 text-right font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Haber</th>
-                <th className="px-4 py-3 text-right font-mono text-[10px] font-medium text-muted-foreground uppercase tracking-wider">Saldo</th>
+                <th className="px-4 py-3 text-left label-mono font-medium text-muted-foreground">Cuenta</th>
+                <th className="px-4 py-3 text-left label-mono font-medium text-muted-foreground">Nombre</th>
+                <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">Debe</th>
+                <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">Haber</th>
+                <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">Saldo</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">

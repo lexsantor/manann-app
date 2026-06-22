@@ -118,7 +118,7 @@ export function VerifactuPanel({ invoiceId, invoiceRef, invoiceTotal, issueDate,
               { label: "Fecha emisión", value: issueDate ?? "—" },
             ].map((f) => (
               <div key={f.label} className="rounded-md border border-border/60 bg-surface-2/30 px-3 py-2">
-                <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{f.label}</p>
+                <p className="label-mono text-muted-foreground">{f.label}</p>
                 <p className="mt-0.5 text-sm text-foreground">{f.value}</p>
               </div>
             ))}
@@ -128,11 +128,11 @@ export function VerifactuPanel({ invoiceId, invoiceRef, invoiceTotal, issueDate,
             <div className="flex items-start gap-6">
               <div className="flex-1 space-y-2">
                 <div className="rounded-md border border-success/20 bg-success/5 px-3 py-2">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Número de registro AEAT</p>
+                  <p className="label-mono text-muted-foreground">Número de registro AEAT</p>
                   <p className="mt-0.5 font-mono text-sm font-semibold text-foreground">{decl.referenceNumber}</p>
                 </div>
                 <div className="rounded-md border border-border/60 bg-surface-2/30 px-3 py-2">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Hash SHA-256 encadenado</p>
+                  <p className="label-mono text-muted-foreground">Hash SHA-256 encadenado</p>
                   <p className="mt-0.5 break-all font-mono text-xs text-muted-foreground">{decl.xmlHash}</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -142,7 +142,7 @@ export function VerifactuPanel({ invoiceId, invoiceRef, invoiceTotal, issueDate,
               </div>
               {decl.xmlHash && (
                 <div className="shrink-0 rounded-lg border border-border p-2">
-                  <p className="mb-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground text-center">QR verificación</p>
+                  <p className="mb-1 label-mono text-muted-foreground text-center">QR verificación</p>
                   <FakeQr text={decl.xmlHash} />
                 </div>
               )}
@@ -152,7 +152,7 @@ export function VerifactuPanel({ invoiceId, invoiceRef, invoiceTotal, issueDate,
               <div className="rounded-md border border-border/60 bg-surface-2/20 px-3 py-3">
                 <div className="flex items-center gap-2 mb-1">
                   <Icon icon={ShieldCheck} size={14} className="text-muted-foreground" />
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Estado Verifactu</p>
+                  <p className="label-mono text-muted-foreground">Estado Verifactu</p>
                 </div>
                 <p className="text-sm text-muted-foreground">Factura aún no registrada en el sistema Verifactu de la AEAT.</p>
               </div>

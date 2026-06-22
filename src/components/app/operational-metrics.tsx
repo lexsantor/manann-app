@@ -1,6 +1,7 @@
 import { Clock, TrendingUp, Ship, Layers, type LucideIcon } from "lucide-react";
 import { Icon } from "@/components/icon";
 import type { OperationalStats } from "@/lib/erp";
+import { Card } from "@/components/ui/card";
 
 interface Props {
   stats: OperationalStats;
@@ -121,7 +122,7 @@ function MetricCard({
   highlight?: boolean;
 }) {
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <Card className="p-4">
       <div className="flex items-center gap-2 text-muted-foreground">
         <Icon icon={icon} size={14} />
         <span className="font-mono text-sm uppercase tracking-wide">{label}</span>
@@ -134,6 +135,6 @@ function MetricCard({
         {value}
       </p>
       <p className="mt-0.5 text-base text-muted-foreground">{sub}</p>
-    </div>
+    </Card>
   );
 }

@@ -99,9 +99,9 @@ export function Modelo303Panel() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/70">
-                  <th className="px-4 py-3 text-left font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Tipo IVA</th>
-                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Base imponible</th>
-                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Cuota</th>
+                  <th className="px-4 py-3 text-left label-mono font-medium text-muted-foreground">Tipo IVA</th>
+                  <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">Base imponible</th>
+                  <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">Cuota</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
@@ -149,9 +149,9 @@ export function Modelo303Panel() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/70">
-                  <th className="px-4 py-3 text-left font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Tipo IVA</th>
-                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Base imponible</th>
-                  <th className="px-4 py-3 text-right font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Cuota</th>
+                  <th className="px-4 py-3 text-left label-mono font-medium text-muted-foreground">Tipo IVA</th>
+                  <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">Base imponible</th>
+                  <th className="px-4 py-3 text-right label-mono font-medium text-muted-foreground">Cuota</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">

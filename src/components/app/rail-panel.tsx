@@ -51,7 +51,7 @@ export function RailPanel({ pol, pod, blNumber }: RailPanelProps) {
         <div className="border-t border-border px-5 pb-5 pt-4 space-y-5">
           {/* Documentos ferroviarios */}
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60 mb-2">Documentos de transporte</p>
+            <p className="label-mono text-muted-foreground/60 mb-2">Documentos de transporte</p>
             <div className="grid gap-2 sm:grid-cols-2">
               {[
                 {
@@ -81,7 +81,7 @@ export function RailPanel({ pol, pod, blNumber }: RailPanelProps) {
 
           {/* Corredores China-Europa */}
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60 mb-2">Corredores China-Europa (Nueva Ruta de la Seda)</p>
+            <p className="label-mono text-muted-foreground/60 mb-2">Corredores China-Europa (Nueva Ruta de la Seda)</p>
             <div className="space-y-2">
               {CORRIDORS.map((c) => (
                 <div
@@ -115,7 +115,7 @@ export function RailPanel({ pol, pod, blNumber }: RailPanelProps) {
 
           {/* NCTS ferroviario */}
           <div className="rounded-md border border-border/60 bg-surface-2/20 px-3 py-3">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground mb-1">NCTS Ferroviario (T1/T2)</p>
+            <p className="label-mono text-muted-foreground mb-1">NCTS Ferroviario (T1/T2)</p>
             <p className="text-sm text-muted-foreground/70">
               Expediente de tránsito aduanero NCTS aplicable para trayectos por territorio europeo.
               El MRN ferroviario se genera en aduana de entrada UE (p.ej. Małaszewicze/Brest).

@@ -176,7 +176,7 @@ export function CrearAsientoButton({ accounts }: CrearAsientoButtonProps) {
               <div>
                 <div className="mb-1.5 grid grid-cols-[1fr_80px_80px_auto] gap-2">
                   {["Cuenta", "Debe (€)", "Haber (€)", ""].map((h) => (
-                    <span key={h} className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{h}</span>
+                    <span key={h} className="label-mono text-muted-foreground">{h}</span>
                   ))}
                 </div>
                 <div className="space-y-1.5">

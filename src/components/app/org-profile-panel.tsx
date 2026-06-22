@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { upsertOrgProfile } from "@/lib/tier-v-actions";
+import { Card } from "@/components/ui/card";
 
 type OrgProfile = {
   id: string;
@@ -112,7 +113,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
 
   return (
     <div className="space-y-6">
-      <div className="rounded-xl border border-border bg-card p-5 space-y-5">
+      <Card className="p-5 space-y-5">
         <div className="space-y-2">
           <Label htmlFor="org-bio">Descripción</Label>
           <Textarea
@@ -175,7 +176,7 @@ export function OrgProfilePanel({ initialProfile }: { initialProfile: OrgProfile
           placeholder="ej. es, en, fr…"
         />
         </div>
-      </div>
+      </Card>
 
       <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
         <Button onClick={handleSave} disabled={isPending} className="w-full gap-2 sm:w-auto">

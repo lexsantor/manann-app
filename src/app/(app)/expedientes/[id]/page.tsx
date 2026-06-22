@@ -672,7 +672,7 @@ function Documents({
                       {(d.type === "awb" || d.type === "cmr") && d.status === "confirmed" && (
                         <Link
                           href={`/documentos/${d.type}/${d.id}`}
-                          className="ml-2 font-mono text-[10px] uppercase tracking-wider text-primary hover:underline"
+                          className="ml-2 label-mono text-primary hover:underline"
                           target="_blank"
                         >
                           Plantilla ↗

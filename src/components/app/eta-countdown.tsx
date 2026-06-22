@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Clock } from "lucide-react";
 import { Icon } from "@/components/icon";
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
 
 interface EtaCountdownProps {
   eta: string; // ISO string
@@ -48,7 +49,7 @@ export function EtaCountdown({ eta, status }: EtaCountdownProps) {
   }
 
   return (
-    <div className="flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-4">
+    <Card className="flex items-center gap-4 px-5 py-4">
       <Icon icon={Clock} size={16} className="shrink-0 text-muted-foreground" />
       <div className="flex-1">
         <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
@@ -64,6 +65,6 @@ export function EtaCountdown({ eta, status }: EtaCountdownProps) {
         </p>
         <p className="font-mono text-xs text-muted-foreground">restantes</p>
       </div>
-    </div>
+    </Card>
   );
 }

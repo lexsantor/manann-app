@@ -163,7 +163,7 @@ export default async function ContactosPage({
           </div>
           <div className="hidden grid-cols-[80px_1fr_90px_80px_90px_80px] gap-4 border-b border-border/40 px-5 py-2 sm:grid">
             {["Código ISO", "Descripción", "Clase", "Tara (kg)", "Payload (kg)", "Vol. (m³)"].map((h) => (
-              <span key={h} className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{h}</span>
+              <span key={h} className="label-mono text-muted-foreground">{h}</span>
             ))}
           </div>
           <div className="divide-y divide-border/60">
@@ -198,7 +198,7 @@ export default async function ContactosPage({
           <div className="overflow-hidden rounded-xl border border-border bg-card">
             <div className="hidden grid-cols-[70px_180px_60px_90px_1fr] gap-4 border-b border-border/40 px-5 py-2 sm:grid">
               {["Código", "Nombre", "Grupo", "Modo", "Quién asume el riesgo"].map((h) => (
-                <span key={h} className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{h}</span>
+                <span key={h} className="label-mono text-muted-foreground">{h}</span>
               ))}
             </div>
             <div className="divide-y divide-border/60">

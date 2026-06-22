@@ -74,13 +74,13 @@ function EntryRow({ entry }: { entry: JournalEntry }) {
 
       {open && (
         <div className="border-t border-border/30 bg-surface-2/20 px-4 pb-3 pt-2">
-          <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">
+          <p className="mb-2 label-mono text-muted-foreground/60">
             Ref: {entry.reference}
           </p>
           <div className="overflow-hidden rounded-md border border-border/50">
             <div className="grid grid-cols-[40px_1fr_100px_100px] gap-2 border-b border-border/50 bg-surface-2/40 px-3 py-1.5">
               {["Cta.", "Concepto", "Debe", "Haber"].map((h) => (
-                <span key={h} className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/70">{h}</span>
+                <span key={h} className="label-mono text-muted-foreground/70">{h}</span>
               ))}
             </div>
             {entry.lines.map((l) => (
@@ -97,7 +97,7 @@ function EntryRow({ entry }: { entry: JournalEntry }) {
             ))}
             <div className="grid grid-cols-[40px_1fr_100px_100px] gap-2 border-t border-border/60 bg-surface-2/60 px-3 py-1.5">
               <span />
-              <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">Total</span>
+              <span className="label-mono text-muted-foreground/60">Total</span>
               <span className="text-right font-mono text-xs font-semibold text-foreground">{fmt(entry.totalDebit)}</span>
               <span className="text-right font-mono text-xs font-semibold text-muted-foreground">{fmt(entry.totalDebit)}</span>
             </div>
@@ -138,7 +138,7 @@ export function DiarioContable({ entries, accounts }: DiarioContableProps) {
           <div className="min-w-[560px]">
             {/* Column headers — alineadas con las filas (reservan el chevron) */}
             <div className="flex items-center gap-3 border-b border-border/50 px-4 py-2">
-              <div className="flex-1 grid grid-cols-[80px_1fr_90px_110px_110px] gap-3 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+              <div className="flex-1 grid grid-cols-[80px_1fr_90px_110px_110px] gap-3 label-mono text-muted-foreground">
                 <span>Fecha</span>
                 <span>Descripción</span>
                 <span>Período</span>

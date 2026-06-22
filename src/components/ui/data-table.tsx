@@ -66,7 +66,7 @@ export function DataTable<T>({
                   key={c.key}
                   scope="col"
                   className={cn(
-                    "px-4 py-3 font-mono text-[10px] font-medium uppercase tracking-wider text-muted-foreground",
+                    "px-4 py-3 label-mono font-medium text-muted-foreground",
                     ALIGN[c.align ?? "left"],
                     c.headerClassName,
                   )}
@@ -126,7 +126,7 @@ export function DataTable<T>({
                 }
                 return (
                   <div key={c.key} className="flex items-start justify-between gap-3">
-                    <span className="shrink-0 pt-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <span className="shrink-0 pt-0.5 label-mono text-muted-foreground">
                       {label}
                     </span>
                     <span className="min-w-0 text-right text-sm text-foreground">{value}</span>

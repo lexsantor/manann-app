@@ -12,6 +12,7 @@ import { DisplayPrefsSection } from "@/components/app/settings-display-prefs";
 import { NotificationsSection } from "@/components/app/settings-notifications";
 import { SecuritySection, DataPrivacySection } from "@/components/app/settings-account";
 import { ApiKeysPanel } from "@/components/app/api-keys-panel";
+import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = { title: "Ajustes — Manann" };
 
@@ -35,9 +36,9 @@ export default async function SettingsPage() {
         <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
           Organización
         </h2>
-        <div className="rounded-xl border border-border bg-card p-5">
+        <Card className="p-5">
           <OrgNameForm currentName={data.org.name} isOwner={isOwner} />
-        </div>
+        </Card>
       </section>
 
       {/* Equipo */}
@@ -56,10 +57,10 @@ export default async function SettingsPage() {
           isOwner={isOwner}
         />
         {isOwner && (
-          <div className="rounded-xl border border-border bg-card p-5">
+          <Card className="p-5">
             <p className="mb-3 text-base font-medium">Invitar miembro</p>
             <InviteForm />
-          </div>
+          </Card>
         )}
       </section>
 

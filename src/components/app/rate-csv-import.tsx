@@ -109,7 +109,7 @@ export function RateCsvImport() {
               <thead>
                 <tr className="border-b border-border/40">
                   {["Concepto", "Tipo", "Unidad", "Precio", "Moneda"].map((h) => (
-                    <th key={h} className="px-3 py-2 text-left font-mono text-[10px] uppercase tracking-wider text-muted-foreground/60">{h}</th>
+                    <th key={h} className="px-3 py-2 text-left label-mono text-muted-foreground/60">{h}</th>
                   ))}
                 </tr>
               </thead>

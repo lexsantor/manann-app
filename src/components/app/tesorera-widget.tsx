@@ -34,7 +34,7 @@ export function TesoreraWidget({ totalCobrar, totalPagar, pendingInvoices }: Tes
       <div className="rounded-xl border border-border bg-card px-5 py-4">
         <div className="mb-1 flex items-center gap-1.5">
           <Icon icon={TrendingUp} size={13} className="text-success" />
-          <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Por cobrar</span>
+          <span className="label-mono text-muted-foreground">Por cobrar</span>
         </div>
         <p className="font-display text-2xl font-semibold tracking-tight text-foreground">{fmt(totalCobrar)}</p>
         <p className="mt-0.5 text-xs text-muted-foreground">
@@ -45,7 +45,7 @@ export function TesoreraWidget({ totalCobrar, totalPagar, pendingInvoices }: Tes
       <div className="rounded-xl border border-border bg-card px-5 py-4">
         <div className="mb-1 flex items-center gap-1.5">
           <Icon icon={TrendingDown} size={13} className="text-accent" />
-          <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Por pagar</span>
+          <span className="label-mono text-muted-foreground">Por pagar</span>
         </div>
         <p className="font-display text-2xl font-semibold tracking-tight text-foreground">{fmt(totalPagar)}</p>
         <p className="mt-0.5 text-xs text-muted-foreground">Gastos sin liquidar</p>
@@ -54,7 +54,7 @@ export function TesoreraWidget({ totalCobrar, totalPagar, pendingInvoices }: Tes
       <div className={cn("rounded-xl border bg-card px-5 py-4", balance >= 0 ? "border-border" : "border-accent/30 bg-accent/5")}>
         <div className="mb-1 flex items-center gap-1.5">
           {overdueCount > 0 && <Icon icon={AlertCircle} size={13} className="text-accent" />}
-          <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">Saldo neto</span>
+          <span className="label-mono text-muted-foreground">Saldo neto</span>
         </div>
         <p className={cn("font-display text-2xl font-semibold tracking-tight", balance >= 0 ? "text-success" : "text-accent")}>
           {fmt(balance)}
