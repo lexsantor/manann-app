@@ -67,10 +67,10 @@ export function HeroAura({ variant = 0 }: { variant?: number }) {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
       {/* Glows ambientales (posición según variant) */}
-      <div className={`absolute h-[62vh] w-[72vh] rounded-full bg-primary/[0.09] blur-[130px] ${v.gA}`} />
-      <div className={`absolute h-[42vh] w-[42vh] rounded-full bg-accent/[0.055] blur-[110px] ${v.gB}`} />
+      <div className={`absolute h-[62vh] w-[72vh] rounded-full bg-primary/[0.14] blur-[130px] sm:bg-primary/[0.09] ${v.gA}`} />
+      <div className={`absolute h-[42vh] w-[42vh] rounded-full bg-accent/[0.09] blur-[110px] sm:bg-accent/[0.055] ${v.gB}`} />
       {/* Líneas de ruta (orientación según variant) */}
-      <div className={`absolute inset-0 opacity-[0.72] ${v.t}`}>
+      <div className={`absolute inset-0 opacity-100 sm:opacity-[0.72] ${v.t}`}>
         <RouteLines position={1} animate={animate} />
         <RouteLines position={-1} animate={animate} />
       </div>
